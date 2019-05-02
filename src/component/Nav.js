@@ -1,4 +1,5 @@
 import React from 'react';
+import stateManger from '../dataManager/stateManager';
 
 export default class Nav extends React.Component{
     constructor(props){
@@ -8,13 +9,21 @@ export default class Nav extends React.Component{
         }
         this.view_names = ['全局视图', '协同生态视图', '载体及资源视图', '服务价值视图', '服务过程视图', '服务目标视图', '登录/注册']
     }
+
     render(){
         const {selected_view} = this.state
         const {view_names} = this
-        const renderViewBar = (text, handleClickFunction=undefined) => {
+
+        const renderViewBar = (text) => {
+            const handleClick = ()=>{
+                console.log('click',text)
+                stateManger.show_view_name.set(text)
+            }
             return (
             <li className={"nav-item " + (selected_view===text?"active":"")}>
-                <a className="nav-link" href="#">{text}<span className="sr-only">(current)</span></a>
+                <a className="nav-link" href="#" onClick={handleClick}>
+                    {text}
+                <span className="sr-only">(current)</span></a>
             </li>                
             )
         }
@@ -29,13 +38,9 @@ export default class Nav extends React.Component{
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                     {
-                        view_names.map(text=> renderViewBar(text, ()=>{}))
+                        view_names.map(text=> renderViewBar(text))
                     }
                 </ul>
-                <form className="form-inline my-2 my-lg-0">
-                    <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </nav>
         )

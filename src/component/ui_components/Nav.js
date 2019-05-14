@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Grid, Menu, Segment } from 'semantic-ui-react'
-import stateManger from '../dataManager/stateManager';
-import dataStore from '../dataManager/dataStore';
+import stateManger from '../../dataManager/stateManager';
+import dataStore from '../../dataManager/dataStore';
 
 export default class MenuExampleTabularOnLeft extends Component {
     constructor(props){
         super(props)
         this.state = {
-            selected_view: dataStore.view_names[0]
+            selected_view: dataStore.default_view_name
         }
     }
 

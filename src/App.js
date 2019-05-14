@@ -1,20 +1,21 @@
 import React from 'react';
 import './App.css';
-import Test from './component/Test'
+import Test from './component/function_components/Test'
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import 'semantic-ui-css/semantic.min.css'
-import Nav from './component/Nav'
-import TopMenu from './component/TopMenu'
+import Nav from './component/ui_components/Nav'
+import TopMenu from './component/ui_components/TopMenu'
 import { autorun } from 'mobx';
 import stateManger from './dataManager/stateManager';
 import dataStore from './dataManager/dataStore';
 import { Grid } from 'semantic-ui-react'
+import WorkFlow from './component/function_components/WorkFlow';
 
 class App extends React.Component{
   constructor(props){
     super(props)
     this.state={
-      show_view_name: dataStore.view_names[0]
+      show_view_name: dataStore.default_view_name
     }
   }
 
@@ -42,7 +43,10 @@ class App extends React.Component{
           </div>
           <div style={{position: 'relative',float:'left', width:'90%', height:'100%',display: needShow('全局视图')}}>
             <Test/>
-          </div>          
+          </div>
+          <div style={{position: 'relative',float:'left', width:'90%', height:'100%',display: needShow('服务过程视图')}}>
+            <WorkFlow/>
+          </div>         
         </div>
       </div>
     )

@@ -2,6 +2,7 @@ import React from 'react';
 import * as go from 'gojs';
 import { ToolManager, Diagram } from 'gojs';
 import { relative } from 'path';
+import { Grid } from 'semantic-ui-react'
 
 export default class Test extends React.Component{
     componentDidMount(){
@@ -94,12 +95,17 @@ export default class Test extends React.Component{
 
     render(){
       const {width, height} = this.props
-      const panel_width = 200
+      const contorl_bar_height = 60
       return (
-        <div style={{position: 'absolute', width: '100%', height: '100%'}}>
-          <div ref='myPaletteDiv'  style={{position: 'absolute',top: 0, width:panel_width, height:'100%', backgroundColor: '#859e9e'}}/>
-          <div ref="myDiagramDiv"  style={{position: 'absolute',top: 0, left: panel_width, width:'100%', height:'100%', backgroundColor: '#DAE4E4'}}/>      
+        <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
+          <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%', height: contorl_bar_height}}></div>
+          <div style={{position: 'absolute', top: contorl_bar_height, width:'100%', height:'100%',}}>
+            <div ref='myPaletteDiv'  style={{position: 'relative',float:'left',top: 0, width:'10%', height:'100%', backgroundColor: '#859e9e'}}/>
+            <div ref="myDiagramDiv"  style={{position: 'relative',float:'left',top: 0, width:'90%', height:'100%', backgroundColor: '#DAE4E4'}}/>      
+          </div>
         </div>
       )
     }
   }
+
+  // left: panel_width, 

@@ -1,14 +1,23 @@
 import React from 'react'
-import { Button, Header, Image, Modal } from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Input, Grid } from 'semantic-ui-react'
 
 const LoginModal = () => (
   <Modal trigger={<Button>登录</Button>}>
-    <Modal.Header>Select a Photo</Modal.Header>
+    <Modal.Header>登录</Modal.Header>
     <Modal.Content image>
       <Modal.Description>
-        <Header>Default Profile Image</Header>
-        <p>We've found the following gravatar image associated with your e-mail address.</p>
-        <p>Is it okay to use this photo?</p>
+        <Header>请输入</Header>
+          <Grid>
+            <Grid.Row>
+              <Input label='用户名' placeholder='' />
+            </Grid.Row>
+            <Grid.Row>
+              <Input label='密码' placeholder='' />
+            </Grid.Row>
+            <Grid.Row>
+              <Button secondary>确认</Button>
+            </Grid.Row>
+          </Grid>
       </Modal.Description>
     </Modal.Content>
   </Modal>

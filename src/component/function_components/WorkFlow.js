@@ -28,20 +28,21 @@ export default class WorkFlow extends React.Component{
             new go.Binding("text", "key"))
         );
       diagram.model = new go.GraphLinksModel(
-      [ // a JavaScript Array of JavaScript objects, one per node;
-        // the "color" property is added specifically for this app
-        { key: "Alpha", color: "lightblue" },
-        { key: "Beta", color: "#fffffd" },
-        { key: "Gamma", color: "lightgreen" },
-        { key: "Delta", color: "pink" }
-      ],
-      [ // a JavaScript Array of JavaScript objects, one per link
-        { from: "Alpha", to: "Beta" },
-        { from: "Alpha", to: "Gamma" },
-        { from: "Beta", to: "Beta" },
-        { from: "Gamma", to: "Delta" },
-        { from: "Delta", to: "Alpha" }
-      ]);
+      // [ // a JavaScript Array of JavaScript objects, one per node;
+      //   // the "color" property is added specifically for this app
+      //   { key: "Alpha", color: "lightblue" },
+      //   { key: "Beta", color: "#fffffd" },
+      //   { key: "Gamma", color: "lightgreen" },
+      //   { key: "Delta", color: "pink" }
+      // ],
+      // [ // a JavaScript Array of JavaScript objects, one per link
+      //   { from: "Alpha", to: "Beta" },
+      //   { from: "Alpha", to: "Gamma" },
+      //   { from: "Beta", to: "Beta" },
+      //   { from: "Gamma", to: "Delta" },
+      //   { from: "Delta", to: "Alpha" }
+      // ]
+      );
 
       // notice whenever a transaction or undo/redo has occurred
       diagram.addModelChangedListener(function(evt) {
@@ -69,6 +70,16 @@ export default class WorkFlow extends React.Component{
       palette.add(new StartObject())
       palette.add(new TerminateObject())
       palette.add(new TaskObject())
+
+      let testObject1 = new TaskObject(), testObject2 = new TaskObject()
+      testObject1.portId = '1'
+      testObject1.portId = '2'
+      console.log(testObject1, testObject1.portId)
+      diagram.add(testObject1)
+      diagram.add(testObject2)
+      // diagram.startTransaction("make new link");
+      // diagram.model.addLinkData({ from: "1", to: "2" });
+      // diagram.commitTransaction("make new link");
     }
 
     static get defaultProps() {

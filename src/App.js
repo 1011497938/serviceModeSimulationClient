@@ -10,6 +10,7 @@ import stateManger from './dataManager/stateManager';
 import dataStore from './dataManager/dataStore';
 import { Grid } from 'semantic-ui-react'
 import WorkFlow from './component/function_components/WorkFlow';
+import CompEditTable from './component/ui_components/CompEditTable';
 
 class App extends React.Component{
   constructor(props){
@@ -41,12 +42,19 @@ class App extends React.Component{
           <div style={{position: 'relative',float:'left', height:'100%', left: 0, width: '10%'}}>
             <Nav/>
           </div>
-          <div style={{position: 'relative',float:'left', width:'90%', height:'100%',display: needShow('全局视图')}}>
-            <Test/>
+
+          {/* 各个go的面板 */}
+          <div style={{position: 'relative',float:'left', width:'70%', height:'100%',}}>
+            <div style={{display: needShow('全局视图'), height: '100%'}}>
+              <Test/>
+            </div>
+            <div style={{display: needShow('服务过程视图'), height: '100%'}}>
+              <WorkFlow/>
+            </div>
           </div>
-          <div style={{position: 'relative',float:'left', width:'90%', height:'100%',display: needShow('服务过程视图')}}>
-            <WorkFlow/>
-          </div>         
+          <div style={{position: 'relative',float:'left', width:'20%', height:'100%',}}>
+              <CompEditTable/>
+          </div>
         </div>
       </div>
     )

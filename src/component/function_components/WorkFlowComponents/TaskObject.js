@@ -1,5 +1,6 @@
 import * as go from 'gojs';
 import config from './component_config';
+import stateManger from '../../../dataManager/stateManager';
 
 // 用来表示任务的
 export default class TaskObject extends go.Node{
@@ -16,10 +17,15 @@ export default class TaskObject extends go.Node{
 
         var textblock = new go.TextBlock();
         textblock.text = "Task";
-        textblock.editable = true
+        // textblock.editable = true
         textblock.isMultiline = true
         textblock.margin = 5;
         this.add(textblock);
         this.textblock = textblock
+
+        this.click = (e, node)=>{
+            console.log('hi', e, node, stateManger.selet_component_ingo, stateManger)
+            stateManger.selet_component_ingo.set('2')
+        }
     }
 }

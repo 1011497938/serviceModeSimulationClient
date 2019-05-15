@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Input, Menu } from 'semantic-ui-react'
 import LoginModal from './LoginModal';
+import { autorun } from 'mobx';
+import stateManger from '../../dataManager/stateManager';
 
 export default class TopMenu extends Component {
   state = { activeItem: 'home' }

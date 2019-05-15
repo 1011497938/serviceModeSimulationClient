@@ -3,18 +3,14 @@ import { Input, Menu, Table, Label, Icon,Form} from 'semantic-ui-react'
 import stateManger from '../../dataManager/stateManager';
 import { autorun } from 'mobx';
 
-export default class CompEditTable extends Component{
+export default class TaskFormEdit extends Component{
     constructor(props){
         super(props)
         this.state={
             select_component: stateManger.selet_component_ingo.get()
         }
     }
-    onSelectComponentChange = autorun(()=>{
-        const select_component = stateManger.selet_component_ingo.get()
-        console.log(select_component)
-        this.setState({select_component: select_component})
-    })
+
     render(){
         return(
             <div>
@@ -22,7 +18,11 @@ export default class CompEditTable extends Component{
                     {this.state.select_component}
                 </div>
                 <form class="ui form">
-                  <h4 class="ui dividing header">任务属性编辑</h4>
+                  <h3 class="ui dividing header">任务属性编辑</h3>
+
+                  <div class="field">
+                      <h4> 任务基础信息</h4>
+                  </div>
 
                   <div class="three  fields">
                    <div class="field">
@@ -45,6 +45,10 @@ export default class CompEditTable extends Component{
                     </div>
                   </div>
 
+                   <div class="field">
+                      <label>任务描述</label>
+                      <input type="text"  placeholder="Description" />
+                   </div>
 
                   <div class="inline fields">
                         <label>参与主体</label>
@@ -74,7 +78,9 @@ export default class CompEditTable extends Component{
                         </div>
                     </div>
 
-
+                  <div class="field">
+                     <h4> 任务约束信息</h4>
+                  </div>
                   <div class="field">
                   <label> 载体及资源前置条件</label>
                   </div>
@@ -131,24 +137,16 @@ export default class CompEditTable extends Component{
                                                                <td data-label="state/numbers"><input type="text" placeholder="state/numbers"></input></td>
                                                                <td data-label="Permission"><input type="text" placeholder="Permission"></input></td>
                                                              </tr>
-
                                                             </tbody>
                                                           </table>
                                     </div>
-
-
-
-
 
                   <div class="two fields">
                      <div class="field">
                        <label>完成所需时长</label>
                        <input type="text" name="time" />
                      </div>
-
                   </div>
-
-
 
                   <div class="ui button" tabindex="0">提交</div>
                 </form>
@@ -157,4 +155,5 @@ export default class CompEditTable extends Component{
 
         )
     }
+
 }

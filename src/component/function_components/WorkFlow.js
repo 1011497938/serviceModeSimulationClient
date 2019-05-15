@@ -11,15 +11,17 @@ export default class WorkFlow extends React.Component{
       const controller = new Controller(this.refs.myDiagramDiv, this.refs.myPaletteDiv)
       this.controller = controller
       const {diagram, palette} = controller
-      diagram.model = new go.GraphLinksModel();
-      palette.model = new go.GraphLinksModel(
-      [
+      const node_datas = [
         { key: "Alpha", color: "lightblue", category: 'task', },
         { key: "Alpha1", color: "lightblue", category: 'start', },
         { key: "Alpha2", color: "lightblue", category: 'end', },
         { key: "Alpha3", color: "lightblue", category: 'parallel', },
         { key: "Alpha4", color: "lightblue", category: 'exclusive', },
+      ]
+      diagram.model = new go.GraphLinksModel(node_datas,[
+        {from: 'Alpha', to: 'Alpha1', category: 'arrowlink'}
       ]);
+      palette.model = new go.GraphLinksModel(node_datas);
     }
 
     componentDidMount(){

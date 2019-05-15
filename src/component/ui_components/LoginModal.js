@@ -1,17 +1,53 @@
 import React from 'react'
-import { Button, Header, Image, Modal } from 'semantic-ui-react'
+import {
+  Button,
+  Form,
+  Image,
+  Modal,
+  Checkbox
+} from 'semantic-ui-react'
 
-const LoginModal = () => (
-  <Modal trigger={<Button>登录</Button>}>
-    <Modal.Header>Select a Photo</Modal.Header>
-    <Modal.Content image>
-      <Modal.Description>
-        <Header>Default Profile Image</Header>
-        <p>We've found the following gravatar image associated with your e-mail address.</p>
-        <p>Is it okay to use this photo?</p>
-      </Modal.Description>
-    </Modal.Content>
-  </Modal>
-)
+
+
+class LoginModal extends React.Component {
+  state = {
+    modalOpen: false
+  }
+  handleOpen = () => this.setState({
+    modalOpen: true
+  })
+  handleClose = () => this.setState({
+    modalOpen: false
+  })
+  render() {
+    return (
+
+      <Modal
+          trigger={<Button onClick={this.handleOpen} className='mini ui black button'><i className="user icon"></i>登录/注册</Button>}
+          open={this.state.modalOpen}
+          onClose={this.handleClose}
+          basic
+          size='small'
+        >
+        <div style={{textAlign:'center'}}>
+          <h1 style={{width:'60%',margin:'2rem auto'}}>登录</h1>
+          <Form style={{width:'60%',margin:'1rem auto'}}>
+              <Form.Field>
+                <input placeholder='账号' />
+              </Form.Field>
+              <Form.Field>
+                <input placeholder='密码' />
+              </Form.Field>
+     
+                <Modal.Actions>
+                  <Button color='orange' className='fluid ui button' onClick={this.handleClose} inverted>提交</Button>
+                </Modal.Actions>
+              
+            </Form>
+          </div>      
+    </Modal>
+    )
+  }
+}
 
 export default LoginModal

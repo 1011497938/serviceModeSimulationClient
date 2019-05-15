@@ -1,31 +1,45 @@
-import React, { Component } from 'react'
-import { Input, Menu } from 'semantic-ui-react'
+import React, {
+  Component
+} from 'react'
+import {
+  Input,
+  Menu
+} from 'semantic-ui-react'
 import LoginModal from './ui_components/LoginModal';
 
 export default class TopMenu extends Component {
-  state = { activeItem: 'home' }
+  state = {
+    activeItem: 'home'
+  }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  handleItemClick = (e, {
+    name
+  }) => this.setState({
+    activeItem: name
+  })
 
-//   static get defaultProps() {
-//     return {
-//       width: 800,
-//       height: 100,
-//     };
-//   }
+  //   static get defaultProps() {
+  //     return {
+  //       width: 800,
+  //       height: 100,
+  //     };
+  //   }
 
   render() {
-    const { activeItem } = this.state
-    // const { width, height} = this.props
+    const {
+      activeItem
+    } = this.state
+      // const { width, height} = this.props
     return (
-      <Menu secondary>
+      <Menu  className='#fff fixed' style={{background:'#000',height:'60px',marginBottom:'3rem'}}>
         <Menu.Item
           name='服务模式'
-          active={true}
+          active={true} 
+          style={{background:'#1F4963',color:'#fff',marginLeft:'3rem'}}
         />
         <Menu.Menu position='right'>
           <Menu.Item>
-            <Input icon='search' placeholder='Search...' />
+            <Input icon='search' placeholder='搜索' />
           </Menu.Item>
           {/* <Menu.Item
             name='登录'

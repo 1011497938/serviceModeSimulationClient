@@ -13,7 +13,7 @@ import { autorun } from 'mobx';
 import stateManger from './dataManager/stateManager';
 import dataStore from './dataManager/dataStore';
 import { Grid } from 'semantic-ui-react'
-import WorkFlow from './component/function_components/WorkFlow';
+
 
 import Aim from './component/function_components/Aim';
 
@@ -53,7 +53,7 @@ class App extends React.Component{
             <Test/>
           </div>
           <div style={{position: 'relative',float:'left', width:'90%', height:'100%',display: needShow('服务过程视图')}}>
-            <WorkFlow/>
+            <Aim/>
           </div> 
           <div style={{position: 'relative',float:'left', width:'90%', height:'100%',display: needShow('服务目标视图')}}>
             <Aim/>

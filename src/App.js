@@ -3,6 +3,10 @@ import './App.css';
 import Test from './component/function_components/Test'
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import 'semantic-ui-css/semantic.min.css'
+
+
+
+
 import Nav from './component/ui_components/Nav'
 import TopMenu from './component/ui_components/TopMenu'
 import { autorun } from 'mobx';
@@ -12,6 +16,9 @@ import { Grid } from 'semantic-ui-react'
 import WorkFlow from './component/function_components/WorkFlow';
 import TaskFormEdit from './component/ui_components/TaskFormEdit';
 
+import Aim from './component/function_components/Aim';
+
+
 class App extends React.Component{
   constructor(props){
     super(props)
@@ -19,12 +26,13 @@ class App extends React.Component{
       show_view_name: dataStore.default_view_name
     }
   }
-
   onViewChange = autorun(()=>{
+
     const show_view_name = stateManger.show_view_name.get()
-    // 这里有个bug
-    console.log('change to', show_view_name)
-    this.setState({show_view_name: show_view_name})
+      // 这里有个bug
+    this.setState({
+      show_view_name: show_view_name
+    })
   })
 
   render(){
@@ -51,11 +59,15 @@ class App extends React.Component{
             <div style={{display: needShow('服务过程视图'), height: '100%'}}>
               <WorkFlow/>
             </div>
+            <div style={{display: needShow('服务目标视图'), height:'100%',}}>
+              <Aim/>
+            </div>   
           </div>
           <div style={{position: 'relative',float:'left', width:'20%', height:'100%',}}>
               <TaskFormEdit/>
           </div>
         </div>
+
       </div>
     )
   }

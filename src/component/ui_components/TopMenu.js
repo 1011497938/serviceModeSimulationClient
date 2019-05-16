@@ -9,16 +9,16 @@ export default class TopMenu extends Component {
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
-//   static get defaultProps() {
-//     return {
-//       width: 800,
-//       height: 100,
-//     };
-//   }
+  static get defaultProps() {
+    return {
+      width: 800,
+      height: 100,
+    };
+  }
 
   render() {
     const { activeItem } = this.state
-    // const { width, height} = this.props
+    const { width, height} = this.props
     return (
       <Menu fluid>
         <Menu.Item

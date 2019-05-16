@@ -61,7 +61,7 @@ export default class ConsumerFormEdit extends Component{
                               </select>
                          </div>
                      </div>
-                      </div>
+                     </div>
 
                       <div class="two  fields">
                           <div class="field">
@@ -164,12 +164,8 @@ export default class ConsumerFormEdit extends Component{
                              </tr></tfoot>
                            </table>
                     </div>
-
-
                     <div class="ui button" tabindex="0">提交</div>
-
                  </form>
-
             </div>
 
         )

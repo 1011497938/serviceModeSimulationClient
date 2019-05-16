@@ -10,7 +10,7 @@ import stateManger from './dataManager/stateManager';
 import dataStore from './dataManager/dataStore';
 import { Grid } from 'semantic-ui-react'
 import WorkFlow from './component/function_components/WorkFlow';
-import CompEditTable from './component/ui_components/CompEditTable';
+import TaskFormEdit from './component/ui_components/TaskFormEdit';
 
 class App extends React.Component{
   constructor(props){
@@ -53,7 +53,7 @@ class App extends React.Component{
             </div>
           </div>
           <div style={{position: 'relative',float:'left', width:'20%', height:'100%',}}>
-              <CompEditTable/>
+              <TaskFormEdit/>
           </div>
         </div>
       </div>

@@ -1,5 +1,17 @@
 import * as go from 'gojs';
 
+export {
+  $,
+  keyCompare,
+  GraphController,
+  makePort, 
+  showSmallPorts,
+  nodeResizeAdornmentTemplate,
+  nodeRotateAdornmentTemplate,
+  nodeSelectionAdornmentTemplate,
+}
+
+
 const keyCompare = (a, b)=>{
   const at = a.data.key;
   const bt = b.data.key;
@@ -39,6 +51,7 @@ export default class GraphController{
           linkTemplateMap: this.linkTemplateMap,
           groupTemplateMap: this.groupTemplateMap,
 
+          // 加格子
           grid: $(go.Panel, "Grid",
             $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
             $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
@@ -49,7 +62,7 @@ export default class GraphController{
           "linkingTool.portGravity": 20,
           "relinkingTool.portGravity": 20,
           "relinkingTool.fromHandleArchetype":
-          $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
+            $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
           "relinkingTool.toHandleArchetype":
             $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "darkred", stroke: "tomato" }),
           "linkReshapingTool.handleArchetype":
@@ -64,6 +77,7 @@ export default class GraphController{
       this.palette = $(go.Palette, this.palette,  // must name or refer to the DIV HTML element
         { // share the templates with the main Diagram
           nodeTemplateMap: this.nodeTemplateMap,
+          linkTemplateMap: this.linkTemplateMap,
           groupTemplateMap: this.groupTemplateMap,
           // nodeTemplateMap: this.palNodeTemplateMap,
           // groupTemplateMap: this.palGroupTemplateMap,
@@ -93,16 +107,15 @@ function makePort(name, spot, output, input) {
       cursor: "pointer"  // show a different cursor to indicate potential link point
     });
 }
-
-export {
-  $,
-  keyCompare,
-  GraphController,
-  makePort, 
-  nodeResizeAdornmentTemplate,
-  nodeRotateAdornmentTemplate,
-  nodeSelectionAdornmentTemplate,
+// 显示或者不显示锚点
+const showSmallPorts = (node, show)=>{
+  node.ports.each(function(port) {
+    if (port.portId !== "") {  // don't change the default port, which is the big shape
+      port.fill = show ? "rgba(0,0,0,.3)" : null;
+    }
+  });
 }
+
 
 const nodeSelectionAdornmentTemplate =
 $(go.Adornment, "Auto",

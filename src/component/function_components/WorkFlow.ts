@@ -6,6 +6,7 @@ const {
   nodeResizeAdornmentTemplate,
   nodeRotateAdornmentTemplate,
   nodeSelectionAdornmentTemplate,
+  showSmallPorts,
 } = require('./GraphController.ts');
 
 
@@ -49,6 +50,10 @@ $(go.Node, 'Auto',
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
   makePort("B", go.Spot.Bottom, true, false),
+  { // handle mouse enter/leave events to show/hide the ports
+    mouseEnter: function(e, node) { showSmallPorts(node, true); },
+    mouseLeave: function(e, node) { showSmallPorts(node, false); }
+  },
   $(go.TextBlock,
   { margin: 3 },  
     new go.Binding("text", "key"))

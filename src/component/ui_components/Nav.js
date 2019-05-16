@@ -1,36 +1,28 @@
-import React, {
-    Component
-} from 'react'
-import {
-    Grid,
-    Menu,
-    Segment
-} from 'semantic-ui-react'
-import stateManger from '../dataManager/stateManager';
-import dataStore from '../dataManager/dataStore';
+import React, { Component } from 'react'
+import { Grid, Menu, Segment } from 'semantic-ui-react'
+import stateManger from '../../dataManager/stateManager';
+import dataStore from '../../dataManager/dataStore';
 
 export default class MenuExampleTabularOnLeft extends Component {
-    constructor(props) {
+    constructor(props){
         super(props)
         this.state = {
-            selected_view: dataStore.view_names[0]
+            selected_view: dataStore.default_view_name
         }
     }
-    handleItemClick = (e, {
-        name
-    }) => this.setState({
-        activeItem: name
-    })
+
+
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
     render() {
-        const {
-            selected_view
-        } = this.state
+        const { selected_view } = this.state
 
         return (
-            <Menu pointing vertical style={{marginTop:'60px',left:'2%',height:'100%'}}>
+            <Menu pointing secondary vertical fluid>
             {
                  dataStore.view_names.map(text=>{
                     const handleClick = ()=>{
+                        console.log('click',text)
                         stateManger.show_view_name.set(text)
                         this.setState({selected_view: text})
                     }
@@ -40,7 +32,6 @@ export default class MenuExampleTabularOnLeft extends Component {
                         name={text}
                         active={selected_view === text}
                         onClick={handleClick}
-
                     />
                     )
                 })

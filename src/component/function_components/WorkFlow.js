@@ -2,7 +2,7 @@ import React from 'react';
 import * as go from 'gojs';
 import Controller from './WorkFlow.ts'
 import { Icon, Menu} from 'semantic-ui-react'
-
+// import {GenogramLayout} from '../../../node_modules/gojs/samplesTS/genogramLayout.js'
 // 5月14日，添加了过程流图, 谭思危
 export default class WorkFlow extends React.Component{
    

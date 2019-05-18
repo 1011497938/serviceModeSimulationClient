@@ -137,7 +137,7 @@ export default class Aim extends React.Component{
           new go.Binding("points").makeTwoWay(),
           $(go.Shape,  // the link path shape
             { isPanelMain: true, strokeWidth: 2 }),
-          $(go.Shape,  // the arrowhead
+          $(go.Shape,  // 绘图中的直线箭头
             { toArrow: "Standard", stroke: null }),
           $(go.Panel, "Auto",
             new go.Binding("visible", "isSelected").ofObject(),
@@ -173,24 +173,19 @@ export default class Aim extends React.Component{
                     $(go.Adornment, "Link",
                       { locationSpot: go.Spot.Center },
                       $(go.Shape,
-                        { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 }),
-                      $(go.Shape,  // the arrowhead
-                        { toArrow: "Standard", stroke: null }),
+                        { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 }),                                     
                        $(go.TextBlock,                        // this is a Link label
                           new go.Binding("text", "text"))
                     )
                 },
                 {
-                  routing: go.Link.AvoidsNodes,
-                  curve: go.Link.JumpOver,
-                  corner:5,
-                  toShortLength:4
+  
                 },
                 new go.Binding("points"),
                 $(go.Shape,
                   { isPanelMain: true, strokeWidth: 2 }),
-                $(go.Shape,
-                  { toArrow: "Standard", stroke: null }),
+               $(go.Shape,  // 面板中的直线箭头
+                            { toArrow: "Standard", stroke: null }),                  
 
               ),
             model: new go.GraphLinksModel([  // specify the contents of the Palette
@@ -202,7 +197,6 @@ export default class Aim extends React.Component{
               
             ], [
                 // the Palette also has a disconnected Link, which the user can drag-and-drop
-                { points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(30, 0), new go.Point(30, 40), new go.Point(60, 40)]) },
                 { points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(60, 0)]) }
               ])
           });

@@ -169,5 +169,4 @@ export default class StartFormEdit extends Component{
            </div>
            )
          }
-
 }

@@ -12,7 +12,6 @@ import TopMenu from './component/ui_components/TopMenu'
 import { autorun } from 'mobx';
 import stateManger from './dataManager/stateManager';
 import dataStore from './dataManager/dataStore';
-import { Grid } from 'semantic-ui-react'
 import WorkFlow from './component/function_components/WorkFlow';
 import TaskFormEdit from './component/ui_components/TaskFormEdit';
 
@@ -26,8 +25,8 @@ class App extends React.Component{
       show_view_name: dataStore.default_view_name
     }
   }
-  onViewChange = autorun(()=>{
 
+  onViewChange = autorun(()=>{
     const show_view_name = stateManger.show_view_name.get()
       // 这里有个bug
     this.setState({
@@ -39,7 +38,8 @@ class App extends React.Component{
     const top_height = 60
     const {show_view_name} = this.state
     const needShow = name=>{
-      return name=== show_view_name?'block':'none'
+      // 设一个第一次限制渲染
+      return name=== show_view_name?30:0
     }
     return (
       <div style={{width:'100%', height:'100%',}}>
@@ -52,18 +52,18 @@ class App extends React.Component{
           </div>
 
           {/* 各个go的面板 */}
-          <div style={{position: 'relative',float:'left', width:'70%', height:'100%',}}>
-            <div style={{display: needShow('全局视图'), height: '100%'}}>
+          <div style={{position: 'absolute', left: '10%', width:'70%', height:'100%',}}>
+            <div style={{zIndex: needShow('全局视图'), height: '100%', top: 0, position: 'absolute', width: '100%'}}>
               <Test/>
             </div>
-            <div style={{display: needShow('服务过程视图'), height: '100%'}}>
+            <div style={{zIndex: needShow('服务过程视图'), height: '100%', top: 0, position: 'absolute', width: '100%'}}>
               <WorkFlow/>
             </div>
-            <div style={{display: needShow('服务目标视图'), height:'100%',}}>
+            <div style={{zIndex: needShow('服务目标视图'), height:'100%', top: 0, position: 'absolute', width: '100%'}}>
               <Aim/>
             </div>   
           </div>
-          <div style={{position: 'relative',float:'left', width:'20%', height:'100%',}}>
+          <div style={{position: 'absolute', left: '80%', width:'20%', height:'100%',}}>
               <TaskFormEdit/>
           </div>
         </div>

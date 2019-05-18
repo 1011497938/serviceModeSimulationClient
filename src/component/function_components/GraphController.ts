@@ -38,8 +38,11 @@ export default class GraphController{
         this.diagram = diagram
         this.palette = palette
 
-        this.linkTemplateMap.add('', commonLinkTemplate);  // default
-        this.linkTemplateMap.add('arrowlink', ArrowLinkTemplate); 
+        this.linkTemplateMap.add('', BidirctArrowLinkTemplate);  // default
+        this.linkTemplateMap.add('arrowlink', ArrowLinkTemplate);
+        this.linkTemplateMap.add('2arrowlink', BidirctArrowLinkTemplate);
+        this.linkTemplateMap.add('common', commonLinkTemplate);
+
         // 这个地方可以加个改颜色的
     }
 
@@ -180,7 +183,38 @@ $(go.Link,  // the whole link panel
   $(go.Shape,  // the link path shape
     { isPanelMain: true, strokeWidth: 2 }),
   $(go.Shape,  // the arrowhead
-    { toArrow: "Standard", stroke: null }),
+    { toArrow: "OpenTriangle", stroke: 'black' }),
+  $(go.Panel, "Auto",
+    new go.Binding("visible", "isSelected").ofObject(),
+    $(go.Shape, "RoundedRectangle",  // the link shape
+      { fill: "#F8F8F8", stroke: null }),
+    $(go.TextBlock,
+      {
+        textAlign: "center",
+        font: "10pt helvetica, arial, sans-serif",
+        stroke: "#919191",
+        margin: 2,
+        minSize: new go.Size(10, NaN),
+        editable: true
+      },
+      new go.Binding("text").makeTwoWay())
+  )
+);
+
+
+// 带双向箭头的实线
+const BidirctArrowLinkTemplate =
+$(go.Link,  // the whole link panel
+  { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
+  { relinkableFrom: true, relinkableTo: true, reshapable: true },
+  avoid_cross_props,
+  new go.Binding("points").makeTwoWay(),
+  $(go.Shape,  // the link path shape
+    { isPanelMain: true, strokeWidth: 2 }),
+  $(go.Shape,  // the arrowhead
+    { toArrow: "OpenTriangle", stroke: 'black' }),
+  $(go.Shape,  // the arrowhead
+    { fromArrow: "BackwardOpenTriangle", stroke: 'black' }),
   $(go.Panel, "Auto",
     new go.Binding("visible", "isSelected").ofObject(),
     $(go.Shape, "RoundedRectangle",  // the link shape

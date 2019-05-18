@@ -33,7 +33,7 @@ const custom_props = {
   height: custom_r
 }
 const taskNodeTemplate =
-$(go.Node, 'Auto',
+$(go.Node, 'Spot',
   $(go.Shape, "RoundedRectangle", 
     propCombine([
       custom_props, {
@@ -46,10 +46,10 @@ $(go.Node, 'Auto',
   { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
   // { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
   // { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
-  makePort("T", go.Spot.Top, false, true),
+  makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
-  makePort("B", go.Spot.Bottom, true, false),
+  makePort("B", go.Spot.Bottom, true, true),
   { // handle mouse enter/leave events to show/hide the ports
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
@@ -60,41 +60,72 @@ $(go.Node, 'Auto',
 ); 
 
 const startNodeTemplate =
-$(go.Node, 'Auto',
+$(go.Node, 'Spot',
   $(go.Shape, "Circle",  
   propCombine([custom_props, {fill: '#F6511D'}]),
   ),
+  makePort("T", go.Spot.Top, true, true),
+  makePort("L", go.Spot.Left, true, true),
+  makePort("R", go.Spot.Right, true, true),
+  makePort("B", go.Spot.Bottom, true, true),
+  { // handle mouse enter/leave events to show/hide the ports
+    mouseEnter: function(e, node) { showSmallPorts(node, true); },
+    mouseLeave: function(e, node) { showSmallPorts(node, false); }
+  },
 ); 
 
 const endNodeTemplate =
-$(go.Node, 'Auto',
+$(go.Node, 'Spot',
   $(go.Shape, "Circle",  
   propCombine([custom_props, {fill: '#F6511D'}]),
   ),
-  $(go.Picture, 
-    { source: solid_circle, 
+  $(go.Picture, { source: solid_circle, 
       width: custom_r/2, height: custom_r/2, margin: 2 
-    }),
+  }),
+  makePort("T", go.Spot.Top, true, true),
+  makePort("L", go.Spot.Left, true, true),
+  makePort("R", go.Spot.Right, true, true),
+  makePort("B", go.Spot.Bottom, true, true),
+  { // handle mouse enter/leave events to show/hide the ports
+    mouseEnter: function(e, node) { showSmallPorts(node, true); },
+    mouseLeave: function(e, node) { showSmallPorts(node, false); }
+  },
 ); 
 
 const exclusiveGateWayNodeTemplate =
-$(go.Node, 'Auto',
+$(go.Node, 'Spot',
   $(go.Shape, "Diamond",
     propCombine([custom_props, {fill: '#FFB400'}]),
     new go.Binding("fill", "color")),
-  $(go.TextBlock,
-  { margin: 3 },  
-    new go.Binding("text", "key"))
+  $(go.TextBlock,{ margin: 3 },  
+    new go.Binding("text", "key")),
+  makePort("T", go.Spot.Top, true, true),
+  makePort("L", go.Spot.Left, true, true),
+  makePort("R", go.Spot.Right, true, true),
+  makePort("B", go.Spot.Bottom, true, true),
+  { // handle mouse enter/leave events to show/hide the ports
+    mouseEnter: function(e, node) { showSmallPorts(node, true); },
+    mouseLeave: function(e, node) { showSmallPorts(node, false); }
+  },
 ); 
 
 const parallelGateWayNodeTemplate =
-$(go.Node, 'Auto',
+$(go.Node, 'Spot',
   $(go.Shape, "Diamond",  
     propCombine([custom_props, {fill: '#FFB400'}]),
-    new go.Binding("fill", "color")),
+    new go.Binding("fill", "color"),
+  ),
+  makePort("T", go.Spot.Top, true, true),
+  makePort("L", go.Spot.Left, true, true),
+  makePort("R", go.Spot.Right, true, true),
+  makePort("B", go.Spot.Bottom, true, true),
+  { // handle mouse enter/leave events to show/hide the ports
+    mouseEnter: function(e, node) { showSmallPorts(node, true); },
+    mouseLeave: function(e, node) { showSmallPorts(node, false); }
+  },
   $(go.TextBlock,
   { margin: 3 },  
-    new go.Binding("text", "key"))
+    new go.Binding("text", "key")),
 ); 
 
 

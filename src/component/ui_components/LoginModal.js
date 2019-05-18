@@ -1,26 +1,53 @@
 import React from 'react'
-import { Button, Header, Image, Modal, Input, Grid } from 'semantic-ui-react'
+import {
+  Button,
+  Form,
+  Image,
+  Modal,
+  Checkbox
+} from 'semantic-ui-react'
 
-const LoginModal = () => (
-  <Modal trigger={<Button>登录</Button>}>
-    <Modal.Header>登录</Modal.Header>
-    <Modal.Content image>
-      <Modal.Description>
-        <Header>请输入</Header>
-          <Grid>
-            <Grid.Row>
-              <Input label='用户名' placeholder='' />
-            </Grid.Row>
-            <Grid.Row>
-              <Input label='密码' placeholder='' />
-            </Grid.Row>
-            <Grid.Row>
-              <Button secondary>确认</Button>
-            </Grid.Row>
-          </Grid>
-      </Modal.Description>
-    </Modal.Content>
-  </Modal>
-)
+
+
+class LoginModal extends React.Component {
+  state = {
+    modalOpen: false
+  }
+  handleOpen = () => this.setState({
+    modalOpen: true
+  })
+  handleClose = () => this.setState({
+    modalOpen: false
+  })
+  render() {
+    return (
+
+      <Modal
+          trigger={<Button onClick={this.handleOpen} className='mini ui black button'><i className="user icon"></i>登录/注册</Button>}
+          open={this.state.modalOpen}
+          onClose={this.handleClose}
+          basic
+          size='small'
+        >
+        <div style={{textAlign:'center'}}>
+          <h1 style={{width:'60%',margin:'2rem auto'}}>登录</h1>
+          <Form style={{width:'60%',margin:'1rem auto'}}>
+              <Form.Field>
+                <input placeholder='账号' />
+              </Form.Field>
+              <Form.Field>
+                <input placeholder='密码' />
+              </Form.Field>
+     
+                <Modal.Actions>
+                  <Button color='#333' className='fluid ui button' style={{marginLeft:0}} onClick={this.handleClose} >提交</Button>
+                </Modal.Actions>
+              
+            </Form>
+          </div>      
+    </Modal>
+    )
+  }
+}
 
 export default LoginModal

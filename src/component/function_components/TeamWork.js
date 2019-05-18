@@ -2,7 +2,6 @@ import React from 'react';
 import * as go from 'gojs';
 import { ToolManager, Diagram } from 'gojs';
 import { relative } from 'path';
-import { Grid } from 'semantic-ui-react'
 import { Icon, Menu} from 'semantic-ui-react'
 
 var box;
@@ -112,7 +111,7 @@ export default class Aim extends React.Component{
             $(go.TextBlock, new go.Binding("text", "color"),
               {
                 font: "bold 11pt Helvetica, Arial, sans-serif",
-                margin: 8,
+                margin:20,
                 maxSize: new go.Size(160, NaN),
                 wrap: go.TextBlock.WrapFit,
                 editable: true  //文字是否可编辑
@@ -148,7 +147,7 @@ export default class Aim extends React.Component{
                 textAlign: "center",
                 font: "10pt helvetica, arial, sans-serif",
                 stroke: "#919191",
-                margin: 2,
+                margin: 20,
                 minSize: new go.Size(10, NaN),
                 editable: true
               },
@@ -194,15 +193,11 @@ export default class Aim extends React.Component{
 
               ),
             model: new go.GraphLinksModel([  // specify the contents of the Palette
-              { text: "战略目标", figure: "Ellipse", fill: "#00AD5F" },
-              { text: "物理", figure: "RoundedRectangle", fill: "lightyellow" },
-              { text: "情感", figure: "RoundedRectangle", fill: "lightyellow" },
-                { text: "数字", figure: "RoundedRectangle", fill: "lightyellow" },
-              { text: "子目标", figure: "Ellipse", fill: "lightskyblue" },
+              { text: "提供主体", figure: "RoundedRectangle", fill: "#00AD5F" },
+              { text: "消费主体", figure: "RoundedRectangle", fill: "lightskyblue" }
               
             ], [
                 // the Palette also has a disconnected Link, which the user can drag-and-drop
-                { points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(30, 0), new go.Point(30, 40), new go.Point(60, 40)]) },
                 { points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(60, 0)]) }
               ])
           });
@@ -229,84 +224,15 @@ export default class Aim extends React.Component{
       return (
         <div>
           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%'}}>
-              <Menu fluid style={{background:'rgb(133,158,158)'}}>
-                <Menu.Item style={{color:'#fff'}}>
-                    新建&nbsp;<span class="iconfont">&#xe600;</span>
-                </Menu.Item> 
-                 <Menu.Item style={{color:'#fff'}}>
-                    保存&nbsp;<span class="iconfont">&#xe794;</span>
-                </Menu.Item> 
-                <Menu.Item onClick={this.handleDelete} style={{color:'#fff'}}>
-                  删除&nbsp;<span class="iconfont">&#xe661;</span>
-                </Menu.Item>
-                <Menu.Item onClick={this.handleCut} style={{color:'#fff'}}>
-                  剪切&nbsp;<i class="cut icon"></i>
-                </Menu.Item>
-                <Menu.Item onClick={this.scrollTop} style={{color:'#fff'}}>
-                  自适应
-                </Menu.Item>                
-                <Menu.Item onClick={this.handleCopy} style={{color:'#fff'}}>
-                  复制&nbsp;<i class="copy icon"></i>
-                </Menu.Item> 
-                <Menu.Item onClick={this.handlePaste} style={{color:'#fff'}}>
-                  粘贴&nbsp;<span class="iconfont">&#xe62b;</span>
-                </Menu.Item>                               
-                <Menu.Item onClick={this.handleSelectAll} style={{color:'#fff'}}>
-                    全选&nbsp;<span class="iconfont">&#xe729;</span>
-                </Menu.Item>      
-
-                <Menu.Item onClick={this.handleback} style={{color:'#fff'}}>
-                  后退&nbsp;<span class="iconfont">&#xe730;</span>
-                </Menu.Item>                             
-                <Menu.Item onClick={this.handleForward} style={{color:'#fff'}}>
-                  前进&nbsp;<span class="iconfont">&#xe731;</span>
-                </Menu.Item>
-              </Menu>
+             
           </div>
           <div style={{position: 'absolute',top:40, display:'flex',width:'100%', height:'100%',}}>
             <div ref='myPaletteDiv'  style={{flex:1,backgroundColor: '#859e9e'}}/>
             <div ref="myDiagramDiv"  style={{flex:6, backgroundColor: '#f7f7f7'}}/>      
           </div>
-          <div style={{width:100,height:65,position:'absolute',left:30,top:400}}ref="myOverviewDiv"></div>
+          <div style={{width:100,height:65,position:'absolute',left:30,top:300}}ref="myOverviewDiv"></div>
         </div>
       )
     }
-   handleDelete(){
-      box.selection.all(function(nodeOrLink) {
-          return box.selection.all(function(nodeOrLink) { 
-                      // console.log(nodeOrLink.data.key+'实验'); 
-                      //判断是否存在不允许删除的节点或线 
-                       box.model.removeNodeData(nodeOrLink.data);
-                       box.model.removeLinkData(nodeOrLink.data);
-                        //console.log("key"+nodeOrLink.data.key)//拿到节点的Key值
-                       // box.layoutDiagram(true);
-  //                      console.log(box.model.toJson());"class": "GraphLinksModel",
-  // "nodeDataArray": [ {"text":"中间步骤", "key":-2, "loc":"-310 -70"} ],
-  // "linkDataArray": [ {"points":
-                       return true; 
-          });
-      })
-
-    }
-    handleCopy(){
-      box.commandHandler.copySelection();
-    }
-    handlePaste(){
-      box.commandHandler.pasteSelection(box.lastInput.documentPoint);
-    }
-    handleSelectAll(){
-        box.commandHandler.selectAll();
-    }
-    handleback(){
-         box.commandHandler.undo();
-    }
-    handleForward(){
-        box.commandHandler.redo();
-    }
-    scrollTop(){
-      box.commandHandler.scrollToPart();
-    }
-    handleCut(){
-      box.commandHandler.cutSelection();
-    }
+  
   }

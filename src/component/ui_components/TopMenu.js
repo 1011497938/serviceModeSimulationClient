@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Input, Menu } from 'semantic-ui-react'
 import LoginModal from './LoginModal';
+import { autorun } from 'mobx';
+import stateManger from '../../dataManager/stateManager';
 
 export default class TopMenu extends Component {
   state = { activeItem: 'home' }
@@ -18,11 +20,11 @@ export default class TopMenu extends Component {
     const { activeItem } = this.state
     const { width, height} = this.props
     return (
-      <Menu fluid>
+      <Menu fluid style={{background:'#000'}}>
         <Menu.Item
           name='服务模式'
           active={true}
-        />
+        style={{color:'#fff'}}/>
         <Menu.Menu position='right'>
           <Menu.Item>
             <Input icon='search' placeholder='Search...' />

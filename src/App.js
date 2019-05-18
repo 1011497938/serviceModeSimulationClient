@@ -12,11 +12,9 @@ import TopMenu from './component/ui_components/TopMenu'
 import { autorun } from 'mobx';
 import stateManger from './dataManager/stateManager';
 import dataStore from './dataManager/dataStore';
-import { Grid } from 'semantic-ui-react'
-
+import WorkFlow from './component/function_components/WorkFlow';
 import Value from './component/function_components/Value';
 import Aim from './component/function_components/Aim';
-import WorkFlow from './component/function_components/WorkFlow'
 import Teamwork from './component/function_components/TeamWork'
 
 class App extends React.Component{
@@ -26,20 +24,23 @@ class App extends React.Component{
       show_view_name: dataStore.default_view_name
     }
   }
-  onViewChange = autorun(()=>{
 
-    const show_view_name = stateManger.show_view_name.get()
-      // 这里有个bug
-    this.setState({
-      show_view_name: show_view_name
+  componentDidMount(){
+    this.onViewChange = autorun(()=>{
+      const show_view_name = stateManger.show_view_name.get()
+        // 这里有个bug
+      this.setState({
+        show_view_name: show_view_name
+      })
     })
-  })
-
+  
+  }
   render(){
     const top_height = 60
     const {show_view_name} = this.state
     const needShow = name=>{
-      return name=== show_view_name?'block':'none'
+      // 设一个第一次限制渲染
+      return name=== show_view_name?30:0
     }
     return (
       <div style={{width:'100%', height:'100%',}}>
@@ -53,20 +54,20 @@ class App extends React.Component{
 
           {/* 各个go的面板 */}
           <div style={{position: 'relative',float:'left', width:'70%', height:'100%',}}>
-            <div style={{display: needShow('服务价值视图'), height: '100%'}}>
+            <div style={{zIndex: needShow('服务价值视图')}} className='main-view 服务价值视图'>
               <Value/>
             </div>
-            <div style={{display: needShow('服务过程视图'), height: '100%'}}>
+            <div style={{zIndex: needShow('服务过程视图')}} className='main-view 服务过程视图'>
               <WorkFlow/>
             </div>
-            <div style={{display: needShow('服务目标视图'), height:'100%',}}>
+            <div style={{zIndex: needShow('服务目标视图')}} className='main-view 服务目标视图'>
               <Aim/>
             </div> 
-            <div style={{display: needShow('协同生态视图'), height:'100%',}}>
+            <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
               <Teamwork/>
             </div>              
           </div>
-          <div style={{position: 'relative',float:'left', width:'20%', height:'100%',}}>
+          <div style={{position: 'absolute', left: '80%', width:'20%', height:'100%',}}>
               <TaskFormEdit/>
           </div>
 

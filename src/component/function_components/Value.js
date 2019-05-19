@@ -11,25 +11,7 @@ export default class Value extends React.Component{
              var $ = go.GraphObject.make;  // for conciseness in defining templates
 
      var  diagram =$(go.Diagram, this.refs.myDiagramDiv); 
-			    //    diagram.add(
-			    // $(go.Part, "Horizontal",
-			    //   $(go.Shape, { figure: "Club", 
-			    //                 }),  // default fill and stroke are "black"
-			    //   $(go.Shape, { figure: "Club", width: 40, height: 40, margin: 4,
-			    //                 fill: "green" }),
-			    //   $(go.Shape, { figure: "Club", width: 40, height: 40, margin: 4,
-			    //                 fill: "green", stroke: null }),
-			    //   $(go.Shape, { figure: "Club", width: 40, height: 40, margin: 4,
-			    //                 fill: null, stroke: "green" }),
-			    //   $(go.Shape, { figure: "Club", width: 40, height: 40, margin: 4,
-			    //                 fill: null, stroke: "green", strokeWidth: 3 }),
-			    //   $(go.Shape, { figure: "Club", width: 40, height: 40, margin: 4,
-			    //                 fill: null, stroke: "green", strokeWidth: 6 }),
-			    //   $(go.Shape, { figure: "Club", width: 40, height: 40, margin: 4,
-			    //                 fill: "green", background: "orange" })
-			    // )); 	
-			    // 
-			    // 改变画板上图形的大小
+
     	diagram.nodeTemplate =
 				    $(go.Node, "Auto",
 				      $(go.Shape, {figure:"RoundedRectangle",width: 40, height: 40, margin: 4,
@@ -60,14 +42,11 @@ export default class Value extends React.Component{
 
 				  // the list of data to show in the Palette
 				  myPalette.model.nodeDataArray = [
-				    {text: "战略目标",color:"red",figure: "Ellipse",  },
-				     { key: "C", text: "战略目标",color:"red" ,figure: "RoundedRectangle", },
-				    { key: "C", text: "战略目标",color:"red" },
-				     { key: "C", text: "战略目标",color:"red" },
-				   { key: "C", text: "战略目标",color:"red" },
-				     { key: "C", text: "战略目标",color:"red" },
-				    { key: "C", text: "战略目标",color:"red" },
-				     { key: "C", text: "战略目标",color:"red" },
+				    { key: "价值1",text: "价值1",color:"lightgreen",figure: "Ellipse",  },
+				     { key: "价值2", text: "价值2",color:"lightblue" ,figure: "RoundedRectangle", },
+				    { key: "价值3", text: "价值3",color:"lightyellow" },
+				     { key: "价值4", text: "价值4",color:"lightyellow"  },
+	
 				  ];
 
 				}
@@ -80,7 +59,7 @@ export default class Value extends React.Component{
 
     render(){
       const {width, height} = this.props
-      const contorl_bar_height = 60
+      const contorl_bar_height = 40
       return (
         <div>
           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%', height: contorl_bar_height}}>

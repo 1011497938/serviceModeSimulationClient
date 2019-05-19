@@ -139,6 +139,8 @@ export default class Aim extends React.Component{
             { isPanelMain: true, strokeWidth: 2 }),
           $(go.Shape,  // 绘图中的直线箭头
             { toArrow: "Standard", stroke: null }),
+          $(go.Shape,  // the arrowhead
+            { fromArrow: "BackwardTriangle",stroke: null  }), 
           $(go.Panel, "Auto",
             new go.Binding("visible", "isSelected").ofObject(),
             $(go.Shape, "RoundedRectangle",  // the link shape
@@ -155,9 +157,78 @@ export default class Aim extends React.Component{
               new go.Binding("text").makeTwoWay())
           )
         );
+     
+    
 
-  
-        
+
+myDiagram.linkTemplateMap.add(
+        $(go.Link,  // the whole link panel
+          {
+            routing: go.Link.AvoidsNodes,
+            curve: go.Link.JumpOver,
+            corner: 5, toShortLength: 4,
+            relinkableFrom: true,
+            relinkableTo: true,
+            reshapable: true,
+            resegmentable: true,
+            // mouse-overs subtly highlight links:
+            mouseEnter: function(e, link) { link.findObject("HIGHLIGHT").stroke = "rgba(30,144,255,0.2)"; },
+            mouseLeave: function(e, link) { link.findObject("HIGHLIGHT").stroke = "transparent"; },
+            selectionAdorned: false
+          },
+          new go.Binding("points2").makeTwoWay(),
+          $(go.Shape,  // the highlight shape, normally transparent
+            { isPanelMain: true, strokeWidth: 8, stroke: "transparent", name: "HIGHLIGHT" }),
+          $(go.Shape,  // the link path shape
+            { isPanelMain: true, stroke: "gray", strokeWidth: 2 },
+            new go.Binding("stroke", "isSelected", function(sel) { return sel ? "dodgerblue" : "gray"; }).ofObject()),
+          $(go.Shape,  // the arrowhead
+            { toArrow: "standard", strokeWidth: 0, fill: "gray" }),
+          $(go.Panel, "Auto",  // the link label, normally not visible
+            { visible: false, name: "LABEL", segmentIndex: 2, segmentFraction: 0.5 },
+            new go.Binding("visible", "visible").makeTwoWay(),
+            $(go.Shape, "RoundedRectangle",  // the label shape
+              { fill: "#F8F8F8", strokeWidth: 0 }),
+            $(go.TextBlock, "Yes",  // the label
+              {
+                textAlign: "center",
+                font: "10pt helvetica, arial, sans-serif",
+                stroke: "#333333",
+                editable: true
+              },
+              new go.Binding("text").makeTwoWay())
+          )));
+
+
+
+
+     // temporary links used by LinkingTool and RelinkingTool are also orthogonal:
+      myDiagram.toolManager.linkingTool.temporaryLink.routing = go.Link.Orthogonal;
+      myDiagram.toolManager.relinkingTool.temporaryLink.routing = go.Link.Orthogonal;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //左边的控制面板
      var  myPalette =
@@ -185,9 +256,11 @@ export default class Aim extends React.Component{
                 $(go.Shape,
                   { isPanelMain: true, strokeWidth: 2 }),
                $(go.Shape,  // 面板中的直线箭头
-                            { toArrow: "Standard", stroke: null }),                  
-
+                { toArrow: "Standard", stroke: null }), 
+                $(go.Shape,  // the arrowhead
+                { fromArrow: "BackwardTriangle",stroke: null  }),                                 
               ),
+                     
             model: new go.GraphLinksModel([  // specify the contents of the Palette
               { text: "战略目标", figure: "Ellipse", fill: "#00AD5F" },
               { text: "物理", figure: "RoundedRectangle", fill: "lightyellow" },
@@ -196,7 +269,7 @@ export default class Aim extends React.Component{
               { text: "子目标", figure: "Ellipse", fill: "lightskyblue" },
               
             ], [
-                // the Palette also has a disconnected Link, which the user can drag-and-drop
+                
                 { points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(60, 0)]) }
               ])
           });
@@ -204,9 +277,8 @@ export default class Aim extends React.Component{
          const myOverview =
             $(go.Overview, this.refs.myOverviewDiv, 
               { observed: myDiagram, contentAlignment: go.Spot.Center });
-         
-        
-      }
+            }
+
 
 
 

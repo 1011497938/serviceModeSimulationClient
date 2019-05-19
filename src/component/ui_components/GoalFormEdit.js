@@ -3,7 +3,7 @@ import { Input, Menu, Table, Label, Icon,Form} from 'semantic-ui-react'
 import stateManger from '../../dataManager/stateManager';
 import { autorun } from 'mobx';
 
-export default class DigitalGoalFormEdit extends Component{
+export default class GoalFormEdit extends Component{
     constructor(props){
         super(props)
          this.state={
@@ -19,28 +19,29 @@ export default class DigitalGoalFormEdit extends Component{
                  </div>
                  <form class='ui form'>
                      <div>
-                        <h3 class="ui dividing header">数字目标属性编辑</h3>
+                        <h3 class="ui dividing header">目标属性编辑</h3>
                      </div>
 
                      <div class="field">
-                        <h4> 数字目标基础信息</h4>
+                        <h4> 目标基础信息</h4>
                      </div>
 
                       <div class="two  fields">
                             <div class="field">
-                               <label>数字目标名称</label>
-                               <input type="text"  placeholder="StrategicGoalName" />
+                               <label>目标名称</label>
+                               <input type="text"  placeholder="GoalName" />
                             </div>
 
                              <div class="field">
-                               <label>数字目标ID</label>
+                               <label>目标ID</label>
                                <input type="text"  placeholder="StrategicGoalID" />
                             </div>
                       </div>
 
-                      <div class="inline fields">
+
                           <label>完成主体</label>
-                          <div class="field">
+                          <div class="inline fields">
+                              <div class="field">
                             <div class="ui radio checkbox">
                               <input type="radio" name="frequency"  />
                               <label>主体1</label>
@@ -58,12 +59,7 @@ export default class DigitalGoalFormEdit extends Component{
                               <label>主体3</label>
                             </div>
                           </div>
-                          <div class="field">
-                            <div class="ui radio checkbox">
-                              <input type="radio" name="frequency" />
-                              <label>主体4</label>
-                            </div>
-                          </div>
+
                       </div>
 
                        <div class="field">

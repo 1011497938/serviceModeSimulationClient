@@ -3,7 +3,7 @@ import { Input, Menu, Table, Label, Icon,Form} from 'semantic-ui-react'
 import stateManger from '../../dataManager/stateManager';
 import { autorun } from 'mobx';
 
-export default class FinancialResourceFormEdit extends Component{
+export default class ResourceFormEdit extends Component{
     constructor(props){
         super(props)
          this.state={
@@ -19,11 +19,11 @@ export default class FinancialResourceFormEdit extends Component{
                  </div>
                  <form class='ui form'>
                      <div>
-                        <h3 class="ui dividing header">金融类资源属性编辑</h3>
+                        <h3 class="ui dividing header">资源属性编辑</h3>
                      </div>
 
                      <div class="field">
-                        <h4> 金融类资源基础信息</h4>
+                        <h4> 资源基础信息</h4>
                      </div>
 
                       <div class="two  fields">
@@ -37,8 +37,14 @@ export default class FinancialResourceFormEdit extends Component{
                                <input type="text"  placeholder="ResourceID" />
                             </div>
                       </div>
+                       
+                         <div>
+                             <label>资源可调配数量：</label>
+                             <div class="field">
+                                 <input type="text"></input>
+                             </div>
+                         </div>
 
-                      <div class="two  fields">
                          <div class="field">
                             <label>资源持有主体</label>
                              <div class="field">
@@ -50,17 +56,29 @@ export default class FinancialResourceFormEdit extends Component{
                              </div>
                          </div>
 
+                     <div class="field">
+                         <label>资源类别</label>
                          <div class="field">
+                             <select class="ui fluid search dropdown" name="card[expire-month]">
+                                 <option value="1">金融资产</option>
+                                 <option value="2">实体资产</option>
+                                 <option value="3">知识资产</option>
+                                 <option value="4">人力资源</option>
+                             </select>
+                         </div>
+                     </div>
 
+                         <div class=" field">
                              <label>资源访问/使用权限</label>
-                              <div class="field">
+                         </div>
+                         <div class="inline fields">
                                    <div class="field">
                                    <div class="ui radio checkbox">
                                      <input type="radio" name="frequency"  />
                                      <label>主体1</label>
                                    </div>
                                  </div>
-                                 <div class="field">
+                                 <div class=" field">
                                    <div class="ui radio checkbox">
                                      <input type="radio" name="frequency" />
                                      <label>主体2</label>
@@ -72,26 +90,20 @@ export default class FinancialResourceFormEdit extends Component{
                                      <label>主体3</label>
                                    </div>
                                  </div>
-                                 <div class="field">
-                                   <div class="ui radio checkbox">
-                                     <input type="radio" name="frequency" />
-                                     <label>主体4</label>
-                                   </div>
-                                 </div>
-                              </div>
-
                          </div>
 
-                      </div>
 
-                      <div class="inline fields">
+                      <div class=" field">
                           <label>完成主体</label>
+                      </div>
+                      <div class="inline fields">
                           <div class="field">
                             <div class="ui radio checkbox">
                               <input type="radio" name="frequency"  />
                               <label>主体1</label>
                             </div>
                           </div>
+
                           <div class="field">
                             <div class="ui radio checkbox">
                               <input type="radio" name="frequency" />
@@ -104,12 +116,6 @@ export default class FinancialResourceFormEdit extends Component{
                               <label>主体3</label>
                             </div>
                           </div>
-                          <div class="field">
-                            <div class="ui radio checkbox">
-                              <input type="radio" name="frequency" />
-                              <label>主体4</label>
-                            </div>
-                          </div>
                       </div>
 
                        <div class="field">
@@ -119,17 +125,14 @@ export default class FinancialResourceFormEdit extends Component{
 
                         <div class="two fields">
                              <div class="field">
-                                  <label>预期完成时间</label>
-                                  <input type="text"  placeholder="FinishTime" />
+                                  <label>预期持有时长</label>
+                                  <input type="text"  placeholder="Time" />
                              </div>
                              <div class="field">
-                                   <label>目标优先级</label>
+                                   <label>使用优先级</label>
                                    <input type="text"  placeholder="priority" />
                               </div>
                         </div>
-
-
-                     
                     <div class="ui button" tabindex="0">提交</div>
                  </form>
             </div>

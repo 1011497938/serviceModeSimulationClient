@@ -70,7 +70,6 @@ export default class CarrierFormEdit extends Component{
                             </select>
                         </div>
                       </div>
-
                      </div>
 
                       <div class="two  fields">
@@ -94,87 +93,15 @@ export default class CarrierFormEdit extends Component{
                                        <option value="3">所有主体</option>
                                      </select>
                                 </div>
-
                            </div>
-
                       </div>
-
-
                        <div class="field">
                             <label>载体功能介绍</label>
                             <input type="text"  placeholder="FunctionIntroduction" />
                        </div>
-
-
-
-                    <div class="field">
-                        <h4> 消费主体交互信息</h4>
-                    </div>
-
-                    <div class="field">
-                           <label>反馈</label>
-                           <table class="ui celled padded table">
-                             <thead>
-                               <tr><th class="single line">评价提交时间</th>
-                               <th>评价对象</th>
-                               <th>评价等级</th>
-                               <th>评价内容</th>
-                             </tr></thead>
-
-                             <tbody>
-                               <tr>
-                                 <td>
-                                   <p>2019.05.16</p>
-                                 </td>
-                                 <td class="single line">
-                                   服务过程1
-                                 </td>
-                                 <td class="single line">
-                                      A <br/>
-                                 </td>
-                                 <td class="single line">
-                                   good<br/>
-                                 </td>
-                               </tr>
-
-                               <tr>
-                                <td>
-                                  <p>2019.05.16</p>
-                                </td>
-                                <td class="single line">
-                                  服务过程1
-                                </td>
-                                <td class="single line">
-                                     A <br/>
-                                </td>
-                                <td class="single line">
-                                  good<br/>
-                                </td>
-                              </tr>
-
-                             </tbody>
-                             <tfoot>
-                               <tr><th colspan="5">
-                                 <div class="ui right floated pagination menu">
-                                   <a class="icon item">
-                                     <i class="left chevron icon"></i>
-                                   </a>
-                                   <a class="item">1</a>
-                                   <a class="item">2</a>
-                                   <a class="item">3</a>
-                                   <a class="item">4</a>
-                                   <a class="icon item">
-                                     <i class="right chevron icon"></i>
-                                   </a>
-                                 </div>
-                               </th>
-                             </tr></tfoot>
-                           </table>
-                    </div>
                     <div class="ui button" tabindex="0">提交</div>
                  </form>
             </div>
-
         )
     }
     }

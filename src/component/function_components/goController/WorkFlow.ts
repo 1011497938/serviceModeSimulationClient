@@ -34,7 +34,7 @@ export default class Controller extends GraphController{
     var MINBREADTH = 20;  // this controls the minimum breadth of any non-collapsed swimlane
 
     // this may be called to force the lanes to be laid out again
-    function relayoutLanes() {
+    this.relayoutLanes = ()=> {
       myDiagram.nodes.each(function(lane) {
         if (!(lane instanceof go.Group)) return;
         if (lane.category === "Pool") return;
@@ -341,18 +341,18 @@ export default class Controller extends GraphController{
       ));
 
     super.init({
-      // layout: $(PoolLayout),
+      layout: $(PoolLayout),
       // don't allow dropping onto the diagram's background unless they are all Groups (lanes or pools)
-      // mouseDragOver: function(e) {
-      //   if (!e.diagram.selection.all(function(n) { return n instanceof go.Group; })) {
-      //     e.diagram.currentCursor = 'not-allowed';
-      //   }
-      // },
-      // mouseDrop: function(e) {
-      //   if (!e.diagram.selection.all(function(n) { return n instanceof go.Group; })) {
-      //     e.diagram.currentTool.doCancel();
-      //   }
-      // },
+      mouseDragOver: function(e) {
+        if (!e.diagram.selection.all(function(n) { return n instanceof go.Group; })) {
+          e.diagram.currentCursor = 'not-allowed';
+        }
+      },
+      mouseDrop: function(e) {
+        if (!e.diagram.selection.all(function(n) { return n instanceof go.Group; })) {
+          e.diagram.currentTool.doCancel();
+        }
+      },
       // a clipboard copied node is pasted into the original node's group (i.e. lane).
       "commandHandler.copiesGroupKey": true,
       // automatically re-layout the swim lanes after dragging the selection

@@ -39,6 +39,7 @@ export default class WorkFlow extends React.Component{
         { key: "Alpha4", color: "lightblue", category: 'exclusive'},
       ]
       palette.model = new go.GraphLinksModel(palette_node_datas);
+      controller.relayoutLanes();
       // console.log(palette.model.toJson())
     }
 

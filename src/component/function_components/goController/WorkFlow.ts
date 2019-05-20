@@ -1,6 +1,4 @@
 import * as go from 'gojs';
-import { propCombine } from '../../dataManager/commonFunction';
-const solid_circle = require('../../static/images/圆-实心.svg')
 const {
   GraphController, $, makePort,   
   nodeResizeAdornmentTemplate,
@@ -27,23 +25,29 @@ export default class Controller extends GraphController{
 }
 
 const custom_r = 80
+const icon_color = '#f7f7f7'
 const custom_props = {
   stroke: null,
   width: custom_r,
   height: custom_r
 }
+const custom_icon_props = {
+  fill: '#f7f7f7',
+  width: custom_r/2,
+  height: custom_r/2,
+  stroke: null
+}
 const taskNodeTemplate =
 $(go.Node, 'Spot',
   $(go.Shape, "RoundedRectangle", 
-    propCombine([
-      custom_props, {
+    custom_props, 
+    {
       width: 120,
       height: 70,
       fill: '#00A6ED'
-    }]),
-    new go.Binding("fill", "color"),
+    },
   ),
-  { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
+  // { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
   // { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
   // { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
   makePort("T", go.Spot.Top, true, true),
@@ -62,7 +66,7 @@ $(go.Node, 'Spot',
 const startNodeTemplate =
 $(go.Node, 'Spot',
   $(go.Shape, "Circle",  
-  propCombine([custom_props, {fill: '#F6511D'}]),
+    custom_props, {fill: '#F6511D'},
   ),
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
@@ -77,11 +81,8 @@ $(go.Node, 'Spot',
 const endNodeTemplate =
 $(go.Node, 'Spot',
   $(go.Shape, "Circle",  
-  propCombine([custom_props, {fill: '#F6511D'}]),
+    custom_props, {fill: '#F6511D'},
   ),
-  $(go.Picture, { source: solid_circle, 
-      width: custom_r/2, height: custom_r/2, margin: 2 
-  }),
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -90,15 +91,18 @@ $(go.Node, 'Spot',
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
   },
+  $(go.Shape, "Circle",  
+    custom_icon_props
+  ),
 ); 
 
 const exclusiveGateWayNodeTemplate =
 $(go.Node, 'Spot',
   $(go.Shape, "Diamond",
-    propCombine([custom_props, {fill: '#FFB400'}]),
-    new go.Binding("fill", "color")),
-  $(go.TextBlock,{ margin: 3 },  
-    new go.Binding("text", "key")),
+    custom_props, {fill: '#FFB400'},
+  ),
+  // $(go.TextBlock,{ margin: 3 },  
+  //   new go.Binding("text", "key")),
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -107,13 +111,15 @@ $(go.Node, 'Spot',
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
   },
+  $(go.Shape, "ThinX",  
+    custom_icon_props
+  ),
 ); 
 
 const parallelGateWayNodeTemplate =
 $(go.Node, 'Spot',
   $(go.Shape, "Diamond",  
-    propCombine([custom_props, {fill: '#FFB400'}]),
-    new go.Binding("fill", "color"),
+    custom_props, {fill: '#FFB400'},
   ),
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
@@ -123,9 +129,15 @@ $(go.Node, 'Spot',
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
   },
-  $(go.TextBlock,
-  { margin: 3 },  
-    new go.Binding("text", "key")),
+  // $(go.TextBlock,
+  // { margin: 3 },  
+  //   new go.Binding("text", "key")),
+  // 画中间图案
+  $(go.Shape, "ThinCross",  
+    custom_icon_props
+  ),
+  // new go.Binding('figure', 'gatewayType', nodeGatewaySymbolTypeConverter),
+  // new go.Binding('desiredSize', 'gatewayType', nodePalGatewaySymbolSizeConverter)),
 ); 
 
 

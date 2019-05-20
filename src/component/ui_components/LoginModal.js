@@ -40,7 +40,7 @@ class LoginModal extends React.Component {
               </Form.Field>
      
                 <Modal.Actions>
-                  <Button color='#333' className='fluid ui button' style={{marginLeft:0}} onClick={this.handleClose} >提交</Button>
+                  <Button className='fluid ui button' style={{marginLeft:0}} onClick={this.handleClose} >提交</Button>
                 </Modal.Actions>
               
             </Form>

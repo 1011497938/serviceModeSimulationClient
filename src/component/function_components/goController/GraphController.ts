@@ -1,5 +1,6 @@
 import * as go from 'gojs';
-
+// import '../../other_codes/figure'
+import '../../../../node_modules/gojs/extensions/Figures'
 export {
   $,
   keyCompare,
@@ -9,6 +10,8 @@ export {
   nodeResizeAdornmentTemplate,
   nodeRotateAdornmentTemplate,
   nodeSelectionAdornmentTemplate,
+  common_node_propety,
+  common_link_propety,
 }
 
 
@@ -38,7 +41,7 @@ export default class GraphController{
         this.diagram = diagram
         this.palette = palette
 
-        this.linkTemplateMap.add('', BidirctArrowLinkTemplate);  // default
+        this.linkTemplateMap.add('', commonLinkTemplate);  // default
         this.linkTemplateMap.add('arrowlink', ArrowLinkTemplate);
         this.linkTemplateMap.add('2arrowlink', BidirctArrowLinkTemplate);
         this.linkTemplateMap.add('common', commonLinkTemplate);
@@ -119,7 +122,20 @@ const showSmallPorts = (node, show)=>{
   });
 }
 
+// 存了一些各组件都会需要的睡醒，直接加上就好了
+const common_node_propety = [
+  // new go.Binding("fill", "color"),
+  new go.Binding("location", "location").makeTwoWay(),
+  // new go.Binding("text", "name"),
+  // new go.Binding("text", "text"),
+  // new go.Binding("text", "key"),
+  // new go.Binding("width", "wdith"),
+  // new go.Binding("height", "height"),
+]
 
+const common_link_propety = [
+
+]
 const nodeSelectionAdornmentTemplate =
 $(go.Adornment, "Auto",
   $(go.Shape, { fill: null, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] }),
@@ -231,3 +247,5 @@ $(go.Link,  // the whole link panel
       new go.Binding("text").makeTwoWay())
   )
 );
+
+

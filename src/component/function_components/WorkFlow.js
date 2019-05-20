@@ -1,6 +1,6 @@
 import React from 'react';
 import * as go from 'gojs';
-import Controller from './WorkFlow.ts'
+import Controller from './goController/WorkFlow.ts'
 import { Icon, Menu} from 'semantic-ui-react'
 import ToolBar from '../ui_components/ToolBar';
 
@@ -22,6 +22,7 @@ export default class WorkFlow extends React.Component{
         {from: 'Alpha', to: 'Alpha1', category: 'arrowlink'}
       ]);
       palette.model = new go.GraphLinksModel(node_datas);
+      // console.log(palette.model.toJson())
     }
 
     componentDidMount(){

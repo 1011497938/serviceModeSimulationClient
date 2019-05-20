@@ -4,8 +4,6 @@ import Test from './component/function_components/Test'
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import 'semantic-ui-css/semantic.min.css'
 
-
-
 import  TaskFormEdit from './component/ui_components/TaskFormEdit'
 import Nav from './component/ui_components/Nav'
 import TopMenu from './component/ui_components/TopMenu'
@@ -16,6 +14,7 @@ import WorkFlow from './component/function_components/WorkFlow';
 import Value from './component/function_components/Value';
 import Aim from './component/function_components/Aim';
 import Teamwork from './component/function_components/TeamWork'
+import CarrierResource from './component/function_components/CarrierResource';
 
 class App extends React.Component{
   constructor(props){
@@ -54,6 +53,15 @@ class App extends React.Component{
 
           {/* 各个go的面板 */}
           <div style={{position: 'relative',float:'left', width:'70%', height:'100%',}}>
+            <div style={{zIndex: needShow('全局视图')}} className='main-view 全局视图'>
+              
+            </div>
+            <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
+              <Teamwork/>
+            </div>   
+            <div style={{zIndex: needShow('载体及资源视图')}} className='main-view 载体及资源视图'>
+              <CarrierResource/>
+            </div>
             <div style={{zIndex: needShow('服务价值视图')}} className='main-view 服务价值视图'>
               <Value/>
             </div>
@@ -63,9 +71,6 @@ class App extends React.Component{
             <div style={{zIndex: needShow('服务目标视图')}} className='main-view 服务目标视图'>
               <Aim/>
             </div> 
-            <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
-              <Teamwork/>
-            </div>              
           </div>
           <div style={{position: 'absolute', left: '80%', width:'20%', height:'100%',}}>
               <TaskFormEdit/>

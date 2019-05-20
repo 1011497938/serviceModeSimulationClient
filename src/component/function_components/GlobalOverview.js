@@ -12,12 +12,14 @@ export default class GlobalOverview extends React.Component{
       const controller = new Controller(this.refs.myDiagramDiv, this.refs.myPaletteDiv)
       this.controller = controller
       const {diagram, palette} = controller
+      // ['全局视图', '协同生态视图', '载体及资源视图', '服务价值视图', '服务过程视图', '服务目标视图']
       const node_datas = [
-        { key: "Alpha", color: "red", category: 'carrier', group: '222'},
-        { key: "Alpha1", color: "red", category: 'carrier', group: '2223'},
-        { key: "Alpha2", color: "red", category: 'carrier', group: '222'},
-        { key: "222", isGroup: true },
-        { key: "223", isGroup: true },
+        ...['提供主体及网络', '消费主题', '载体及资源视图', '服务价值视图', '服务过程视图', '服务目标视图'].map(elm=> {return { key: elm, isGroup: true }}),
+        // { key: "Alpha", color: "red", category: 'view', group: '222'},
+        // { key: "Alpha1", color: "red", category: 'view', group: '2223'},
+        // { key: "Alpha2", color: "red", category: 'view', group: '222'},
+        // { key: "222", isGroup: true },
+        // { key: "223", isGroup: true },
       ]
       const link_datas = []
       diagram.model = new go.GraphLinksModel(node_datas,link_datas);
@@ -42,7 +44,7 @@ export default class GlobalOverview extends React.Component{
       return (
         <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%', height: contorl_bar_height}}>
-            <ToolBar/>
+            <ToolBar controller={this.controller}/>
           </div>
           <div style={{position: 'absolute', top: contorl_bar_height, width:'100%', height:'100%',}}>
             <div ref='myPaletteDiv'  style={{position: 'relative',float:'left',top: 0, width:'15%', height:'100%', backgroundColor: '#859e9e'}}/>

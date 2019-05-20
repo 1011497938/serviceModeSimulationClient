@@ -12,6 +12,10 @@ export {
   nodeSelectionAdornmentTemplate,
   common_node_propety,
   common_link_propety,
+
+  ArrowLinkTemplate,
+  BidirctArrowLinkTemplate,
+  commonLinkTemplate,
   // stayInGroup,
 }
 
@@ -284,7 +288,7 @@ const commonGroupTemplate =
     makePort("R", go.Spot.Right, true, true),
     makePort("B", go.Spot.Bottom, true, true),
     { // handle mouse enter/leave events to show/hide the ports
-      mouseEnter: function(e, node) { console.log(node, node.ports);  showSmallPorts(node, true); },
+      mouseEnter: function(e, node) { showSmallPorts(node, true); },
       mouseLeave: function(e, node) { showSmallPorts(node, false); }
     },
     $(go.TextBlock,         // group title

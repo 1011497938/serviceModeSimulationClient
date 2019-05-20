@@ -2,8 +2,8 @@
 import React from 'react';
 import * as go from 'gojs';
 
-import { Icon, Menu} from 'semantic-ui-react'
-
+import { Icon, Menu, Dropdown} from 'semantic-ui-react'
+import {ArrowLinkTemplate, BidirctArrowLinkTemplate, commonLinkTemplate,} from '../function_components/goController/GraphController.ts'
 export default class ToolBar extends React.Component{
     constructor(props){
         super(props)
@@ -12,39 +12,35 @@ export default class ToolBar extends React.Component{
         }
     }
     render(){
+      const {controller} = this.props
         return (
             <Menu fluid style={{background:'rgb(133,158,158)', height:60}}>
-            <Menu.Item style={{color:'#fff'}}>
-                新建&nbsp;<span className="iconfont">&#xe600;</span>
-            </Menu.Item> 
              <Menu.Item style={{color:'#fff'}}>
                 保存&nbsp;<span className="iconfont">&#xe794;</span>
             </Menu.Item> 
             <Menu.Item onClick={this.handleDelete} style={{color:'#fff'}}>
               删除&nbsp;<span className="iconfont">&#xe661;</span>
             </Menu.Item>
-            <Menu.Item onClick={this.handleCut} style={{color:'#fff'}}>
-              剪切&nbsp;<i className="cut icon"></i>
-            </Menu.Item>
-            <Menu.Item onClick={this.scrollTop} style={{color:'#fff'}}>
-              自适应
-            </Menu.Item>                
-            <Menu.Item onClick={this.handleCopy} style={{color:'#fff'}}>
-              复制&nbsp;<i className="copy icon"></i>
-            </Menu.Item> 
-            <Menu.Item onClick={this.handlePaste} style={{color:'#fff'}}>
-              粘贴&nbsp;<span className="iconfont">&#xe62b;</span>
-            </Menu.Item>                               
-            <Menu.Item onClick={this.handleSelectAll} style={{color:'#fff'}}>
-                全选&nbsp;<span className="iconfont">&#xe729;</span>
-            </Menu.Item>      
-
-            <Menu.Item onClick={this.handleback} style={{color:'#fff'}}>
-              后退&nbsp;<span className="iconfont">&#xe730;</span>
-            </Menu.Item>                             
-            <Menu.Item onClick={this.handleForward} style={{color:'#fff'}}>
-              前进&nbsp;<span className="iconfont">&#xe731;</span>
-            </Menu.Item>
+            <Dropdown
+              placeholder='选择连线'
+              // fluid
+              selection
+              options={[
+                {key: '直线', text: '直线', value: '直线', },
+                {key: '箭头', text: '箭头', value: '箭头', },
+                {key: '双向箭头', text: '双向箭头', value: '双向箭头', },
+              ]}
+              onChange={(event, {value})=>{
+                const map = {
+                  '双向箭头': BidirctArrowLinkTemplate,
+                  '直线':  commonLinkTemplate,
+                  '箭头': ArrowLinkTemplate,
+                }
+                // console.log(value)
+                // console.log(controller)
+                controller.linkTemplateMap.add('', map[value])
+              }}
+            />
           </Menu>
         )
     }

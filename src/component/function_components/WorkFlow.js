@@ -12,16 +12,29 @@ export default class WorkFlow extends React.Component{
       this.controller = controller
       const {diagram, palette} = controller
       const node_datas = [
-        { key: "Alpha", color: "lightblue", category: 'task', },
-        { key: "Alpha1", color: "lightblue", category: 'start', },
-        { key: "Alpha2", color: "lightblue", category: 'end', },
-        { key: "Alpha3", color: "lightblue", category: 'parallel', },
-        { key: "Alpha4", color: "lightblue", category: 'exclusive', },
+        { key: 'pool1', isGroup: true},
+        { key: 'pool2', isGroup: true},
+        { key: 'pool3', isGroup: true},
+        { key: "Alpha", color: "lightblue", category: 'task', group: 'pool1'},
+        { key: "Alpha5", color: "lightblue", category: 'task', group: 'pool2'},
+        { key: "Alpha6", color: "lightblue", category: 'task', group: 'pool3'},
+        { key: "Alpha1", color: "lightblue", category: 'start', group: 'pool1'},
+        { key: "Alpha2", color: "lightblue", category: 'end', group: 'pool1'},
+        { key: "Alpha3", color: "lightblue", category: 'parallel', group: 'pool2'},
+        { key: "Alpha4", color: "lightblue", category: 'exclusive', group: 'pool1'},
       ]
       diagram.model = new go.GraphLinksModel(node_datas,[
         {from: 'Alpha', to: 'Alpha1', category: 'arrowlink'}
       ]);
-      palette.model = new go.GraphLinksModel(node_datas);
+
+      const palette_node_datas = [
+        { key: "Alpha6", color: "lightblue", category: 'task', group: 'pool3'},
+        { key: "Alpha1", color: "lightblue", category: 'start', group: 'pool1'},
+        { key: "Alpha2", color: "lightblue", category: 'end', group: 'pool1'},
+        { key: "Alpha3", color: "lightblue", category: 'parallel', group: 'pool2'},
+        { key: "Alpha4", color: "lightblue", category: 'exclusive', group: 'pool1'},
+      ]
+      palette.model = new go.GraphLinksModel(palette_node_datas);
       // console.log(palette.model.toJson())
     }
 

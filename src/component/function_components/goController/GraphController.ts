@@ -12,6 +12,7 @@ export {
   nodeSelectionAdornmentTemplate,
   common_node_propety,
   common_link_propety,
+  // stayInGroup,
 }
 
 
@@ -29,7 +30,7 @@ export default class GraphController{
     diagram = undefined
     palette = undefined
 
-    // 这两个鬼东西暂时先不用
+    // 这两个鬼东西暂时先不用，注意加下来这个会变成静态的了，所以视图之间的id也要唯一！！！
     palNodeTemplateMap = new go.Map<string, go.Node>();
     palGroupTemplateMap = new go.Map<string, go.Group>();
 
@@ -37,7 +38,7 @@ export default class GraphController{
     linkTemplateMap = new go.Map<string, go.Link>();
     groupTemplateMap = new go.Map<string, go.Group>();
 
-    constructor(diagram, palette){
+    constructor(diagram, palette, view_name=''){
         this.diagram = diagram
         this.palette = palette
 
@@ -46,17 +47,19 @@ export default class GraphController{
         this.linkTemplateMap.add('2arrowlink', BidirctArrowLinkTemplate);
         this.linkTemplateMap.add('common', commonLinkTemplate);
 
+        this.groupTemplateMap.add('', commonGroupTemplate)
+        this.groupTemplateMap.add('common', commonGroupTemplate)
         // 这个地方可以加个改颜色的
     }
 
-    init(){
+    // 初始化go，可以传入自定义的参数
+    init(diagram_props={}, palette_props={}){
       this.diagram = $(go.Diagram, this.diagram,  // must name or refer to the DIV HTML element
-        {
+        Object.assign({
           // maxSelectionCount: 1,
           nodeTemplateMap: this.nodeTemplateMap,
           linkTemplateMap: this.linkTemplateMap,
           groupTemplateMap: this.groupTemplateMap,
-
           // 加格子
           grid: $(go.Panel, "Grid",
             $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
@@ -78,10 +81,11 @@ export default class GraphController{
           "rotatingTool.snapAngleMultiple": 15,
           "rotatingTool.snapAngleEpsilon": 15,
           "undoManager.isEnabled": true
-        });
+        }, diagram_props)
+      );
 
       this.palette = $(go.Palette, this.palette,  // must name or refer to the DIV HTML element
-        { // share the templates with the main Diagram
+        Object.assign({ // share the templates with the main Diagram
           nodeTemplateMap: this.nodeTemplateMap,
           linkTemplateMap: this.linkTemplateMap,
           groupTemplateMap: this.groupTemplateMap,
@@ -91,10 +95,10 @@ export default class GraphController{
             cellSize: new go.Size(1, 1),
             spacing: new go.Size(5, 5),
             comparer: keyCompare
-          })
-      })
+          }, palette_props)
+        })
+      )
     }
-
 }
 
 // 为组件加锚点的函数
@@ -115,14 +119,18 @@ function makePort(name, spot, output, input) {
 }
 // 显示或者不显示锚点
 const showSmallPorts = (node, show)=>{
-  node.ports.each(function(port) {
-    if (port.portId !== "") {  // don't change the default port, which is the big shape
-      port.fill = show ? "rgba(0,0,0,.3)" : null;
-    }
-  });
+  if(node.ports){
+    node.ports.each(function(port) {
+      if (port.portId !== "") {  // don't change the default port, which is the big shape
+        port.fill = show ? "rgba(0,0,0,.3)" : null;
+      }
+    });
+  }else{
+    console.error(node, node.ports, '为undefiend')
+  }
 }
 
-// 存了一些各组件都会需要的睡醒，直接加上就好了
+// 存了一些各组件都会需要的属性，直接加上就好了
 const common_node_propety = [
   // new go.Binding("fill", "color"),
   new go.Binding("location", "location").makeTwoWay(),
@@ -136,6 +144,8 @@ const common_node_propety = [
 const common_link_propety = [
 
 ]
+
+
 const nodeSelectionAdornmentTemplate =
 $(go.Adornment, "Auto",
   $(go.Shape, { fill: null, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] }),
@@ -220,32 +230,88 @@ $(go.Link,  // the whole link panel
 
 // 带双向箭头的实线
 const BidirctArrowLinkTemplate =
-$(go.Link,  // the whole link panel
-  { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
-  { relinkableFrom: true, relinkableTo: true, reshapable: true },
-  avoid_cross_props,
-  new go.Binding("points").makeTwoWay(),
-  $(go.Shape,  // the link path shape
-    { isPanelMain: true, strokeWidth: 2 }),
-  $(go.Shape,  // the arrowhead
-    { toArrow: "OpenTriangle", stroke: 'black' }),
-  $(go.Shape,  // the arrowhead
-    { fromArrow: "BackwardOpenTriangle", stroke: 'black' }),
-  $(go.Panel, "Auto",
-    new go.Binding("visible", "isSelected").ofObject(),
-    $(go.Shape, "RoundedRectangle",  // the link shape
-      { fill: "#F8F8F8", stroke: null }),
-    $(go.TextBlock,
-      {
-        textAlign: "center",
-        font: "10pt helvetica, arial, sans-serif",
-        stroke: "#919191",
-        margin: 2,
-        minSize: new go.Size(10, NaN),
-        editable: true
-      },
-      new go.Binding("text").makeTwoWay())
-  )
-);
+  $(go.Link,  // the whole link panel
+    { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
+    { relinkableFrom: true, relinkableTo: true, reshapable: true },
+    avoid_cross_props,
+    new go.Binding("points").makeTwoWay(),
+    $(go.Shape,  // the link path shape
+      { isPanelMain: true, strokeWidth: 2 }
+    ),
+    $(go.Shape,  // the arrowhead
+      { toArrow: "OpenTriangle", stroke: 'black' }
+    ),
+    $(go.Shape,  // the arrowhead
+      { fromArrow: "BackwardOpenTriangle", stroke: 'black' }
+    ),
+    $(go.Panel, "Auto",
+      new go.Binding("visible", "isSelected").ofObject(),
+      $(go.Shape, "RoundedRectangle",  // the link shape
+        { fill: "#F8F8F8", stroke: null }
+      ),
+      $(go.TextBlock,
+        {
+          textAlign: "center",
+          font: "10pt helvetica, arial, sans-serif",
+          stroke: "#919191",
+          margin: 2,
+          minSize: new go.Size(10, NaN),
+          editable: true
+        },
+        new go.Binding("text").makeTwoWay())
+    )
+  );
 
 
+
+// 普通的group模板（就是一个框框）
+const commonGroupTemplate =
+  $(go.Group, "Spot",
+    $(go.Panel, "Auto",
+      $(go.Shape, "RoundedRectangle",  // surrounds the Placeholder
+        {
+          parameter1: 14,
+          fill: "#0D2C54",
+          opacity: 0.4
+        },
+      ),
+      $(go.Placeholder,    // represents the area of all member parts,
+        { padding: 5 },        // with some extra padding around them
+      ),
+    ),
+    makePort("T", go.Spot.Top, true, true),
+    makePort("L", go.Spot.Left, true, true),
+    makePort("R", go.Spot.Right, true, true),
+    makePort("B", go.Spot.Bottom, true, true),
+    { // handle mouse enter/leave events to show/hide the ports
+      mouseEnter: function(e, node) { console.log(node, node.ports);  showSmallPorts(node, true); },
+      mouseLeave: function(e, node) { showSmallPorts(node, false); }
+    },
+    $(go.TextBlock,         // group title
+      { alignment: go.Spot.Right, font: "Bold 12pt Sans-Serif" },
+      new go.Binding("text", "key")
+    ),
+  );
+
+  
+// // this is a Part.dragComputation function for limiting where a Node may be dragged，限制到Group中
+// function stayInGroup(part, pt, gridpt) {
+//   // don't constrain top-level nodes
+//   var grp = part.containingGroup;
+//   if (grp === null) return pt;
+//   // try to stay within the background Shape of the Group
+//   var back = grp.resizeObject;
+//   if (back === null) return pt;
+//   // allow dragging a Node out of a Group if the Shift key is down
+//   if (part.diagram.lastInput.shift) return pt;
+//   var p1 = back.getDocumentPoint(go.Spot.TopLeft);
+//   var p2 = back.getDocumentPoint(go.Spot.BottomRight);
+//   var b = part.actualBounds;
+//   var loc = part.location;
+//   // find the padding inside the group's placeholder that is around the member parts
+//   var m = grp.placeholder.padding;
+//   // now limit the location appropriately
+//   var x = Math.max(p1.x + m.left, Math.min(pt.x, p2.x - m.right - b.width - 1)) + (loc.x - b.x);
+//   var y = Math.max(p1.y + m.top, Math.min(pt.y, p2.y - m.bottom - b.height - 1)) + (loc.y - b.y);
+//   return new go.Point(x, y);
+// }

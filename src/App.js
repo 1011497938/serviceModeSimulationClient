@@ -15,6 +15,7 @@ import Value from './component/function_components/Value';
 import Aim from './component/function_components/Aim';
 import Teamwork from './component/function_components/TeamWork'
 import CarrierResource from './component/function_components/CarrierResource';
+import GlobalOverview from './component/function_components/GlobalOverview';
 
 class App extends React.Component{
   constructor(props){
@@ -54,7 +55,7 @@ class App extends React.Component{
           {/* 各个go的面板 */}
           <div style={{position: 'relative',float:'left', width:'70%', height:'100%',}}>
             <div style={{zIndex: needShow('全局视图')}} className='main-view 全局视图'>
-              
+              <GlobalOverview/>
             </div>
             <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
               <Teamwork/>

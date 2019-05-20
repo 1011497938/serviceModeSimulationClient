@@ -1,37 +1,34 @@
 import React from 'react';
 import * as go from 'gojs';
-import Controller from './goController/CarrierResource.ts' 
+import Controller from './goController/GlobalOverview.ts' 
 import { Icon, Menu} from 'semantic-ui-react'
 import ToolBar from '../ui_components/ToolBar';
+import dataStore from '../../dataManager/dataStore';
 
-// 5月18日，添加了载体和资源视图, 谭思危
-export default class CarrierResource extends React.Component{
+// 5月20日，添加了全局视图, 谭思危
+export default class GlobalOverview extends React.Component{
    
     init_graph(){
       const controller = new Controller(this.refs.myDiagramDiv, this.refs.myPaletteDiv)
       this.controller = controller
       const {diagram, palette} = controller
       const node_datas = [
-        { key: "Alpha", color: "red", category: 'carrier', },
-        { // first node
-          key: 1,
-          columnDefinitions: [
-            // each column definition needs to specify the column used
-            { attr: "name", text: "Name", column: 0 },
-            { attr: "phone", text: "Phone #", column: 1 },
-          ],
-          people: [  // the table of people
-            // each row is a person with an Array of Objects associating a column name with a text value
-            { columns: [{ attr: "name", text: "Alice" }, { attr: "phone", text: "2345" }] },
-            { columns: [{ attr: "name", text: "Bob" }, { attr: "phone", text: "9876" }] },
-          ],
-          category: 'resource',
-        },
+        { key: "Alpha", color: "red", category: 'carrier', group: '222'},
+        { key: "Alpha1", color: "red", category: 'carrier', group: '2223'},
+        { key: "Alpha2", color: "red", category: 'carrier', group: '222'},
+        { key: "222", isGroup: true },
+        { key: "223", isGroup: true },
       ]
-      diagram.model = new go.GraphLinksModel(node_datas,[
-        // {from: 'Alpha', to: 'Alpha1', category: 'arrowlink'}
-      ]);
-      palette.model = new go.GraphLinksModel(node_datas);
+      const link_datas = []
+      diagram.model = new go.GraphLinksModel(node_datas,link_datas);
+
+      const palette_node_datas = dataStore.view_names.map(elm=>{
+        return {
+            key: elm, 
+            isGroup: true
+        }
+      })
+      palette.model = new go.GraphLinksModel(palette_node_datas);
       // console.log(palette.model.toJson())
     }
 

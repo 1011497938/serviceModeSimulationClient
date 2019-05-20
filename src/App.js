@@ -16,6 +16,7 @@ import WorkFlow from './component/function_components/WorkFlow';
 import Value from './component/function_components/Value';
 import Aim from './component/function_components/Aim';
 import Teamwork from './component/function_components/TeamWork'
+import Source from './component/function_components/Source'
 
 class App extends React.Component{
   constructor(props){
@@ -65,7 +66,10 @@ class App extends React.Component{
             </div> 
             <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
               <Teamwork/>
-            </div>              
+            </div> 
+            <div style={{zIndex: needShow('载体及资源视图')}} className='main-view 协同生态视图'>
+              <Source/>
+            </div>                          
           </div>
           <div style={{position: 'absolute', left: '80%', width:'20%', height:'100%',}}>
               <TaskFormEdit/>

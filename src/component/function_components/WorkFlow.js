@@ -53,7 +53,7 @@ export default class WorkFlow extends React.Component{
       return (
         <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%', height: contorl_bar_height}}>
-            <ToolBar/>
+            <ToolBar controller={this.controller}/>
           </div>
           <div style={{position: 'absolute', top: contorl_bar_height, width:'100%', height:'100%',}}>
             <div ref='myPaletteDiv'  style={{position: 'relative',float:'left',top: 0, width:'15%', height:'100%', backgroundColor: '#859e9e'}}/>

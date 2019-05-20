@@ -12,6 +12,10 @@ export {
   nodeSelectionAdornmentTemplate,
   common_node_propety,
   common_link_propety,
+
+  ArrowLinkTemplate,
+  BidirctArrowLinkTemplate,
+  commonLinkTemplate,
   // stayInGroup,
 }
 

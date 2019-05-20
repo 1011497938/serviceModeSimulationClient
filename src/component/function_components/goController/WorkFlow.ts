@@ -10,7 +10,7 @@ const {
 
 
 // const $ = go.GraphObject.make;
-
+// 还没有完成判断拖进哪个的功能
 export default class Controller extends GraphController{
   constructor(diagram, palette){
     super(diagram, palette)
@@ -341,7 +341,7 @@ export default class Controller extends GraphController{
       ));
 
     super.init({
-      layout: $(PoolLayout),
+      // layout: $(PoolLayout),
       // don't allow dropping onto the diagram's background unless they are all Groups (lanes or pools)
       mouseDragOver: function(e) {
         if (!e.diagram.selection.all(function(n) { return n instanceof go.Group; })) {

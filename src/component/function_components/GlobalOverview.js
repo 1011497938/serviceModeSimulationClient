@@ -1,28 +1,40 @@
 import React from 'react';
 import * as go from 'gojs';
-import Controller from './goController/WorkFlow.ts'
+import Controller from './goController/GlobalOverview.ts' 
 import { Icon, Menu} from 'semantic-ui-react'
-
 import ToolBar from '../ui_components/ToolBar';
+import dataStore from '../../dataManager/dataStore';
 
-export default class WorkFlow extends React.Component{
+// 5月20日，添加了全局视图, 谭思危
+export default class GlobalOverview extends React.Component{
+   
     init_graph(){
       const controller = new Controller(this.refs.myDiagramDiv, this.refs.myPaletteDiv)
       this.controller = controller
       const {diagram, palette} = controller
       const node_datas = [
-        { key: "控件1", color: "lightblue", category: 'task', },
-        { key: "控件2", color: "lightblue", category: 'start', },
-        { key: "控件3", color: "lightblue", category: 'end', },
-        { key: "控件4", color: "lightblue", category: 'parallel', },
-        { key: "控件5", color: "lightblue", category: 'exclusive', },
+        { key: "Alpha", color: "red", category: 'carrier', group: '222'},
+        { key: "Alpha1", color: "red", category: 'carrier', group: '2223'},
+        { key: "Alpha2", color: "red", category: 'carrier', group: '222'},
+        { key: "222", isGroup: true },
+        { key: "223", isGroup: true },
       ]
+      const link_datas = []
+      diagram.model = new go.GraphLinksModel(node_datas,link_datas);
 
-      palette.model = new go.GraphLinksModel(node_datas);
+      const palette_node_datas = dataStore.view_names.map(elm=>{
+        return {
+            key: elm, 
+            isGroup: true
+        }
+      })
+      palette.model = new go.GraphLinksModel(palette_node_datas);
+      // console.log(palette.model.toJson())
     }
 
     componentDidMount(){
-         this.init_graph();
+   
+      this.init_graph()
     }
 
     render(){
@@ -39,4 +51,6 @@ export default class WorkFlow extends React.Component{
         </div>
       )
     }
-  } 
+  }
+
+  // left: panel_width, 

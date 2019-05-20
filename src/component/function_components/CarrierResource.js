@@ -1,28 +1,43 @@
 import React from 'react';
 import * as go from 'gojs';
-import Controller from './goController/WorkFlow.ts'
+import Controller from './goController/CarrierResource.ts' 
 import { Icon, Menu} from 'semantic-ui-react'
-
 import ToolBar from '../ui_components/ToolBar';
 
-export default class WorkFlow extends React.Component{
+// 5月18日，添加了载体和资源视图, 谭思危
+export default class CarrierResource extends React.Component{
+   
     init_graph(){
       const controller = new Controller(this.refs.myDiagramDiv, this.refs.myPaletteDiv)
       this.controller = controller
       const {diagram, palette} = controller
       const node_datas = [
-        { key: "控件1", color: "lightblue", category: 'task', },
-        { key: "控件2", color: "lightblue", category: 'start', },
-        { key: "控件3", color: "lightblue", category: 'end', },
-        { key: "控件4", color: "lightblue", category: 'parallel', },
-        { key: "控件5", color: "lightblue", category: 'exclusive', },
+        { key: "Alpha", color: "red", category: 'carrier', },
+        { // first node
+          key: 1,
+          columnDefinitions: [
+            // each column definition needs to specify the column used
+            { attr: "name", text: "Name", column: 0 },
+            { attr: "phone", text: "Phone #", column: 1 },
+          ],
+          people: [  // the table of people
+            // each row is a person with an Array of Objects associating a column name with a text value
+            { columns: [{ attr: "name", text: "Alice" }, { attr: "phone", text: "2345" }] },
+            { columns: [{ attr: "name", text: "Bob" }, { attr: "phone", text: "9876" }] },
+          ],
+          category: 'resource',
+        },
       ]
-
+      diagram.model = new go.GraphLinksModel(node_datas,[
+        // {from: 'Alpha', to: 'Alpha1', category: 'arrowlink'}
+      ]);
       palette.model = new go.GraphLinksModel(node_datas);
+      // console.log(palette.model.toJson())
     }
 
     componentDidMount(){
-         this.init_graph();
+   
+      this.init_graph()
     }
 
     render(){
@@ -39,4 +54,6 @@ export default class WorkFlow extends React.Component{
         </div>
       )
     }
-  } 
+  }
+
+  // left: panel_width, 

@@ -134,10 +134,11 @@ const showSmallPorts = (node, show)=>{
   }
 }
 
-// 存了一些各组件都会需要的属性，直接加上就好了
+// 存了一些各组件都会需要的属性，直接加上就好了,但是这样写似乎有问题
 const common_node_propety = [
   // new go.Binding("fill", "color"),
-  new go.Binding("location", "location").makeTwoWay(),
+  new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+  // new go.Binding("location", "loc").makeTwoWay(),
   // new go.Binding("text", "name"),
   // new go.Binding("text", "text"),
   // new go.Binding("text", "key"),
@@ -195,12 +196,18 @@ $(go.Adornment, "Link",
     { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 })  // use selection object's strokeWidth
 );
 
+const linkLabelProps = ()=> 
+  $(go.TextBlock,                        // this is a Link label
+    new go.Binding("text", "text")
+  )
 // 普通的连线
 const commonLinkTemplate =
 $(go.Link,       // the whole link panel
   { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
   avoid_cross_props,
-  $(go.Shape)  // the link shape, default black stroke
+  new go.Binding("points").makeTwoWay(),
+  $(go.Shape),  // the link shape, default black stroke
+  linkLabelProps(),
 );
 
 // 带箭头的实线
@@ -214,21 +221,7 @@ $(go.Link,  // the whole link panel
     { isPanelMain: true, strokeWidth: 2 }),
   $(go.Shape,  // the arrowhead
     { toArrow: "OpenTriangle", stroke: 'black' }),
-  $(go.Panel, "Auto",
-    new go.Binding("visible", "isSelected").ofObject(),
-    $(go.Shape, "RoundedRectangle",  // the link shape
-      { fill: "#F8F8F8", stroke: null }),
-    $(go.TextBlock,
-      {
-        textAlign: "center",
-        font: "10pt helvetica, arial, sans-serif",
-        stroke: "#919191",
-        margin: 2,
-        minSize: new go.Size(10, NaN),
-        editable: true
-      },
-      new go.Binding("text").makeTwoWay())
-  )
+  linkLabelProps(),
 );
 
 
@@ -248,22 +241,7 @@ const BidirctArrowLinkTemplate =
     $(go.Shape,  // the arrowhead
       { fromArrow: "BackwardOpenTriangle", stroke: 'black' }
     ),
-    $(go.Panel, "Auto",
-      new go.Binding("visible", "isSelected").ofObject(),
-      $(go.Shape, "RoundedRectangle",  // the link shape
-        { fill: "#F8F8F8", stroke: null }
-      ),
-      $(go.TextBlock,
-        {
-          textAlign: "center",
-          font: "10pt helvetica, arial, sans-serif",
-          stroke: "#919191",
-          margin: 2,
-          minSize: new go.Size(10, NaN),
-          editable: true
-        },
-        new go.Binding("text").makeTwoWay())
-    )
+    linkLabelProps(),
   );
 
 
@@ -283,6 +261,7 @@ const commonGroupTemplate =
         { padding: 5 },        // with some extra padding around them
       ),
     ),
+    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
     makePort("T", go.Spot.Top, true, true),
     makePort("L", go.Spot.Left, true, true),
     makePort("R", go.Spot.Right, true, true),
@@ -297,25 +276,3 @@ const commonGroupTemplate =
     ),
   );
 
-  
-// // this is a Part.dragComputation function for limiting where a Node may be dragged，限制到Group中
-// function stayInGroup(part, pt, gridpt) {
-//   // don't constrain top-level nodes
-//   var grp = part.containingGroup;
-//   if (grp === null) return pt;
-//   // try to stay within the background Shape of the Group
-//   var back = grp.resizeObject;
-//   if (back === null) return pt;
-//   // allow dragging a Node out of a Group if the Shift key is down
-//   if (part.diagram.lastInput.shift) return pt;
-//   var p1 = back.getDocumentPoint(go.Spot.TopLeft);
-//   var p2 = back.getDocumentPoint(go.Spot.BottomRight);
-//   var b = part.actualBounds;
-//   var loc = part.location;
-//   // find the padding inside the group's placeholder that is around the member parts
-//   var m = grp.placeholder.padding;
-//   // now limit the location appropriately
-//   var x = Math.max(p1.x + m.left, Math.min(pt.x, p2.x - m.right - b.width - 1)) + (loc.x - b.x);
-//   var y = Math.max(p1.y + m.top, Math.min(pt.y, p2.y - m.bottom - b.height - 1)) + (loc.y - b.y);
-//   return new go.Point(x, y);
-// }

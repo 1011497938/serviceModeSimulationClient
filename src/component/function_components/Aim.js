@@ -237,9 +237,7 @@ export default class Aim extends React.Component{
           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%'}}>
               <Menu fluid style={{background:'rgb(133,158,158)'}}>
 
-                <Menu.Item style={{color:'#fff'}} >
-                    新建&nbsp;<span className="iconfont">&#xe600;</span>
-</Menu.Item> 
+
                 <Menu.Item style={{color:'#fff'}}>
                     新建&nbsp;<span className="iconfont">&#xe600;</span>
 

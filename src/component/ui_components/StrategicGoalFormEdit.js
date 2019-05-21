@@ -10,7 +10,6 @@ export default class StrategicGoalFormEdit extends Component{
                     select_component: stateManger.selet_component_ingo.get()
                 }
     }
-
     render(){
         return(
             <div>

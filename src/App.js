@@ -15,7 +15,6 @@ import Value from './component/function_components/Value';
 import Aim from './component/function_components/Aim';
 import Teamwork from './component/function_components/TeamWork'
 
-import Source from './component/function_components/Source'
 import CarrierResource from './component/function_components/CarrierResource';
 import GlobalOverview from './component/function_components/GlobalOverview';
 
@@ -78,9 +77,7 @@ class App extends React.Component{
             <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
               <Teamwork/>
             </div> 
-            <div style={{zIndex: needShow('载体及资源视图')}} className='main-view 协同生态视图'>
-              <Source/>
-            </div>                          
+                          
           </div>
           <div style={{position: 'absolute', left: '80%', width:'20%', height:'100%',}}>
               <TaskFormEdit/>

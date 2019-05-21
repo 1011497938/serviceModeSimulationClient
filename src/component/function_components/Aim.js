@@ -16,7 +16,12 @@ export default class Aim extends React.Component{
      var  myDiagram =
         $(go.Diagram, this.refs.myDiagramDiv,  // must name or refer to the DIV HTML element
           {
-     
+            grid: $(go.Panel, "Grid",
+              $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
+              $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
+              $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
+              $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
+            ),
             "draggingTool.dragsLink": true,
             "draggingTool.isGridSnapEnabled": true,
             "linkingTool.isUnconnectedLinkValid": true,
@@ -147,8 +152,6 @@ export default class Aim extends React.Component{
             { isPanelMain: true, strokeWidth: 2 }),
           $(go.Shape,  // 绘图中的直线箭头
             { toArrow: "Standard", stroke: null }),
-          $(go.Shape,  // the arrowhead
-            { fromArrow: "BackwardTriangle",stroke: null  }), 
           $(go.Panel, "Auto",
             new go.Binding("visible", "visible").ofObject(),
             $(go.Shape, "RoundedRectangle",  // the link shape
@@ -193,8 +196,7 @@ export default class Aim extends React.Component{
                 { isPanelMain: true, strokeWidth: 2 }),
                $(go.Shape,  // 面板中的直线箭头
                 { toArrow: "Standard", stroke: null }), 
-                $(go.Shape,  // the arrowhead
-                { fromArrow: "BackwardTriangle",stroke: null}),
+
                   new go.Binding("point2"),  
                   $(go.Shape,
                 { isPanelMain: true, strokeWidth: 2 }),                               

@@ -36,8 +36,6 @@ export default class ToolBar extends React.Component{
                   '直线':  commonLinkTemplate,
                   '箭头': ArrowLinkTemplate,
                 }
-                // console.log(value)
-                // console.log(controller)
                 controller.linkTemplateMap.add('', map[value])
               }}
             />

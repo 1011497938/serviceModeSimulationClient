@@ -14,7 +14,12 @@ export default class Aim extends React.Component{
      var  myDiagram =
         $(go.Diagram, this.refs.myDiagramDiv,  // must name or refer to the DIV HTML element
           {
-     
+          grid: $(go.Panel, "Grid",
+              $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
+              $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
+              $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
+              $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
+            ),
             "draggingTool.dragsLink": true,
             "draggingTool.isGridSnapEnabled": true,
             "linkingTool.isUnconnectedLinkValid": true,
@@ -194,7 +199,8 @@ export default class Aim extends React.Component{
               ),
             model: new go.GraphLinksModel([  // specify the contents of the Palette
               { text: "提供主体", figure: "RoundedRectangle", fill: "#00AD5F" },
-              { text: "消费主体", figure: "RoundedRectangle", fill: "lightskyblue" }
+              { text: "消费主体", figure: "RoundedRectangle", fill: "lightskyblue" },
+              { text:" ﹣ ", figure: "MinusLine", fill: "lightskyblue"},
               
             ], [
                 // the Palette also has a disconnected Link, which the user can drag-and-drop
@@ -223,8 +229,45 @@ export default class Aim extends React.Component{
       const contorl_bar_height = 60
       return (
         <div>
-          <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%'}}>
-             
+           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%'}}>
+              <Menu fluid style={{background:'rgb(133,158,158)'}}>
+
+                <Menu.Item style={{color:'#fff'}} >
+                    新建&nbsp;<span className="iconfont">&#xe600;</span>
+                </Menu.Item> 
+                <Menu.Item style={{color:'#fff'}}>
+                    新建&nbsp;<span className="iconfont">&#xe600;</span>
+
+                </Menu.Item> 
+                 <Menu.Item style={{color:'#fff'}}>
+                    保存&nbsp;<span className="iconfont">&#xe794;</span>
+                </Menu.Item> 
+                <Menu.Item onClick={this.handleDelete} style={{color:'#fff'}}>
+                  删除&nbsp;<span className="iconfont">&#xe661;</span>
+                </Menu.Item>
+                <Menu.Item onClick={this.handleCut} style={{color:'#fff'}}>
+                  剪切&nbsp;<i className="cut icon"></i>
+                </Menu.Item>
+                <Menu.Item onClick={this.scrollTop} style={{color:'#fff'}}>
+                  自适应
+                </Menu.Item>                
+                <Menu.Item onClick={this.handleCopy} style={{color:'#fff'}}>
+                  复制&nbsp;<i className="copy icon"></i>
+                </Menu.Item> 
+                <Menu.Item onClick={this.handlePaste} style={{color:'#fff'}}>
+                  粘贴&nbsp;<span className="iconfont">&#xe62b;</span>
+                </Menu.Item>                               
+                <Menu.Item onClick={this.handleSelectAll} style={{color:'#fff'}}>
+                    全选&nbsp;<span className="iconfont">&#xe729;</span>
+                </Menu.Item>      
+
+                <Menu.Item onClick={this.handleback} style={{color:'#fff'}}>
+                  后退&nbsp;<span className="iconfont">&#xe730;</span>
+                </Menu.Item>                             
+                <Menu.Item onClick={this.handleForward} style={{color:'#fff'}}>
+                  前进&nbsp;<span className="iconfont">&#xe731;</span>
+                </Menu.Item>
+              </Menu>
           </div>
           <div style={{position: 'absolute',top:40, display:'flex',width:'100%', height:'100%',}}>
             <div ref='myPaletteDiv'  style={{flex:1,backgroundColor: '#859e9e'}}/>
@@ -234,5 +277,35 @@ export default class Aim extends React.Component{
         </div>
       )
     }
-  
+ handleDelete(){
+      box.selection.all(function(nodeOrLink) {
+          return box.selection.all(function(nodeOrLink) { 
+                       box.model.removeNodeData(nodeOrLink.data);
+                       box.model.removeLinkData(nodeOrLink.data);
+                       return true; 
+          });
+      })
+
+    }
+    handleCopy(){
+      box.commandHandler.copySelection();
+    }
+    handlePaste(){
+      box.commandHandler.pasteSelection(box.lastInput.documentPoint);
+    }
+    handleSelectAll(){
+        box.commandHandler.selectAll();
+    }
+    handleback(){
+         box.commandHandler.undo();
+    }
+    handleForward(){
+        box.commandHandler.redo();
+    }
+    scrollTop(){
+      box.commandHandler.scrollToPart();
+    }
+    handleCut(){
+      box.commandHandler.cutSelection();
+    }  
   }

@@ -423,6 +423,7 @@ $(go.Node, 'Spot',
 
 const endNodeTemplate =
 $(go.Node, 'Spot',
+  
   $(go.Shape, "Circle",  
     custom_props, {fill: '#F6511D'},
   ),
@@ -482,5 +483,3 @@ $(go.Node, 'Spot',
   // new go.Binding('figure', 'gatewayType', nodeGatewaySymbolTypeConverter),
   // new go.Binding('desiredSize', 'gatewayType', nodePalGatewaySymbolSizeConverter)),
 ); 
-
-

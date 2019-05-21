@@ -12,11 +12,9 @@ export {
   nodeSelectionAdornmentTemplate,
   common_node_propety,
   common_link_propety,
-
   ArrowLinkTemplate,
   BidirctArrowLinkTemplate,
-  commonLinkTemplate,
-  // stayInGroup,
+  commonLinkTemplate
 }
 
 
@@ -159,7 +157,7 @@ $(go.Adornment, "Auto",
 
 const nodeResizeAdornmentTemplate =
 $(go.Adornment, "Spot",
-  { locationSpot: go.Spot.Right },
+  { locationSpot: go.Spot.Center },
   $(go.Placeholder),
   $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
   $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
@@ -174,7 +172,7 @@ $(go.Adornment, "Spot",
 );
 
 const nodeRotateAdornmentTemplate =
-$(go.Adornment,
+$(go.Adornment, "Auto",
   { locationSpot: go.Spot.Center, locationObjectName: "CIRCLE" },
   $(go.Shape, "Circle", { name: "CIRCLE", cursor: "pointer", desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
   $(go.Shape, { geometryString: "M3.5 7 L3.5 30", isGeometryPositioned: true, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] })

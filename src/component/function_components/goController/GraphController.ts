@@ -77,20 +77,25 @@ export default class GraphController{
           "undoManager.isEnabled": true
         }, diagram_props)
       );
+      
+      if(this.palette){
+        this.palette = $(go.Palette, this.palette,  // must name or refer to the DIV HTML element
+          Object.assign({ // share the templates with the main Diagram
+            nodeTemplateMap: this.nodeTemplateMap,
+            linkTemplateMap: this.linkTemplateMap,
+            groupTemplateMap: this.groupTemplateMap,
+            // nodeTemplateMap: this.palNodeTemplateMap,
+            // groupTemplateMap: this.palGroupTemplateMap,
+            layout: $(go.GridLayout,{
+              cellSize: new go.Size(1, 1),
+              spacing: new go.Size(5, 5),
+            }, palette_props)
+          })
+        )
+      }else{
+        console.warn(this.palette, 'palette不存在')
+      }
 
-      this.palette = $(go.Palette, this.palette,  // must name or refer to the DIV HTML element
-        Object.assign({ // share the templates with the main Diagram
-          nodeTemplateMap: this.nodeTemplateMap,
-          linkTemplateMap: this.linkTemplateMap,
-          groupTemplateMap: this.groupTemplateMap,
-          // nodeTemplateMap: this.palNodeTemplateMap,
-          // groupTemplateMap: this.palGroupTemplateMap,
-          layout: $(go.GridLayout,{
-            cellSize: new go.Size(1, 1),
-            spacing: new go.Size(5, 5),
-          }, palette_props)
-        })
-      )
     }
 }
 
@@ -119,16 +124,18 @@ const showSmallPorts = (node, show)=>{
       }
     });
   }else{
+    // 一堆错，所以先注释了
     console.error(node, node.ports, '为undefiend')
   }
 }
 
-// 存了一些各组件都会需要的属性，直接加上就好了
-const common_node_propety = [
-  new go.Binding("location", "location").makeTwoWay(),
+// 存了一些各组件都会需要的属性，直接加上就好了, 应该改为function的
+const common_node_propety = ()=>[
+  // new go.Binding("location", "location").makeTwoWay(),
+  new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
 ]
 
-const common_link_propety = [
+const common_link_propety = ()=>[
 
 ]
 
@@ -254,6 +261,7 @@ const BidirctArrowLinkTemplate =
 // 普通的group模板（就是一个框框）
 const commonGroupTemplate =
   $(go.Group, "Auto",
+    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
     $(go.Panel, "Auto",
       $(go.Shape, "RoundedRectangle",  // surrounds the Placeholder
         {

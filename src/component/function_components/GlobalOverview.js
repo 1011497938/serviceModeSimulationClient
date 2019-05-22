@@ -35,16 +35,16 @@ export default class GlobalOverview extends React.Component{
         {"from":"载体及资源视图", "to":"提供主体及网络", "text":"交互", "category":"2arrowlink", "points":[199.00000000000006,460.5374552476311,199.00000000000006,450.5374552476311,199.00000000000006,461.0000001173753,-71,461.0000001173753,-71,175.92651774763112,-71,165.92651774763112]}
       ]
       diagram.model = new go.GraphLinksModel(node_datas,link_datas);
-      diagram.addModelChangedListener(function(evt) {
-        if (evt.isTransactionFinished) console.log(evt.model.toJson());
-      });
-      const palette_node_datas = dataStore.view_names.map(elm=>{
-        return {
-            key: elm, 
-            isGroup: true
-        }
-      })
-      palette.model = new go.GraphLinksModel(palette_node_datas);
+      // diagram.addModelChangedListener(function(evt) {
+      //   if (evt.isTransactionFinished) console.log(evt.model.toJson());
+      // });
+      // const palette_node_datas = dataStore.view_names.map(elm=>{
+      //   return {
+      //       key: elm, 
+      //       isGroup: true
+      //   }
+      // })
+      // palette.model = new go.GraphLinksModel(palette_node_datas);
       // console.log(palette.model.toJson())
     }
 
@@ -61,7 +61,7 @@ export default class GlobalOverview extends React.Component{
             <ToolBar controller={this.controller}/>
           </div>
           <div style={{position: 'absolute', top: contorl_bar_height, width:'100%', height:'100%',}}>
-            <div ref='myPaletteDiv'  style={{position: 'relative',float:'left',top: 0, width:'15%', height:'100%', backgroundColor: '#859e9e'}}/>
+            {/* <div ref='myPaletteDiv'  style={{position: 'relative',float:'left',top: 0, width:'15%', height:'100%', backgroundColor: '#859e9e'}}/> */}
             <div ref="myDiagramDiv"  style={{position: 'relative',float:'left',top: 0, width:'85%', height:'100%', backgroundColor: '#f7f7f7'}}/>      
           </div>
         </div>

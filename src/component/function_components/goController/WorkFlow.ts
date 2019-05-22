@@ -11,10 +11,12 @@ const {
 
 // const $ = go.GraphObject.make;
 // 还没有完成判断拖进哪个的功能
+// 5/22开始泳道图
+// 还需要注意的功能
+// 工具栏布局，点击自动生成id，空间的工厂类
 export default class Controller extends GraphController{
   constructor(diagram, palette){
     super(diagram, palette)
-    this.nodeTemplateMap.add('aim', ellipseTemplate)
     this.nodeTemplateMap.add('task', taskNodeTemplate)
     this.nodeTemplateMap.add('start', startNodeTemplate)
     this.nodeTemplateMap.add('end', endNodeTemplate)
@@ -22,7 +24,6 @@ export default class Controller extends GraphController{
     this.nodeTemplateMap.add('exclusive', exclusiveGateWayNodeTemplate)
     
     this.init()
-    
   }
 
   // 重写一个新的,包含了从https://gojs.net/latest/samples/swimlanes.html抄来的泳道图
@@ -253,11 +254,15 @@ export default class Controller extends GraphController{
           computesBoundsIncludingLocation: true,  // to support empty space at top-left corner of lane
           handlesDragDropForMembers: true,  // don't need to define handlers on member Nodes and Links
           mouseDrop: function(e, grp) {  // dropping a copy of some Nodes and Links onto this Group adds them to this Group
-            if (!e.shift) return;  // cannot change groups with an unmodified drag-and-drop
+            // 我把这里注释了
+            // if (!e.shift) return;  // cannot change groups with an unmodified drag-and-drop
             // don't allow drag-and-dropping a mix of regular Nodes and Groups
+            // console.log(e.diagram.selection.any(function(n) { return n instanceof go.Group; }))
             if (!e.diagram.selection.any(function(n) { return n instanceof go.Group; })) {
               var ok = grp.addMembers(grp.diagram.selection, true);
+              // console.log(ok)
               if (ok) {
+                console.log(grp)
                 updateCrossLaneLinks(grp);
               } else {
                 grp.diagram.currentTool.doCancel();
@@ -344,11 +349,13 @@ export default class Controller extends GraphController{
       // layout: $(PoolLayout),
       // don't allow dropping onto the diagram's background unless they are all Groups (lanes or pools)
       mouseDragOver: function(e) {
+        // console.log(e, e.diagram.selection.all(function(n) { return n instanceof go.Group; }))
         if (!e.diagram.selection.all(function(n) { return n instanceof go.Group; })) {
           e.diagram.currentCursor = 'not-allowed';
         }
       },
       mouseDrop: function(e) {
+        // 用来限制必须在泳道内的
         if (!e.diagram.selection.all(function(n) { return n instanceof go.Group; })) {
           e.diagram.currentTool.doCancel();
         }
@@ -381,56 +388,27 @@ const custom_icon_props = {
   height: custom_r/2,
   stroke: 'black'
 }
-const ellipseTemplate =
-$(go.Node, 'Auto',
- $(go.Panel, "Auto", //子元素在面板的位置
-  { name: "PANEL" },
-  $(go.Shape, "Ellipse",  
-     {fill: '#F6511D',stroke:'black', strokeWidth:1.5},
-  ),
-   $(go.TextBlock, new go.Binding("text", "key"),
-  {
-    font: "bold 11pt Helvetica, Arial, sans-serif",
-    margin: 8,
-    maxSize: new go.Size(160, NaN),
-    wrap: go.TextBlock.WrapFit,
-    editable: true,  //文字是否可编辑
-  },
-  new go.Binding("text").makeTwoWay()),  
-  makePort("T", go.Spot.Top, true, true),
-  makePort("L", go.Spot.Left, true, true),
-  makePort("R", go.Spot.Right, true, true),
-  makePort("B", go.Spot.Bottom, true, true),
-  { // handle mouse enter/leave events to show/hide the ports
-    mouseEnter: function(e, node) { showSmallPorts(node, true); },
-    mouseLeave: function(e, node) { showSmallPorts(node, false); }
-  },)
-); 
-
-
 
 const taskNodeTemplate =
 $(go.Node, 'Auto',
   $(go.Panel, "Auto", //子元素在面板的位置
-  { name: "PANEL" },
-
-  $(go.Shape, "RoundedRectangle", 
-    custom_props, 
+    $(go.Shape, "RoundedRectangle", 
+      custom_props, 
+      {
+        width: 70,
+        height: 40,
+        fill: 'lightyellow'
+      },  
+    ),
+  $(go.TextBlock, new go.Binding("text", "key"),
     {
-      width: 70,
-      height: 40,
-      fill: 'lightyellow'
-    },  
-  ),
- $(go.TextBlock, new go.Binding("text", "key"),
-  {
-    font: "bold 11pt Helvetica, Arial, sans-serif",
-    margin: 8,
-    maxSize: new go.Size(160, NaN),
-    wrap: go.TextBlock.WrapFit,
-    editable: true  //文字是否可编辑
-  },
-  new go.Binding("text").makeTwoWay())  
+      font: "bold 11pt Helvetica, Arial, sans-serif",
+      margin: 8,
+      maxSize: new go.Size(160, NaN),
+      wrap: go.TextBlock.WrapFit,
+      editable: true  //文字是否可编辑
+    },
+    new go.Binding("text").makeTwoWay())  
  ),
 
   makePort("T", go.Spot.Top, true, true),
@@ -447,19 +425,10 @@ $(go.Node, 'Auto',
 const startNodeTemplate =
 $(go.Node, 'Auto',
  $(go.Panel, "Auto", //子元素在面板的位置
-  { name: "PANEL" },
-  $(go.Shape, "Circle",  
-    custom_props, {fill: '#F6511D'},
+    $(go.Shape, "Circle",  
+      custom_props, {fill: '#F6511D'},
+    ),
   ),
-   $(go.TextBlock, new go.Binding("text", "key"),
-  {
-    font: "bold 11pt Helvetica, Arial, sans-serif",
-    margin: 8,
-    maxSize: new go.Size(160, NaN),
-    wrap: go.TextBlock.WrapFit,
-    editable: true  //文字是否可编辑
-  },
-  new go.Binding("text").makeTwoWay()),  
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -467,27 +436,20 @@ $(go.Node, 'Auto',
   { // handle mouse enter/leave events to show/hide the ports
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
-  },)
+  },
 ); 
 
 const endNodeTemplate =
-$(go.Node, 'Auto',
+$(go.Node, 'Spot',
  $(go.Panel, "Auto", //子元素在面板的位置
-  { name: "PANEL" },
-  $(go.Shape, "Circle",  
-    custom_props, {fill: '#F6511D'},
-  ),
+    
+    $(go.Shape, "Circle",  
+      custom_props, {fill: '#F6511D'},
+    ),
     $(go.Shape, "Circle",  
     custom_icon_props
+    ),
   ),
- $(go.TextBlock, new go.Binding("text", "key"),
-  {
-    font: "bold 11pt Helvetica, Arial, sans-serif",
-    margin: 8,
-    maxSize: new go.Size(160, NaN),
-    wrap: go.TextBlock.WrapFit,
-    editable: true  //文字是否可编辑
-  } ), 
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -496,27 +458,17 @@ $(go.Node, 'Auto',
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
   },
-
-)); 
+); 
 
 const exclusiveGateWayNodeTemplate =
-$(go.Node, 'Auto',
-  $(go.Panel, "Auto", //子元素在面板的位置
-    { name: "PANEL" },
-  $(go.Shape, "Diamond",
+$(go.Node, 'Spot',
+  $(go.Shape, "Diamond",  
     custom_props, {fill: '#FFB400'},
   ),
-    $(go.Shape, "ThinX",  
+    // 画中间图案
+  $(go.Shape, "ThinX",  
     custom_icon_props
   ),
-   $(go.TextBlock, new go.Binding("text", "key"),
-  {
-    font: "bold 11pt Helvetica, Arial, sans-serif",
-    margin: 8,
-    maxSize: new go.Size(160, NaN),
-    wrap: go.TextBlock.WrapFit,
-    editable: true  //文字是否可编辑
-  } ), 
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -525,8 +477,7 @@ $(go.Node, 'Auto',
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
   },
-
-)); 
+); 
 
 const parallelGateWayNodeTemplate =
 $(go.Node, 'Spot',
@@ -537,14 +488,6 @@ $(go.Node, 'Spot',
   $(go.Shape, "ThinCross",  
     custom_icon_props
   ),
-   $(go.TextBlock, new go.Binding("text", "key"),
-  {
-    font: "bold 11pt Helvetica, Arial, sans-serif",
-    margin: 8,
-    maxSize: new go.Size(160, NaN),
-    wrap: go.TextBlock.WrapFit,
-    editable: true  //文字是否可编辑
-  } ), 
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -553,10 +496,4 @@ $(go.Node, 'Spot',
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
   },
-  // $(go.TextBlock,
-  // { margin: 3 },  
-  //   new go.Binding("text", "key")),
-
-  // new go.Binding('figure', 'gatewayType', nodeGatewaySymbolTypeConverter),
-  // new go.Binding('desiredSize', 'gatewayType', nodePalGatewaySymbolSizeConverter)),
 ); 

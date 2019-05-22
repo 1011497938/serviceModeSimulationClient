@@ -208,11 +208,8 @@ export default class Aim extends React.Component{
               ])
           });
           
-         const myOverview =
-            $(go.Overview, this.refs.myOverviewDiv, 
-              { observed: myDiagram, contentAlignment: go.Spot.Center });
-         
-        
+         const myOverview =$(go.Overview, this.refs.myOverviewDiv, 
+              { observed: myDiagram, contentAlignment: go.Spot.Center }); 
       }
 
 

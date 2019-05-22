@@ -37,6 +37,7 @@ export default class WorkFlow extends React.Component{
         { key: "Alpha2", color: "lightblue", category: 'end'},
         { key: "Alpha3", color: "lightblue", category: 'parallel'},
         { key: "Alpha4", color: "lightblue", category: 'exclusive'},
+        { key: "Alpha4", color: "lightblue", category: 'ellipseTemplate'},
       ]
       palette.model = new go.GraphLinksModel(palette_node_datas);
       controller.relayoutLanes();

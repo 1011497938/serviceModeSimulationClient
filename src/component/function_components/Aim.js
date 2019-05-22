@@ -16,12 +16,7 @@ export default class Aim extends React.Component{
      var  myDiagram =
         $(go.Diagram, this.refs.myDiagramDiv,  // must name or refer to the DIV HTML element
           {
-            grid: $(go.Panel, "Grid",
-              $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
-              $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
-              $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
-              $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
-            ),
+     
             "draggingTool.dragsLink": true,
             "draggingTool.isGridSnapEnabled": true,
             "linkingTool.isUnconnectedLinkValid": true,
@@ -70,20 +65,7 @@ export default class Aim extends React.Component{
 
       var nodeResizeAdornmentTemplate =
         $(go.Adornment, "Spot",
-          { locationSpot: go.Spot.Right},
-          $(go.Placeholder),
-          $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-
-          $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-          $(go.Shape, { alignment: go.Spot.TopRight, cursor: "ne-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-
-          $(go.Shape, { alignment: go.Spot.Left, cursor: "w-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-          $(go.Shape, { alignment: go.Spot.Right, cursor: "e-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-
-          $(go.Shape, { alignment: go.Spot.BottomLeft, cursor: "se-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-          $(go.Shape, { alignment: go.Spot.Bottom, cursor: "s-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-          $(go.Shape, { alignment: go.Spot.BottomRight, cursor: "sw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" })
-        );
+          );
 
       var nodeRotateAdornmentTemplate =
         $(go.Adornment,
@@ -117,7 +99,7 @@ export default class Aim extends React.Component{
 
             $(go.TextBlock, new go.Binding("text", "color"),
               {
-                font: "bold 11pt Helvetica, Arial, sans-serif",
+                font: "bold 11pt Helvetica,Arial,sans-serif",
                 margin: 8,
                 maxSize: new go.Size(160, NaN),
                 wrap: go.TextBlock.WrapFit,
@@ -152,6 +134,8 @@ export default class Aim extends React.Component{
             { isPanelMain: true, strokeWidth: 2 }),
           $(go.Shape,  // 绘图中的直线箭头
             { toArrow: "Standard", stroke: null }),
+          $(go.Shape,  // the arrowhead
+            { fromArrow: "BackwardTriangle",stroke: null  }), 
           $(go.Panel, "Auto",
             new go.Binding("visible", "visible").ofObject(),
             $(go.Shape, "RoundedRectangle",  // the link shape
@@ -196,7 +180,8 @@ export default class Aim extends React.Component{
                 { isPanelMain: true, strokeWidth: 2 }),
                $(go.Shape,  // 面板中的直线箭头
                 { toArrow: "Standard", stroke: null }), 
-
+                $(go.Shape,  // the arrowhead
+                { fromArrow: "BackwardTriangle",stroke: null}),
                   new go.Binding("point2"),  
                   $(go.Shape,
                 { isPanelMain: true, strokeWidth: 2 }),                               
@@ -208,10 +193,7 @@ export default class Aim extends React.Component{
               { text: "情感", figure: "RoundedRectangle", fill: "lightyellow" },
               { text: "数字", figure: "RoundedRectangle", fill: "lightyellow" },
               { text: "子目标", figure: "Ellipse", fill: "lightskyblue" },
-              { text:" ﹣  ﹣", figure: "MinusLine", fill: "lightskyblue"},
-
-
-              
+              { text:" ﹣  ﹣", figure: "MinusLine", fill: "lightskyblue"}              
             ], [
                 { points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(60, 0)])}              
               ])
@@ -237,7 +219,9 @@ export default class Aim extends React.Component{
           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%'}}>
               <Menu fluid style={{background:'rgb(133,158,158)'}}>
 
-
+                <Menu.Item style={{color:'#fff'}} >
+                    新建&nbsp;<span className="iconfont">&#xe600;</span>
+</Menu.Item> 
                 <Menu.Item style={{color:'#fff'}}>
                     新建&nbsp;<span className="iconfont">&#xe600;</span>
 

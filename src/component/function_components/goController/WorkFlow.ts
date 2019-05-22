@@ -14,13 +14,13 @@ const {
 export default class Controller extends GraphController{
   constructor(diagram, palette){
     super(diagram, palette)
-
+    this.nodeTemplateMap.add('aim', ellipseTemplate)
     this.nodeTemplateMap.add('task', taskNodeTemplate)
     this.nodeTemplateMap.add('start', startNodeTemplate)
     this.nodeTemplateMap.add('end', endNodeTemplate)
     this.nodeTemplateMap.add('parallel', parallelGateWayNodeTemplate)
     this.nodeTemplateMap.add('exclusive', exclusiveGateWayNodeTemplate)
-
+    
     this.init()
     
   }
@@ -355,7 +355,6 @@ export default class Controller extends GraphController{
       },
       // a clipboard copied node is pasted into the original node's group (i.e. lane).
       "commandHandler.copiesGroupKey": true,
-      // automatically re-layout the swim lanes after dragging the selection
       "SelectionMoved": relayoutDiagram,  // this DiagramEvent listener is
       "SelectionCopied": relayoutDiagram, // defined above
       "animationManager.isEnabled": false,
@@ -367,32 +366,73 @@ export default class Controller extends GraphController{
 }
 
 
-const custom_r = 80
+const custom_r = 70
 const icon_color = '#f7f7f7'
 const custom_props = {
-  stroke: null,
+  stroke: 'black',
+  strokeWidth:1.5,
   width: custom_r,
   height: custom_r
 }
 const custom_icon_props = {
   fill: '#f7f7f7',
+  strokeWidth:1.5,
   width: custom_r/2,
   height: custom_r/2,
-  stroke: null
+  stroke: 'black'
 }
+const ellipseTemplate =
+$(go.Node, 'Auto',
+ $(go.Panel, "Auto", //子元素在面板的位置
+  { name: "PANEL" },
+  $(go.Shape, "Ellipse",  
+     {fill: '#F6511D',stroke:'black', strokeWidth:1.5},
+  ),
+   $(go.TextBlock, new go.Binding("text", "key"),
+  {
+    font: "bold 11pt Helvetica, Arial, sans-serif",
+    margin: 8,
+    maxSize: new go.Size(160, NaN),
+    wrap: go.TextBlock.WrapFit,
+    editable: true,  //文字是否可编辑
+  },
+  new go.Binding("text").makeTwoWay()),  
+  makePort("T", go.Spot.Top, true, true),
+  makePort("L", go.Spot.Left, true, true),
+  makePort("R", go.Spot.Right, true, true),
+  makePort("B", go.Spot.Bottom, true, true),
+  { // handle mouse enter/leave events to show/hide the ports
+    mouseEnter: function(e, node) { showSmallPorts(node, true); },
+    mouseLeave: function(e, node) { showSmallPorts(node, false); }
+  },)
+); 
+
+
+
 const taskNodeTemplate =
-$(go.Node, 'Spot',
+$(go.Node, 'Auto',
+  $(go.Panel, "Auto", //子元素在面板的位置
+  { name: "PANEL" },
+
   $(go.Shape, "RoundedRectangle", 
     custom_props, 
     {
-      width: 120,
-      height: 70,
-      fill: '#00A6ED'
-    },
+      width: 70,
+      height: 40,
+      fill: 'lightyellow'
+    },  
   ),
-  // { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
-  // { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
-  // { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
+ $(go.TextBlock, new go.Binding("text", "key"),
+  {
+    font: "bold 11pt Helvetica, Arial, sans-serif",
+    margin: 8,
+    maxSize: new go.Size(160, NaN),
+    wrap: go.TextBlock.WrapFit,
+    editable: true  //文字是否可编辑
+  },
+  new go.Binding("text").makeTwoWay())  
+ ),
+
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -401,16 +441,25 @@ $(go.Node, 'Spot',
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
   },
-  $(go.TextBlock,
-  { margin: 3 },  
-    new go.Binding("text", "key"))
+
 ); 
 
 const startNodeTemplate =
-$(go.Node, 'Spot',
+$(go.Node, 'Auto',
+ $(go.Panel, "Auto", //子元素在面板的位置
+  { name: "PANEL" },
   $(go.Shape, "Circle",  
     custom_props, {fill: '#F6511D'},
   ),
+   $(go.TextBlock, new go.Binding("text", "key"),
+  {
+    font: "bold 11pt Helvetica, Arial, sans-serif",
+    margin: 8,
+    maxSize: new go.Size(160, NaN),
+    wrap: go.TextBlock.WrapFit,
+    editable: true  //文字是否可编辑
+  },
+  new go.Binding("text").makeTwoWay()),  
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -418,15 +467,27 @@ $(go.Node, 'Spot',
   { // handle mouse enter/leave events to show/hide the ports
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
-  },
+  },)
 ); 
 
 const endNodeTemplate =
-$(go.Node, 'Spot',
-  
+$(go.Node, 'Auto',
+ $(go.Panel, "Auto", //子元素在面板的位置
+  { name: "PANEL" },
   $(go.Shape, "Circle",  
     custom_props, {fill: '#F6511D'},
   ),
+    $(go.Shape, "Circle",  
+    custom_icon_props
+  ),
+ $(go.TextBlock, new go.Binding("text", "key"),
+  {
+    font: "bold 11pt Helvetica, Arial, sans-serif",
+    margin: 8,
+    maxSize: new go.Size(160, NaN),
+    wrap: go.TextBlock.WrapFit,
+    editable: true  //文字是否可编辑
+  } ), 
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -435,18 +496,27 @@ $(go.Node, 'Spot',
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
   },
-  $(go.Shape, "Circle",  
-    custom_icon_props
-  ),
-); 
+
+)); 
 
 const exclusiveGateWayNodeTemplate =
-$(go.Node, 'Spot',
+$(go.Node, 'Auto',
+  $(go.Panel, "Auto", //子元素在面板的位置
+    { name: "PANEL" },
   $(go.Shape, "Diamond",
     custom_props, {fill: '#FFB400'},
   ),
-  // $(go.TextBlock,{ margin: 3 },  
-  //   new go.Binding("text", "key")),
+    $(go.Shape, "ThinX",  
+    custom_icon_props
+  ),
+   $(go.TextBlock, new go.Binding("text", "key"),
+  {
+    font: "bold 11pt Helvetica, Arial, sans-serif",
+    margin: 8,
+    maxSize: new go.Size(160, NaN),
+    wrap: go.TextBlock.WrapFit,
+    editable: true  //文字是否可编辑
+  } ), 
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -455,16 +525,26 @@ $(go.Node, 'Spot',
     mouseEnter: function(e, node) { showSmallPorts(node, true); },
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
   },
-  $(go.Shape, "ThinX",  
-    custom_icon_props
-  ),
-); 
+
+)); 
 
 const parallelGateWayNodeTemplate =
 $(go.Node, 'Spot',
   $(go.Shape, "Diamond",  
     custom_props, {fill: '#FFB400'},
   ),
+    // 画中间图案
+  $(go.Shape, "ThinCross",  
+    custom_icon_props
+  ),
+   $(go.TextBlock, new go.Binding("text", "key"),
+  {
+    font: "bold 11pt Helvetica, Arial, sans-serif",
+    margin: 8,
+    maxSize: new go.Size(160, NaN),
+    wrap: go.TextBlock.WrapFit,
+    editable: true  //文字是否可编辑
+  } ), 
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -476,10 +556,7 @@ $(go.Node, 'Spot',
   // $(go.TextBlock,
   // { margin: 3 },  
   //   new go.Binding("text", "key")),
-  // 画中间图案
-  $(go.Shape, "ThinCross",  
-    custom_icon_props
-  ),
+
   // new go.Binding('figure', 'gatewayType', nodeGatewaySymbolTypeConverter),
   // new go.Binding('desiredSize', 'gatewayType', nodePalGatewaySymbolSizeConverter)),
 ); 

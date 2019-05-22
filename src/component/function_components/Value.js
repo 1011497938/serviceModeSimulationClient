@@ -11,11 +11,13 @@ export default class Value extends React.Component{
       this.controller = controller
       const {diagram, palette} = controller
       const node_datas = [
-        { key: "控件1", color: "lightblue", category: 'task', },
-        { key: "控件2", color: "lightblue", category: 'start', },
-        { key: "控件3", color: "lightblue", category: 'end', },
-        { key: "控件4", color: "lightblue", category: 'parallel', },
-        { key: "控件5", color: "lightblue", category: 'exclusive', },
+   
+      { key: "战略目标", color: "red", category: 'aim', },
+      { key: "情感", color: "lightblue", category: 'task', },
+      { key: "数字", color: "lightblue", category: 'task', },
+      { key: "物理", color: "lightblue", category: 'task', },
+      
+        
       ]
 
       palette.model = new go.GraphLinksModel(node_datas);

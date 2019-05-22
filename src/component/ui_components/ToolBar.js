@@ -14,7 +14,7 @@ export default class ToolBar extends React.Component{
     render(){
       const {controller} = this.props
         return (
-            <Menu fluid style={{background:'rgb(133,158,158)', height:60}}>
+            <Menu fluid style={{background:'rgb(133,158,158)', height:35}}>
              <Menu.Item style={{color:'#fff'}}>
                 保存&nbsp;<span className="iconfont">&#xe794;</span>
             </Menu.Item> 

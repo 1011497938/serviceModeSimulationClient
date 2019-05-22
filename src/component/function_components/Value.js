@@ -28,7 +28,7 @@ export default class Value extends React.Component{
     }
 
     render(){
-      const contorl_bar_height = 60
+      const contorl_bar_height = 40
       return (
         <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%', height: contorl_bar_height}}>

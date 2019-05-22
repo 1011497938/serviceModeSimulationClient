@@ -12,9 +12,9 @@ export default class CarrierResource extends React.Component{
       this.controller = controller
       const {diagram, palette} = controller
       const node_datas = [
-        { key: "Alpha", color: "red", category: 'carrier', },
+        { color: "red", category: 'carrier'},
         { // first node
-          key: 1,
+          // key: 1,
           columnDefinitions: [
             // each column definition needs to specify the column used
             { attr: "name", text: "Name", column: 0 },
@@ -26,13 +26,17 @@ export default class CarrierResource extends React.Component{
             { columns: [{ attr: "name", text: "Bob" }, { attr: "phone", text: "9876" }] },
           ],
           category: 'resource',
+          // portId:'3'
         },
       ]
-      diagram.model = new go.GraphLinksModel(node_datas,[
+      diagram.model = new go.GraphLinksModel([],[
         // {from: 'Alpha', to: 'Alpha1', category: 'arrowlink'}
       ]);
       palette.model = new go.GraphLinksModel(node_datas);
       // console.log(palette.model.toJson())
+      diagram.addModelChangedListener(function(evt) {
+        if (evt.isTransactionFinished) console.log(evt.model.toJson(), evt.sel);
+      });
     }
 
     componentDidMount(){
@@ -41,7 +45,7 @@ export default class CarrierResource extends React.Component{
     }
 
     render(){
-      const contorl_bar_height = 60
+      const contorl_bar_height = 40
       return (
         <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%', height: contorl_bar_height}}>

@@ -38,7 +38,7 @@ class App extends React.Component{
   
   }
   render(){
-    const top_height = 60
+    const top_height = 50
     const {show_view_name} = this.state
     const needShow = name=>{
       // 设一个第一次限制渲染

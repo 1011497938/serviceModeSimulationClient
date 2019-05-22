@@ -12,13 +12,11 @@ export default class WorkFlow extends React.Component{
       this.controller = controller
       const {diagram, palette} = controller
       const node_datas = [
-        { key: "why", text: "Pool", isGroup: true, },
         { key: "Pool1", text: "Pool", isGroup: true, category: "Pool" },
         { key: "Lane1", text: "Lane1", isGroup: true, group: "Pool1", color: "lightblue", category: "lane"},
         { key: "Lane2", text: "Lane2", isGroup: true, group: "Pool1", color: "lightgreen", category: "lane"},
         { key: "Lane3", text: "Lane3", isGroup: true, group: "Pool1", color: "lightyellow", category: "lane"},
         { key: "Lane4", text: "Lane4", isGroup: true, group: "Pool1", color: "orange" , category: "lane"},
-        { key: "Alpha", color: "lightblue", category: 'task', group: 'why'},
         { key: "Alpha5", color: "lightblue", category: 'task', group: 'Lane1'},
         { key: "Alpha6", color: "lightblue", category: 'task', group: 'Lane1'},
         { key: "Alpha1", color: "lightblue", category: 'start', group: 'Lane2'},
@@ -32,12 +30,11 @@ export default class WorkFlow extends React.Component{
       ]);
 
       const palette_node_datas = [
-        { key: "Alpha6", color: "lightblue", category: 'task'},
-        { key: "Alpha1", color: "lightblue", category: 'start'},
-        { key: "Alpha2", color: "lightblue", category: 'end'},
-        { key: "Alpha3", color: "lightblue", category: 'parallel'},
-        { key: "Alpha4", color: "lightblue", category: 'exclusive'},
-        { key: "Alpha4", color: "lightblue", category: 'ellipseTemplate'},
+        { color: "lightblue", category: 'task'},
+        { color: "lightblue", category: 'start'},
+        { color: "lightblue", category: 'end'},
+        { color: "lightblue", category: 'parallel'},
+        { color: "lightblue", category: 'exclusive'},
       ]
       palette.model = new go.GraphLinksModel(palette_node_datas);
       controller.relayoutLanes();
@@ -50,7 +47,7 @@ export default class WorkFlow extends React.Component{
     }
 
     render(){
-      const contorl_bar_height = 60
+      const contorl_bar_height = 40
       return (
         <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%', height: contorl_bar_height}}>

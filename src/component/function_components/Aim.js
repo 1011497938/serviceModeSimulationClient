@@ -213,7 +213,7 @@ export default class Aim extends React.Component{
 
     render(){
       const {width, height} = this.props
-      const contorl_bar_height = 60
+      const contorl_bar_height = 40
       return (
         <div>
           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%'}}>

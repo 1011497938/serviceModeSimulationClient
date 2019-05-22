@@ -1,5 +1,6 @@
 import * as go from 'gojs';
 const {
+  common_node_propety,
   GraphController, $, makePort,   
   nodeResizeAdornmentTemplate,
   nodeRotateAdornmentTemplate,
@@ -27,7 +28,6 @@ export default class Controller extends GraphController{
   }
 
   // 重写一个新的,包含了从https://gojs.net/latest/samples/swimlanes.html抄来的泳道图
-  // 太长了还不如自己写一个
   init(){
     let myDiagram = this.diagram, myPalette = this.palette
     // These parameters need to be set before defining the templates.
@@ -262,7 +262,7 @@ export default class Controller extends GraphController{
               var ok = grp.addMembers(grp.diagram.selection, true);
               // console.log(ok)
               if (ok) {
-                console.log(grp)
+                // console.log(grp)
                 updateCrossLaneLinks(grp);
               } else {
                 grp.diagram.currentTool.doCancel();
@@ -410,16 +410,7 @@ $(go.Node, 'Auto',
     },
     new go.Binding("text").makeTwoWay())  
  ),
-
-  makePort("T", go.Spot.Top, true, true),
-  makePort("L", go.Spot.Left, true, true),
-  makePort("R", go.Spot.Right, true, true),
-  makePort("B", go.Spot.Bottom, true, true),
-  { // handle mouse enter/leave events to show/hide the ports
-    mouseEnter: function(e, node) { showSmallPorts(node, true); },
-    mouseLeave: function(e, node) { showSmallPorts(node, false); }
-  },
-
+ common_node_propety()
 ); 
 
 const startNodeTemplate =
@@ -429,14 +420,7 @@ $(go.Node, 'Auto',
       custom_props, {fill: '#F6511D'},
     ),
   ),
-  makePort("T", go.Spot.Top, true, true),
-  makePort("L", go.Spot.Left, true, true),
-  makePort("R", go.Spot.Right, true, true),
-  makePort("B", go.Spot.Bottom, true, true),
-  { // handle mouse enter/leave events to show/hide the ports
-    mouseEnter: function(e, node) { showSmallPorts(node, true); },
-    mouseLeave: function(e, node) { showSmallPorts(node, false); }
-  },
+  common_node_propety()
 ); 
 
 const endNodeTemplate =
@@ -450,14 +434,7 @@ $(go.Node, 'Spot',
     custom_icon_props
     ),
   ),
-  makePort("T", go.Spot.Top, true, true),
-  makePort("L", go.Spot.Left, true, true),
-  makePort("R", go.Spot.Right, true, true),
-  makePort("B", go.Spot.Bottom, true, true),
-  { // handle mouse enter/leave events to show/hide the ports
-    mouseEnter: function(e, node) { showSmallPorts(node, true); },
-    mouseLeave: function(e, node) { showSmallPorts(node, false); }
-  },
+  common_node_propety()
 ); 
 
 const exclusiveGateWayNodeTemplate =
@@ -469,14 +446,7 @@ $(go.Node, 'Spot',
   $(go.Shape, "ThinX",  
     custom_icon_props
   ),
-  makePort("T", go.Spot.Top, true, true),
-  makePort("L", go.Spot.Left, true, true),
-  makePort("R", go.Spot.Right, true, true),
-  makePort("B", go.Spot.Bottom, true, true),
-  { // handle mouse enter/leave events to show/hide the ports
-    mouseEnter: function(e, node) { showSmallPorts(node, true); },
-    mouseLeave: function(e, node) { showSmallPorts(node, false); }
-  },
+  common_node_propety()
 ); 
 
 const parallelGateWayNodeTemplate =
@@ -488,12 +458,5 @@ $(go.Node, 'Spot',
   $(go.Shape, "ThinCross",  
     custom_icon_props
   ),
-  makePort("T", go.Spot.Top, true, true),
-  makePort("L", go.Spot.Left, true, true),
-  makePort("R", go.Spot.Right, true, true),
-  makePort("B", go.Spot.Bottom, true, true),
-  { // handle mouse enter/leave events to show/hide the ports
-    mouseEnter: function(e, node) { showSmallPorts(node, true); },
-    mouseLeave: function(e, node) { showSmallPorts(node, false); }
-  },
+  common_node_propety()
 ); 

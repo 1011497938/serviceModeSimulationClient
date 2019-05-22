@@ -14,13 +14,12 @@ const {
 export default class Controller extends GraphController{
   constructor(diagram, palette){
     super(diagram, palette)
-    this.nodeTemplateMap.add('aim', ellipseTemplate)
     this.nodeTemplateMap.add('task', taskNodeTemplate)
     this.nodeTemplateMap.add('start', startNodeTemplate)
     this.nodeTemplateMap.add('end', endNodeTemplate)
     this.nodeTemplateMap.add('parallel', parallelGateWayNodeTemplate)
     this.nodeTemplateMap.add('exclusive', exclusiveGateWayNodeTemplate)
-    
+    this.nodeTemplateMap.add('aim', ellipseTemplate)
     this.init()
     
   }
@@ -369,24 +368,22 @@ export default class Controller extends GraphController{
 const custom_r = 70
 const icon_color = '#f7f7f7'
 const custom_props = {
-  stroke: 'black',
-  strokeWidth:1.5,
+  stroke: null,
   width: custom_r,
   height: custom_r
 }
 const custom_icon_props = {
   fill: '#f7f7f7',
-  strokeWidth:1.5,
   width: custom_r/2,
   height: custom_r/2,
-  stroke: 'black'
+  stroke: null
 }
 const ellipseTemplate =
 $(go.Node, 'Auto',
  $(go.Panel, "Auto", //子元素在面板的位置
   { name: "PANEL" },
   $(go.Shape, "Ellipse",  
-     {fill: '#F6511D',stroke:'black', strokeWidth:1.5},
+     {fill: '#F6511D',stroke:null},
   ),
    $(go.TextBlock, new go.Binding("text", "key"),
   {
@@ -394,7 +391,7 @@ $(go.Node, 'Auto',
     margin: 8,
     maxSize: new go.Size(160, NaN),
     wrap: go.TextBlock.WrapFit,
-    editable: true,  //文字是否可编辑
+    editable: true  //文字是否可编辑
   },
   new go.Binding("text").makeTwoWay()),  
   makePort("T", go.Spot.Top, true, true),
@@ -406,8 +403,6 @@ $(go.Node, 'Auto',
     mouseLeave: function(e, node) { showSmallPorts(node, false); }
   },)
 ); 
-
-
 
 const taskNodeTemplate =
 $(go.Node, 'Auto',
@@ -480,14 +475,6 @@ $(go.Node, 'Auto',
     $(go.Shape, "Circle",  
     custom_icon_props
   ),
- $(go.TextBlock, new go.Binding("text", "key"),
-  {
-    font: "bold 11pt Helvetica, Arial, sans-serif",
-    margin: 8,
-    maxSize: new go.Size(160, NaN),
-    wrap: go.TextBlock.WrapFit,
-    editable: true  //文字是否可编辑
-  } ), 
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -509,14 +496,6 @@ $(go.Node, 'Auto',
     $(go.Shape, "ThinX",  
     custom_icon_props
   ),
-   $(go.TextBlock, new go.Binding("text", "key"),
-  {
-    font: "bold 11pt Helvetica, Arial, sans-serif",
-    margin: 8,
-    maxSize: new go.Size(160, NaN),
-    wrap: go.TextBlock.WrapFit,
-    editable: true  //文字是否可编辑
-  } ), 
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),
@@ -537,14 +516,7 @@ $(go.Node, 'Spot',
   $(go.Shape, "ThinCross",  
     custom_icon_props
   ),
-   $(go.TextBlock, new go.Binding("text", "key"),
-  {
-    font: "bold 11pt Helvetica, Arial, sans-serif",
-    margin: 8,
-    maxSize: new go.Size(160, NaN),
-    wrap: go.TextBlock.WrapFit,
-    editable: true  //文字是否可编辑
-  } ), 
+
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),

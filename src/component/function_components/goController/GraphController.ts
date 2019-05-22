@@ -3,6 +3,7 @@ import * as go from 'gojs';
 import '../../../../node_modules/gojs/extensions/Figures'
 export {
   $,
+
   GraphController,
   makePort, 
   showSmallPorts,
@@ -12,9 +13,11 @@ export {
   common_node_propety,
   common_link_propety,
   ArrowLinkTemplate,
-  BidirctArrowLinkTemplate,
-  commonLinkTemplate
+  commonLinkTemplate,
+  BidirctArrowLinkTemplate
+  // stayInGroup,
 }
+
 
 
 const $ = go.GraphObject.make;
@@ -24,7 +27,6 @@ export default class GraphController{
     diagram = undefined
     palette = undefined
 
-    // 这两个鬼东西暂时先不用，注意加下来这个会变成静态的了，所以视图之间的id也要唯一！！！
     palNodeTemplateMap = new go.Map<string, go.Node>();
     palGroupTemplateMap = new go.Map<string, go.Group>();
 
@@ -47,10 +49,10 @@ export default class GraphController{
     }
 
     // 初始化go，可以传入自定义的参数
-    init(diagram_props={}, palette_props={}){
+    init(diagram_props={},palette_props={}){
       this.diagram = $(go.Diagram, this.diagram,  // must name or refer to the DIV HTML element
         Object.assign({
-          // maxSelectionCount: 1,
+          // maxSelectionCount:1,
           nodeTemplateMap: this.nodeTemplateMap,
           linkTemplateMap: this.linkTemplateMap,
           groupTemplateMap: this.groupTemplateMap,
@@ -125,7 +127,13 @@ const showSmallPorts = (node, show)=>{
 
 // 存了一些各组件都会需要的属性，直接加上就好了
 const common_node_propety = [
+  // new go.Binding("fill", "color"),
   new go.Binding("location", "location").makeTwoWay(),
+  // new go.Binding("text", "name"),
+  // new go.Binding("text", "text"),
+  // new go.Binding("text", "key"),
+  // new go.Binding("width", "wdith"),
+  // new go.Binding("height", "height"),
 ]
 
 const common_link_propety = [
@@ -140,8 +148,8 @@ $(go.Adornment, "Auto",
 );
 
 const nodeResizeAdornmentTemplate =
-$(go.Adornment, "Auto",
-  { locationSpot: go.Spot.Center },
+$(go.Adornment, "Spot",
+  { locationSpot: go.Spot.Right },
   $(go.Placeholder),
   $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
   $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
@@ -156,7 +164,7 @@ $(go.Adornment, "Auto",
 );
 
 const nodeRotateAdornmentTemplate =
-$(go.Adornment,"Auto",
+$(go.Adornment,
   { locationSpot: go.Spot.Center, locationObjectName: "CIRCLE" },
   $(go.Shape, "Circle", { name: "CIRCLE", cursor: "pointer", desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
   $(go.Shape, { geometryString: "M3.5 7 L3.5 30", isGeometryPositioned: true, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] })
@@ -253,7 +261,7 @@ const BidirctArrowLinkTemplate =
 
 // 普通的group模板（就是一个框框）
 const commonGroupTemplate =
-  $(go.Group, "Auto",
+  $(go.Group, "Spot",
     $(go.Panel, "Auto",
       $(go.Shape, "RoundedRectangle",  // surrounds the Placeholder
         {
@@ -271,7 +279,7 @@ const commonGroupTemplate =
     makePort("R", go.Spot.Right, true, true),
     makePort("B", go.Spot.Bottom, true, true),
     { // handle mouse enter/leave events to show/hide the ports
-      mouseEnter: function(e, node) { showSmallPorts(node, true); },
+      mouseEnter: function(e, node) { console.log(node, node.ports);  showSmallPorts(node, true); },
       mouseLeave: function(e, node) { showSmallPorts(node, false); }
     },
     $(go.TextBlock,         // group title
@@ -280,25 +288,3 @@ const commonGroupTemplate =
     ),
   );
 
-  
-// // this is a Part.dragComputation function for limiting where a Node may be dragged，限制到Group中
-// function stayInGroup(part, pt, gridpt) {
-//   // don't constrain top-level nodes
-//   var grp = part.containingGroup;
-//   if (grp === null) return pt;
-//   // try to stay within the background Shape of the Group
-//   var back = grp.resizeObject;
-//   if (back === null) return pt;
-//   // allow dragging a Node out of a Group if the Shift key is down
-//   if (part.diagram.lastInput.shift) return pt;
-//   var p1 = back.getDocumentPoint(go.Spot.TopLeft);
-//   var p2 = back.getDocumentPoint(go.Spot.BottomRight);
-//   var b = part.actualBounds;
-//   var loc = part.location;
-//   // find the padding inside the group's placeholder that is around the member parts
-//   var m = grp.placeholder.padding;
-//   // now limit the location appropriately
-//   var x = Math.max(p1.x + m.left, Math.min(pt.x, p2.x - m.right - b.width - 1)) + (loc.x - b.x);
-//   var y = Math.max(p1.y + m.top, Math.min(pt.y, p2.y - m.bottom - b.height - 1)) + (loc.y - b.y);
-//   return new go.Point(x, y);
-// }

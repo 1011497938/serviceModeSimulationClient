@@ -23,7 +23,7 @@ export default class ToolBar extends React.Component{
             </Menu.Item>
             <Dropdown
               placeholder='选择连线'
-              // fluid
+              style={{background:'rgb(133,158,158)',color:"#fff",paddingTop:'20px',textAlign:'center'}}
               selection
               options={[
                 {key: '直线', text: '直线', value: '直线', },

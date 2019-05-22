@@ -12,11 +12,11 @@ export default class Value extends React.Component{
       const {diagram, palette} = controller
       const node_datas = [
    
-      { key: "战略目标", color: "red", category: 'aim', },
-      { key: "情感", color: "lightblue", category: 'task', },
-      { key: "数字", color: "lightblue", category: 'task', },
-      { key: "物理", color: "lightblue", category: 'task', },
-      
+      { key: "战略目标", color: "red", category: 'aim' },
+      { key: "情感", color: "lightblue", category: 'task' },
+      { key: "数字", color: "lightblue", category: 'task' },
+      { key: "物理", color: "lightblue", category: 'task' },
+      { key: "子目标", color: "red", category: 'aim'},
         
       ]
 

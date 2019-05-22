@@ -2,217 +2,78 @@ import React from 'react';
 import * as go from 'gojs';
 import { ToolManager, Diagram } from 'gojs';
 import { relative } from 'path';
-import { Icon, Menu} from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
-var box;
-export default class Aim extends React.Component{
-     
+export default class TeamWork extends React.Component{
     componentDidMount(){
-    
-      var $ = go.GraphObject.make;  // for conciseness in defining templates
-//建立画图区
-     var  myDiagram =
-        $(go.Diagram, this.refs.myDiagramDiv,  // must name or refer to the DIV HTML element
-          {
-          grid: $(go.Panel, "Grid",
-              $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
-              $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
-              $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
-              $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
-            ),
-            "draggingTool.dragsLink": true,
-            "draggingTool.isGridSnapEnabled": true,
-            "linkingTool.isUnconnectedLinkValid": true,
-            "linkingTool.portGravity": 20,
-            "relinkingTool.isUnconnectedLinkValid": true,
-            "relinkingTool.portGravity": 20,
-            "relinkingTool.fromHandleArchetype":
-              $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
-            "relinkingTool.toHandleArchetype":
-              $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "darkred", stroke: "tomato" }),
-            "linkReshapingTool.handleArchetype":
-              $(go.Shape, "Diamond", { desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
-            "rotatingTool.handleAngle": 270,
-            "rotatingTool.handleDistance": 30,
-            "rotatingTool.snapAngleMultiple": 15,
-            "rotatingTool.snapAngleEpsilon": 15,
-            "undoManager.isEnabled": true
-          });
-
-     
-
-      box=myDiagram;
-
-     //设置锚点
-      function makePort(name, spot, output, input) {
-        return $(go.Shape, "Circle", 
-          {
-            fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
-            stroke: null,
-            desiredSize: new go.Size(7, 7),
-            alignment: spot,  // align the port on the main Shape
-            alignmentFocus: spot,  // just inside the Shape
-            portId: name,  // declare this object to be a "port"
-            fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
-            fromLinkable: output, toLinkable: input,  // declare whether the user may draw links to/from here
-            cursor: "pointer"  // show a different cursor to indicate potential link point
-          })
-      }
-
-   //控件背景颜色
-      var nodeSelectionAdornmentTemplate = 
-        $(go.Adornment, "Auto",
-          $(go.Shape, { fill: null, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] }),
-          $(go.Placeholder)
-        );
-
-      var nodeResizeAdornmentTemplate =
-        $(go.Adornment, "Spot",
-          { locationSpot: go.Spot.Right},
-          $(go.Placeholder),
-          $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-
-          $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-          $(go.Shape, { alignment: go.Spot.TopRight, cursor: "ne-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-
-          $(go.Shape, { alignment: go.Spot.Left, cursor: "w-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-          $(go.Shape, { alignment: go.Spot.Right, cursor: "e-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-
-          $(go.Shape, { alignment: go.Spot.BottomLeft, cursor: "se-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-          $(go.Shape, { alignment: go.Spot.Bottom, cursor: "s-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-          $(go.Shape, { alignment: go.Spot.BottomRight, cursor: "sw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" })
-        );
-
-      var nodeRotateAdornmentTemplate =
-        $(go.Adornment,
-          { locationSpot: go.Spot.Center, locationObjectName: "CIRCLE" },
-          $(go.Shape, "Circle", { name: "CIRCLE", cursor: "pointer", desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
-          $(go.Shape, { geometryString: "M3.5 7 L3.5 30", isGeometryPositioned: true, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] })
-        );
- 
-//控件在面板的中间
-      myDiagram.nodeTemplate =
-        $(go.Node, "Spot",   
-          { locationSpot: go.Spot.Center },
-          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-          { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
-          { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
-          { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
-          new go.Binding("angle").makeTwoWay(),
-          $(go.Panel, "Auto", //子元素在面板的位置
-            { name: "PANEL" },
-
-            new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify),
-            $(go.Shape, "Rectangle",  
-              {
-                portId: "", 
-                fromLinkable: true, toLinkable: true, cursor: "pointer",
-                fill: "white",  
-                strokeWidth: 2
-              },
-              new go.Binding("figure"),
-              new go.Binding("fill")),
-
-            $(go.TextBlock, new go.Binding("text", "color"),
-              {
-                font: "bold 11pt Helvetica, Arial, sans-serif",
-                margin:20,
-                maxSize: new go.Size(160, NaN),
-                wrap: go.TextBlock.WrapFit,
-                editable: true  //文字是否可编辑
-              },
-
-
-              new go.Binding("text").makeTwoWay())
-          ),
-
-        );
-
-//画布中线条模式
-      myDiagram.linkTemplate =
-        $(go.Link,  // the whole link panel
-          { relinkableFrom: true, relinkableTo: true, reshapable: true },
-          {
-            routing: go.Link.AvoidsNodes,
-            curve: go.Link.JumpOver,
-            corner: 5,
-            toShortLength: 4
-          },
-          new go.Binding("points").makeTwoWay(),
-          $(go.Shape,  // the link path shape
-            { isPanelMain: true, strokeWidth: 2 }),
-          $(go.Shape,  // the arrowhead
-            { toArrow: "Standard", stroke: null }),
-          $(go.Panel, "Auto",
-            new go.Binding("visible", "isSelected").ofObject(),
-            $(go.Shape, "RoundedRectangle",  // the link shape
-              { fill: "#F8F8F8", stroke: null }),
-            $(go.TextBlock,
-              {
-                textAlign: "center",
-                font: "10pt helvetica, arial, sans-serif",
-                stroke: "#919191",
-                margin: 20,
-                minSize: new go.Size(10, NaN),
-                editable: true
-              },
-              new go.Binding("text").makeTwoWay())
-          )
-        );
-
+      var $ = go.GraphObject.make;
+      var myDiagram =
+      $(go.Diagram, this.refs.myDiagramDiv,
+      {
+        "undoManager.isEnabled": true // enable Ctrl-Z to undo and Ctrl-Y to redo
+      });
   
-        
+      myDiagram.nodeTemplate =
+        $(go.Node, "Auto",  // the Shape automatically fits around the TextBlock
+          $(go.Shape, "RoundedRectangle",  // use this kind of figure for the Shape
+            // bind Shape.fill to Node.data.color
+            new go.Binding("fill", "color")),
+          $(go.TextBlock,
+            { margin: 3 },  // some room around the text
+            // bind TextBlock.text to Node.data.key
+            new go.Binding("text", "key"))
+        );
+      myDiagram.model = new go.GraphLinksModel(
+      [ // a JavaScript Array of JavaScript objects, one per node;
+        // the "color" property is added specifically for this app
+        { key: "Alpha", color: "lightblue" },
+        { key: "Beta", color: "#fffffd" },
+        { key: "Gamma", color: "lightgreen" },
+        { key: "Delta", color: "pink" }
+      ],
+      [ // a JavaScript Array of JavaScript objects, one per link
+        { from: "Alpha", to: "Beta" },
+        { from: "Alpha", to: "Gamma" },
+        { from: "Beta", to: "Beta" },
+        { from: "Gamma", to: "Delta" },
+        { from: "Delta", to: "Alpha" }
+      ]);
 
-    //左边的控制面板
-     var  myPalette =
-        $(go.Palette, this.refs.myPaletteDiv,  
-          {
-            maxSelectionCount: 1,
-            nodeTemplateMap: myDiagram.nodeTemplateMap,  
-            linkTemplate: 
-              $(go.Link,
-                { 
-                  locationSpot: go.Spot.Center,
-                  selectionAdornmentTemplate:
-                    $(go.Adornment, "Link",
-                      { locationSpot: go.Spot.Center },
-                      $(go.Shape,
-                        { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 }),
-                      $(go.Shape,  // the arrowhead
-                        { toArrow: "Standard", stroke: null }),
-                       $(go.TextBlock,                        // this is a Link label
-                          new go.Binding("text", "text"))
-                    )
-                },
-                {
-                  routing: go.Link.AvoidsNodes,
-                  curve: go.Link.JumpOver,
-                  corner:5,
-                  toShortLength:4
-                },
-                new go.Binding("points"),
-                $(go.Shape,
-                  { isPanelMain: true, strokeWidth: 2 }),
-                $(go.Shape,
-                  { toArrow: "Standard", stroke: null }),
-
-              ),
-            model: new go.GraphLinksModel([  // specify the contents of the Palette
-              { text: "提供主体", figure: "RoundedRectangle", fill: "#00AD5F" },
-              { text: "消费主体", figure: "RoundedRectangle", fill: "lightskyblue" },
-              { text:" ﹣ ", figure: "MinusLine", fill: "lightskyblue"},
-              
-            ], [
-                // the Palette also has a disconnected Link, which the user can drag-and-drop
-                { points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(60, 0)]) }
-              ])
-          });
-          
-         const myOverview =$(go.Overview, this.refs.myOverviewDiv, 
-              { observed: myDiagram, contentAlignment: go.Spot.Center }); 
+    // notice whenever a transaction or undo/redo has occurred
+    myDiagram.addModelChangedListener(function(evt) {
+      if (evt.isTransactionFinished){
+        console.log(evt.model)
       }
+    });
 
 
+      // create the Palette
+      var myPalette =
+        $(go.Palette, this.refs.myPaletteDiv);
+    
+      // the Palette's node template is different from the main Diagram's
+      myPalette.nodeTemplate =
+        $(go.Node, "Horizontal",
+          $(go.Shape,
+            { width: 14, height: 14, fill: "white" },
+            new go.Binding("fill", "color")),
+          $(go.TextBlock,
+            new go.Binding("text", "color"))
+        );
+    
+      // the list of data to show in the Palette
+      myPalette.model.nodeDataArray = [
+        { key: "C", color: "cyan" },
+        { key: "LC", color: "lightcyan" },
+        { key: "A", color: "aquamarine" },
+        { key: "T", color: "turquoise" },
+        { key: "PB", color: "powderblue" },
+        { key: "LB", color: "lightblue" },
+        { key: "LSB", color: "lightskyblue" },
+        { key: "DSB", color: "deepskyblue" }
+      ];
+    
+    }
 
     static get defaultProps() {
       return {
@@ -225,80 +86,15 @@ export default class Aim extends React.Component{
       const {width, height} = this.props
       const contorl_bar_height = 60
       return (
-        <div>
-           <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%'}}>
-              <Menu fluid style={{background:'rgb(133,158,158)'}}>
-                <Menu.Item style={{color:'#fff'}}>
-                    新建&nbsp;<span className="iconfont">&#xe600;</span>
-
-                </Menu.Item> 
-                 <Menu.Item style={{color:'#fff'}}>
-                    保存&nbsp;<span className="iconfont">&#xe794;</span>
-                </Menu.Item> 
-                <Menu.Item onClick={this.handleDelete} style={{color:'#fff'}}>
-                  删除&nbsp;<span className="iconfont">&#xe661;</span>
-                </Menu.Item>
-                <Menu.Item onClick={this.handleCut} style={{color:'#fff'}}>
-                  剪切&nbsp;<i className="cut icon"></i>
-                </Menu.Item>
-                <Menu.Item onClick={this.scrollTop} style={{color:'#fff'}}>
-                  自适应
-                </Menu.Item>                
-                <Menu.Item onClick={this.handleCopy} style={{color:'#fff'}}>
-                  复制&nbsp;<i className="copy icon"></i>
-                </Menu.Item> 
-                <Menu.Item onClick={this.handlePaste} style={{color:'#fff'}}>
-                  粘贴&nbsp;<span className="iconfont">&#xe62b;</span>
-                </Menu.Item>                               
-                <Menu.Item onClick={this.handleSelectAll} style={{color:'#fff'}}>
-                    全选&nbsp;<span className="iconfont">&#xe729;</span>
-                </Menu.Item>      
-
-                <Menu.Item onClick={this.handleback} style={{color:'#fff'}}>
-                  后退&nbsp;<span className="iconfont">&#xe730;</span>
-                </Menu.Item>                             
-                <Menu.Item onClick={this.handleForward} style={{color:'#fff'}}>
-                  前进&nbsp;<span className="iconfont">&#xe731;</span>
-                </Menu.Item>
-              </Menu>
+        <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
+          <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%', height: contorl_bar_height}}></div>
+          <div style={{position: 'absolute', top: contorl_bar_height, width:'100%', height:'100%',}}>
+            <div ref='myPaletteDiv'  style={{position: 'relative',float:'left',top: 0, width:'10%', height:'100%', backgroundColor: '#859e9e'}}/>
+            <div ref="myDiagramDiv"  style={{position: 'relative',float:'left',top: 0, width:'90%', height:'100%', backgroundColor: '#DAE4E4'}}/>      
           </div>
-          <div style={{position: 'absolute',top:40, display:'flex',width:'100%', height:'100%',}}>
-            <div ref='myPaletteDiv'  style={{flex:1,backgroundColor: '#859e9e'}}/>
-            <div ref="myDiagramDiv"  style={{flex:6, backgroundColor: '#f7f7f7'}}/>      
-          </div>
-          <div style={{width:100,height:65,position:'absolute',left:30,top:300}}ref="myOverviewDiv"></div>
         </div>
       )
     }
- handleDelete(){
-      box.selection.all(function(nodeOrLink) {
-          return box.selection.all(function(nodeOrLink) { 
-                       box.model.removeNodeData(nodeOrLink.data);
-                       box.model.removeLinkData(nodeOrLink.data);
-                       return true; 
-          });
-      })
-
-    }
-    handleCopy(){
-      box.commandHandler.copySelection();
-    }
-    handlePaste(){
-      box.commandHandler.pasteSelection(box.lastInput.documentPoint);
-    }
-    handleSelectAll(){
-        box.commandHandler.selectAll();
-    }
-    handleback(){
-         box.commandHandler.undo();
-    }
-    handleForward(){
-        box.commandHandler.redo();
-    }
-    scrollTop(){
-      box.commandHandler.scrollToPart();
-    }
-    handleCut(){
-      box.commandHandler.cutSelection();
-    }  
   }
+
+  // left: panel_width, 

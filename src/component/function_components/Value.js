@@ -1,6 +1,6 @@
 import React from 'react';
 import * as go from 'gojs';
-import Controller from './goController/WorkFlow.ts'
+import Controller from './goController/Noname.ts'
 import { Icon, Menu} from 'semantic-ui-react'
 
 import ToolBar from '../ui_components/ToolBar';
@@ -10,14 +10,12 @@ export default class Value extends React.Component{
       const controller = new Controller(this.refs.myDiagramDiv, this.refs.myPaletteDiv)
       this.controller = controller
       const {diagram, palette} = controller
-      const node_datas = [
-   
-      { key: "战略目标", color: "red", category: 'aim' },
-      { key: "情感", color: "lightblue", category: 'task' },
-      { key: "数字", color: "lightblue", category: 'task' },
-      { key: "物理", color: "lightblue", category: 'task' },
-      { key: "子目标", color: "red", category: 'aim'},
-        
+      const node_datas = [   
+      { key: "", category:'aim',text:'战略目标'},
+      { key: "", category:'task',text:'情感' },
+      { key: "", category:'task',text:'数字'},
+      { key: "", category:'task',text:'物理'},
+      { key: "", category:'aim',text:'子目标'}        
       ]
 
       palette.model = new go.GraphLinksModel(node_datas);

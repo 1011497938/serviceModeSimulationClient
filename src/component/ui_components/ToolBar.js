@@ -1,4 +1,3 @@
-
 import React from 'react';
 import * as go from 'gojs';
 
@@ -16,14 +15,15 @@ export default class ToolBar extends React.Component{
         return (
             <Menu fluid style={{background:'rgb(133,158,158)', height:60}}>
              <Menu.Item style={{color:'#fff'}}>
-                保存&nbsp;<span className="iconfont">&#xe794;</span>
+                新建&nbsp;<span className="iconfont">&#xe600;</span>
             </Menu.Item> 
             <Menu.Item onClick={this.handleDelete} style={{color:'#fff'}}>
               删除&nbsp;<span className="iconfont">&#xe661;</span>
             </Menu.Item>
             <Dropdown
               placeholder='选择连线'
-              style={{background:'rgb(133,158,158)',color:"#fff",paddingTop:'20px',textAlign:'center'}}
+              style={{color:'#fff',background:'rgb(133,158,158)',paddingTop:'20px'}}
+              // fluid
               selection
               options={[
                 {key: '直线', text: '直线', value: '直线', },

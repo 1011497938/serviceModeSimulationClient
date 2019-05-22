@@ -3,7 +3,6 @@ import * as go from 'gojs';
 import '../../../../node_modules/gojs/extensions/Figures'
 export {
   $,
-
   GraphController,
   makePort, 
   showSmallPorts,
@@ -13,11 +12,9 @@ export {
   common_node_propety,
   common_link_propety,
   ArrowLinkTemplate,
-  commonLinkTemplate,
-  BidirctArrowLinkTemplate
-  // stayInGroup,
+  BidirctArrowLinkTemplate,
+  commonLinkTemplate
 }
-
 
 
 const $ = go.GraphObject.make;
@@ -27,6 +24,7 @@ export default class GraphController{
     diagram = undefined
     palette = undefined
 
+    // 这两个鬼东西暂时先不用，注意加下来这个会变成静态的了，所以视图之间的id也要唯一！！！
     palNodeTemplateMap = new go.Map<string, go.Node>();
     palGroupTemplateMap = new go.Map<string, go.Group>();
 
@@ -49,10 +47,11 @@ export default class GraphController{
     }
 
     // 初始化go，可以传入自定义的参数
-    init(diagram_props={},palette_props={}){
+    init(diagram_props={}, palette_props={}){
       this.diagram = $(go.Diagram, this.diagram,  // must name or refer to the DIV HTML element
         Object.assign({
-          // maxSelectionCount:1,
+
+          // maxSelectionCount: 1,
           nodeTemplateMap: this.nodeTemplateMap,
           linkTemplateMap: this.linkTemplateMap,
           groupTemplateMap: this.groupTemplateMap,
@@ -79,20 +78,29 @@ export default class GraphController{
           "undoManager.isEnabled": true
         }, diagram_props)
       );
+      
+      if(this.palette){
+        this.palette = $(go.Palette, this.palette,  // must name or refer to the DIV HTML element
+          Object.assign({ // share the templates with the main Diagram
+            // mouseDrop: (e)=>{
+            //   // if (!e.shift) return;  // cannot change groups with an unmodified drag-and-drop
+            //   console.log(e, e.shift)
+            // },
+            nodeTemplateMap: this.nodeTemplateMap,
+            linkTemplateMap: this.linkTemplateMap,
+            groupTemplateMap: this.groupTemplateMap,
+            // nodeTemplateMap: this.palNodeTemplateMap,
+            // groupTemplateMap: this.palGroupTemplateMap,
+            layout: $(go.GridLayout,{
+              // cellSize: new go.Size(1, 1),
+              // spacing: new go.Size(5, 5),
+            }, palette_props)
+          })
+        )
+      }else{
+        console.warn(this.palette, 'palette不存在')
+      }
 
-      this.palette = $(go.Palette, this.palette,  // must name or refer to the DIV HTML element
-        Object.assign({ // share the templates with the main Diagram
-          nodeTemplateMap: this.nodeTemplateMap,
-          linkTemplateMap: this.linkTemplateMap,
-          groupTemplateMap: this.groupTemplateMap,
-          // nodeTemplateMap: this.palNodeTemplateMap,
-          // groupTemplateMap: this.palGroupTemplateMap,
-          layout: $(go.GridLayout,{
-            cellSize: new go.Size(1, 1),
-            spacing: new go.Size(5, 5),
-          }, palette_props)
-        })
-      )
     }
 }
 
@@ -121,22 +129,27 @@ const showSmallPorts = (node, show)=>{
       }
     });
   }else{
-    console.error(node, node.ports, '为undefiend')
+    // 一堆错，所以先注释了
+    // console.error(node, node.ports, '为undefiend')
   }
 }
 
-// 存了一些各组件都会需要的属性，直接加上就好了
-const common_node_propety = [
-  // new go.Binding("fill", "color"),
-  new go.Binding("location", "location").makeTwoWay(),
-  // new go.Binding("text", "name"),
-  // new go.Binding("text", "text"),
-  // new go.Binding("text", "key"),
-  // new go.Binding("width", "wdith"),
-  // new go.Binding("height", "height"),
+// 存了一些各组件都会需要的属性，直接加上就好了, 应该改为function的
+const common_node_propety = ()=>[
+  // new go.Binding("location", "location").makeTwoWay(),
+  new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+  new go.Binding("portId").makeTwoWay(),
+  makePort("T", go.Spot.Top, true, true),
+  makePort("L", go.Spot.Left, true, true),
+  makePort("R", go.Spot.Right, true, true),
+  makePort("B", go.Spot.Bottom, true, true),
+  { // handle mouse enter/leave events to show/hide the ports
+    mouseEnter: function(e, node) { showSmallPorts(node, true); },
+    mouseLeave: function(e, node) { showSmallPorts(node, false); }
+  },
 ]
 
-const common_link_propety = [
+const common_link_propety = ()=>[
 
 ]
 
@@ -148,8 +161,8 @@ $(go.Adornment, "Auto",
 );
 
 const nodeResizeAdornmentTemplate =
-$(go.Adornment, "Spot",
-  { locationSpot: go.Spot.Right },
+$(go.Adornment, "Auto",
+  { locationSpot: go.Spot.Center },
   $(go.Placeholder),
   $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
   $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
@@ -164,7 +177,7 @@ $(go.Adornment, "Spot",
 );
 
 const nodeRotateAdornmentTemplate =
-$(go.Adornment,
+$(go.Adornment,"Auto",
   { locationSpot: go.Spot.Center, locationObjectName: "CIRCLE" },
   $(go.Shape, "Circle", { name: "CIRCLE", cursor: "pointer", desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
   $(go.Shape, { geometryString: "M3.5 7 L3.5 30", isGeometryPositioned: true, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] })
@@ -261,7 +274,8 @@ const BidirctArrowLinkTemplate =
 
 // 普通的group模板（就是一个框框）
 const commonGroupTemplate =
-  $(go.Group, "Spot",
+  $(go.Group, "Auto",
+    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
     $(go.Panel, "Auto",
       $(go.Shape, "RoundedRectangle",  // surrounds the Placeholder
         {
@@ -279,7 +293,7 @@ const commonGroupTemplate =
     makePort("R", go.Spot.Right, true, true),
     makePort("B", go.Spot.Bottom, true, true),
     { // handle mouse enter/leave events to show/hide the ports
-      mouseEnter: function(e, node) { console.log(node, node.ports);  showSmallPorts(node, true); },
+      mouseEnter: function(e, node) { showSmallPorts(node, true); },
       mouseLeave: function(e, node) { showSmallPorts(node, false); }
     },
     $(go.TextBlock,         // group title
@@ -287,4 +301,3 @@ const commonGroupTemplate =
       new go.Binding("text", "key")
     ),
   );
-

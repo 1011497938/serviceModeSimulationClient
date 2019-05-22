@@ -63,9 +63,22 @@ export default class Aim extends React.Component{
           $(go.Placeholder)
         );
 
-      var nodeResizeAdornmentTemplate =
+      var nodeResizeAdornmentTemplate = //放大缩小图形用的
         $(go.Adornment, "Spot",
-          );
+          { locationSpot: go.Spot.Right},
+          $(go.Placeholder),
+          $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+
+          $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.TopRight, cursor: "ne-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+
+          $(go.Shape, { alignment: go.Spot.Left, cursor: "w-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.Right, cursor: "e-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+
+          $(go.Shape, { alignment: go.Spot.BottomLeft, cursor: "se-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.Bottom, cursor: "s-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.BottomRight, cursor: "sw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" })
+        );
 
       var nodeRotateAdornmentTemplate =
         $(go.Adornment,
@@ -85,14 +98,12 @@ export default class Aim extends React.Component{
           new go.Binding("angle").makeTwoWay(),
           $(go.Panel, "Auto", //子元素在面板的位置
             { name: "PANEL" },
-
             new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify),
             $(go.Shape, "Rectangle",  
               {
-                portId: "", 
                 fromLinkable: true, toLinkable: true, cursor: "pointer",
                 fill: "white",  
-                strokeWidth: 2
+                strokeWidth:2
               },
               new go.Binding("figure"),
               new go.Binding("fill")),

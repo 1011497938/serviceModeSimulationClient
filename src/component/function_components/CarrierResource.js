@@ -1,59 +1,112 @@
-import React from 'react';
 import * as go from 'gojs';
-import Controller from './goController/CarrierResource.ts' 
-import { Icon, Menu} from 'semantic-ui-react'
-import ToolBar from '../ui_components/ToolBar';
+import { conditionalExpression } from '@babel/types';
+const {
+  GraphController, $, makePort,   
+  nodeResizeAdornmentTemplate,
+  nodeRotateAdornmentTemplate,
+  nodeSelectionAdornmentTemplate,
+  showSmallPorts,
+  common_node_propety,
+} = require('./GraphController.ts');
 
-// 5月18日，添加了载体和资源视图, 谭思危
-export default class CarrierResource extends React.Component{
-   
-    init_graph(){
-      const controller = new Controller(this.refs.myDiagramDiv, this.refs.myPaletteDiv)
-      this.controller = controller
-      const {diagram, palette} = controller
-      const node_datas = [
-        { key: "Alpha", color: "red", category: 'carrier', },
-        { // first node
-          key: 1,
-          columnDefinitions: [
-            // each column definition needs to specify the column used
-            { attr: "name", text: "Name", column: 0 },
-            { attr: "phone", text: "Phone #", column: 1 },
-          ],
-          people: [  // the table of people
-            // each row is a person with an Array of Objects associating a column name with a text value
-            { columns: [{ attr: "name", text: "Alice" }, { attr: "phone", text: "2345" }] },
-            { columns: [{ attr: "name", text: "Bob" }, { attr: "phone", text: "9876" }] },
-          ],
-          category: 'resource',
-        },
-      ]
-      diagram.model = new go.GraphLinksModel(node_datas,[
-        // {from: 'Alpha', to: 'Alpha1', category: 'arrowlink'}
-      ]);
-      palette.model = new go.GraphLinksModel(node_datas);
-      // console.log(palette.model.toJson())
-    }
 
-    componentDidMount(){
-   
-      this.init_graph()
-    }
+// const $ = go.GraphObject.make;
 
-    render(){
-      const contorl_bar_height = 60
-      return (
-        <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
-          <div ref='contorl_bar' style={{position: 'absolute', top:0, width:'100%', height: contorl_bar_height}}>
-            <ToolBar/>
-          </div>
-          <div style={{position: 'absolute', top: contorl_bar_height, width:'100%', height:'100%',}}>
-            <div ref='myPaletteDiv'  style={{position: 'relative',float:'left',top: 0, width:'15%', height:'100%', backgroundColor: '#859e9e'}}/>
-            <div ref="myDiagramDiv"  style={{position: 'relative',float:'left',top: 0, width:'85%', height:'100%', backgroundColor: '#f7f7f7'}}/>      
-          </div>
-        </div>
-      )
-    }
+export default class Controller extends GraphController{
+  constructor(diagram, palette){
+    super(diagram, palette)
+
+    this.nodeTemplateMap.add('carrier', carrierNodeTemplate)
+    this.nodeTemplateMap.add('resource', resourceNodeTemplate)
+
+    this.init()
   }
+}
 
-  // left: panel_width, 
+const custom_r = 80
+const custom_props = {
+  stroke: null,
+  width: custom_r,
+  height: custom_r
+}
+const carrierNodeTemplate =
+$(go.Node, 'Spot',
+  $(go.Shape, "RoundedRectangle", 
+    custom_props, 
+    {
+      width: 120,
+      height: 70,
+      fill: '#00A6ED'
+    },
+    // new go.Binding("fill", "color"),
+  ),
+  common_node_propety(),
+  $(go.TextBlock,
+  { margin: 3 },  
+    new go.Binding("text", "key"))
+); 
+
+const resourceNodeTemplate =
+  $(go.Node, "Auto",
+    $(go.Shape, { fill: "white" }),
+    $(go.Panel, "Table",
+      new go.Binding("itemArray", "people"),
+      $(go.RowColumnDefinition,
+        { separatorStrokeWidth: 0, separatorStroke: "none"}),
+      $(go.RowColumnDefinition,
+        { row: 0, background: "#FFB400" }),
+      // the table headers -- remains even if itemArray is empty
+      $(go.Panel, "TableRow",
+        { isPanelMain: true },
+        new go.Binding("itemArray", "columnDefinitions"),
+        {
+          itemTemplate:  // bound to a column definition object
+            $(go.Panel,
+              new go.Binding("column"),
+              $(go.TextBlock,
+                { margin: new go.Margin(2, 2, 0, 2), font: "bold 10pt sans-serif"},
+                new go.Binding("text"))
+            )
+        }
+      ),
+      { // the rows for the people
+        defaultAlignment: go.Spot.Left,
+        defaultColumnSeparatorStroke: "black",
+        itemTemplate:  // bound to a person/row data object
+          $(go.Panel, "TableRow",
+            // which in turn consists of a collection of cell objects,
+            // held by the "columns" property in an Array
+            new go.Binding("itemArray", "columns"),
+            // you could also have other Bindings here for the whole row
+            {
+              itemTemplate:  // bound to a cell object
+                $(go.Panel,  // each of which as "attr" and "text" properties
+                  { stretch: go.GraphObject.Fill, alignment: go.Spot.TopLeft },
+                  new go.Binding("column", "attr",
+                    function(a, elt) {  // ELT is this bound item/cell Panel
+                      // elt.data will be the cell object
+                      // elt.panel.data will be the person/row data object
+                      // elt.part.data will be the node data object
+                      // "columnDefinitions" is on the node data object, so:
+                      function findColumnDefinitionForName(nodedata, attrname) {
+                        var columns = nodedata.columnDefinitions;
+                        for (var i = 0; i < columns.length; i++) {
+                          if (columns[i].attr === attrname) return columns[i];
+                        }
+                        return null;
+                      }
+                      var cd = findColumnDefinitionForName(elt.part.data, a);
+                      if (cd !== null) return cd.column;
+                      // throw new Error("unknown column name: " + a);
+                    }),
+                  // you could also have other Bindings here for this cell
+                  $(go.TextBlock, { editable: true },
+                    { margin: new go.Margin(2, 2, 0, 2), wrap: go.TextBlock.None},
+                    new go.Binding("text").makeTwoWay())
+                )
+            }
+          )
+      }
+    ),
+    common_node_propety(),
+  );

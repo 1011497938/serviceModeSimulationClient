@@ -3,15 +3,21 @@ import * as go from 'gojs';
 import Controller from './goController/CarrierResource.ts' 
 import { Icon, Menu} from 'semantic-ui-react'
 import ToolBar from '../ui_components/ToolBar';
-import {genCommonLinkWithText} from './goController/GraphController.ts'
+import { genCommonLinkWithText, genBiArrowLinkWithText, genArrowLinkWithText,} from './goController/GraphController.ts'
+
+// 存了各个视图的model
+// const view2model = {
+
+// }
+// const view2
 // 5月18日，添加了载体和资源视图, 谭思危
 export default class CarrierResource extends React.Component{
     constructor(props){
       super(props)   
       this.link_map = {
-        '相互依赖': genCommonLinkWithText('相互依赖'),
-        '直接转化': genCommonLinkWithText('直接转化'),
-        '从属关系': genCommonLinkWithText('从属关系'),
+        '相互依赖': genBiArrowLinkWithText('相互依赖'),
+        '直接转化': genArrowLinkWithText('直接转化'),
+        '从属关系': genArrowLinkWithText('从属关系'),
         '自定义关系': genCommonLinkWithText('自定义关系')
       }
     }
@@ -44,7 +50,9 @@ export default class CarrierResource extends React.Component{
       const palette_node_datas = [
         {
           category: 'carrier',
-          fields: [],
+          fields: [
+            { name: "", info: "", color: "", figure: "" },
+          ],
         },
         {
           columnDefinitions: [

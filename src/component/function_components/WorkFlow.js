@@ -31,10 +31,12 @@ export default class WorkFlow extends React.Component{
 
       const palette_node_datas = [
         { category: 'task'},
-        { category: 'start'},
-        { category: 'end'},
         { category: 'parallel'},
         { category: 'exclusive'},
+        { category: 'event', eventType: 'end', },
+        { category: 'event', eventType: 'start', },
+        { category: 'event', eventType: 'time', },
+        { category: 'event', eventType: 'message', },
         { key: 1, text: "Pool", isGroup: true, category: "Pool" },
         { key: 2, text: "Lane", isGroup: true, category: "Lane", group: 1},
         { key: 3, text: "Lane", isGroup: true, category: "Lane", group: 1},

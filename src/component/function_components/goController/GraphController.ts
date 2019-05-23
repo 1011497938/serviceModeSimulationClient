@@ -14,10 +14,18 @@ export {
   ArrowLinkTemplate,
   BidirctArrowLinkTemplate,
   commonLinkTemplate,
+
   genCommonLinkWithText,
+  genBiArrowLinkWithText,
+  genArrowLinkWithText,
+
   genForPalette,
+  view2controller,
 }
 
+const view2controller = {
+
+}
 
 const $ = go.GraphObject.make;
 
@@ -26,7 +34,7 @@ export default class GraphController{
     diagram = undefined
     palette = undefined
 
-    // 这两个鬼东西暂时先不用，注意加下来这个会变成静态的了，所以视图之间的id也要唯一！！！
+    // 注意加下来这个会变成静态的了，所以视图之间的id也要唯一
     palNodeTemplateMap = new go.Map<string, go.Node>();
     palLinkTemplateMap = new go.Map<string, go.Link>();
     palGroupTemplateMap = new go.Map<string, go.Group>();
@@ -35,7 +43,11 @@ export default class GraphController{
     linkTemplateMap = new go.Map<string, go.Link>();
     groupTemplateMap = new go.Map<string, go.Group>();
 
-    constructor(diagram, palette, view_name=''){
+    constructor(diagram, palette, view_name=undefined){
+        if(view_name){
+          view2controller[view_name] = this
+        }
+        
         this.diagram = diagram
         this.palette = palette
 
@@ -67,7 +79,7 @@ export default class GraphController{
             ),
             "draggingTool.dragsLink": true,
             "linkingTool.portGravity": 20,
-            "relinkingTool.portGravity": 20,
+            "relinkingTool.portGravity": 10,
             "relinkingTool.fromHandleArchetype":
               $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
             "relinkingTool.toHandleArchetype":
@@ -120,7 +132,8 @@ const genForPalette = (shape,name) =>{
       },
       shape,
       $(go.TextBlock,
-        { margin: 5, editable: true, text: name},
+        { margin: 5, text: name},
+        new go.Binding('text', 'text')
       )
     )
   )
@@ -172,8 +185,11 @@ const common_node_propety = ()=>[
   },
 ]
 
-const common_link_propety = ()=>[
-
+const common_link_propety = ()=> [
+  new go.Binding("points").makeTwoWay(),
+  { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
+  { relinkableFrom: true, relinkableTo: true, reshapable: true },
+  avoid_cross_props,
 ]
 
 
@@ -225,8 +241,7 @@ $(go.Adornment, "Link",
 // 普通的连线
 const commonLinkTemplate =
 $(go.Link,       // the whole link panel
-  { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
-  avoid_cross_props,
+  common_link_propety(),
   $(go.Shape),  // the link shape, default black stroke
   $(go.TextBlock,
     {
@@ -244,16 +259,12 @@ $(go.Link,       // the whole link panel
 // 带箭头的实线
 const ArrowLinkTemplate =
 $(go.Link,  // the whole link panel
-  { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
-  { relinkableFrom: true, relinkableTo: true, reshapable: true },
-  avoid_cross_props,
-  new go.Binding("points").makeTwoWay(),
+  common_link_propety(),
   $(go.Shape,  // the link path shape
     { isPanelMain: true, strokeWidth: 2 }),
   $(go.Shape,  // the arrowhead
     { toArrow: "OpenTriangle", stroke: 'black' }),
   $(go.Panel, "Auto",
-    new go.Binding("visible", "isSelected").ofObject(),
     $(go.Shape, "RoundedRectangle",  // the link shape
       { fill: "#F8F8F8", stroke: null }),
     $(go.TextBlock,
@@ -274,10 +285,7 @@ $(go.Link,  // the whole link panel
 // 带双向箭头的实线
 const BidirctArrowLinkTemplate =
   $(go.Link,  // the whole link panel
-    { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
-    { relinkableFrom: true, relinkableTo: true, reshapable: true },
-    avoid_cross_props,
-    new go.Binding("points").makeTwoWay(),
+    common_link_propety(),
     $(go.Shape,  // the link path shape
       { isPanelMain: true, strokeWidth: 2 }
     ),
@@ -288,7 +296,6 @@ const BidirctArrowLinkTemplate =
       { fromArrow: "BackwardOpenTriangle", stroke: 'black' }
     ),
     $(go.Panel, "Auto",
-      new go.Binding("visible", "isSelected").ofObject(),
       $(go.Shape, "RoundedRectangle",  // the link shape
         { fill: "#F8F8F8", stroke: null }
       ),
@@ -309,8 +316,7 @@ const BidirctArrowLinkTemplate =
 const genCommonLinkWithText = text=>{
   return (
     $(go.Link,       // the whole link panel
-      { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
-      avoid_cross_props,
+      common_link_propety(),
       $(go.Shape),  // the link shape, default black stroke
       $(go.TextBlock,
         {
@@ -322,9 +328,69 @@ const genCommonLinkWithText = text=>{
           editable: true,
           text: text,
         },
+        new go.Binding("text").makeTwoWay(),
       )
     )
   )
+}
+
+const genBiArrowLinkWithText = text =>{
+  return $(go.Link,  // the whole link panel
+    common_link_propety(),
+    $(go.Shape,  // the link path shape
+      { isPanelMain: true, strokeWidth: 2 }
+    ),
+    $(go.Shape,  // the arrowhead
+      { toArrow: "OpenTriangle", stroke: 'black' }
+    ),
+    $(go.Shape,  // the arrowhead
+      { fromArrow: "BackwardOpenTriangle", stroke: 'black' }
+    ),
+    $(go.Panel, "Auto",
+      $(go.Shape, "RoundedRectangle",  // the link shape
+        { fill: "#F8F8F8", stroke: null }
+      ),
+      $(go.TextBlock,
+        {
+          textAlign: "center",
+          font: "10pt helvetica, arial, sans-serif",
+          stroke: "#919191",
+          margin: 2,
+          minSize: new go.Size(10, NaN),
+          editable: true,
+          text: text,
+        },
+        new go.Binding("text").makeTwoWay(),
+      )
+    )
+  )
+}
+
+
+const genArrowLinkWithText = text =>{
+  return $(go.Link,  // the whole link panel
+    common_link_propety(),
+    $(go.Shape,  // the link path shape
+      { isPanelMain: true, strokeWidth: 2 }),
+    $(go.Shape,  // the arrowhead
+      { toArrow: "OpenTriangle", stroke: 'black' }),
+    $(go.Panel, "Auto",
+      $(go.Shape, "RoundedRectangle",  // the link shape
+        { fill: "#F8F8F8", stroke: null }),
+      $(go.TextBlock,
+        {
+          textAlign: "center",
+          font: "10pt helvetica, arial, sans-serif",
+          stroke: "#919191",
+          margin: 2,
+          minSize: new go.Size(10, NaN),
+          editable: true,
+          text: text,
+        },
+        new go.Binding("text").makeTwoWay(),
+      )
+    )
+  );
 }
 
 // 普通的group模板（就是一个框框）

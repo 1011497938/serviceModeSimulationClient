@@ -15,7 +15,7 @@ const {
 
 export default class Controller extends GraphController {
   constructor(diagram, palette) {
-    super(diagram, palette)
+    super(diagram, palette, '载体及资源视图')
 
     this.nodeTemplateMap.add('carrier', carrierNodeTemplate)
     this.nodeTemplateMap.add('resource', resourceNodeTemplate)
@@ -43,25 +43,25 @@ const fieldTemplate =
       fromSpot: go.Spot.LeftRightSides,  // links only go from the right side to the left side
       toSpot: go.Spot.LeftRightSides,
       // allow drawing links from or to this port:
-      fromLinkable: true, toLinkable: true
+      fromLinkable: true, toLinkable: true,
     },
-    // { // allow the user to select items -- the background color indicates whether "selected"
-    //   //?? maybe this should be more sophisticated than simple toggling of selection
-    //   click: function(e, item) {
-    //     // assume "transparent" means not "selected", for items
-    //     var oldskips = item.diagram.skipsUndoManager;
-    //     item.diagram.skipsUndoManager = true;
-    //     if (item.background === "transparent") {
-    //       item.background = "dodgerblue";
-    //     } else {
-    //       item.background = "transparent";
-    //     }
-    //     item.diagram.skipsUndoManager = oldskips;
-    //   }
-    // },
+    { // allow the user to select items -- the background color indicates whether "selected"
+      //?? maybe this should be more sophisticated than simple toggling of selection
+      click: function(e, item) {
+        // assume "transparent" means not "selected", for items
+        var oldskips = item.diagram.skipsUndoManager;
+        item.diagram.skipsUndoManager = true;
+        if (item.background === "transparent") {
+          item.background = "dodgerblue";
+        } else {
+          item.background = "transparent";
+        }
+        item.diagram.skipsUndoManager = oldskips;
+      }
+    },
     $(go.Shape,
       {
-        width: 12, height: 12, column: 0, strokeWidth: 2, margin: 4,
+        width: 12, height: 12, column: 0, strokeWidth: 2, margin: 4, stroke: null,
         // but disallow drawing links from or to this shape:
         fromLinkable: false, toLinkable: false
       },
@@ -86,7 +86,7 @@ const carrierNodeTemplate =
     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
     // this rectangular shape surrounds the content of the node
     $(go.Shape,
-      { fill: "#EEEEEE" }),
+      { fill: "#EEEEEE" , stroke: null,}),
     // the content consists of a header and a list of items
     $(go.Panel, "Vertical",
       // this is the header for the whole node
@@ -124,7 +124,7 @@ const carrierNodeTemplateForPallete = genForPalette(
   $(go.Panel, "Auto",
     // this rectangular shape surrounds the content of the node
     $(go.Shape,
-      { fill: "#EEEEEE" }),
+      { fill: "#EEEEEE" ,stroke: null,}),
     // the content consists of a header and a list of items
     $(go.Panel, "Vertical",
       // this is the header for the whole node
@@ -164,7 +164,7 @@ const carrierNodeTemplateForPallete = genForPalette(
 
 const resourceNodeTemplate =
   $(go.Node, "Auto",
-    $(go.Shape, { fill: "white" }),
+    $(go.Shape, { fill: "white", stroke: null, }),
     $(go.Panel, "Table",
       new go.Binding("itemArray", "people"),
       $(go.RowColumnDefinition,
@@ -187,7 +187,7 @@ const resourceNodeTemplate =
       ),
       { // the rows for the people
         defaultAlignment: go.Spot.Left,
-        defaultColumnSeparatorStroke: "black",
+        defaultColumnSeparatorStroke: "#FFB400",
         itemTemplate:  // bound to a person/row data object
           $(go.Panel, "TableRow",
             // which in turn consists of a collection of cell objects,
@@ -229,7 +229,7 @@ const resourceNodeTemplate =
 
 const resourceNodeTemplateForPallete = genForPalette(
   $(go.Panel, "Auto",
-    $(go.Shape, { fill: "white" }),
+    $(go.Shape, { fill: "white", stroke: null, }),
     $(go.Panel, "Table",
       $(go.RowColumnDefinition,
         { separatorStrokeWidth: 0, separatorStroke: "none" }),
@@ -255,7 +255,7 @@ const resourceNodeTemplateForPallete = genForPalette(
       { // the rows for the people
         itemArray: [{ columns: [{ attr: "name", text: 'name' }, { attr: "value", text: '0' }] },],
         defaultAlignment: go.Spot.Left,
-        defaultColumnSeparatorStroke: "black",
+        defaultColumnSeparatorStroke: "#FFB400",
         itemTemplate:  // bound to a person/row data object
           $(go.Panel, "TableRow",
             new go.Binding("itemArray", "columns"),
@@ -290,5 +290,5 @@ const resourceNodeTemplateForPallete = genForPalette(
       }
     ),
   ),
-  'source'
+  'resource'
 )

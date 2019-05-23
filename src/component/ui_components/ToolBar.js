@@ -3,20 +3,15 @@ import React from 'react';
 import * as go from 'gojs';
 
 import { Icon, Menu, Dropdown} from 'semantic-ui-react'
-import {ArrowLinkTemplate, BidirctArrowLinkTemplate, commonLinkTemplate,} from '../function_components/goController/GraphController.ts'
+// import {ArrowLinkTemplate, BidirctArrowLinkTemplate, commonLinkTemplate,} from '../function_components/goController/GraphController.ts'
 
-const common_link_map = {
-  '直线':  commonLinkTemplate,
-  '双向箭头': BidirctArrowLinkTemplate,
-  '箭头': ArrowLinkTemplate,
-}
+const common_link_map = {}
 export default class ToolBar extends React.Component{
     constructor(props){
         super(props)
         this.state =  {
 
         }
-
     }
 
     setDefaultLink(value){

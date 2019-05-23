@@ -1,15 +1,40 @@
 import React from 'react';
 import * as go from 'gojs';
 import Controller from './goController/GlobalOverview.ts' 
+import {view2controller} from './goController/GraphController.ts'
 import { Icon, Menu} from 'semantic-ui-react'
 import ToolBar from '../ui_components/ToolBar';
 import dataStore from '../../dataManager/dataStore';
-
+const $ = go.GraphObject.make;
 // 5月20日，添加了全局视图, 谭思危
 export default class GlobalOverview extends React.Component{
-   
     init_graph(){
       const controller = new Controller(this.refs.myDiagramDiv, this.refs.myPaletteDiv)
+
+      // console.log(controller.nodeTemplateMap)
+      function refresh(){
+        for(let view in view2controller){
+          let view_controller = view2controller[view]
+          console.log(
+            view_controller.diagram.model.nodeDataArray
+          )
+          // if(controller){
+          //   const {nodeTemplateMap,  linkTemplateMap, groupTemplateMap} = view_controller
+          //   var it = nodeTemplateMap.iterator;
+          //   while (it.next()) {
+          //     const {key, value} = it
+          //     // console.log(key, value)
+          //     // if(!controller.nodeTemplateMap.has(key))
+          //     controller.nodeTemplateMap.add(key,value)
+          //     // else
+          //     //   console.error(view, key, '已经有重复的了')
+          //   }
+
+          // }
+        }
+      }
+      setInterval(refresh, 2000)
+
       this.controller = controller
       const {diagram, palette} = controller
       // ['全局视图', '协同生态视图', '载体及资源视图', '服务价值视图', '服务过程视图', '服务目标视图']
@@ -35,6 +60,13 @@ export default class GlobalOverview extends React.Component{
         {"from":"载体及资源视图", "to":"提供主体及网络", "text":"交互", "category":"2arrowlink", "points":[199.00000000000006,460.5374552476311,199.00000000000006,450.5374552476311,199.00000000000006,461.0000001173753,-71,461.0000001173753,-71,175.92651774763112,-71,165.92651774763112]}
       ]
       diagram.model = new go.GraphLinksModel(node_datas,link_datas);
+      // diagram.makeSvg()
+      // diagram.add(
+      //   $(go.Part, "Vertical",
+      //     $(go.Picture, { desiredSize: new go.Size(58, 58), source: })
+      //   )
+      // );
+
       // diagram.addModelChangedListener(function(evt) {
       //   if (evt.isTransactionFinished) console.log(evt.model.toJson());
       // });
@@ -62,7 +94,7 @@ export default class GlobalOverview extends React.Component{
           </div>
           <div style={{position: 'absolute', top: contorl_bar_height, width:'100%', height:'100%',}}>
             {/* <div ref='myPaletteDiv'  style={{position: 'relative',float:'left',top: 0, width:'15%', height:'100%', backgroundColor: '#859e9e'}}/> */}
-            <div ref="myDiagramDiv"  style={{position: 'relative',float:'left',top: 0, width:'85%', height:'100%', backgroundColor: '#f7f7f7'}}/>      
+            <div ref="myDiagramDiv"  style={{position: 'relative',float:'left',top: 0, width:'100%', height:'100%', backgroundColor: '#f7f7f7'}}/>      
           </div>
         </div>
       )

@@ -13,7 +13,8 @@ export {
   common_link_propety,
   ArrowLinkTemplate,
   BidirctArrowLinkTemplate,
-  commonLinkTemplate
+  commonLinkTemplate,
+linkSelectionAdornmentTemplate
 }
 
 
@@ -25,7 +26,7 @@ export default class GraphController{
     palette = undefined
 
     // 这两个鬼东西暂时先不用，注意加下来这个会变成静态的了，所以视图之间的id也要唯一！！！
-    palNodeTemplateMap = new go.Map<string, go.Node>();
+    palNodeTemplateMap = new go.Map <string, go.Node>();
     palGroupTemplateMap = new go.Map<string, go.Group>();
 
     nodeTemplateMap = new go.Map<string, go.Node>();
@@ -50,7 +51,6 @@ export default class GraphController{
     init(diagram_props={}, palette_props={}){
       this.diagram = $(go.Diagram, this.diagram,  // must name or refer to the DIV HTML element
         Object.assign({
-
           // maxSelectionCount: 1,
           nodeTemplateMap: this.nodeTemplateMap,
           linkTemplateMap: this.linkTemplateMap,
@@ -82,18 +82,14 @@ export default class GraphController{
       if(this.palette){
         this.palette = $(go.Palette, this.palette,  // must name or refer to the DIV HTML element
           Object.assign({ // share the templates with the main Diagram
-            // mouseDrop: (e)=>{
-            //   // if (!e.shift) return;  // cannot change groups with an unmodified drag-and-drop
-            //   console.log(e, e.shift)
-            // },
             nodeTemplateMap: this.nodeTemplateMap,
             linkTemplateMap: this.linkTemplateMap,
             groupTemplateMap: this.groupTemplateMap,
             // nodeTemplateMap: this.palNodeTemplateMap,
             // groupTemplateMap: this.palGroupTemplateMap,
             layout: $(go.GridLayout,{
-              // cellSize: new go.Size(1, 1),
-              // spacing: new go.Size(5, 5),
+              cellSize: new go.Size(1, 1),
+              spacing: new go.Size(5, 5),
             }, palette_props)
           })
         )
@@ -130,7 +126,7 @@ const showSmallPorts = (node, show)=>{
     });
   }else{
     // 一堆错，所以先注释了
-    // console.error(node, node.ports, '为undefiend')
+    console.error(node, node.ports, '为undefiend')
   }
 }
 
@@ -138,15 +134,6 @@ const showSmallPorts = (node, show)=>{
 const common_node_propety = ()=>[
   // new go.Binding("location", "location").makeTwoWay(),
   new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-  new go.Binding("portId").makeTwoWay(),
-  makePort("T", go.Spot.Top, true, true),
-  makePort("L", go.Spot.Left, true, true),
-  makePort("R", go.Spot.Right, true, true),
-  makePort("B", go.Spot.Bottom, true, true),
-  { // handle mouse enter/leave events to show/hide the ports
-    mouseEnter: function(e, node) { showSmallPorts(node, true); },
-    mouseLeave: function(e, node) { showSmallPorts(node, false); }
-  },
 ]
 
 const common_link_propety = ()=>[
@@ -301,3 +288,4 @@ const commonGroupTemplate =
       new go.Binding("text", "key")
     ),
   );
+

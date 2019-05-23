@@ -11,7 +11,7 @@ import { autorun } from 'mobx';
 import stateManger from './dataManager/stateManager';
 import dataStore from './dataManager/dataStore';
 import WorkFlow from './component/function_components/WorkFlow';
-import Value from './component/function_components/Value';
+import Value from './component/function_components/aim2';
 import Aim from './component/function_components/Aim';
 import Teamwork from './component/function_components/TeamWork'
 
@@ -38,7 +38,7 @@ class App extends React.Component{
   
   }
   render(){
-    const top_height = 60
+    const top_height = 50
     const {show_view_name} = this.state
     const needShow = name=>{
       // 设一个第一次限制渲染

@@ -13,7 +13,7 @@ export default class ToolBar extends React.Component{
     render(){
       const {controller} = this.props
         return (
-            <Menu fluid style={{background:'rgb(133,158,158)', height:60}}>
+            <Menu fluid style={{background:'rgb(133,158,158)', height:35}}>
              <Menu.Item style={{color:'#fff'}}>
                 新建&nbsp;<span className="iconfont">&#xe600;</span>
             </Menu.Item> 
@@ -22,7 +22,7 @@ export default class ToolBar extends React.Component{
             </Menu.Item>
             <Dropdown
               placeholder='选择连线'
-              style={{color:'#fff',background:'rgb(133,158,158)',paddingTop:'20px'}}
+              style={{color:'#fff',background:'rgb(133,158,158)'}}
               // fluid
               selection
               options={[

@@ -12,7 +12,15 @@ export default class CarrierResource extends React.Component{
       this.controller = controller
       const {diagram, palette} = controller
       const node_datas = [
-        { color: "red", category: 'carrier'},
+        {
+          category: 'carrier',
+          fields: [
+            { name: "field1", info: "b", color: "#F7B84B", figure: "Ellipse" },
+            { name: "field2", info: "a", color: "#F25022", figure: "Ellipse" },
+            { name: "field3", info: "c", color: "#00BCF2" }
+          ],
+          // loc: "0 0"
+        },
         { // first node
           // key: 1,
           columnDefinitions: [

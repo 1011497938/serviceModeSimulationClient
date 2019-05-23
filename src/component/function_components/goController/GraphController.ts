@@ -139,6 +139,7 @@ const common_node_propety = ()=>[
   // new go.Binding("location", "location").makeTwoWay(),
   new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
   new go.Binding("portId").makeTwoWay(),
+  new go.Binding("key").makeTwoWay(),
   makePort("T", go.Spot.Top, true, true),
   makePort("L", go.Spot.Left, true, true),
   makePort("R", go.Spot.Right, true, true),

@@ -29,22 +29,91 @@ const custom_props = {
   width: custom_r,
   height: custom_r
 }
-const carrierNodeTemplate =
-$(go.Node, 'Spot',
-  $(go.Shape, "RoundedRectangle", 
-    custom_props, 
+
+// 每一行
+const fieldTemplate =
+$(go.Panel, "TableRow",  // this Panel is a row in the containing Table
+  // new go.Binding("portId", "name"),  // this Panel is a "port"
+  {
+    background: "transparent",  // so this port's background can be picked by the mouse
+    fromSpot: go.Spot.LeftRightSides,  // links only go from the right side to the left side
+    toSpot: go.Spot.LeftRightSides,
+    // allow drawing links from or to this port:
+    fromLinkable: true, toLinkable: true
+  },
+  // { // allow the user to select items -- the background color indicates whether "selected"
+  //   //?? maybe this should be more sophisticated than simple toggling of selection
+  //   click: function(e, item) {
+  //     // assume "transparent" means not "selected", for items
+  //     var oldskips = item.diagram.skipsUndoManager;
+  //     item.diagram.skipsUndoManager = true;
+  //     if (item.background === "transparent") {
+  //       item.background = "dodgerblue";
+  //     } else {
+  //       item.background = "transparent";
+  //     }
+  //     item.diagram.skipsUndoManager = oldskips;
+  //   }
+  // },
+  $(go.Shape,
     {
-      width: 120,
-      height: 70,
-      fill: '#00A6ED'
+      width: 12, height: 12, column: 0, strokeWidth: 2, margin: 4,
+      // but disallow drawing links from or to this shape:
+      fromLinkable: false, toLinkable: false
     },
-    // new go.Binding("fill", "color"),
+    new go.Binding("figure", "figure"),
+    new go.Binding("fill", "color")
   ),
-  common_node_propety(),
   $(go.TextBlock,
-  { margin: 3 },  
-    new go.Binding("text", "key"))
-); 
+    {
+      margin: new go.Margin(0, 2), column: 1, font: "bold 13px sans-serif",
+      // and disallow drawing links from or to this text:
+      fromLinkable: false, toLinkable: false
+    },
+    new go.Binding("text", "name")),
+  $(go.TextBlock,
+    { margin: new go.Margin(0, 2), column: 2, font: "13px sans-serif" },
+    new go.Binding("text", "info"))
+);
+
+
+
+const carrierNodeTemplate =
+$(go.Node, "Auto",
+new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+// this rectangular shape surrounds the content of the node
+$(go.Shape,
+  { fill: "#EEEEEE" }),
+// the content consists of a header and a list of items
+$(go.Panel, "Vertical",
+  // this is the header for the whole node
+  $(go.Panel, "Auto",
+    { stretch: go.GraphObject.Horizontal },  // as wide as the whole node
+    $(go.Shape,
+      { fill: "#1570A6", stroke: null }),
+    $(go.TextBlock,
+      {
+        alignment: go.Spot.Center,
+        margin: 3,
+        stroke: "white",
+        textAlign: "center",
+        font: "bold 12pt sans-serif"
+      },
+      new go.Binding("text", "key"))),
+  // this Panel holds a Panel for each item object in the itemArray;
+  // each item Panel is defined by the itemTemplate to be a TableRow in this Table
+  $(go.Panel, "Table",
+    {
+      name: "TABLE",
+      padding: 2,
+      minSize: new go.Size(100, 10),
+      defaultStretch: go.GraphObject.Horizontal,
+      itemTemplate: fieldTemplate
+    },
+    new go.Binding("itemArray", "fields")
+  )  // end Table Panel of items
+)  // end Vertical Panel
+);  // end Node
 
 const resourceNodeTemplate =
   $(go.Node, "Auto",

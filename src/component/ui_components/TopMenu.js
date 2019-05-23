@@ -20,7 +20,7 @@ export default class TopMenu extends Component {
     const { activeItem } = this.state
     const { width, height} = this.props
     return (
-      <Menu fluid style={{background:'#000'}}>
+      <Menu fluid>
         <Menu.Item
           name='服务模式'
           active={true}

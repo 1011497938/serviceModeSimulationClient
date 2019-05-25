@@ -460,7 +460,7 @@ const eventNodeTemplateForPalette =
     {
       locationObjectName: 'SHAPE',
       locationSpot: go.Spot.Center,
-      selectionAdorned: false
+      selectionAdorned: false,
     },
     $(go.Panel, "Auto", //子元素在面板的位置
       $(go.Shape, "Circle",

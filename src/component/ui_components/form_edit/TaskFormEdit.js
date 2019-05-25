@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Input, Menu, Table, Label, Icon,Form} from 'semantic-ui-react'
-import stateManger from '../../dataManager/stateManager';
+import stateManger from '../../../dataManager/stateManager';
 import { autorun } from 'mobx';
 
 export default class TaskFormEdit extends Component{

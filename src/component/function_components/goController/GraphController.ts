@@ -61,6 +61,20 @@ export default class GraphController{
         // 这个地方可以加个改颜色的
     }
 
+    initLinkMap(maps){
+      const {linkTemplateMap} = this
+      for(let key in maps){
+        linkTemplateMap.add(key, maps[key])
+        // console.log(key, maps[key])
+      }
+      this.setDeafultLineType(Object.keys(maps)[0])
+    }
+    // 设置现在连的线的类型
+    setDeafultLineType(link_type){
+      const {linkTemplateMap} = this
+      // console.log(link_type, linkTemplateMap[link_type])
+      linkTemplateMap.add('', linkTemplateMap.get(link_type))
+    }
     // 初始化go，可以传入自定义的参数
     init(diagram_props={}, palette_props={}){
       if(this.diagram){
@@ -153,7 +167,8 @@ function makePort(name, spot, output, input) {
       fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
       fromLinkable: output, toLinkable: input,  // declare whether the user may draw links to/from here
       cursor: "pointer"  // show a different cursor to indicate potential link point
-    });
+    }
+  )
 }
 // 显示或者不显示锚点
 const showSmallPorts = (node, show)=>{

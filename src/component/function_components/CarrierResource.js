@@ -4,6 +4,7 @@ import Controller from './goController/CarrierResource.ts'
 import { Icon, Menu} from 'semantic-ui-react'
 import ToolBar from '../ui_components/ToolBar';
 import { genCommonLinkWithText, genBiArrowLinkWithText, genArrowLinkWithText,} from './goController/GraphController.ts'
+import stateManger from '../../dataManager/stateManager';
 
 // 存了各个视图的model
 // const view2model = {
@@ -72,6 +73,12 @@ export default class CarrierResource extends React.Component{
       // diagram.addModelChangedListener(function(evt) {
       //   if (evt.isTransactionFinished) console.log(evt.model.toJson(), evt.sel);
       // });
+      diagram.addDiagramListener("ObjectSingleClicked", e=> {
+        var part = e.subject.part;
+        if (!(part instanceof go.Link)) 
+          // console.log("Clicked on " + part.data.key, part.data.category);
+          stateManger.selectGraphObject(part)
+      });
     }
 
     componentDidMount(){

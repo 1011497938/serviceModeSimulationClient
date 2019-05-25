@@ -5,35 +5,14 @@ import {view2controller} from './goController/GraphController.ts'
 import { Icon, Menu} from 'semantic-ui-react'
 import ToolBar from '../ui_components/ToolBar';
 import dataStore from '../../dataManager/dataStore';
+import { autorun } from 'mobx';
+import stateManger from '../../dataManager/stateManager';
 const $ = go.GraphObject.make;
 // 5月20日，添加了全局视图, 谭思危
 export default class GlobalOverview extends React.Component{
+    
     init_graph(){
       const controller = new Controller(this.refs.myDiagramDiv, this.refs.myPaletteDiv)
-
-      // console.log(controller.nodeTemplateMap)
-      function refresh(){
-        for(let view in view2controller){
-          let view_controller = view2controller[view]
-          console.log(
-            view_controller.diagram.model.nodeDataArray
-          )
-          // if(controller){
-          //   const {nodeTemplateMap,  linkTemplateMap, groupTemplateMap} = view_controller
-          //   var it = nodeTemplateMap.iterator;
-          //   while (it.next()) {
-          //     const {key, value} = it
-          //     // console.log(key, value)
-          //     // if(!controller.nodeTemplateMap.has(key))
-          //     controller.nodeTemplateMap.add(key,value)
-          //     // else
-          //     //   console.error(view, key, '已经有重复的了')
-          //   }
-
-          // }
-        }
-      }
-      setInterval(refresh, 2000)
 
       this.controller = controller
       const {diagram, palette} = controller
@@ -81,8 +60,33 @@ export default class GlobalOverview extends React.Component{
     }
 
     componentDidMount(){
-   
       this.init_graph()
+      this.refresh = autorun(()=>{
+        const need_refresh = stateManger.overview_need_refesh.get()
+      // console.log(controller.nodeTemplateMap)
+        for(let view in view2controller){
+          let view_controller = view2controller[view]
+          const view_node_array = view_controller.diagram.model.nodeDataArray,
+                view_link_array = view_controller.diagram.model.linkDataArray,
+                view_link_map = view_controller.linkTemplateMap,
+                view_node_map = view_controller.nodeTemplateMap
+          console.log(view_link_array, view_node_array, view_controller.diagram.model.toJson())
+
+          // if(controller){
+          //   const {nodeTemplateMap,  linkTemplateMap, groupTemplateMap} = view_controller
+          //   var it = nodeTemplateMap.iterator;
+          //   while (it.next()) {
+          //     const {key, value} = it
+          //     // console.log(key, value)
+          //     // if(!controller.nodeTemplateMap.has(key))
+          //     controller.nodeTemplateMap.add(key,value)
+          //     // else
+          //     //   console.error(view, key, '已经有重复的了')
+          //   }
+
+          // }
+        }
+      })
     }
 
     render(){

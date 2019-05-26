@@ -22,7 +22,9 @@ export default class WorkFlow extends React.Component{
       this.controller = controller
       const {diagram, palette} = controller
       const node_datas = [
-        { key: "Pool1", text: "Pool", isGroup: true, category: "Pool" },
+        // { key: 'test', isGroup: true, category: 'testpool',},
+        // { key: "Alpha5", color: "lightblue", category: 'task', group: 'test'},
+        { key: "Pool1", text: "Pool", isGroup: true, category: "Pool"},
         { key: "Lane1", text: "Lane1", isGroup: true, group: "Pool1", color: "lightblue", category: "Lane"},
         { key: "Lane2", text: "Lane2", isGroup: true, group: "Pool1", color: "lightgreen", category: "Lane"},
         { key: "Lane3", text: "Lane3", isGroup: true, group: "Pool1", color: "lightyellow", category: "Lane"},
@@ -52,15 +54,25 @@ export default class WorkFlow extends React.Component{
         { key: 3, text: "Lane", isGroup: true, category: "Lane", group: 1},
       ]
       palette.model = new go.GraphLinksModel(palette_node_datas);
+
+      // 设置初始线选择
+      controller.initLinkMap(this.link_map)
+
       // controller.relayoutLanes();
       // console.log(palette.model.toJson())
-      // diagram.addModelChangedListener(function(evt) {
-      //   if (evt.isTransactionFinished) stateManger.overviewRefesh();
-      // });
+
+      // 更新主视图用的
+      diagram.addModelChangedListener(function(evt) {
+        if (evt.isTransactionFinished) stateManger.overviewRefesh();
+      });
       diagram.addDiagramListener("LinkDrawn", function(diagramEvent) {
-       console.log(diagramEvent.subject, diagramEvent) 
+        // console.log(diagramEvent.subject, diagramEvent)
+        const {subject} = diagramEvent
+        subject.data.category = controller.default_link_type
+        // console.log(subject.data.category, subject.data) 
       });
 
+      // 选择控件使边框改变
       diagram.addDiagramListener("ObjectSingleClicked", e=> {
         var part = e.subject.part;
         if (!(part instanceof go.Link)) 
@@ -68,8 +80,6 @@ export default class WorkFlow extends React.Component{
           stateManger.selectGraphObject(part)
       });
 
-      // 设置初始
-      controller.initLinkMap(this.link_map)
       // controller.linkTemplateMap.add('', this.link_map[Object.keys(this.link_map)[0]])
     }
 

@@ -158,6 +158,7 @@ export default class Controller extends GraphController{
   // this is called after nodes have been moved or lanes resized, to layout all of the Pool Groups again
   function relayoutDiagram() {
     myDiagram.layout.invalidateLayout();
+    // 在group里面以后这里似乎会出问题
     myDiagram.findTopLevelGroups().each(function (g) { if (g.category === 'Pool' && g.layout !== null) g.layout.invalidateLayout(); });
     myDiagram.layoutDiagram();
   }
@@ -334,6 +335,39 @@ export default class Controller extends GraphController{
       },{
 
       })
+    // this.groupTemplateMap.add('testpool', 
+    //   $(go.Group, "Auto",
+    //     // {
+    //     //   handlesDragDropForMembers: ()=>{console.log('hihi')},
+    //     // },
+    //     $(go.Shape, "RoundedRectangle",  // surrounds the Placeholder
+    //       {
+    //         parameter1: 14,
+    //         fill: "#0D2C54",
+    //         opacity: 0.4
+    //       },
+    //     ),
+    //     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+    //     // $(go.Panel, "Auto",
+    //     //   $(go.Shape, "RoundedRectangle",  // surrounds the Placeholder
+    //     //     {
+    //     //       parameter1: 14,
+    //     //       fill: "#0D2C54",
+    //     //       opacity: 0.4
+    //     //     },
+    //     //   ),
+    //     //   $(go.Placeholder,    // represents the area of all member parts,
+    //     //     { padding: 5 },        // with some extra padding around them
+    //     //   ),
+    //     // ),
+    //     // common_node_propety(),
+    //     $(go.TextBlock,         // group title
+    //       { alignment: go.Spot.Right, font: "Bold 12pt Sans-Serif" },
+    //       new go.Binding("text", "key")
+    //     ),
+    //   )
+    // )
+
       myDiagram = this.diagram
   }
 }

@@ -1,6 +1,8 @@
 import * as go from 'gojs';
 // import '../../other_codes/figure'
 import '../../../../node_modules/gojs/extensions/Figures'
+import { link } from 'fs';
+
 export {
   $,
   GraphController,
@@ -23,25 +25,34 @@ export {
   view2controller,
 }
 
-const view2controller = {
-
-}
+const view2controller = {}
 
 const $ = go.GraphObject.make;
 
+// 注意加下来这个会变成静态的了，所以视图之间的id也要唯一
+const static_palNodeTemplateMap = new go.Map<string, go.Node>();
+const static_palLinkTemplateMap = new go.Map<string, go.Link>();
+const static_palGroupTemplateMap = new go.Map<string, go.Group>();
+
+const static_nodeTemplateMap = new go.Map<string, go.Node>();
+const static_linkTemplateMap = new go.Map<string, go.Link>();
+const static_groupTemplateMap = new go.Map<string, go.Group>();
 // 所有控制器的父类
 export default class GraphController{
     diagram = undefined
     palette = undefined
 
-    // 注意加下来这个会变成静态的了，所以视图之间的id也要唯一
-    palNodeTemplateMap = new go.Map<string, go.Node>();
-    palLinkTemplateMap = new go.Map<string, go.Link>();
-    palGroupTemplateMap = new go.Map<string, go.Group>();
 
-    nodeTemplateMap = new go.Map<string, go.Node>();
-    linkTemplateMap = new go.Map<string, go.Link>();
-    groupTemplateMap = new go.Map<string, go.Group>();
+    default_link_type = ''  //初始化设置的连线
+
+    // 注意加下来这个会变成静态的了，所以视图之间的id也要唯一
+    palNodeTemplateMap = static_palNodeTemplateMap
+    palLinkTemplateMap = static_palLinkTemplateMap
+    palGroupTemplateMap = static_palGroupTemplateMap
+
+    nodeTemplateMap = static_nodeTemplateMap
+    linkTemplateMap = static_linkTemplateMap
+    groupTemplateMap = static_groupTemplateMap
 
     constructor(diagram, palette, view_name=undefined){
         if(view_name){
@@ -73,6 +84,7 @@ export default class GraphController{
     setDeafultLineType(link_type){
       const {linkTemplateMap} = this
       // console.log(link_type, linkTemplateMap[link_type])
+      this.default_link_type = link_type 
       linkTemplateMap.add('', linkTemplateMap.get(link_type))
     }
     // 初始化go，可以传入自定义的参数

@@ -4,7 +4,13 @@ import Test from './component/function_components/Test'
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import 'semantic-ui-css/semantic.min.css'
 
-import  TaskFormEdit from './component/ui_components/TaskFormEdit'
+// 各种表单
+import  TaskFormEdit from './component/ui_components/form_edit/TaskFormEdit'
+import  ProviderFormEdit from './component/ui_components/form_edit/ProviderFormEdit'
+import  StartFormEdit from './component/ui_components/form_edit/StartFormEdit'
+import  ResourceFormEdit from './component/ui_components/form_edit/ResourceFormEdit'
+import  CarrierFormEdit from './component/ui_components/form_edit/CarrierFormEdit'
+
 import Nav from './component/ui_components/Nav'
 import TopMenu from './component/ui_components/TopMenu'
 import { autorun } from 'mobx';
@@ -18,12 +24,14 @@ import Teamwork from './component/function_components/TeamWork'
 import CarrierResource from './component/function_components/CarrierResource';
 import GlobalOverview from './component/function_components/GlobalOverview';
 
-
 class App extends React.Component{
   constructor(props){
     super(props)
     this.state={
-      show_view_name: dataStore.default_view_name
+      show_view_name: dataStore.default_view_name,
+
+      selected_graph_object_type : undefined,
+      selected_graph_object : undefined,
     }
   }
 
@@ -35,8 +43,43 @@ class App extends React.Component{
         show_view_name: show_view_name
       })
     })
-  
+    this.onObjectChange = autorun(()=>{
+      const signal = stateManger.selected_graph_object_needrefesh.get()
+      const {selected_graph_object} = stateManger
+      console.log(selected_graph_object, signal, this)
+      this.setState({
+        selected_graph_object: selected_graph_object,
+      })
+    })
   }
+
+  // 在这里写控件和表格的对应关系
+  renderForm(){
+    const type2form = {
+      'provider': ProviderFormEdit,
+      'start':　StartFormEdit,
+      'resource': ResourceFormEdit,
+      'task': TaskFormEdit,
+      'carrier': CarrierFormEdit,
+    }
+    const {selected_graph_object} = this.state
+    
+    if(!selected_graph_object)
+      return undefined  //或者返回一个空表单
+
+    let {key, category, eventType} = selected_graph_object.data
+    if(category==='event'){
+      category = eventType
+    }
+    const Component = type2form[category]
+    // console.log(key, category, Component)
+    if(!Component){
+      return undefined
+    }
+    // console.log(Component)
+    return <Component graph_object={selected_graph_object}/>
+  }
+
   render(){
     const top_height = 50
     const {show_view_name} = this.state
@@ -78,7 +121,7 @@ class App extends React.Component{
                           
           </div>
           <div style={{position: 'absolute', left: '80%', width:'20%', height:'100%',}}>
-              <TaskFormEdit/>
+              {this.renderForm()}
           </div>
 
         </div>

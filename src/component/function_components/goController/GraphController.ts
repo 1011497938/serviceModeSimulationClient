@@ -34,11 +34,7 @@ export default class GraphController{
     diagram = undefined
     palette = undefined
 
-<<<<<<< HEAD
-    // 注意加下来这个会变成静态的了，所以视图之间的id也要唯一！！！
-=======
     // 注意加下来这个会变成静态的了，所以视图之间的id也要唯一
->>>>>>> ecca04b36322513807282dd6ad9438b9e3f825ea
     palNodeTemplateMap = new go.Map<string, go.Node>();
     palLinkTemplateMap = new go.Map<string, go.Link>();
     palGroupTemplateMap = new go.Map<string, go.Group>();
@@ -54,7 +50,7 @@ export default class GraphController{
         
         this.diagram = diagram
         this.palette = palette
- 
+
         this.linkTemplateMap.add('', commonLinkTemplate);  // default
         this.linkTemplateMap.add('arrowlink', ArrowLinkTemplate);
         this.linkTemplateMap.add('2arrowlink', BidirctArrowLinkTemplate);
@@ -190,19 +186,19 @@ const showSmallPorts = (node, show)=>{
 
 // 存了一些各组件都会需要的属性，直接加上就好了, 应该改为function的
 const common_node_propety = ()=>[
-    // new go.Binding("location", "location").makeTwoWay(),
-    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-    new go.Binding("portId").makeTwoWay(),
-    new go.Binding("key").makeTwoWay(),
-    makePort("T", go.Spot.Top, true, true),
-    makePort("L", go.Spot.Left, true, true),
-    makePort("R", go.Spot.Right, true, true),
-    makePort("B", go.Spot.Bottom, true, true),
-    { // handle mouse enter/leave events to show/hide the ports
-      mouseEnter: function(e, node) { showSmallPorts(node, true); },
-      mouseLeave: function(e, node) { showSmallPorts(node, false); }
-    },
-  ]
+  // new go.Binding("location", "location").makeTwoWay(),
+  new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+  new go.Binding("portId").makeTwoWay(),
+  new go.Binding("key").makeTwoWay(),
+  makePort("T", go.Spot.Top, true, true),
+  makePort("L", go.Spot.Left, true, true),
+  makePort("R", go.Spot.Right, true, true),
+  makePort("B", go.Spot.Bottom, true, true),
+  { // handle mouse enter/leave events to show/hide the ports
+    mouseEnter: function(e, node) { showSmallPorts(node, true); },
+    mouseLeave: function(e, node) { showSmallPorts(node, false); }
+  },
+]
 
 const common_link_propety = ()=> [
   new go.Binding("points").makeTwoWay(),
@@ -220,7 +216,7 @@ $(go.Adornment, "Auto",
 
 const nodeResizeAdornmentTemplate =
 $(go.Adornment, "Auto",
-  { locationSpot: go.Spot.Center},
+  { locationSpot: go.Spot.Center },
   $(go.Placeholder),
   $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
   $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
@@ -353,9 +349,6 @@ const genCommonLinkWithText = text=>{
   )
 }
 
-<<<<<<< HEAD
-//普通的group模板（就是一个框框）
-=======
 const genBiArrowLinkWithText = text =>{
   return $(go.Link,  // the whole link panel
     common_link_propety(),
@@ -416,7 +409,6 @@ const genArrowLinkWithText = text =>{
 }
 
 // 普通的group模板（就是一个框框）
->>>>>>> ecca04b36322513807282dd6ad9438b9e3f825ea
 const commonGroupTemplate =
   $(go.Group, "Auto",
     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
@@ -438,5 +430,3 @@ const commonGroupTemplate =
       new go.Binding("text", "key")
     ),
   );
-
-  

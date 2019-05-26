@@ -59,10 +59,6 @@ const fieldTemplate =
         item.diagram.skipsUndoManager = oldskips;
       }
     },
-<<<<<<< HEAD
-
-=======
->>>>>>> ecca04b36322513807282dd6ad9438b9e3f825ea
     $(go.Shape,
       {
         width: 12, height: 12, column: 0, strokeWidth: 2, margin: 4, stroke: null,
@@ -147,7 +143,8 @@ const carrierNodeTemplateForPallete = genForPalette(
           },
         )
       ),
-
+      // this Panel holds a Panel for each item object in the itemArray;
+      // each item Panel is defined by the itemTemplate to be a TableRow in this Table
       $(go.Panel, "Table",
         {
           name: "TABLE",

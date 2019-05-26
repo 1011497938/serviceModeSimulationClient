@@ -13,9 +13,7 @@ export default class CarrierResource extends React.Component{
       const {diagram, palette} = controller
       const node_datas = [
         { color: "red", category: 'carrier'},
-        { // first node
-          // key: 1,
-          columnDefinitions: [
+        { columnDefinitions: [
             // each column definition needs to specify the column used
             { attr: "name", text: "Name", column: 0 },
             { attr: "phone", text: "Phone #", column: 1 },

@@ -14,7 +14,8 @@ export {
   ArrowLinkTemplate,
   BidirctArrowLinkTemplate,
   commonLinkTemplate,
-linkSelectionAdornmentTemplate
+  genCommonLinkWithText,
+  genForPalette,
 }
 
 
@@ -25,8 +26,9 @@ export default class GraphController{
     diagram = undefined
     palette = undefined
 
-    // 这两个鬼东西暂时先不用，注意加下来这个会变成静态的了，所以视图之间的id也要唯一！！！
-    palNodeTemplateMap = new go.Map <string, go.Node>();
+    // 注意加下来这个会变成静态的了，所以视图之间的id也要唯一！！！
+    palNodeTemplateMap = new go.Map<string, go.Node>();
+    palLinkTemplateMap = new go.Map<string, go.Link>();
     palGroupTemplateMap = new go.Map<string, go.Group>();
 
     nodeTemplateMap = new go.Map<string, go.Node>();
@@ -36,7 +38,7 @@ export default class GraphController{
     constructor(diagram, palette, view_name=''){
         this.diagram = diagram
         this.palette = palette
-
+ 
         this.linkTemplateMap.add('', commonLinkTemplate);  // default
         this.linkTemplateMap.add('arrowlink', ArrowLinkTemplate);
         this.linkTemplateMap.add('2arrowlink', BidirctArrowLinkTemplate);
@@ -49,47 +51,54 @@ export default class GraphController{
 
     // 初始化go，可以传入自定义的参数
     init(diagram_props={}, palette_props={}){
-      this.diagram = $(go.Diagram, this.diagram,  // must name or refer to the DIV HTML element
-        Object.assign({
-          // maxSelectionCount: 1,
-          nodeTemplateMap: this.nodeTemplateMap,
-          linkTemplateMap: this.linkTemplateMap,
-          groupTemplateMap: this.groupTemplateMap,
-          // 加格子
-          grid: $(go.Panel, "Grid",
-            $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
-            $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
-            $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
-            $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
-          ),
-          "draggingTool.dragsLink": true,
-          "linkingTool.portGravity": 20,
-          "relinkingTool.portGravity": 20,
-          "relinkingTool.fromHandleArchetype":
-            $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
-          "relinkingTool.toHandleArchetype":
-            $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "darkred", stroke: "tomato" }),
-          "linkReshapingTool.handleArchetype":
-            $(go.Shape, "Diamond", { desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
-          "rotatingTool.handleAngle": 270,
-          "rotatingTool.handleDistance": 30,
-          "rotatingTool.snapAngleMultiple": 15,
-          "rotatingTool.snapAngleEpsilon": 15,
-          "undoManager.isEnabled": true
-        }, diagram_props)
-      );
+      if(this.diagram){
+        this.diagram = $(go.Diagram, this.diagram,  // must name or refer to the DIV HTML element
+          Object.assign({
+            // maxSelectionCount: 1,
+            nodeTemplateMap: this.nodeTemplateMap,
+            linkTemplateMap: this.linkTemplateMap,
+            groupTemplateMap: this.groupTemplateMap,
+            // 加格子
+            grid: $(go.Panel, "Grid",
+              $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
+              $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
+              $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
+              $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
+            ),
+            "draggingTool.dragsLink": true,
+            "linkingTool.portGravity": 20,
+            "relinkingTool.portGravity": 20,
+            "relinkingTool.fromHandleArchetype":
+              $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
+            "relinkingTool.toHandleArchetype":
+              $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "darkred", stroke: "tomato" }),
+            "linkReshapingTool.handleArchetype":
+              $(go.Shape, "Diamond", { desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
+            "rotatingTool.handleAngle": 270,
+            "rotatingTool.handleDistance": 30,
+            "rotatingTool.snapAngleMultiple": 15,
+            "rotatingTool.snapAngleEpsilon": 15,
+            "undoManager.isEnabled": true
+          }, diagram_props)
+        );        
+      }
+
       
       if(this.palette){
         this.palette = $(go.Palette, this.palette,  // must name or refer to the DIV HTML element
           Object.assign({ // share the templates with the main Diagram
-            nodeTemplateMap: this.nodeTemplateMap,
-            linkTemplateMap: this.linkTemplateMap,
-            groupTemplateMap: this.groupTemplateMap,
+            // mouseDrop: (e)=>{
+            //   // if (!e.shift) return;  // cannot change groups with an unmodified drag-and-drop
+            //   console.log(e, e.shift)
+            // },
+            nodeTemplateMap: this.palNodeTemplateMap,
+            linkTemplateMap: this.palLinkTemplateMap,
+            groupTemplateMap: this.palGroupTemplateMap,
             // nodeTemplateMap: this.palNodeTemplateMap,
             // groupTemplateMap: this.palGroupTemplateMap,
             layout: $(go.GridLayout,{
-              cellSize: new go.Size(1, 1),
-              spacing: new go.Size(5, 5),
+              // cellSize: new go.Size(1, 1),
+              // spacing: new go.Size(5, 5),
             }, palette_props)
           })
         )
@@ -100,6 +109,23 @@ export default class GraphController{
     }
 }
 
+// 生成工具栏的模板
+const genForPalette = (shape,name) =>{
+  return (
+    $(go.Node, 'Vertical',
+      {
+        locationObjectName: 'SHAPE',
+        locationSpot: go.Spot.Center,
+        selectionAdorned: false
+      },
+      shape,
+      $(go.TextBlock,
+        { margin: 5, editable: true, text: name},
+      )
+    )
+  )
+}
+
 // 为组件加锚点的函数
 function makePort(name, spot, output, input) {
   // the port is basically just a small transparent square
@@ -107,7 +133,7 @@ function makePort(name, spot, output, input) {
     {
       fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
       stroke: null,
-      desiredSize: new go.Size(7, 7),
+      desiredSize: new go.Size(10, 10),
       alignment: spot,  // align the port on the main Shape
       alignmentFocus: spot,  // just inside the Shape
       portId: name,  // declare this object to be a "port"
@@ -126,15 +152,25 @@ const showSmallPorts = (node, show)=>{
     });
   }else{
     // 一堆错，所以先注释了
-    console.error(node, node.ports, '为undefiend')
+    // console.error(node, node.ports, '为undefiend')
   }
 }
 
 // 存了一些各组件都会需要的属性，直接加上就好了, 应该改为function的
 const common_node_propety = ()=>[
-  // new go.Binding("location", "location").makeTwoWay(),
-  new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-]
+    // new go.Binding("location", "location").makeTwoWay(),
+    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+    new go.Binding("portId").makeTwoWay(),
+    new go.Binding("key").makeTwoWay(),
+    makePort("T", go.Spot.Top, true, true),
+    makePort("L", go.Spot.Left, true, true),
+    makePort("R", go.Spot.Right, true, true),
+    makePort("B", go.Spot.Bottom, true, true),
+    { // handle mouse enter/leave events to show/hide the ports
+      mouseEnter: function(e, node) { showSmallPorts(node, true); },
+      mouseLeave: function(e, node) { showSmallPorts(node, false); }
+    },
+  ]
 
 const common_link_propety = ()=>[
 
@@ -149,7 +185,7 @@ $(go.Adornment, "Auto",
 
 const nodeResizeAdornmentTemplate =
 $(go.Adornment, "Auto",
-  { locationSpot: go.Spot.Center },
+  { locationSpot: go.Spot.Center},
   $(go.Placeholder),
   $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
   $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
@@ -191,7 +227,18 @@ const commonLinkTemplate =
 $(go.Link,       // the whole link panel
   { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
   avoid_cross_props,
-  $(go.Shape)  // the link shape, default black stroke
+  $(go.Shape),  // the link shape, default black stroke
+  $(go.TextBlock,
+    {
+      textAlign: "center",
+      font: "10pt helvetica, arial, sans-serif",
+      stroke: "#919191",
+      margin: 2,
+      minSize: new go.Size(10, NaN),
+      editable: true
+    },
+    new go.Binding("text").makeTwoWay()
+  )
 );
 
 // 带箭头的实线
@@ -218,7 +265,8 @@ $(go.Link,  // the whole link panel
         minSize: new go.Size(10, NaN),
         editable: true
       },
-      new go.Binding("text").makeTwoWay())
+      new go.Binding("text").makeTwoWay()
+    )
   )
 );
 
@@ -257,9 +305,29 @@ const BidirctArrowLinkTemplate =
     )
   );
 
+// 生成带固定文字的普通连线
+const genCommonLinkWithText = text=>{
+  return (
+    $(go.Link,       // the whole link panel
+      { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
+      avoid_cross_props,
+      $(go.Shape),  // the link shape, default black stroke
+      $(go.TextBlock,
+        {
+          textAlign: "center",
+          font: "10pt helvetica, arial, sans-serif",
+          stroke: "black",
+          margin: 2,
+          minSize: new go.Size(10, NaN),
+          editable: true,
+          text: text,
+        },
+      )
+    )
+  )
+}
 
-
-// 普通的group模板（就是一个框框）
+//普通的group模板（就是一个框框）
 const commonGroupTemplate =
   $(go.Group, "Auto",
     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
@@ -275,17 +343,11 @@ const commonGroupTemplate =
         { padding: 5 },        // with some extra padding around them
       ),
     ),
-    makePort("T", go.Spot.Top, true, true),
-    makePort("L", go.Spot.Left, true, true),
-    makePort("R", go.Spot.Right, true, true),
-    makePort("B", go.Spot.Bottom, true, true),
-    { // handle mouse enter/leave events to show/hide the ports
-      mouseEnter: function(e, node) { showSmallPorts(node, true); },
-      mouseLeave: function(e, node) { showSmallPorts(node, false); }
-    },
+    common_node_propety(),
     $(go.TextBlock,         // group title
       { alignment: go.Spot.Right, font: "Bold 12pt Sans-Serif" },
       new go.Binding("text", "key")
     ),
   );
 
+  

@@ -13,10 +13,10 @@ export default class WorkFlow extends React.Component{
       const {diagram, palette} = controller
       const node_datas = [
         { key: "Pool1", text: "Pool", isGroup: true, category: "Pool" },
-        { key: "Lane1", text: "Lane1", isGroup: true, group: "Pool1", color: "lightblue", category: "lane"},
-        { key: "Lane2", text: "Lane2", isGroup: true, group: "Pool1", color: "lightgreen", category: "lane"},
-        { key: "Lane3", text: "Lane3", isGroup: true, group: "Pool1", color: "lightyellow", category: "lane"},
-        { key: "Lane4", text: "Lane4", isGroup: true, group: "Pool1", color: "orange" , category: "lane"},
+        { key: "Lane1", text: "Lane1", isGroup: true, group: "Pool1", color: "lightblue", category: "Lane"},
+        { key: "Lane2", text: "Lane2", isGroup: true, group: "Pool1", color: "lightgreen", category: "Lane"},
+        { key: "Lane3", text: "Lane3", isGroup: true, group: "Pool1", color: "lightyellow", category: "Lane"},
+        { key: "Lane4", text: "Lane4", isGroup: true, group: "Pool1", color: "orange" , category: "Lane"},
         { key: "Alpha5", color: "lightblue", category: 'task', group: 'Lane1'},
         { key: "Alpha6", color: "lightblue", category: 'task', group: 'Lane1'},
         { key: "Alpha1", color: "lightblue", category: 'start', group: 'Lane2'},
@@ -26,23 +26,25 @@ export default class WorkFlow extends React.Component{
         { key: "Alpha4", color: "lightblue", category: 'exclusive', group: 'Lane4'},
       ]
       diagram.model = new go.GraphLinksModel(node_datas,[
-        {from: 'Alpha', to: 'Alpha1', category: 'arrowlink'}
+        // {from: 'Alpha', to: 'Alpha1', category: 'arrowlink'}
       ]);
 
       const palette_node_datas = [
-        { color: "lightblue", category: 'task'},
-        { color: "lightblue", category: 'start'},
-        { color: "lightblue", category: 'end'},
-        { color: "lightblue", category: 'parallel'},
-        { color: "lightblue", category: 'exclusive'},
+        { category: 'task'},
+        { category: 'start'},
+        { category: 'end'},
+        { category: 'parallel'},
+        { category: 'exclusive'},
+        { key: 1, text: "Pool", isGroup: true, category: "Pool" },
+        { key: 2, text: "Lane", isGroup: true, category: "Lane", group: 1},
+        { key: 3, text: "Lane", isGroup: true, category: "Lane", group: 1},
       ]
       palette.model = new go.GraphLinksModel(palette_node_datas);
-      controller.relayoutLanes();
+      // controller.relayoutLanes();
       // console.log(palette.model.toJson())
     }
 
     componentDidMount(){
-   
       this.init_graph()
     }
 

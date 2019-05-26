@@ -2,32 +2,27 @@ import React from 'react';
 import * as go from 'gojs';
 
 import { Icon, Menu, Dropdown} from 'semantic-ui-react'
-import {ArrowLinkTemplate, BidirctArrowLinkTemplate, commonLinkTemplate,} from '../function_components/goController/GraphController.ts'
+// import {ArrowLinkTemplate, BidirctArrowLinkTemplate, commonLinkTemplate,} from '../function_components/goController/GraphController.ts'
 
-const common_link_map = {
-  '直线':  commonLinkTemplate,
-  '双向箭头': BidirctArrowLinkTemplate,
-  '箭头': ArrowLinkTemplate,
-}
+const common_link_map = {}
 export default class ToolBar extends React.Component{
     constructor(props){
         super(props)
         this.state =  {
         }
-
     }
 
-    setDefaultLink(value){
-      let {controller, link_map} = this.props
-      console.warn(controller)
-      link_map = link_map || common_link_map
-      if (controller) {
-        console.log(value,  link_map[value])
-        controller.linkTemplateMap.add('', link_map[value])
-      }else{
-        console.error(controller,'为空')
-      }
-    }
+    // setDefaultLink(value){
+    //   let {controller, link_map} = this.props
+    //   // console.warn(controller)
+    //   link_map = link_map || common_link_map
+    //   if (controller) {
+    //     console.log(value,  link_map[value])
+    //     controller.linkTemplateMap.add('', link_map[value])
+    //   }else{
+    //     console.error(controller,'为空')
+    //   }
+    // }
     render(){
       let {controller, link_map} = this.props
       // console.log(controller, link_map )
@@ -50,7 +45,8 @@ export default class ToolBar extends React.Component{
             })}
             defaultValue={Object.keys(link_map)[0]}
             onChange={(event, {value})=>{
-              this.setDefaultLink(value)
+              controller.setDeafultLineType(value)
+              // this.setDefaultLink(value)
             }}
           />
         </Menu>

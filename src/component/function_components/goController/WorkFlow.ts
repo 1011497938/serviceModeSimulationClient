@@ -18,28 +18,26 @@ const {
 // 工具栏布局，点击自动生成id，空间的工厂类
 export default class Controller extends GraphController{
   constructor(diagram, palette){
-    super(diagram, palette)
+    super(diagram, palette, '服务过程视图')
     this.nodeTemplateMap.add('task', taskNodeTemplate)
-    this.nodeTemplateMap.add('start', startNodeTemplate)
-    this.nodeTemplateMap.add('end', endNodeTemplate)
     this.nodeTemplateMap.add('parallel', parallelGateWayNodeTemplate)
     this.nodeTemplateMap.add('exclusive', exclusiveGateWayNodeTemplate)
-    
+    this.nodeTemplateMap.add('event', eventNodeTemplate)
+
     this.palNodeTemplateMap.add('task', taskNodeTemplateForPalette)
-    this.palNodeTemplateMap.add('start', startNodeTemplateForPalette)
-    this.palNodeTemplateMap.add('end', endNodeTemplateForPalette)
     this.palNodeTemplateMap.add('parallel', parallelGateWayNodeTemplateForPalette)
     this.palNodeTemplateMap.add('exclusive', exclusiveGateWayNodeTemplateForPalette)
-    
+    this.palNodeTemplateMap.add('event', eventNodeTemplateForPalette)
+
     this.palGroupTemplateMap.add('Pool', poolTemplateForPalette)
     this.palGroupTemplateMap.add('Lane', swimLanesGroupTemplateForPalette)
     this.init()
   }
 
-  // 重写一个新的,包含了从https://gojs.net/latest/samples/swimlanes.html抄来的泳道图
+  // 重写一个新的,从https://gojs.net/latest/projects/bpmn/BPMN.html#抄来的泳道图
   init(){
     let myDiagram: go.Diagram;
-    console.log(myDiagram)
+    // console.log(myDiagram)
     // swimlanes
     const MINLENGTH = 400;  // this controls the minimum length of any swimlane
     const MINBREADTH = 20;  // this controls the minimum breadth of any non-collapsed swimlane
@@ -344,7 +342,7 @@ export default class Controller extends GraphController{
 const custom_r = 70
 const icon_color = '#f7f7f7'
 const custom_props = {
-  stroke: 'black',
+  stroke: null,
   strokeWidth:1.5,
   width: custom_r,
   height: custom_r
@@ -354,7 +352,7 @@ const custom_icon_props = {
   strokeWidth:1.5,
   width: custom_r/2,
   height: custom_r/2,
-  stroke: 'black'
+  stroke: null
 }
 
 
@@ -416,47 +414,68 @@ const taskNodeTemplateForPalette = genForPalette(
   'task'
 )
 
+// 还没用过的图形
+// const tasks = ['NotAllowed',
+// 'BpmnEventEscalation',
+// 'BpmnEventConditional',
+// 'Arrow',
+// 'BpmnEventError',
+// 'ThinX',
+// 'BpmnActivityCompensation',
+// 'Triangle',
+// 'Pentagon',
+// 'ThickCross',
+// ];
 
-const startNodeTemplate =
-$(go.Node, 'Auto',
- $(go.Panel, "Auto", //子元素在面板的位置
-    $(go.Shape, "Circle",  
-      custom_props, {fill: '#F6511D'},
-    ),
-  ),
-  common_node_propety()
-); 
 
-const startNodeTemplateForPalette = genForPalette(
-  $(go.Shape, "Circle",  
-    custom_props, {fill: '#F6511D'},
-  ),
-  'start'
-)
+const type2figure = {
+  end: 'Circle',
+  start: 'CircleLine',
+  time: 'BpmnEventTimer',
+  message: 'BpmnTaskMessage',
 
-const endNodeTemplate =
+}
+const nodeEventTypeConverter = event_type=>{  // order here from BPMN 2.0 poster
+  // console.log(event_type, )
+  return type2figure[event_type] || 'NotAllowed'
+}
+
+const eventNodeTemplate = 
 $(go.Node, 'Spot',
   $(go.Panel, "Auto", //子元素在面板的位置
     $(go.Shape, "Circle",  
       custom_props, {fill: '#F6511D'},
     ),
-    $(go.Shape, "Circle",  
-    custom_icon_props
+    $(go.Shape, 
+      custom_icon_props,
+      new go.Binding('figure', 'eventType', nodeEventTypeConverter),
+      // new go.Binding('isV', 'eventType', event_type=> event_type==='start'?'#F6511D':'#f7f7f7'),
     ),
   ),
   common_node_propety()
 ); 
-const endNodeTemplateForPalette = genForPalette(
-  $(go.Panel, "Auto", //子元素在面板的位置
-    $(go.Shape, "Circle",  
-      custom_props, {fill: '#F6511D'},
+
+const eventNodeTemplateForPalette = 
+  $(go.Node, 'Vertical',
+    {
+      locationObjectName: 'SHAPE',
+      locationSpot: go.Spot.Center,
+      selectionAdorned: false,
+    },
+    $(go.Panel, "Auto", //子元素在面板的位置
+      $(go.Shape, "Circle",
+        custom_props, { fill: '#F6511D' },
+      ),
+      $(go.Shape,
+        custom_icon_props,
+        new go.Binding('figure', 'eventType', nodeEventTypeConverter)
+      ),
     ),
-    $(go.Shape, "Circle",  
-    custom_icon_props
-    ),
-  ),
-  'end'
-)
+    $(go.TextBlock,
+      { margin: 5},
+      new go.Binding('text', 'eventType')
+    )
+  )
 
 const exclusiveGateWayNodeTemplate =
 $(go.Node, 'Spot',
@@ -507,3 +526,4 @@ const parallelGateWayNodeTemplateForPalette = genForPalette(
   ),
   'exclusive gateWay'
 )
+

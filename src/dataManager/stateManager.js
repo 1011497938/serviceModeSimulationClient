@@ -6,6 +6,26 @@ class StateManager{
     // @action setShowViewName = ()=>{}
     //  action(name=> this.show_view_name = name)
     selet_component_ingo = observable.box('1')
+
+    overview_need_refesh = observable.box(true)
+    overviewRefesh(){
+        // console.log('refresh overview')
+        const value = this.overview_need_refesh.get()
+        this.overview_need_refesh.set(!value)
+    }
+
+    
+    selected_graph_object = undefined
+    selected_graph_object_needrefesh = observable.box(false)
+    selectGraphObject(object){
+        if(this.selected_graph_object!==object){
+            const signal = !this.selected_graph_object_needrefesh.get()
+            this.selected_graph_object = object
+            this.selected_graph_object_needrefesh.set(signal)
+            // console.log(object, signal)
+        }
+    }
+
 }
 
 var stateManger = new StateManager()

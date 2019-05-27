@@ -1,4 +1,3 @@
-
 import React from 'react';
 import * as go from 'gojs';
 
@@ -10,7 +9,6 @@ export default class ToolBar extends React.Component{
     constructor(props){
         super(props)
         this.state =  {
-
         }
     }
 

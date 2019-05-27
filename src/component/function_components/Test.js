@@ -45,18 +45,7 @@ export default class Test extends React.Component{
         console.log(evt.model)
       }
     });
-      // 画工具栏
-      // diagram.nodeTemplate =
-      // $(go.Node, "Auto",
-      //   $(go.Shape, "RoundedRectangle",
-      //     { fill: "white" },
-      //     new go.Binding("fill", "color"),
-      //     { portId: "", fromLinkable: true, toLinkable: true, cursor: "pointer" }),
-      //   $(go.TextBlock, { margin: 5 },
-      //     new go.Binding("text", "key"))
-      // );
 
-      // diagram.undoManager.isEnabled = true;
 
       // create the Palette
       var myPalette =

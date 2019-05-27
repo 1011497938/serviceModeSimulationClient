@@ -17,7 +17,7 @@ import { autorun } from 'mobx';
 import stateManger from './dataManager/stateManager';
 import dataStore from './dataManager/dataStore';
 import WorkFlow from './component/function_components/WorkFlow';
-import Value from './component/function_components/Value';
+// import Value from './component/function_components/Value';
 import Aim from './component/function_components/Aim';
 import Teamwork from './component/function_components/TeamWork'
 
@@ -98,7 +98,7 @@ class App extends React.Component{
           </div>
 
           {/* 各个go的面板 */}
-          <div style={{position: 'relative',float:'left', width:'70%', height:'100%',}}>
+          <div style={{position: 'relative',float:'left', width:'90%', height:'100%',}}>
             <div style={{zIndex: needShow('全局视图')}} className='main-view 全局视图'>
               <GlobalOverview/>
             </div>
@@ -108,9 +108,7 @@ class App extends React.Component{
             <div style={{zIndex: needShow('载体及资源视图')}} className='main-view 载体及资源视图'>
               <CarrierResource/>
             </div>
-            <div style={{zIndex: needShow('服务价值视图')}} className='main-view 服务价值视图'>
-              <Value/>
-            </div>
+
             <div style={{zIndex: needShow('服务过程视图')}} className='main-view 服务过程视图'>
               <WorkFlow/>
             </div>

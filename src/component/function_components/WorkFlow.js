@@ -95,8 +95,8 @@ export default class WorkFlow extends React.Component{
             <ToolBar controller={this.controller} link_map={this.link_map}/>
           </div>
           <div style={{position: 'absolute', top: contorl_bar_height, width:'100%', height:'100%',}}>
-            <div ref='myPaletteDiv'  style={{position: 'relative',float:'left',top: 0, width:'15%', height:'100%', backgroundColor: '#859e9e'}}/>
-            <div ref="myDiagramDiv"  style={{position: 'relative',float:'left',top: 0, width:'85%', height:'100%', backgroundColor: '#f7f7f7'}}/>      
+            <div className='palatte' ref='myPaletteDiv'  style={{}}/>
+            <div className='diagram'ref="myDiagramDiv"  style={{position: 'relative',float:'left',top: 0, width:'85%', height:'100%', backgroundColor: '#f7f7f7'}}/>      
           </div>
         </div>
       )

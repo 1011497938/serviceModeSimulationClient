@@ -98,25 +98,24 @@ class App extends React.Component{
           </div>
 
           {/* 各个go的面板 */}
-          <div style={{position: 'relative',float:'left', width:'90%', height:'100%',}}>
+          <div style={{position: 'relative',float:'left', width:'70%', height:'100%',}}>
             <div style={{zIndex: needShow('全局视图')}} className='main-view 全局视图'>
               <GlobalOverview/>
             </div>
             <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
-              <Teamwork/>
+              {/* <Teamwork/> */}
             </div>   
             <div style={{zIndex: needShow('载体及资源视图')}} className='main-view 载体及资源视图'>
               <CarrierResource/>
             </div>
-
             <div style={{zIndex: needShow('服务过程视图')}} className='main-view 服务过程视图'>
               <WorkFlow/>
             </div>
             <div style={{zIndex: needShow('服务目标视图')}} className='main-view 服务目标视图'>
-              <Aim/>
+              {/* <Aim/> */}
             </div> 
             <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
-              <Teamwork/>
+              {/* <Teamwork/> */}
             </div> 
                           
           </div>

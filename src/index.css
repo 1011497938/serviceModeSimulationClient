@@ -1,3 +1,14 @@
+.palatte {
+  position: relative;
+  float:left;
+  top: 0;
+  width:15%;
+  height:100%;
+  background-color:#ffff
+}
+.diagram {
+
+}
 body {
   margin: 0;
   padding: 0;

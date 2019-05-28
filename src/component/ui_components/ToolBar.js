@@ -27,7 +27,7 @@ export default class ToolBar extends React.Component{
       let {controller, link_map} = this.props
       // console.log(controller, link_map )
       link_map = link_map || common_link_map
-      // console.log(Object.keys(link_map)[0])
+      // console.log(Object.keys(link_map)[0])rgb(133,158,158)
       return (
           <Menu fluid style={{background:'rgb(133,158,158)', height:35}}>
             <Menu.Item style={{color:'#fff'}}>

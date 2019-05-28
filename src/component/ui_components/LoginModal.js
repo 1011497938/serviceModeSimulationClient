@@ -23,7 +23,7 @@ class LoginModal extends React.Component {
     return (
 
       <Modal
-          trigger={<Button onClick={this.handleOpen} className='mini ui button'><i className="user icon"></i>登录/注册</Button>}
+          trigger={<span onClick={this.handleOpen} style={{color:"#fff",paddingTop:17,marginRight:20,pointer:'cursor'}}><i className="user icon"></i>登录/注册</span>}
           open={this.state.modalOpen}
           onClose={this.handleClose}
           basic

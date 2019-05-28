@@ -20,14 +20,14 @@ export default class TopMenu extends Component {
     const { activeItem } = this.state
     const { width, height} = this.props
     return (
-      <Menu fluid>
+      <Menu fluid style={{background:'rgb(98,99,144)'}}>
         <Menu.Item
           name='服务模式'
           active={true}
         style={{color:'#fff'}}/>
         <Menu.Menu position='right'>
           <Menu.Item>
-            <Input icon='search' placeholder='Search...' />
+            <Input icon='search' placeholder='搜索' />
           </Menu.Item>
           {/* <Menu.Item
             name='登录'

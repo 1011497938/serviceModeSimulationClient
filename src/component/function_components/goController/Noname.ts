@@ -455,22 +455,22 @@ const taskNodeTemplateForPalette3 = genForPalette(
 )
 const taskNodeTemplateForPalette4 = genForPalette(
   $(go.Shape, "RoundedRectangle", 
-    custom_props, 
+
     {
       width: custom_r,
       height: custom_r/2,
-      fill: '#f6511d'
+      fill: '#F6511D'
     },  
   ),
   '消费主体'
 )
 const taskNodeTemplateForPalette5 = genForPalette(
   $(go.Shape, "RoundedRectangle", 
-    custom_props, 
+
     {
       width: custom_r,
       height: custom_r/2,
-      fill: '#f6511d'
+      fill: '#F6511D'
     },  
   ),
   '目标主体'

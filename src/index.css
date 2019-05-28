@@ -1,23 +1,42 @@
+@font-face{
+  font-family: 'DFPSongW9';
+  src : url('./static/font/DFPSongW9-GB5.ttf');
+}
+@font-face{
+  font-family: 'STKaiti';
+  src : url('./static/font/STKaiti.ttf');
+}
+@font-face{
+  font-family: 'HYSunWanMinCaoShu';
+  src : url('./static/font/HYSunWanMinCaoShuW-2.ttf');
+}
 .palatte {
   position: relative;
-  float:left;
+  float: left;
   top: 0;
   width:15%;
   height:100%;
   background-color:#ffff
 }
 .diagram {
-
+  position: relative;
+  float: left;
+  top: 0; 
+  width:85%;
+  height:100% ;
+  background-color: #ffff
 }
 body {
+  /* font-family: 'STKaiti'; */
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+    sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

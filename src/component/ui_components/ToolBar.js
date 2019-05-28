@@ -29,26 +29,29 @@ export default class ToolBar extends React.Component{
       link_map = link_map || common_link_map
       // console.log(Object.keys(link_map)[0])
       return (
-          <Menu fluid style={{background:'rgb(133,158,158)', height:35}}>
-            <Menu.Item style={{color:'#fff'}}>
+          <Menu fluid style={{ height:35}}>
+            <Menu.Item style={{color:'black'}}>
               保存&nbsp;<span className="iconfont">&#xe794;</span>
-          </Menu.Item> 
-          <Menu.Item onClick={this.handleDelete} style={{color:'#fff'}}>
-            删除&nbsp;<span className="iconfont">&#xe661;</span>
-          </Menu.Item>
-          <Dropdown
-            placeholder='选择连线'
-            // fluid
-            selection
-            options={Object.keys(link_map).map(elm=>{
-              return {key: elm, text: elm, value: elm, }
-            })}
-            defaultValue={Object.keys(link_map)[0]}
-            onChange={(event, {value})=>{
-              controller.setDeafultLineType(value)
-              // this.setDefaultLink(value)
-            }}
-          />
+            </Menu.Item> 
+            {/* <Menu.Item style={{color:'black'}}  onClick={()=> controller.diagram.zoomToRect(new go.Rect(0,0,100,100))}>
+              tst&nbsp;<span className="iconfont">&#xe794;</span>
+            </Menu.Item>  */}
+            <Menu.Item onClick={this.handleDelete} style={{color:'#fff'}}>
+              删除&nbsp;<span className="iconfont">&#xe661;</span>
+            </Menu.Item>
+            <Dropdown
+              placeholder='选择连线'
+              // fluid
+              selection
+              options={Object.keys(link_map).map(elm=>{
+                return {key: elm, text: elm, value: elm, }
+              })}
+              defaultValue={Object.keys(link_map)[0]}
+              onChange={(event, {value})=>{
+                controller.setDeafultLineType(value)
+                // this.setDefaultLink(value)
+              }}
+            />
         </Menu>
       )
     }

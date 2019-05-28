@@ -25,10 +25,10 @@ export default class WorkFlow extends React.Component{
         // { key: 'test', isGroup: true, category: 'testpool',},
         // { key: "Alpha5", color: "lightblue", category: 'task', group: 'test'},
         { key: "Pool1", text: "Pool", isGroup: true, category: "Pool"},
-        { key: "Lane1", text: "Lane1", isGroup: true, group: "Pool1", color: "lightblue", category: "Lane"},
-        { key: "Lane2", text: "Lane2", isGroup: true, group: "Pool1", color: "lightgreen", category: "Lane"},
-        { key: "Lane3", text: "Lane3", isGroup: true, group: "Pool1", color: "lightyellow", category: "Lane"},
-        { key: "Lane4", text: "Lane4", isGroup: true, group: "Pool1", color: "orange" , category: "Lane"},
+        { key: "Lane1", text: "Lane1", isGroup: true, group: "Pool1", category: "Lane"},
+        { key: "Lane2", text: "Lane2", isGroup: true, group: "Pool1", category: "Lane"},
+        { key: "Lane3", text: "Lane3", isGroup: true, group: "Pool1", category: "Lane"},
+        { key: "Lane4", text: "Lane4", isGroup: true, group: "Pool1", category: "Lane"},
         { key: "Alpha5", color: "lightblue", category: 'task', group: 'Lane1'},
         { key: "Alpha6", color: "lightblue", category: 'task', group: 'Lane1'},
         { key: "Alpha1", color: "lightblue", category: 'start', group: 'Lane2'},
@@ -96,7 +96,7 @@ export default class WorkFlow extends React.Component{
           </div>
           <div style={{position: 'absolute', top: contorl_bar_height, width:'100%', height:'100%',}}>
             <div className='palatte' ref='myPaletteDiv'  style={{}}/>
-            <div className='diagram'ref="myDiagramDiv"  style={{position: 'relative',float:'left',top: 0, width:'85%', height:'100%', backgroundColor: '#f7f7f7'}}/>      
+            <div className='diagram'ref="myDiagramDiv"  style={{}}/>      
           </div>
         </div>
       )

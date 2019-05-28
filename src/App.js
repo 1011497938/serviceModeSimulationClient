@@ -103,7 +103,7 @@ class App extends React.Component{
               <GlobalOverview/>
             </div>
             <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
-              {/* <Teamwork/> */}
+              <Teamwork/>
             </div>   
             <div style={{zIndex: needShow('载体及资源视图')}} className='main-view 载体及资源视图'>
               <CarrierResource/>
@@ -112,10 +112,10 @@ class App extends React.Component{
               <WorkFlow/>
             </div>
             <div style={{zIndex: needShow('服务目标视图')}} className='main-view 服务目标视图'>
-              {/* <Aim/> */}
+              <Aim/>
             </div> 
             <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
-              {/* <Teamwork/> */}
+              <Teamwork/>
             </div> 
                           
           </div>

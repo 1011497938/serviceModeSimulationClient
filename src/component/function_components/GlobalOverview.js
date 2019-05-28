@@ -18,12 +18,12 @@ export default class GlobalOverview extends React.Component{
       const {diagram, palette} = controller
       // ['全局视图', '协同生态视图', '载体及资源视图', '服务价值视图', '服务过程视图', '服务目标视图']
       const node_datas = [
-        // {"key":"提供主体及网络", "isGroup":true,  "loc":"-89.23198649763111 150.2319864976311"},
-        // {"key":"消费主体", "isGroup":true,  "loc":"444.76801350236894 153.2319864976311"},
-        // {"key":"载体及资源视图", "isGroup":true,  "loc":"180.76801350236894 466.2319864976311"},
-        // {"key":"服务价值视图", "isGroup":true,  "loc":"185.76801350236894 -171.7680135023689"},
-        // {"key":"服务过程视图", "isGroup":true,  "loc":"182.76801350236894 258.2319864976311"},
-        // {"key":"服务目标视图", "isGroup":true,  "loc":"183.7680135023689 64.23198649763111"}
+        {"key":"提供主体及网络", "isGroup":true,  "loc":"-89.23198649763111 150.2319864976311"},
+        {"key":"消费主体", "isGroup":true,  "loc":"444.76801350236894 153.2319864976311"},
+        {"key":"载体及资源视图", "isGroup":true,  "loc":"180.76801350236894 466.2319864976311"},
+        {"key":"服务价值视图", "isGroup":true,  "loc":"185.76801350236894 -171.7680135023689"},
+        {"key":"服务过程视图", "isGroup":true,  "loc":"182.76801350236894 258.2319864976311"},
+        {"key":"服务目标视图", "isGroup":true,  "loc":"183.7680135023689 64.23198649763111"}
       ]
       const link_datas = [
         // {"from":"载体及资源视图", "to":"服务过程视图", "text":"支持", "category":"arrowlink", "points":[199.00000000000006,460.5374552476311,199.00000000000006,450.5374552476311,199.00000000000006,367.2319864976311,201.00000000000006,367.2319864976311,201.00000000000006,283.9265177476311,201.00000000000006,273.9265177476311]},
@@ -39,21 +39,27 @@ export default class GlobalOverview extends React.Component{
         // {"from":"载体及资源视图", "to":"提供主体及网络", "text":"交互", "category":"2arrowlink", "points":[199.00000000000006,460.5374552476311,199.00000000000006,450.5374552476311,199.00000000000006,461.0000001173753,-71,461.0000001173753,-71,175.92651774763112,-71,165.92651774763112]}
       ]
       diagram.model = new go.GraphLinksModel(node_datas,link_datas);
+      // console.log(new go.Rect(-10000,-10000,100,100),new go.Rect())
+      // diagram.scrollToRect(new go.Rect(-20,0,2,2))
+      // diagram.scrollToRect(new go.Rect(-20,0,2,2))
+      // controller.diagram.scroll('pixel', 'up', 100)
+      // controller.diagram.zoomToRect(new go.Rect(0,0,100,100))
     }
 
     componentDidMount(){
       this.init_graph()
-      this.refresh = autorun(()=>{
-        console.log('总体示图刷新')
-        const {controller} = this
-        const need_refresh = stateManger.overview_need_refesh.get()
-        if(!controller)
-          return
-      // console.log(controller.nodeTemplateMap)
-        const {node_array,link_array} = getAllDataArray()
-        // console.log(node_array)
-        controller.diagram.model = new go.GraphLinksModel(node_array,link_array);
-      })
+
+      // this.refresh = autorun(()=>{
+      //   console.log('总体示图刷新')
+      //   const {controller} = this
+      //   const need_refresh = stateManger.overview_need_refesh.get()
+      //   if(!controller)
+      //     return
+      // // console.log(controller.nodeTemplateMap)
+      //   const {node_array,link_array} = getAllDataArray()
+      //   // console.log(node_array)
+      //   controller.diagram.model = new go.GraphLinksModel(node_array,link_array);
+      // })
     }
 
     render(){

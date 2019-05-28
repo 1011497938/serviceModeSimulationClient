@@ -3,31 +3,53 @@
   src : url('./static/font/DFPSongW9-GB5.ttf');
 }
 @font-face{
-  font-family: 'STKaiti';
-  src : url('./static/font/STKaiti.ttf');
+  font-family: 'commonFont';
+  src : url('./static/font/HYSongYunLangHeiW.ttf');
 }
 @font-face{
   font-family: 'HYSunWanMinCaoShu';
   src : url('./static/font/HYSunWanMinCaoShuW-2.ttf');
 }
-.palatte {
+/* .palatte {
   position: relative;
   float: left;
   top: 0;
   width:15%;
   height:100%;
   background-color:#ffff
-}
+} */
 .diagram {
   position: relative;
   float: left;
   top: 0; 
-  width:85%;
+  width:100%;
   height:100% ;
-  background-color: #ffff
+  background-color: #ffffff;
+  border: 4px solid white;
+}
+
+.overview{
+  border: 3px solid gray;
+  background: white;
+  position: absolute;
+  left: 50px;
+  bottom: 50px;
+  width: 20%;
+  height: 20%
+}
+.tool-icon{
+  position: absolute;
+  right:10%;
+  width: 10;
+  height: 70;
+  z-index: 31;
+}
+
+.select_view_drowdown{
+  font-size: 30px
 }
 body {
-  /* font-family: 'STKaiti'; */
+  /* font-family: 'commonFont'; */
   margin: 0;
   padding: 0;
   /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

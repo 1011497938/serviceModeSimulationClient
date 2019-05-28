@@ -1,5 +1,6 @@
 import { observable, action } from "mobx";
 import dataStore from "./dataStore";
+import { view2controller } from "../component/function_components/goController/GraphController.ts";
 
 class StateManager{
     show_view_name = observable.box(dataStore.default_view_name)
@@ -14,7 +15,6 @@ class StateManager{
         this.overview_need_refesh.set(!value)
     }
 
-    
     selected_graph_object = undefined
     selected_graph_object_needrefesh = observable.box(false)
     selectGraphObject(object){
@@ -26,6 +26,9 @@ class StateManager{
         }
     }
 
+    getCenterController(){
+        return view2controller[this.show_view_name.get()]
+    }
 }
 
 var stateManger = new StateManager()

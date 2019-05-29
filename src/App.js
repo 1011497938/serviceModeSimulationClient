@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
-import Test from './component/function_components/Test'
-// import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+// import Test from './component/function_components/Test'
+import { Icon, Dropdown} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
+import {view2controller} from './component/function_components/goController/GraphController.ts'
 
 // 各种表单
 import  TaskFormEdit from './component/ui_components/form_edit/TaskFormEdit'
@@ -12,17 +13,16 @@ import  ResourceFormEdit from './component/ui_components/form_edit/ResourceFormE
 import  CarrierFormEdit from './component/ui_components/form_edit/CarrierFormEdit'
 
 import Nav from './component/ui_components/Nav'
-import TopMenu from './component/ui_components/TopMenu'
+import MyPalatte from './component/function_components/MyPalatte'
 import { autorun } from 'mobx';
 import stateManger from './dataManager/stateManager';
 import dataStore from './dataManager/dataStore';
-import WorkFlow from './component/function_components/WorkFlow';
-import Value from './component/function_components/Value';
-import Aim from './component/function_components/Aim';
-import Teamwork from './component/function_components/TeamWork'
 
-import CarrierResource from './component/function_components/CarrierResource';
 import GlobalOverview from './component/function_components/GlobalOverview';
+import CommonView from './component/function_components/CommonView'
+import LoginModal from './component/ui_components/LoginModal';
+import SelectLine from './component/ui_components/SelectLine';
+
 
 class App extends React.Component{
   constructor(props){
@@ -46,7 +46,6 @@ class App extends React.Component{
     this.onObjectChange = autorun(()=>{
       const signal = stateManger.selected_graph_object_needrefesh.get()
       const {selected_graph_object} = stateManger
-      console.log(selected_graph_object, signal, this)
       this.setState({
         selected_graph_object: selected_graph_object,
       })
@@ -85,52 +84,109 @@ class App extends React.Component{
     const {show_view_name} = this.state
     const needShow = name=>{
       // 设一个第一次限制渲染
-      return name=== show_view_name?30:0
+      return name=== show_view_name?29:0
     }
+    const view2Component = {
+      '全局视图': GlobalOverview,
+    //  '协同生态视图':,
+    //  '载体及资源视图':,
+    //  '服务价值视图':,
+    //  '服务过程视图':,
+    //  '服务目标视图':
+    }
+
     return (
-      <div style={{width:'100%', height:'100%',background:"#e5dcd3"}}>
-        <div style={{position: 'absolute',width:'100%', top: 0, left: 0, height:top_height}}>
-          <TopMenu/>
+      <div style={{width:'100%', height:'100%', overflow: 'hidden'}}>
+        {/* 左上角的logo */}
+        <div  style={{position: 'absolute', top:21, left:60, zIndex: 31, fontSize: 20, fontWeight: 'blod'}}>服务模式</div>
+        {/* 各个go的面板 */}
+        <div style={{position: 'absolute', width:'100%', height:'100%', top:0, left:0}}>
+          {dataStore.view_names.map(elm=>{
+            const ViewComponent = view2Component[elm] || CommonView
+            return (
+            <div key={elm} style={{zIndex: needShow(elm)}} className={'main-view '  + elm}>
+              {<ViewComponent view_name={elm}/>}
+            </div>
+            )
+          })}
         </div>
-        <div style={{position: 'absolute',width:'100%', height: '90%', top: top_height}}>
-          <div style={{position: 'relative',float:'left', height:'100%', left: 0, width: '10%'}}>
-            <Nav/>
-          </div>
-
-          {/* 各个go的面板 */}
-          <div style={{position: 'relative',float:'left', width:'70%', height:'100%',}}>
-            <div style={{zIndex: needShow('全局视图')}} className='main-view 全局视图'>
-              <GlobalOverview/>
-            </div>
-            <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
-              <Teamwork/>
-            </div>   
-            <div style={{zIndex: needShow('载体及资源视图')}} className='main-view 载体及资源视图'>
-              <CarrierResource/>
-            </div>
-            <div style={{zIndex: needShow('服务价值视图')}} className='main-view 服务过程视图'>
-              <Value/>
-            </div>
-            <div style={{zIndex: needShow('服务过程视图')}} className='main-view 服务过程视图'>
-              <WorkFlow/>
-            </div>
-            <div style={{zIndex: needShow('服务目标视图')}} className='main-view 服务目标视图'>
-              <Aim/>
-            </div> 
-            <div style={{zIndex: needShow('协同生态视图')}} className='main-view 协同生态视图'>
-              <Teamwork/>
-            </div> 
-                          
-          </div>
-          <div style={{position: 'absolute', left: '80%', width:'20%', height:'100%',}}>
-              {this.renderForm()}
-          </div>
-
+        <div className='控件栏' style={{position: 'absolute', top:'17%', left:60, zIndex: 31}}>
+          <MyPalatte/>
         </div>
 
+        {/* 选择视图 */}
+        <div style={{position: 'absolute', left:60, height: 50, top: '10%', zIndex: 31}}>
+          <Nav/>
+        </div>
+        <div style={{position: 'absolute', right:'3%', height: 50, top: 20, zIndex: 31}}>
+          <LoginModal/>
+        </div>
+
+
+        <div style={{
+          borderRight:'2px solid black',
+          position:'absolute', 
+          top: '10%', right: '10%', 
+          height: 110, width: 50, 
+          zIndex:31}}
+        >
+          <div className='tool-icon' style={{top: 5}}>
+            <Icon circular inverted name='angle left' size='large'/>
+          </div>
+          <div className='tool-icon' style={{top: 60, right: 8}}>
+            <Icon circular name='angle right' size='small'/>
+          </div>
+          {/* <div style={{left: 55, top:5, position: 'absolute'}}>
+            <span>历史记录</span>
+          </div> */}
+        </div>
+        
+        {/* 下半部分工具栏， 有放大缩小之类的*/}
+        <div style={{position:'absolute', top: '40%', right: '10%'}}>
+          <div className='tool-icon' style={{top: 0, right: 10}}>
+            <Icon name='expand' size='large'/>
+          </div>
+          <div className='tool-icon' style={{top: 0, right: 50}}>
+            <Icon name='copy' size='large'/>
+          </div>
+          <div className='tool-icon' style={{top: 50, right: 6}}>
+            <Icon name='delete' color='teal' size='big'/>
+          </div>
+        </div>
+        
+        {/* 选择连线 */}
+        <div style={{position:'absolute', top: '10%', right: '20%', zIndex:30}}>
+          <SelectLine/>
+        </div>
+
+        {/* 提交保存新建按钮 */}
+        <div style={{position: 'absolute', right:200, width: 400,height: 60, bottom: 0, zIndex: 31}}>
+          {greenButton('保存', ()=>{}, {})}
+          {/* {greenButton('新建', ()=>{}, {})}
+          {greenButton('仿真', ()=>{}, {})} */}
+        </div>
       </div>
     )
   }
 }
+const greenButton = (text, handleClick, style)=>{
+  return (
+    <div 
+      style={Object.assign({
+        width: 100, height: 60, bottom: 0, position: 'relative',
+        textAlign: 'center', fontSize: 15, lineHeight: '50px',
+        background: '#00b5ad',
+        float: 'right', margin: 10,
+        color: 'white'
+      }, 
+      style)}
+    >
+      {text}
+    </div>
+  )
+}
+
+
+
 
 export default App;

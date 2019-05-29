@@ -1,432 +1,394 @@
 import * as go from 'gojs';
 // import '../../other_codes/figure'
 import '../../../../node_modules/gojs/extensions/Figures'
+import { nodeTemplateMap, linkTemplateMap, groupTemplateMap, } from './Template.ts'
 export {
   $,
   GraphController,
-  makePort, 
-  showSmallPorts,
-  nodeResizeAdornmentTemplate,
-  nodeRotateAdornmentTemplate,
-  nodeSelectionAdornmentTemplate,
-  common_node_propety,
-  common_link_propety,
-  ArrowLinkTemplate,
-  BidirctArrowLinkTemplate,
-  commonLinkTemplate,
-
-  genCommonLinkWithText,
-  genBiArrowLinkWithText,
-  genArrowLinkWithText,
-
-  genForPalette,
   view2controller,
 }
 
-const view2controller = {
-
-}
+const view2controller = {}
 
 const $ = go.GraphObject.make;
 
+
 // 所有控制器的父类
-export default class GraphController{
-    diagram = undefined
-    palette = undefined
+export default class GraphController {
+  diagram = undefined
+  palette = undefined
 
-    // 注意加下来这个会变成静态的了，所以视图之间的id也要唯一
-    palNodeTemplateMap = new go.Map<string, go.Node>();
-    palLinkTemplateMap = new go.Map<string, go.Link>();
-    palGroupTemplateMap = new go.Map<string, go.Group>();
+  static default_link_type = ''  //初始化设置的连线
 
-    nodeTemplateMap = new go.Map<string, go.Node>();
-    linkTemplateMap = new go.Map<string, go.Link>();
-    groupTemplateMap = new go.Map<string, go.Group>();
 
-    constructor(diagram, palette, view_name=undefined){
-        if(view_name){
-          view2controller[view_name] = this
+  constructor(diagram, view_name = undefined) {
+    if (view_name) {
+      view2controller[view_name] = this
+    }
+
+    this.diagram = diagram
+
+    // 这个地方可以加个改颜色的
+  }
+
+  initLinkMap(maps) {
+    for (let key in maps) {
+      linkTemplateMap.add(key, maps[key])
+      // console.log(key, maps[key])
+    }
+    this.setDeafultLineType(Object.keys(maps)[0])
+  }
+  // 设置现在连的线的类型
+  setDeafultLineType(link_type) {
+    // console.log(link_type, linkTemplateMap[link_type])
+    GraphController.default_link_type = link_type
+    linkTemplateMap.add('', linkTemplateMap.get(link_type))
+  }
+
+  // 初始化go，可以传入自定义的参数
+  init(diagram_props = {}) {
+
+    const diagramContextMenu = $<go.Adornment>('ContextMenu',
+      $('ContextMenuButton',
+        $(go.TextBlock, '全选'),
+        // in the click event handler, the obj.part is the Adornment; its adornedObject is the port
+        {
+          click: (e: go.InputEvent, obj: go.GraphObject) => {
+            console.log(e, obj)
+          }
         }
-        
-        this.diagram = diagram
-        this.palette = palette
-
-        this.linkTemplateMap.add('', commonLinkTemplate);  // default
-        this.linkTemplateMap.add('arrowlink', ArrowLinkTemplate);
-        this.linkTemplateMap.add('2arrowlink', BidirctArrowLinkTemplate);
-        this.linkTemplateMap.add('common', commonLinkTemplate);
-
-        this.groupTemplateMap.add('', commonGroupTemplate)
-        this.groupTemplateMap.add('common', commonGroupTemplate)
-        // 这个地方可以加个改颜色的
-    }
-
-    initLinkMap(maps){
-      const {linkTemplateMap} = this
-      for(let key in maps){
-        linkTemplateMap.add(key, maps[key])
-        // console.log(key, maps[key])
-      }
-      this.setDeafultLineType(Object.keys(maps)[0])
-    }
-    // 设置现在连的线的类型
-    setDeafultLineType(link_type){
-      const {linkTemplateMap} = this
-      // console.log(link_type, linkTemplateMap[link_type])
-      linkTemplateMap.add('', linkTemplateMap.get(link_type))
-    }
-    // 初始化go，可以传入自定义的参数
-    init(diagram_props={}, palette_props={}){
-      if(this.diagram){
-        this.diagram = $(go.Diagram, this.diagram,  // must name or refer to the DIV HTML element
-          Object.assign({
-            // maxSelectionCount: 1,
-            nodeTemplateMap: this.nodeTemplateMap,
-            linkTemplateMap: this.linkTemplateMap,
-            groupTemplateMap: this.groupTemplateMap,
-            // 加格子
-            // grid: $(go.Panel, "Grid",
-            //   $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
-            //   $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
-            //   $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
-            //   $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
-            // ),
-            "draggingTool.dragsLink": false,
-            "linkingTool.portGravity": 20,
-            "relinkingTool.portGravity": 10,
-            "relinkingTool.fromHandleArchetype":
-              $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
-            "relinkingTool.toHandleArchetype":
-              $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "darkred", stroke: "tomato" }),
-            "linkReshapingTool.handleArchetype":
-              $(go.Shape, "Diamond", { desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
-            "rotatingTool.handleAngle": 270,
-            "rotatingTool.handleDistance": 30,
-            "rotatingTool.snapAngleMultiple": 15,
-            "rotatingTool.snapAngleEpsilon": 15,
-            "undoManager.isEnabled": true
-          }, diagram_props)
-        );        
-      }
-
-      
-      if(this.palette){
-        this.palette = $(go.Palette, this.palette,  // must name or refer to the DIV HTML element
-          Object.assign({ // share the templates with the main Diagram
-            // mouseDrop: (e)=>{
-            //   // if (!e.shift) return;  // cannot change groups with an unmodified drag-and-drop
-            //   console.log(e, e.shift)
-            // },
-            nodeTemplateMap: this.palNodeTemplateMap,
-            linkTemplateMap: this.palLinkTemplateMap,
-            groupTemplateMap: this.palGroupTemplateMap,
-            // nodeTemplateMap: this.palNodeTemplateMap,
-            // groupTemplateMap: this.palGroupTemplateMap,
-            layout: $(go.GridLayout,{
-              // cellSize: new go.Size(1, 1),
-              // spacing: new go.Size(5, 5),
-            }, palette_props)
-          })
-        )
-      }else{
-        console.warn(this.palette, 'palette不存在')
-      }
-
-    }
-}
-
-// 生成工具栏的模板
-const genForPalette = (shape,name) =>{
-  return (
-    $(go.Node, 'Vertical',
-      {
-        locationObjectName: 'SHAPE',
-        locationSpot: go.Spot.Center,
-        selectionAdorned: false
-      },
-      shape,
-      $(go.TextBlock,
-        { margin: 5, text: name},
-        new go.Binding('text', 'text')
       )
-    )
-  )
-}
+    );
+    this.diagram = $(go.Diagram, this.diagram,  // must name or refer to the DIV HTML element
+      Object.assign({
+        // 右键弹框
+        contextMenu: diagramContextMenu,
+        // maxSelectionCount: 1,
+        nodeTemplateMap: nodeTemplateMap,
+        linkTemplateMap: linkTemplateMap,
+        groupTemplateMap: groupTemplateMap,
+        // 加格子
+        grid: $(go.Panel, "Grid",
+          $(go.Shape, "LineH", { stroke: "#d3d3d3ab", strokeWidth: 0.5 }),
+          $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5, interval: 10 }),
+          $(go.Shape, "LineV", { stroke: "#d3d3d3ab", strokeWidth: 0.5 }),
+          $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5, interval: 10 })
+        ),
+        "draggingTool.dragsLink": true,
+        "linkingTool.portGravity": 20,
+        "relinkingTool.portGravity": 10,
+        "relinkingTool.fromHandleArchetype":
+          $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
+        "relinkingTool.toHandleArchetype":
+          $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "darkred", stroke: "tomato" }),
+        "linkReshapingTool.handleArchetype":
+          $(go.Shape, "Diamond", { desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
+        "rotatingTool.handleAngle": 270,
+        "rotatingTool.handleDistance": 30,
+        "rotatingTool.snapAngleMultiple": 15,
+        "rotatingTool.snapAngleEpsilon": 15,
+        "undoManager.isEnabled": true
+      }, diagram_props)
+    );
+    this.addPoolTemplate()
+  }
 
-// 为组件加锚点的函数
-function makePort(name, spot, output, input) {
-  // the port is basically just a small transparent square
-  return $(go.Shape, "Circle",
-    {
-      fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
-      stroke: null,
-      desiredSize: new go.Size(10, 10),
-      alignment: spot,  // align the port on the main Shape
-      alignmentFocus: spot,  // just inside the Shape
-      portId: name,  // declare this object to be a "port"
-      fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
-      fromLinkable: output, toLinkable: input,  // declare whether the user may draw links to/from here
-      cursor: "pointer"  // show a different cursor to indicate potential link point
+  // 因为泳道图太过于变态了我直接用函数了
+  // 移动和添加都用问题来着
+  addPoolTemplate() {
+
+
+    const { diagram } = this
+
+    // console.log(myDiagram)
+    // swimlanes
+    const MINLENGTH = 400;  // this controls the minimum length of any swimlane
+    const MINBREADTH = 20;  // this controls the minimum breadth of any non-collapsed swimlane
+
+    // compute the minimum size of a Pool Group needed to hold all of the Lane Groups
+    function computeMinPoolSize(pool: go.Group) {
+      // assert(pool instanceof go.Group && pool.category === "Pool");
+      let len = MINLENGTH;
+      pool.memberParts.each(function (lane) {
+        // pools ought to only contain lanes, not plain Nodes
+        if (!(lane instanceof go.Group)) return;
+        const holder = lane.placeholder;
+        if (holder !== null) {
+          const sz = holder.actualBounds;
+          len = Math.max(len, sz.width);
+        }
+      });
+      return new go.Size(len, NaN);
     }
-  )
-}
-// 显示或者不显示锚点
-const showSmallPorts = (node, show)=>{
-  if(node.ports){
-    node.ports.each(function(port) {
-      if (port.portId !== "") {  // don't change the default port, which is the big shape
-        port.fill = show ? "rgba(0,0,0,.3)" : null;
+
+    // determine the minimum size of a Lane Group, even if collapsed
+    function computeMinLaneSize(lane: go.Group) {
+      if (!lane.isSubGraphExpanded) return new go.Size(MINLENGTH, 1);
+      return new go.Size(MINLENGTH, MINBREADTH);
+    }
+    // compute the minimum size for a particular Lane Group
+    function computeLaneSize(lane: go.Group) {
+      // assert(lane instanceof go.Group && lane.category !== "Pool");
+      const sz = computeMinLaneSize(lane);
+      if (lane.isSubGraphExpanded) {
+        const holder = lane.placeholder;
+        if (holder !== null) {
+          const hsz = holder.actualBounds;
+          sz.height = Math.max(sz.height, hsz.height);
+        }
       }
-    });
-  }else{
-    // 一堆错，所以先注释了
-    // console.error(node, node.ports, '为undefiend')
+      // minimum breadth needs to be big enough to hold the header
+      const hdr = lane.findObject('HEADER');
+      if (hdr !== null) sz.height = Math.max(sz.height, hdr.actualBounds.height);
+      return sz;
+    }
+    // define a custom grid layout that makes sure the length of each lane is the same
+    // and that each lane is broad enough to hold its subgraph
+    class PoolLayout extends go.GridLayout {
+      public cellSize = new go.Size(1, 1);
+      public wrappingColumn = 1;
+      public wrappingWidth = Infinity;
+      public isRealtime = false;  // don't continuously layout while dragging
+      public alignment = go.GridLayout.Position;
+      // This sorts based on the location of each Group.
+      // This is useful when Groups can be moved up and down in order to change their order.
+      public comparer = function (a: go.Part, b: go.Part) {
+        const ay = a.location.y;
+        const by = b.location.y;
+        if (isNaN(ay) || isNaN(by)) return 0;
+        if (ay < by) return -1;
+        if (ay > by) return 1;
+        return 0;
+      };
+      public doLayout(coll: go.Diagram | go.Group | go.Iterable<go.Part>) {
+        const diagram = this.diagram;
+        if (diagram === null) return;
+        diagram.startTransaction('PoolLayout');
+        const pool = this.group;
+        if (pool !== null && pool.category === 'Pool') {
+          // make sure all of the Group Shapes are big enough
+          const minsize = computeMinPoolSize(pool);
+          pool.memberParts.each(function (lane) {
+            if (!(lane instanceof go.Group)) return;
+            if (lane.category !== 'Pool') {
+              const shape = lane.resizeObject;
+              if (shape !== null) {  // change the desiredSize to be big enough in both directions
+                const sz = computeLaneSize(lane);
+                shape.width = (isNaN(shape.width) ? minsize.width : Math.max(shape.width, minsize.width));
+                shape.height = (!isNaN(shape.height)) ? Math.max(shape.height, sz.height) : sz.height;
+                const cell = lane.resizeCellSize;
+                if (!isNaN(shape.width) && !isNaN(cell.width) && cell.width > 0) shape.width = Math.ceil(shape.width / cell.width) * cell.width;
+                if (!isNaN(shape.height) && !isNaN(cell.height) && cell.height > 0) shape.height = Math.ceil(shape.height / cell.height) * cell.height;
+              }
+            }
+          });
+        }
+        // now do all of the usual stuff, according to whatever properties have been set on this GridLayout
+        super.doLayout.call(this, coll);
+        diagram.commitTransaction('PoolLayout');
+      }
+    }
+
+    const groupStyle = () => {  // common settings for both Lane and Pool Groups
+      return [
+        {
+          layerName: 'Background',  // all pools and lanes are always behind all nodes and links
+          background: 'transparent',  // can grab anywhere in bounds
+          movable: true, // allows users to re-order by dragging
+          copyable: false,  // can't copy lanes or pools
+          avoidable: false  // don't impede AvoidsNodes routed Links
+        },
+        new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify)
+      ];
+    }
+
+    // hide links between lanes when either lane is collapsed
+    const updateCrossLaneLinks = (group: go.Group) => {
+      group.findExternalLinksConnected().each((l) => {
+        l.visible = (l.fromNode !== null && l.fromNode.isVisible() && l.toNode !== null && l.toNode.isVisible());
+      });
+    }
+
+    const laneEventMenu =  // context menu for each lane
+      $<go.Adornment>('ContextMenu',
+        $('ContextMenuButton',
+          $(go.TextBlock, 'Add Lane'),
+          // in the click event handler, the obj.part is the Adornment; its adornedObject is the port
+          { click: function (e: go.InputEvent, obj: go.GraphObject) { addLaneEvent((obj.part as go.Adornment).adornedObject as go.Node); } })
+      );
+
+
+    // this is called after nodes have been moved or lanes resized, to layout all of the Pool Groups again
+    function relayoutDiagram() {
+      diagram.layout.invalidateLayout();
+      // 在group里面以后这里似乎会出问题
+      diagram.findTopLevelGroups().each(function (g) { if (g.category === 'Pool' && g.layout !== null) g.layout.invalidateLayout(); });
+      diagram.layoutDiagram();
+    }
+
+    // Add a lane to pool (lane parameter is lane above new lane)
+    function addLaneEvent(lane: go.Node) {
+      diagram.startTransaction('addLane');
+      if (lane != null && lane.data.category === 'Lane') {
+        // create a new lane data object
+        const shape = lane.findObject('SHAPE');
+        const size = new go.Size(shape ? shape.width : MINLENGTH, MINBREADTH);
+        const newlanedata = {
+          category: 'Lane',
+          text: 'New Lane',
+          color: 'white',
+          isGroup: true,
+          loc: go.Point.stringify(new go.Point(lane.location.x, lane.location.y + 1)), // place below selection
+          size: go.Size.stringify(size),
+          group: lane.data.group
+        };
+        // and add it to the model
+        diagram.model.addNodeData(newlanedata);
+      }
+      diagram.commitTransaction('addLane');
+      console.log(diagram.model.nodeDataArray)
+    }
+
+    const swimLanesGroupTemplate =
+      $(go.Group, 'Spot', groupStyle(),
+        {
+          name: 'Lane',
+          contextMenu: laneEventMenu,
+          minLocation: new go.Point(NaN, -Infinity),  // only allow vertical movement
+          maxLocation: new go.Point(NaN, Infinity),
+          selectionObjectName: 'SHAPE',  // selecting a lane causes the body of the lane to be highlit, not the label
+          resizable: true, resizeObjectName: 'SHAPE',  // the custom resizeAdornmentTemplate only permits two kinds of resizing
+          layout: $(go.LayeredDigraphLayout,  // automatically lay out the lane's subgraph
+            {
+              isInitial: false,  // don't even do initial layout
+              isOngoing: false,  // don't invalidate layout when nodes or links are added or removed
+              direction: 0,
+              columnSpacing: 10,
+              layeringOption: go.LayeredDigraphLayout.LayerLongestPathSource
+            }),
+          computesBoundsAfterDrag: true,  // needed to prevent recomputing Group.placeholder bounds too soon
+          computesBoundsIncludingLinks: false,  // to reduce occurrences of links going briefly outside the lane
+          computesBoundsIncludingLocation: true,  // to support empty space at top-left corner of lane
+          handlesDragDropForMembers: true,  // don't need to define handlers on member Nodes and Links
+          mouseDrop: function (e: go.InputEvent, grp: go.GraphObject) {  // dropping a copy of some Nodes and Links onto this Group adds them to this Group
+            // don't allow drag-and-dropping a mix of regular Nodes and Groups
+            if (!e.diagram.selection.any((n) => (n instanceof go.Group && n.category !== 'subprocess') || n.category === 'privateProcess')) {
+              if (!(grp instanceof go.Group) || grp.diagram === null) return;
+              const ok = grp.addMembers(grp.diagram.selection, true);
+              if (ok) {
+                updateCrossLaneLinks(grp);
+                relayoutDiagram();
+              } else {
+                grp.diagram.currentTool.doCancel();
+              }
+            }
+          },
+          subGraphExpandedChanged: function (grp: go.Group) {
+            if (grp.diagram === null) return;
+            if (grp.diagram.undoManager.isUndoingRedoing) return;
+            const shp = grp.resizeObject;
+            if (grp.isSubGraphExpanded) {
+              shp.height = (grp as any)['_savedBreadth'];
+            } else {
+              (grp as any)['_savedBreadth'] = shp.height;
+              shp.height = NaN;
+            }
+            updateCrossLaneLinks(grp);
+          }
+        },
+        // new go.Binding("isSubGraphExpanded", "expanded").makeTwoWay(),
+
+        $(go.Shape, 'Rectangle',  // this is the resized object
+          { name: 'SHAPE', fill: 'white', stroke: null },  // need stroke null here or you gray out some of pool border.
+          new go.Binding('fill', 'color'),
+          new go.Binding('desiredSize', 'size', go.Size.parse).makeTwoWay(go.Size.stringify)),
+
+        // the lane header consisting of a Shape and a TextBlock
+        $(go.Panel, 'Horizontal',
+          {
+            name: 'HEADER',
+            angle: 270,  // maybe rotate the header to read sideways going up
+            alignment: go.Spot.LeftCenter, alignmentFocus: go.Spot.LeftCenter
+          },
+          $(go.TextBlock,  // the lane label
+            { editable: true, margin: new go.Margin(2, 0, 0, 8) },
+            new go.Binding('visible', 'isSubGraphExpanded').ofObject(),
+            new go.Binding('text', 'text').makeTwoWay()),
+          $('SubGraphExpanderButton', { margin: 4, angle: -270 })  // but this remains always visible!
+        ),  // end Horizontal Panel
+        $(go.Placeholder,
+          { padding: 12, alignment: go.Spot.TopLeft, alignmentFocus: go.Spot.TopLeft }),
+        $(go.Panel, 'Horizontal', { alignment: go.Spot.TopLeft, alignmentFocus: go.Spot.TopLeft },
+          $(go.TextBlock,  // this TextBlock is only seen when the swimlane is collapsed
+            {
+              name: 'LABEL',
+              editable: true, visible: false,
+              angle: 0, margin: new go.Margin(6, 0, 0, 20)
+            },
+            new go.Binding('visible', 'isSubGraphExpanded', function (e) { return !e; }).ofObject(),
+            new go.Binding('text', 'text').makeTwoWay())
+        )
+      );  // end swimLanesGroupTemplate
+
+    // define a custom resize adornment that has two resize handles if the group is expanded
+    // myDiagram.groupTemplate.resizeAdornmentTemplate =
+    swimLanesGroupTemplate.resizeAdornmentTemplate =
+      $(go.Adornment, 'Spot',
+        $(go.Placeholder),
+        $(go.Shape,  // for changing the length of a lane
+          {
+            alignment: go.Spot.Right,
+            desiredSize: new go.Size(7, 50),
+            fill: 'lightblue', stroke: 'dodgerblue',
+            cursor: 'col-resize'
+          },
+          new go.Binding('visible', '', function (ad) {
+            if (ad.adornedPart === null) return false;
+            return ad.adornedPart.isSubGraphExpanded;
+          }).ofObject()),
+        $(go.Shape,  // for changing the breadth of a lane
+          {
+            alignment: go.Spot.Bottom,
+            desiredSize: new go.Size(50, 7),
+            fill: 'lightblue', stroke: 'dodgerblue',
+            cursor: 'row-resize'
+          },
+          new go.Binding('visible', '', function (ad) {
+            if (ad.adornedPart === null) return false;
+            return ad.adornedPart.isSubGraphExpanded;
+          }).ofObject())
+      );
+
+
+    const poolGroupTemplate =
+      $(go.Group, 'Auto', groupStyle(),
+        {
+          computesBoundsIncludingLinks: false,
+          // use a simple layout that ignores links to stack the "lane" Groups on top of each other
+          layout: $(PoolLayout, { spacing: new go.Size(0, 0) })  // no space between lanes
+        },
+        new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
+        $(go.Shape,
+          { fill: 'white' },
+          new go.Binding('fill', 'color')),
+        $(go.Panel, 'Table',
+          { defaultColumnSeparatorStroke: 'black' },
+          $(go.Panel, 'Horizontal',
+            { column: 0, angle: 270 },
+            $(go.TextBlock,
+              { editable: true, margin: new go.Margin(5, 0, 5, 0) },  // margin matches private process (black box pool)
+              new go.Binding('text').makeTwoWay())
+          ),
+          $(go.Placeholder,
+            { background: 'darkgray', column: 1 })
+        )
+      ); // end poolGroupTemplate
+
+
+    groupTemplateMap.add('Pool', poolGroupTemplate)
+    groupTemplateMap.add('Lane', swimLanesGroupTemplate)
+    diagram.SelectionMoved = relayoutDiagram  // defined below
+    diagram.SelectionCopied = relayoutDiagram
+
   }
 }
-
-// 存了一些各组件都会需要的属性，直接加上就好了, 应该改为function的
-const common_node_propety = ()=>[
-  // new go.Binding("location", "location").makeTwoWay(),
-  new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-  new go.Binding("portId").makeTwoWay(),
-  new go.Binding("key").makeTwoWay(),
-  makePort("T", go.Spot.Top, true, true),
-  makePort("L", go.Spot.Left, true, true),
-  makePort("R", go.Spot.Right, true, true),
-  makePort("B", go.Spot.Bottom, true, true),
-  { // handle mouse enter/leave events to show/hide the ports
-    mouseEnter: function(e, node) { showSmallPorts(node, true); },
-    mouseLeave: function(e, node) { showSmallPorts(node, false); }
-  },
-]
-
-const common_link_propety = ()=> [
-  new go.Binding("points").makeTwoWay(),
-  { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
-  { relinkableFrom: true, relinkableTo: true, reshapable: true },
-  avoid_cross_props,
-]
-
-
-const nodeSelectionAdornmentTemplate =
-$(go.Adornment, "Auto",
-  $(go.Shape, { fill: null, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] }),
-  $(go.Placeholder)
-);
-
-const nodeResizeAdornmentTemplate =
-$(go.Adornment, "Auto",
-  { locationSpot: go.Spot.Center },
-  $(go.Placeholder),
-  $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-  $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-  $(go.Shape, { alignment: go.Spot.TopRight, cursor: "ne-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-
-  $(go.Shape, { alignment: go.Spot.Left, cursor: "w-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-  $(go.Shape, { alignment: go.Spot.Right, cursor: "e-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-
-  $(go.Shape, { alignment: go.Spot.BottomLeft, cursor: "se-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-  $(go.Shape, { alignment: go.Spot.Bottom, cursor: "s-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-  $(go.Shape, { alignment: go.Spot.BottomRight, cursor: "sw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" })
-);
-
-const nodeRotateAdornmentTemplate =
-$(go.Adornment,"Auto",
-  { locationSpot: go.Spot.Center, locationObjectName: "CIRCLE" },
-  $(go.Shape, "Circle", { name: "CIRCLE", cursor: "pointer", desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
-  $(go.Shape, { geometryString: "M3.5 7 L3.5 30", isGeometryPositioned: true, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] })
-);
-
-
-// 常用的连线
-const avoid_cross_props = {
-  routing: go.Link.AvoidsNodes,
-  curve: go.Link.JumpOver,
-  corner: 5,
-  toShortLength: 4
-}
-
-const linkSelectionAdornmentTemplate =
-$(go.Adornment, "Link",
-  $(go.Shape,
-    // isPanelMain declares that this Shape shares the Link.geometry
-    { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 })  // use selection object's strokeWidth
-);
-
-// 普通的连线
-const commonLinkTemplate =
-$(go.Link,       // the whole link panel
-  common_link_propety(),
-  $(go.Shape),  // the link shape, default black stroke
-  $(go.TextBlock,
-    {
-      textAlign: "center",
-      font: "10pt helvetica, arial, sans-serif",
-      stroke: "#919191",
-      margin: 2,
-      minSize: new go.Size(10, NaN),
-      editable: true
-    },
-    new go.Binding("text").makeTwoWay()
-  )
-);
-
-// 带箭头的实线
-const ArrowLinkTemplate =
-$(go.Link,  // the whole link panel
-  common_link_propety(),
-  $(go.Shape,  // the link path shape
-    { isPanelMain: true, strokeWidth: 2 }),
-  $(go.Shape,  // the arrowhead
-    { toArrow: "OpenTriangle", stroke: 'black' }),
-  $(go.Panel, "Auto",
-    $(go.Shape, "RoundedRectangle",  // the link shape
-      { fill: "#F8F8F8", stroke: null }),
-    $(go.TextBlock,
-      {
-        textAlign: "center",
-        font: "10pt helvetica, arial, sans-serif",
-        stroke: "#919191",
-        margin: 2,
-        minSize: new go.Size(10, NaN),
-        editable: true
-      },
-      new go.Binding("text").makeTwoWay()
-    )
-  )
-);
-
-
-// 带双向箭头的实线
-const BidirctArrowLinkTemplate =
-  $(go.Link,  // the whole link panel
-    common_link_propety(),
-    $(go.Shape,  // the link path shape
-      { isPanelMain: true, strokeWidth: 2 }
-    ),
-    $(go.Shape,  // the arrowhead
-      { toArrow: "OpenTriangle", stroke: 'black' }
-    ),
-    $(go.Shape,  // the arrowhead
-      { fromArrow: "BackwardOpenTriangle", stroke: 'black' }
-    ),
-    $(go.Panel, "Auto",
-      $(go.Shape, "RoundedRectangle",  // the link shape
-        { fill: "#F8F8F8", stroke: null }
-      ),
-      $(go.TextBlock,
-        {
-          textAlign: "center",
-          font: "10pt helvetica, arial, sans-serif",
-          stroke: "#919191",
-          margin: 2,
-          minSize: new go.Size(10, NaN),
-          editable: true
-        },
-        new go.Binding("text").makeTwoWay())
-    )
-  );
-
-// 生成带固定文字的普通连线
-const genCommonLinkWithText = text=>{
-  return (
-    $(go.Link,       // the whole link panel
-      common_link_propety(),
-      $(go.Shape),  // the link shape, default black stroke
-      $(go.TextBlock,
-        {
-          textAlign: "center",
-          font: "10pt helvetica, arial, sans-serif",
-          stroke: "black",
-          margin: 2,
-          minSize: new go.Size(10, NaN),
-          editable: true,
-          text: text,
-        },
-        new go.Binding("text").makeTwoWay(),
-      )
-    )
-  )
-}
-
-const genBiArrowLinkWithText = text =>{
-  return $(go.Link,  // the whole link panel
-    common_link_propety(),
-    $(go.Shape,  // the link path shape
-      { isPanelMain: true, strokeWidth: 2 }
-    ),
-    $(go.Shape,  // the arrowhead
-      { toArrow: "OpenTriangle", stroke: 'black' }
-    ),
-    $(go.Shape,  // the arrowhead
-      { fromArrow: "BackwardOpenTriangle", stroke: 'black' }
-    ),
-    $(go.Panel, "Auto",
-      $(go.Shape, "RoundedRectangle",  // the link shape
-        { fill: "#F8F8F8", stroke: null }
-      ),
-      $(go.TextBlock,
-        {
-          textAlign: "center",
-          font: "10pt helvetica, arial, sans-serif",
-          stroke: "#919191",
-          margin: 2,
-          minSize: new go.Size(10, NaN),
-          editable: true,
-          text: text,
-        },
-        new go.Binding("text").makeTwoWay(),
-      )
-    )
-  )
-}
-
-
-const genArrowLinkWithText = text =>{
-  return $(go.Link,  // the whole link panel
-    common_link_propety(),
-    $(go.Shape,  // the link path shape
-      { isPanelMain: true, strokeWidth: 2 }),
-    $(go.Shape,  // the arrowhead
-      { toArrow: "OpenTriangle", stroke: 'black' }),
-    $(go.Panel, "Auto",
-      $(go.Shape, "RoundedRectangle",  // the link shape
-        { fill: "#F8F8F8", stroke: null }),
-      $(go.TextBlock,
-        {
-          textAlign: "center",
-          font: "10pt helvetica, arial, sans-serif",
-          stroke: "#919191",
-          margin: 2,
-          minSize: new go.Size(10, NaN),
-          editable: true,
-          text: text,
-        },
-        new go.Binding("text").makeTwoWay(),
-      )
-    )
-  );
-}
-
-// 普通的group模板（就是一个框框）
-const commonGroupTemplate =
-  $(go.Group, "Auto",
-    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-    $(go.Panel, "Auto",
-      $(go.Shape, "RoundedRectangle",  // surrounds the Placeholder
-        {
-          parameter1: 14,
-          fill: "#0D2C54",
-          opacity: 0.4
-        },
-      ),
-      $(go.Placeholder,    // represents the area of all member parts,
-        { padding: 5 },        // with some extra padding around them
-      ),
-    ),
-    common_node_propety(),
-    $(go.TextBlock,         // group title
-      { alignment: go.Spot.Right, font: "Bold 12pt Sans-Serif" },
-      new go.Binding("text", "key")
-    ),
-  );

@@ -2,41 +2,51 @@ import React, { Component } from 'react'
 import { Grid, Menu, Segment, Dropdown } from 'semantic-ui-react'
 import stateManger from '../../dataManager/stateManager';
 import dataStore from '../../dataManager/dataStore';
+import { autorun } from 'mobx';
 
 export default class MenuExampleTabularOnLeft extends Component {
     constructor(props){
         super(props)
         this.state = {
-            selected_view: dataStore.default_view_name
+            show_view_name: dataStore.default_view_name,
         }
     }
 
-
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+    componentDidMount(){
+        this.onViewChange = autorun(()=>{
+            const show_view_name = stateManger.show_view_name.get()
+            this.setState({
+              show_view_name: show_view_name
+            })
+        })
+    }
 
     render() {
-        const { selected_view } = this.state
+        const { show_view_name } = this.state
 
         return (
-            <Menu pointing secondary vertical fluid style={{background:'#e8dfd8'}}>
-            {
-                 dataStore.view_names.map(text=>{
-                    const handleClick = ()=>{
-                        console.log('click',text)
-                        stateManger.show_view_name.set(text)
-                        this.setState({selected_view: text})
-                    }
+        <Dropdown 
+            text={show_view_name}
+            fluid
+            closeOnChange
+            defaultValue={dataStore.default_view_name}
+            className='select_view_drowdown'
+        >
+            <Dropdown.Menu>
+                {
+                dataStore.view_names.map(text=>{
                     return (
-                    <Menu.Item
-                        key={text}
-                        name={text}
-                        active={selected_view === text}
-                        onClick={handleClick}
-                    />
+                        <Dropdown.Item key={text} text={text}
+                            onClick={()=>{
+                                stateManger.show_view_name.set(text)
+                                
+                            }}
+                        />
                     )
                 })
-            }
-            </Menu>
+                }
+            </Dropdown.Menu>
+        </Dropdown>
         )
     }
 }

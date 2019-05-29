@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dropdown,input, label,Form} from 'semantic-ui-react'
+import { Dropdown,input, label,Form,Button} from 'semantic-ui-react'
 
 const options1 = [
     {key: 1, text: '描述属性', value: 1} ,
@@ -22,10 +22,13 @@ const CustomizeInfo = () => (
             <label>属性值</label>
             <input placeholder='值'/>
         </Form.Field>
+        <Button icon='plus' />
+
     </Form>
 )
 
 export default  CustomizeInfo
+
 
 
 

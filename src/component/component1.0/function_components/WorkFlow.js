@@ -98,6 +98,7 @@ export default class WorkFlow extends React.Component{
             <div className='palatte' ref='myPaletteDiv'  style={{}}/>
             <div className='diagram'ref="myDiagramDiv"  style={{}}/>      
           </div>
+        
         </div>
       )
     }

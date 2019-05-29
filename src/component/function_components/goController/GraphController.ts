@@ -31,13 +31,6 @@ export default class GraphController {
     // 这个地方可以加个改颜色的
   }
 
-  initLinkMap(maps) {
-    for (let key in maps) {
-      linkTemplateMap.add(key, maps[key])
-      // console.log(key, maps[key])
-    }
-    this.setDeafultLineType(Object.keys(maps)[0])
-  }
   // 设置现在连的线的类型
   setDeafultLineType(link_type) {
     // console.log(link_type, linkTemplateMap[link_type])
@@ -90,6 +83,7 @@ export default class GraphController {
         "undoManager.isEnabled": true
       }, diagram_props)
     );
+
     this.addPoolTemplate()
   }
 

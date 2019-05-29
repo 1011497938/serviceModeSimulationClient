@@ -493,6 +493,14 @@ const panelTemplate = {
 
         '协同关系': genBiArrowLinkWithText('协同关系'),
         '排他关系': genBiArrowLinkWithText('排他关系'),
+
+        '协作': genBiArrowLinkWithText('协作'),
+        '传递': genArrowLinkWithText('传递'),
+        '交互': genBiArrowLinkWithText('交互'),
+        '支持': genArrowLinkWithText('支持'),
+        '实现': genArrowLinkWithText('实现'),
+
+        '下一步': ArrowLinkTemplate,
     },
     node:{
         gateWay: gateWayNodeTemplate,

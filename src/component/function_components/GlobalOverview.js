@@ -23,9 +23,9 @@ export default class GlobalOverview extends React.Component{
       // controller.diagram.scroll('pixel', 'up', 100)
       // controller.diagram.zoomToRect(new go.Rect(0,0,100,100))
       // Overview
-      this.overview =
-        $(go.Overview, this.refs.myOverviewDiv,  // the HTML DIV element for the Overview
-          { observed: diagram, contentAlignment: go.Spot.Center });   // tell it which Diagram to show and pan
+      // this.overview =
+      //   $(go.Overview, this.refs.myOverviewDiv,  // the HTML DIV element for the Overview
+      //     { observed: diagram, contentAlignment: go.Spot.Center });   // tell it which Diagram to show and pan
       
       this.diagram = diagram
     }

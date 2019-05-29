@@ -53,9 +53,9 @@ export default class GlobalOverview extends React.Component{
             {/* <div className='palatte' ref='myPaletteDiv'  style={{}}/> */}
             <div className='diagram'ref="myDiagramDiv"  style={{}}/>  
           </div>
-          <div className='overview' ref='myOverviewDiv'  
+          {/* <div className='overview' ref='myOverviewDiv'  
             style={{}}
-          />  
+          />   */}
         </div>
       )
     }

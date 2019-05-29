@@ -39,7 +39,7 @@ export default class MyPalatte extends React.Component{
       // , background: 'black'
       return (
         <div style={{float:'left', position: 'relative'}}>
-            <div ref='myPaletteDiv'  style={{position: 'absolute', width: 100, height: 500, borderTop: '1px solid black'}}/>
+            <div ref='myPaletteDiv'  style={{position: 'absolute', width: 130, height: 500, borderTop: '1px solid black'}}/>
         </div>
       )
     }

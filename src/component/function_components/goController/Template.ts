@@ -400,17 +400,30 @@ $(go.Node, 'Spot',
   common_node_propety()
 ); 
 
-const gateWayNodeTemplateForPalette = genForPalette(
-  $(go.Panel, "Auto", //子元素在面板的位置
-    $(go.Shape, "Diamond",  
-      custom_props, {fill: '#FFB400'},
-    ),
-    $(go.Shape,   
+const gateWayNodeTemplateForPalette = 
+$(go.Node, 'Vertical',
+    {
+    locationObjectName: 'SHAPE',
+    locationSpot: go.Spot.Center,
+    selectionAdorned: false,
+    },
+    $(go.Panel, "Auto", //子元素在面板的位置
+        $(go.Shape, "Diamond",  
+        custom_props, {fill: '#FFB400'},
+        ),
+        $(go.Shape,   
         new go.Binding('figure', 'gateType', nodeGateWayTypeConverter),
         custom_icon_props
+        ),
     ),
-  ),
-  'exclusive gateWay'
+    $(go.TextBlock,
+        { 
+            margin: 5, 
+            overflow: go.TextBlock.OverflowClip,
+            width: custom_r*1.5
+        },
+        new go.Binding('text', 'gateType', gateType=> gateType+' gateway')
+    )
 )
 
 // 泳道图，代码太多了所以把它变成了一个函数

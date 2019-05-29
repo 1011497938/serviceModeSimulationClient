@@ -31,12 +31,16 @@ export default class CommonView extends React.Component{
       // 双击弹出列表的功能
       diagram.addDiagramListener("ObjectDoubleClicked", e=> {
         var part = e.subject.part;
+        if(part instanceof go.Group || part instanceof go.Link)
+          return
         // console.log(part, part.data, this)
         const {selected_component} = this.state
-        if( selected_component!==part){
-          // console.log(part,part.data, part.position)
+        if(true||selected_component!==part){
           this.setState({selected_component: part})
         }
+      });
+      diagram.addDiagramListener("ObjectSingleClicked", e=> {
+        // console.log(diagram.model.nodeDataArray, diagram)
       });
 
       // // Overview

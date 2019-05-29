@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 // import Test from './component/function_components/Test'
-import { Icon, Dropdown} from 'semantic-ui-react'
+import { Icon, Dropdown, Input} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import {view2controller} from './component/function_components/goController/GraphController.ts'
 
@@ -119,6 +119,20 @@ class App extends React.Component{
           <Nav/>
         </div>
         <div style={{position: 'absolute', right:'3%', height: 50, top: 20, zIndex: 31}}>
+          <Input
+              action={<Dropdown button basic floating 
+              options={[
+                {key:'本视图', value:'本视图', text:'本视图'},
+                {key:'全部视图', value:'全部视图', text:'全部'},
+              ]} 
+              defaultValue='本视图' />}
+              icon='search'
+              iconPosition='left'
+              placeholder='Search...'
+              color='teal'
+              style={{margin: 10, top: 2}}
+              // fluid
+            />
           <LoginModal/>
         </div>
 
@@ -126,7 +140,7 @@ class App extends React.Component{
         <div style={{
           borderRight:'2px solid black',
           position:'absolute', 
-          top: '10%', right: '10%', 
+          top: '15%', right: '10%', 
           height: 110, width: 50, 
           zIndex:31}}
         >
@@ -166,7 +180,7 @@ class App extends React.Component{
         </div>
         
         {/* 选择连线 */}
-        <div style={{position:'absolute', top: '10%', right: '20%', zIndex:30}}>
+        <div style={{position:'absolute', top: '15%', right: '20%', zIndex:30}}>
           <SelectLine/>
         </div>
 

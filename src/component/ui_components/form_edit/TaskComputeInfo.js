@@ -3,36 +3,36 @@ import { Input, Label,Form,TextArea,Table,Icon,Menu} from 'semantic-ui-react'
 
 const TaskComputeInfo = () => (
     <Form>
+        <Form.Field >
+            <label>预期所需时间</label>
+            <input placeholder='所需时间'/>
+        </Form.Field>
         <Table celled>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell>Header</Table.HeaderCell>
-                    <Table.HeaderCell>Header</Table.HeaderCell>
+                    <Table.HeaderCell>资源ID</Table.HeaderCell>
+                    <Table.HeaderCell>所需数量</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 
             <Table.Body>
                 <Table.Row>
-                    <Table.Cell>
-                    </Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
+                    <Table.Cell><Input tiny/></Table.Cell>
+                    <Table.Cell><Input tiny/></Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
+                    <Table.Cell><Input tiny/></Table.Cell>
+                    <Table.Cell><Input tiny/></Table.Cell>
                 </Table.Row>
                 <Table.Row>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
-                    <Table.Cell>Cell</Table.Cell>
+                    <Table.Cell><Input tiny/></Table.Cell>
+                    <Table.Cell><Input tiny/></Table.Cell>
                 </Table.Row>
             </Table.Body>
 
             <Table.Footer>
                 <Table.Row>
-                    <Table.HeaderCell colSpan='3'>
+                    <Table.HeaderCell colSpan='2'>
                         <Menu floated='right' pagination>
                             <Menu.Item as='a' icon>
                                 <Icon name='chevron left' />

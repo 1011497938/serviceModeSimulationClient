@@ -3,7 +3,7 @@ import * as go from 'gojs';
 import 'gojs/extensions/Figures'
 
 const $ = go.GraphObject.make;
-
+const custom_r= 60
 // 生成工具栏的模板，必须传入panel之类的
 const genForPalette = (shape, name) => {
     return (
@@ -250,6 +250,9 @@ const genArrowLinkWithText = text => {
     );
 }
 
+
+
+
 // 普通的group模板（就是一个框框）
 const commonGroupTemplate =
     $(go.Group, "Auto",
@@ -273,150 +276,11 @@ const commonGroupTemplate =
         ),
     );
 
-// 流图中的控件
-
-
-const custom_r = 40
-const icon_color = '#f7f7f7'
-const custom_props = {
-  stroke: null,
-  strokeWidth:1.5,
-  width: custom_r,
-  height: custom_r
-}
-const custom_icon_props = {
-  fill: '#f7f7f7',
-  strokeWidth:1.5,
-  width: custom_r/2,
-  height: custom_r/2,
-  stroke: null
-}
-
 const swimLanesGroupTemplateForPalette =
-$(go.Group, 'Vertical',); // empty in the palette, 直接在图中右键添加
+$(go.Group, 'Vertical',); 
 
+const poolTemplate = ()=>{}
 
-const taskNodeTemplate =
-$(go.Node, 'Auto',
-  $(go.Panel, "Auto", //子元素在面板的位置
-    $(go.Shape, "RoundedRectangle", 
-      custom_props, 
-      {
-        width: custom_r*2,
-        height: custom_r,
-        fill: 'lightyellow'
-      },  
-    ),
-  $(go.TextBlock, new go.Binding("text", "key"),
-    {
-      font: "bold 11pt Helvetica, Arial, sans-serif",
-      margin: 8,
-      maxSize: new go.Size(160, NaN),
-      wrap: go.TextBlock.WrapFit,
-      editable: true  //文字是否可编辑
-    },
-    new go.Binding("text").makeTwoWay())  
- ),
- common_node_propety()
-); 
-
-const taskNodeTemplateForPalette = genForPalette(
-  $(go.Shape, "RoundedRectangle", 
-    custom_props, 
-    {
-      width: custom_r,
-      height: custom_r/2,
-      fill: 'lightyellow'
-    },  
-  ),
-  'task'
-)
-
-const nodeEventTypeConverter = type=>{  // order here from BPMN 2.0 poster
-    const type2figure = {
-        end: 'Circle',
-        start: 'CircleLine',
-        time: 'BpmnEventTimer',
-        message: 'BpmnTaskMessage',
-        
-        }
-  // console.log(event_type, )
-  return type2figure[type] || 'NotAllowed'
-}
-
-const eventNodeTemplate = 
-$(go.Node, 'Spot',
-  $(go.Panel, "Auto", //子元素在面板的位置
-    $(go.Shape, "Circle",  
-      custom_props, {fill: '#F6511D'},
-    ),
-    $(go.Shape, 
-      custom_icon_props,
-      new go.Binding('figure', 'eventType', nodeEventTypeConverter),
-      // new go.Binding('isV', 'eventType', event_type=> event_type==='start'?'#F6511D':'#f7f7f7'),
-    ),
-  ),
-  common_node_propety()
-); 
-
-const eventNodeTemplateForPalette = 
-  $(go.Node, 'Vertical',
-    {
-      locationObjectName: 'SHAPE',
-      locationSpot: go.Spot.Center,
-      selectionAdorned: false,
-    },
-    $(go.Panel, "Auto", //子元素在面板的位置
-      $(go.Shape, "Circle",
-        custom_props, { fill: '#F6511D' },
-      ),
-      $(go.Shape,
-        custom_icon_props,
-        new go.Binding('figure', 'eventType', nodeEventTypeConverter)
-      ),
-    ),
-    $(go.TextBlock,
-      { margin: 5},
-      new go.Binding('text', 'eventType')
-    )
-  )
-
-const nodeGateWayTypeConverter = type=>{
-    const type2figure={
-        parallel: 'ThinCross',
-        exclusive: 'ThinX',
-    }
-    return  type2figure[type] || 'NotAllowed'
-}
-const gateWayNodeTemplate =
-$(go.Node, 'Spot',
-  $(go.Shape, "Diamond",  
-    custom_props, {fill: '#FFB400'},
-  ),
-  $(go.Shape,   
-    new go.Binding('figure', 'gateType', nodeGateWayTypeConverter),
-    custom_icon_props
-  ),
-  common_node_propety()
-); 
-
-const gateWayNodeTemplateForPalette = genForPalette(
-  $(go.Panel, "Auto", //子元素在面板的位置
-    $(go.Shape, "Diamond",  
-      custom_props, {fill: '#FFB400'},
-    ),
-    $(go.Shape,   
-        new go.Binding('figure', 'gateType', nodeGateWayTypeConverter),
-        custom_icon_props
-    ),
-  ),
-  'exclusive gateWay'
-)
-
-// 泳道图，代码太多了所以把它变成了一个函数
-const poolTemplate = ()=>{
-
-}
 const poolTemplateForPalette =
 $(go.Group, 'Vertical',
   {
@@ -450,23 +314,665 @@ const viewGroupTemplate =
       $(go.Shape, "RoundedRectangle",  // surrounds everything
         { parameter1: 10, fill: "white" }
       ),
-      // $(go.Placeholder,     // represents area for all member parts
-      //   { padding: 5, background: "white", opacity: 0.8 }
-      // )
     ),
     common_node_propety(),
   );
 
 
+/*图形画布编辑模式
+const taskNodeTemplate =
+$(go.Node, 'Auto',
+  $(go.Panel, "Auto", //子元素在面板的位置
+    $(go.Shape, "RoundedRectangle", 
+      custom_props, 
+      {
+        width: custom_r*2,
+        height: custom_r,
+        fill: 'lightyellow'
+      },  
+    ),
+  $(go.TextBlock, new go.Binding("text", "key"),
+    {
+      font: "bold 11pt Helvetica, Arial, sans-serif",
+      margin: 8,
+      maxSize: new go.Size(160, NaN),
+      wrap: go.TextBlock.WrapFit,
+      editable: true  //文字是否可编辑
+    },
+    new go.Binding("text").makeTwoWay())  
+ ),
+ common_node_propety()
+); */
+// 流图中的控件
+
+
+
+
+
+
+
+const min_r=40;
+
+const cheng="#F6511D";
+const huang="#FFB400";
+const lan="#00A6ED";
+const forgive="#7FB800";
+const qianhuang="lightyellow";
+const deepred="#c92728";
+
+const custom_props = { //公共样式
+  stroke: null,
+  width: custom_r,
+  height: custom_r,
+}
+const custom_icon_props = {
+  fill: '#f7f7f7',
+  strokeWidth:1.5,
+  width: custom_r/2,
+  height: custom_r/2,
+  stroke: null
+}
+const first_props={ //第一个图案样式
+  width: custom_r+10,
+  height: custom_r/2+10,
+  stroke:null,
+  fill: qianhuang
+}
+
+
+const second_props={ //内圈样式
+  fill: "#fff",
+  stroke:"white",
+  strokeWidth:1.5,
+  width: min_r-10,
+  height: min_r-10,
+          
+}
+
+const five_props={
+    stroke:null,
+    // strokeWidth:1.5,
+    fill:forgive,
+    width: custom_r,
+    height: custom_r,
+    // strokeDashArray:[5,10]
+}
+const inFive_props={
+    stroke:"black",
+    fill:"#fff",
+    width: custom_r-25,
+    height: custom_r/2-6
+}
+
+const inSix_props={
+    stroke:"black",
+    strokeWidth:1.5,
+    fill:"#fff",
+    width: custom_r-24,
+    height: custom_r-24
+}
+
+  const reText=()=>[
+      $(go.TextBlock, new go.Binding("text", "key"),
+                {
+                  font: "10pt Helvetica, Arial, sans-serif",
+                  margin: 8,
+                  maxSize: new go.Size(160, NaN),
+                  wrap: go.TextBlock.WrapFit,
+                  editable: true,
+                  stroke:"#fff"
+                },
+                new go.Binding("text").makeTwoWay())
+           ]
+
+//协同生态视图控件
+const consumerNodeTemplate =
+$(go.Node, 'Spot',
+    $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
+      common_node_propety() ,
+      reText()
+ 
+); 
+
+
+const consumerTemplateForPalette = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
+  'consumer'
+)
+
+
+const produceNodeTemplate =
+$(go.Node, 'Auto',
+    $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
+      common_node_propety() ,
+      reText()
+); 
+
+const produceTemplateForPalette = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
+  'producer'
+)
+
+//协同生态视图控件结束
+
+
+
+//载体及资源视图开始
+
+const carryNodeTemplate =
+  $(go.Node, "Auto",
+    $(go.Shape, { fill: "#eee", stroke: null, }),
+    $(go.Panel, "Table",
+      new go.Binding("itemArray", "people"),
+      $(go.RowColumnDefinition,
+        { separatorStrokeWidth: 0, separatorStroke: "none" }),
+      $(go.RowColumnDefinition,
+        { row: 0, background: forgive }),
+      // the table headers -- remains even if itemArray is empty
+      $(go.Panel, "TableRow",
+        { isPanelMain: true },
+        new go.Binding("itemArray", "columnDefinitions"),
+        {
+          itemTemplate:  
+            $(go.Panel,
+              new go.Binding("column"),
+              $(go.TextBlock,
+                { margin: new go.Margin(2), stroke: "white",font: "10pt sans-serif" },
+                new go.Binding("text"))
+            )
+        }
+      ),
+      { // the rows for the people
+        defaultAlignment: go.Spot.Center,
+        defaultColumnSeparatorStroke:forgive,
+        itemTemplate:  // bound to a person/row data object
+          $(go.Panel, "TableRow",
+            // which in turn consists of a collection of cell objects,
+            // held by the "columns" property in an Array
+            new go.Binding("itemArray", "columns"),
+            // you could also have other Bindings here for the whole row
+            {
+              itemTemplate:  // bound to a cell object
+                $(go.Panel,  // each of which as "attr" and "text" properties
+                  { stretch: go.GraphObject.Fill, alignment: go.Spot.TopLeft },
+                  new go.Binding("column", "attr",
+                    function (a, elt) {  // ELT is this bound item/cell Panel
+                      function findColumnDefinitionForName(nodedata, attrname) {
+                        var columns = nodedata.columnDefinitions;
+                        for (var i = 0; i < columns.length; i++) {
+                          if (columns[i].attr === attrname) return columns[i];
+                        }
+                        return null;
+                      }
+                      var cd = findColumnDefinitionForName(elt.part.data, a);
+                      if (cd !== null) return cd.column;
+                      // throw new Error("unknown column name: " + a);
+                    }),
+                  // you could also have other Bindings here for this cell
+                  $(go.TextBlock, { editable: true },
+                    { margin: new go.Margin(4), stroke: "#000",wrap: go.TextBlock.None },
+                    new go.Binding("text").makeTwoWay())
+                )
+            }
+          )
+      }
+    ),
+    common_node_propety(),
+  );
+
+const carryTemplateForPallete = genForPalette(
+  $(go.Panel, "Auto",
+    $(go.Shape, { fill: "#eee", stroke: null, }),
+    $(go.Panel, "Table",
+      $(go.RowColumnDefinition,
+        { separatorStrokeWidth: 0, separatorStroke: "none" }),
+      $(go.RowColumnDefinition,
+        { row: 0, background: forgive }),
+      // the table headers -- remains even if itemArray is empty
+      $(go.Panel, "TableRow",
+        { isPanelMain: true },
+        {
+          itemArray: [            
+            { attr: "name", text: "Name", column: 0 },
+            { attr: "value", text: "Value", column: 1 },
+          ],
+          itemTemplate:  // bound to a column definition object
+            $(go.Panel,
+              new go.Binding("column"),
+              $(go.TextBlock,
+                { margin: new go.Margin(2),stroke: "#fff",font: "10pt sans-serif", },
+                new go.Binding("text"))
+            )
+        }
+      ),
+      { // the rows for the people
+        itemArray: [{ columns: [{ attr: "name", text: 'attr1' }, { attr: "value", text: 'value1' }] },],
+        defaultAlignment: go.Spot.Center,
+        defaultColumnSeparatorStroke:forgive,
+        itemTemplate:  // bound to a person/row data object
+          $(go.Panel, "TableRow",
+            new go.Binding("itemArray", "columns"),
+            {
+              itemTemplate:  // bound to a cell object
+                $(go.Panel,  // each of which as "attr" and "text" properties
+                  { stretch: go.GraphObject.Fill, alignment: go.Spot.Center },
+                  new go.Binding("column", "attr",
+                    function (a, elt) {  // ELT is this bound item/cell Panel
+                      // elt.data will be the cell object
+                      // elt.panel.data will be the person/row data object
+                      // elt.part.data will be the node data object
+                      // "columnDefinitions" is on the node data object, so:
+                      function findColumnDefinitionForName(nodedata, attrname) {
+                        var columns = nodedata.columnDefinitions;
+                        for (var i = 0; i < columns.length; i++) {
+                          if (columns[i].attr === attrname) return columns[i];
+                        }
+                        return null;
+                      }
+                      var cd = findColumnDefinitionForName(elt.part.data, a);
+                      if (cd !== null) return cd.column;
+                      // throw new Error("unknown column name: " + a);
+                    }),
+                  // you could also have other Bindings here for this cell
+                  $(go.TextBlock, { editable: true },
+                    { margin: new go.Margin(2),  stroke: "#000",wrap: go.TextBlock.None },
+                    new go.Binding("text").makeTwoWay())
+                )
+            }
+          )
+      }
+    ),
+  ),
+  'carrier'
+)
+
+
+
+const sourceNodeTemplate =
+  $(go.Node, "Auto",
+    $(go.Shape, { fill: "#eee", stroke: null, }),
+    $(go.Panel, "Table",
+      new go.Binding("itemArray", "people"),
+      $(go.RowColumnDefinition,
+        { separatorStrokeWidth: 0, separatorStroke: "none" }),
+      $(go.RowColumnDefinition,
+        { row: 0, background: huang }),
+      // the table headers -- remains even if itemArray is empty
+      $(go.Panel, "TableRow",
+        { isPanelMain: true },
+        new go.Binding("itemArray", "columnDefinitions"),
+        {
+          itemTemplate:  
+            $(go.Panel,
+              new go.Binding("column"),
+              $(go.TextBlock,
+                { margin: new go.Margin(2), stroke: "white",font: "10pt sans-serif" },
+                new go.Binding("text"))
+            )
+        }
+      ),
+      { // the rows for the people
+        defaultAlignment: go.Spot.Center,
+        defaultColumnSeparatorStroke: huang,
+        itemTemplate:  // bound to a person/row data object
+          $(go.Panel, "TableRow",
+            // which in turn consists of a collection of cell objects,
+            // held by the "columns" property in an Array
+            new go.Binding("itemArray", "columns"),
+            // you could also have other Bindings here for the whole row
+            {
+              itemTemplate:  // bound to a cell object
+                $(go.Panel,  // each of which as "attr" and "text" properties
+                  { stretch: go.GraphObject.Fill, alignment: go.Spot.TopLeft },
+                  new go.Binding("column", "attr",
+                    function (a, elt) {  // ELT is this bound item/cell Panel
+                      function findColumnDefinitionForName(nodedata, attrname) {
+                        var columns = nodedata.columnDefinitions;
+                        for (var i = 0; i < columns.length; i++) {
+                          if (columns[i].attr === attrname) return columns[i];
+                        }
+                        return null;
+                      }
+                      var cd = findColumnDefinitionForName(elt.part.data, a);
+                      if (cd !== null) return cd.column;
+                      // throw new Error("unknown column name: " + a);
+                    }),
+                  // you could also have other Bindings here for this cell
+                  $(go.TextBlock, { editable: true },
+                    { margin: new go.Margin(4), stroke: "#000",wrap: go.TextBlock.None },
+                    new go.Binding("text").makeTwoWay())
+                )
+            }
+          )
+      }
+    ),
+    common_node_propety(),
+  );
+
+const sourceTemplateForPallete = genForPalette(
+  $(go.Panel, "Auto",
+    $(go.Shape, { fill: "#eee", stroke: null, }),
+    $(go.Panel, "Table",
+      $(go.RowColumnDefinition,
+        { separatorStrokeWidth: 0, separatorStroke: "none" }),
+      $(go.RowColumnDefinition,
+        { row: 0, background: huang }),
+      // the table headers -- remains even if itemArray is empty
+      $(go.Panel, "TableRow",
+        { isPanelMain: true },
+        {
+          itemArray: [            
+            { attr: "name", text: "Name", column: 0 },
+            { attr: "value", text: "Value", column: 1 },
+          ],
+          itemTemplate:  // bound to a column definition object
+            $(go.Panel,
+              new go.Binding("column"),
+              $(go.TextBlock,
+                { margin: new go.Margin(2),stroke: "#fff",font: "10pt sans-serif", },
+                new go.Binding("text"))
+            )
+        }
+      ),
+      { // the rows for the people
+        itemArray: [{ columns: [{ attr: "name", text: 'attr1' }, { attr: "value", text: 'value1' }] },],
+        defaultAlignment: go.Spot.Center,
+        defaultColumnSeparatorStroke: "#F8ab59",
+        itemTemplate:  // bound to a person/row data object
+          $(go.Panel, "TableRow",
+            new go.Binding("itemArray", "columns"),
+            {
+              itemTemplate:  // bound to a cell object
+                $(go.Panel,  // each of which as "attr" and "text" properties
+                  { stretch: go.GraphObject.Fill, alignment: go.Spot.Center },
+                  new go.Binding("column", "attr",
+                    function (a, elt) {  // ELT is this bound item/cell Panel
+                      // elt.data will be the cell object
+                      // elt.panel.data will be the person/row data object
+                      // elt.part.data will be the node data object
+                      // "columnDefinitions" is on the node data object, so:
+                      function findColumnDefinitionForName(nodedata, attrname) {
+                        var columns = nodedata.columnDefinitions;
+                        for (var i = 0; i < columns.length; i++) {
+                          if (columns[i].attr === attrname) return columns[i];
+                        }
+                        return null;
+                      }
+                      var cd = findColumnDefinitionForName(elt.part.data, a);
+                      if (cd !== null) return cd.column;
+                      // throw new Error("unknown column name: " + a);
+                    }),
+                  // you could also have other Bindings here for this cell
+                  $(go.TextBlock, { editable: true },
+                    { margin: new go.Margin(2),  stroke: "#000",wrap: go.TextBlock.None },
+                    new go.Binding("text").makeTwoWay())
+                )
+            }
+          )
+      }
+    ),
+  ),
+  'resource'
+)
+
+
+//载体及资源视图完毕
+//
+//服务过程视图
+const taskNodeTemplate =
+$(go.Node, 'Auto',
+  $(go.Panel, "Auto", //子元素在面板的位置
+    $(go.Shape, "RoundedRectangle", first_props,{fill:qianhuang}),
+      common_node_propety() ,
+      reText()
+ ),
+); 
+
+const taskTemplateForPallete = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props,{fill:qianhuang}),
+  'task'
+)
+
+const startNodeTemplate =
+$(go.Node, 'Spot',
+  $(go.Shape, "Circle", custom_props, {fill:cheng}),
+  common_node_propety(),
+  reText()
+); 
+const startTemplateForPallete = genForPalette(
+  $(go.Panel, "Auto", //子元素在控件的位置
+    $(go.Shape, "Circle", custom_props, {fill:cheng}),
+
+  ),
+  'start'
+)
+
+
+const endNodeTemplate =
+$(go.Node, 'Spot',
+  $(go.Shape, "Circle", custom_props, {fill:cheng}),
+    // 画中间图案
+  $(go.Shape, "Circle",second_props),
+  common_node_propety(),
+  reText()
+); 
+const endTemplateForPallete  = genForPalette(
+  $(go.Panel, "Auto", //子元素在控件的位置
+    $(go.Shape, "Circle", custom_props, {fill:cheng}),
+      // 画中间图案
+    $(go.Shape, "Circle",second_props),
+
+  ),
+  'end'
+)
+
+
+const timeNodeTemplate =
+$(go.Node, 'Spot',
+  $(go.Shape, "Circle",custom_props, {fill:huang,stroke:"#f48828",strokeWidth:1.5}),
+ // 画中间图案
+  $(go.Shape, "BpmnEventTimer",inSix_props),  
+  common_node_propety()
+); 
+const timeTemplateForPallete = genForPalette(
+  $(go.Panel, "Auto", //子元素在控件的位置
+    $(go.Shape, "Circle",custom_props, {fill:huang,stroke:"#f48828",strokeWidth:1.5}),
+ // 画中间图案
+  $(go.Shape, "BpmnEventTimer",inSix_props),    
+  ),
+  'time'
+)
+
+const messageNodeTemplate =
+$(go.Node, 'Spot',
+  $(go.Shape, "Circle",five_props),
+ // 画中间图案
+  $(go.Shape, "Email",inFive_props),
+  common_node_propety()  
+); 
+const messageTemplateForPallete = genForPalette(
+  $(go.Panel, "Auto", //子元素在控件的位置
+    $(go.Shape, "Circle",five_props),
+ // 画中间图案
+  $(go.Shape, "Email",inFive_props),    
+  ),
+  'message'
+)
+
+
+// const thirdNodeTemplate =
+// $(go.Node, 'Spot',
+//   $(go.Shape, "Diamond", custom_props, {fill:forgive}),
+//   common_node_propety()
+// ); 
+// const thirdNodeTemplateForPalette = genForPalette(
+//   $(go.Panel, "Auto", //子元素在控件的位置
+//     $(go.Shape, "Diamond", custom_props, {fill:forgive}),
+//   ),
+//   'third'
+// )
+
+// const fourNodeTemplate =
+// $(go.Node, 'Spot',
+//   $(go.Shape, "Circle", custom_props, {fill:deepred}),
+//   common_node_propety()
+// ); 
+// const fourNodeTemplateForPalette = genForPalette(
+//   $(go.Panel, "Auto", //子元素在控件的位置
+//     $(go.Shape, "Circle", custom_props, {fill:deepred}),
+//   ),
+//   'four'
+// )
+
+
+const exclusiveNodeTemplate =
+$(go.Node, 'Spot',
+  $(go.Shape, "Diamond",  
+    custom_props, {fill: cheng},
+  ),
+    // 画中间图案
+  $(go.Shape, "ThinX",  
+    custom_icon_props
+  ),
+  common_node_propety()
+); 
+const exclusiveTemplateForPalette = genForPalette(
+  $(go.Panel, "Auto", //子元素在面板的位置
+    $(go.Shape, "Diamond",  
+      custom_props, {fill: cheng},
+    ),
+      // 画中间图案
+    $(go.Shape, "ThinX",  
+      custom_icon_props
+    ),
+  ),
+  'exclusive'
+)
+
+
+const parallelNodeTemplate =
+$(go.Node, 'Spot',
+  $(go.Shape, "Diamond",  
+    custom_props, {fill: huang},
+  ),
+    // 画中间图案
+  $(go.Shape, "ThinCross",  
+    custom_icon_props
+  ),
+  common_node_propety()
+); 
+
+const parallelTemplateForPalette = genForPalette(
+  $(go.Panel, "Auto", //子元素在面板的位置
+    $(go.Shape, "Diamond",  
+      custom_props, {fill: huang},
+    ),
+      // 画中间图案
+    $(go.Shape, "ThinCross",  
+      custom_icon_props
+    ),
+  ),
+  'parallel'
+)
+
+
+
+const aimNodeTemplate =
+$(go.Node, 'Spot',
+  $(go.Shape, "Ellipse",  {fill:cheng,width:80,height:50,stroke:null}),
+   common_node_propety()
+); 
+const aimNodeTemplateForPalette = genForPalette(
+  $(go.Panel, "Auto", //子元素在控件的位置
+    $(go.Shape, "Ellipse", {fill:cheng,width:80,height:50,stroke:null}),
+  ),
+  'strategic'
+)
+
+const feelNodeTemplate =
+$(go.Node, 'Spot',
+    $(go.Shape, "RoundedRectangle", first_props,{fill:qianhuang}),
+      common_node_propety() ,
+      reText()
+); 
+
+const feelTemplateForPalette = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props,{fill:qianhuang}),
+  'feel'
+)
+const physicalNodeTemplate =
+$(go.Node, 'Spot',
+    $(go.Shape, "RoundedRectangle", first_props,{fill:"lightblue"}),
+      common_node_propety() ,
+      reText()
+); 
+
+const physicalTemplateForPalette = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props,{fill:"lightblue"}),
+  'physics'
+)
+const numNodeTemplate =
+$(go.Node, 'Spot',
+    $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
+      common_node_propety() ,
+      reText()
+
+); 
+
+const numTemplateForPalette = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
+  'amount'
+)
+
+const sonNodeTemplate =
+$(go.Node, 'Spot',
+  $(go.Shape, "Ellipse",  {fill:huang,width:80,height:50,stroke:null}),
+   common_node_propety()
+); 
+const sonNodeTemplateForPalette = genForPalette(
+    $(go.Shape, "Ellipse", {fill:huang,width:80,height:50,stroke:null}),
+  'subgoal'
+)
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
 //这里存工具栏中的模板
 const paletteTemplate = {
-    link: {
+    link:{
 
     },
     node:{
-        gateWay: gateWayNodeTemplateForPalette,
-        event: eventNodeTemplateForPalette,
-        task: taskNodeTemplateForPalette
+        consumer:consumerTemplateForPalette,
+        produce:produceTemplateForPalette,
+        source:sourceTemplateForPallete,
+        carry:carryTemplateForPallete,
+        task:taskTemplateForPallete,
+        start:startTemplateForPallete,
+        end:endTemplateForPallete,
+        time:timeTemplateForPallete,
+        message:messageTemplateForPallete,
+        exclusive:exclusiveTemplateForPalette,
+        parallel:parallelTemplateForPalette,
+        aim:aimNodeTemplateForPalette,
+         son:sonNodeTemplateForPalette,
+         feel:feelTemplateForPalette,
+         physical:physicalTemplateForPalette,
+         num:numTemplateForPalette 
     },
     group:{
         Pool: poolTemplateForPalette,
@@ -475,6 +981,24 @@ const paletteTemplate = {
 }
 //这里存画布上的模板
 const panelTemplate = {
+  node:{
+        consumer:consumerNodeTemplate,
+        produce:produceNodeTemplate,
+        source:sourceNodeTemplate,
+        carry:carryNodeTemplate,
+        task:taskNodeTemplate,
+        start:startNodeTemplate,
+        end:endNodeTemplate,
+        time:timeNodeTemplate,
+        message:messageNodeTemplate,
+        exclusive:exclusiveNodeTemplate,
+        parallel:parallelNodeTemplate,
+        aim:aimNodeTemplate,
+        son:sonNodeTemplate,
+        feel:feelNodeTemplate,
+        physical:physicalNodeTemplate,
+        num:numNodeTemplate
+    },
     link: {
         '': commonLinkTemplate,
         common: commonLinkTemplate,
@@ -502,11 +1026,7 @@ const panelTemplate = {
 
         '下一步': ArrowLinkTemplate,
     },
-    node:{
-        gateWay: gateWayNodeTemplate,
-        event: eventNodeTemplate,
-        task: taskNodeTemplate,
-    },
+
     group:{
         '': commonGroupTemplate,
         view: viewGroupTemplate,
@@ -546,3 +1066,4 @@ export {
     linkTemplateMap,
     groupTemplateMap,
 }
+

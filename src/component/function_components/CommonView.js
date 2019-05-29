@@ -64,3 +64,4 @@ export default class CommonView extends React.Component{
       )
     }
   }
+

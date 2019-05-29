@@ -1,12 +1,17 @@
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 import dataStore from "./dataStore";
 import { view2controller } from "../component/function_components/goController/GraphController.ts";
 
 class StateManager{
     show_view_name = observable.box(dataStore.default_view_name)
-    // @action setShowViewName = ()=>{}
-    //  action(name=> this.show_view_name = name)
-    selet_component_ingo = observable.box('1')
+    get show_view_controller(){
+        const show_view_name = this.show_view_name.get()
+        console.log(show_view_name)
+        return view2controller[show_view_name]
+    }
+
+    select_component_ingo = observable.box('1')
+    
 
     overview_need_refesh = observable.box(true)
     overviewRefesh(){

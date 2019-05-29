@@ -27,7 +27,9 @@
   background-color: #ffffff;
   border: 4px solid white;
 }
-
+.isButtom{
+  cursor : pointer;
+}
 .overview{
   border: 3px solid gray;
   background: white;

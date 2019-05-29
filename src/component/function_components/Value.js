@@ -31,10 +31,14 @@ export default class WorkFlow extends React.Component{
          { category: 'six'},
          
         {
-          category: 'seven',
-          fields: [
-            { name: " ", info: "", color: "", figure: "" },
+          columnDefinitions: [
+            { attr: "name", text: "Name", column: 0 },
+            { attr: "value", text: "Value", column: 1 },
           ],
+          people: [
+            { columns: [{ attr: "name", text: "" }, { attr: "value", text: "" }] },
+          ],
+          category: 'source',
         },
         {
           columnDefinitions: [
@@ -44,7 +48,7 @@ export default class WorkFlow extends React.Component{
           people: [
             { columns: [{ attr: "name", text: "" }, { attr: "value", text: "" }] },
           ],
-          category: 'eight',
+          category: 'source',
         },
         { category: 'parallel'},
         { category: 'exclusive'},

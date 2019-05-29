@@ -130,11 +130,19 @@ class App extends React.Component{
           height: 110, width: 50, 
           zIndex:31}}
         >
+          {/* 后退 */}
           <div className='tool-icon' style={{top: 5}}>
-            <Icon circular inverted name='angle left' size='large'/>
+            <Icon className='isButtom' circular inverted name='angle left' size='large' 
+            onClick={()=>{
+              stateManger.show_view_controller.diagram.undoManager.undo()
+            }}/>
           </div>
+          {/* 前进 */}
           <div className='tool-icon' style={{top: 60, right: 8}}>
-            <Icon circular name='angle right' size='small'/>
+            <Icon className='isButtom' circular name='angle right' size='small'
+            onClick={()=>{
+              stateManger.show_view_controller.diagram.undoManager.redo()
+            }}/>
           </div>
           {/* <div style={{left: 55, top:5, position: 'absolute'}}>
             <span>历史记录</span>
@@ -143,14 +151,17 @@ class App extends React.Component{
         
         {/* 下半部分工具栏， 有放大缩小之类的*/}
         <div style={{position:'absolute', top: '40%', right: '10%'}}>
-          <div className='tool-icon' style={{top: 0, right: 10}}>
-            <Icon name='expand' size='large'/>
+          <div className='tool-icon' style={{top: 0, right: 0}}>
+            <Icon className='isButtom' name='expand' size='large'/>
           </div>
-          <div className='tool-icon' style={{top: 0, right: 50}}>
-            <Icon name='copy' size='large'/>
+          <div className='tool-icon' style={{top: 50, right: 0}}>
+            <Icon className='isButtom' name='copy' size='large'/>
           </div>
-          <div className='tool-icon' style={{top: 50, right: 6}}>
-            <Icon name='delete' color='teal' size='big'/>
+          <div className='tool-icon' style={{top: 50, right: 40}}>
+            <Icon className='isButtom' name='paste' size='large'/>
+          </div>
+          <div className='tool-icon' style={{top: 100, right: 0}}>
+            <Icon className='isButtom' name='delete' color='teal' size='large'/>
           </div>
         </div>
         
@@ -172,6 +183,7 @@ class App extends React.Component{
 const greenButton = (text, handleClick, style)=>{
   return (
     <div 
+      className='isButtom' 
       style={Object.assign({
         width: 100, height: 60, bottom: 0, position: 'relative',
         textAlign: 'center', fontSize: 15, lineHeight: '50px',

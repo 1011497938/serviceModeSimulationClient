@@ -85,13 +85,13 @@ export default class GraphController{
             linkTemplateMap: this.linkTemplateMap,
             groupTemplateMap: this.groupTemplateMap,
             // 加格子
-            grid: $(go.Panel, "Grid",
-              $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
-              $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
-              $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
-              $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
-            ),
-            "draggingTool.dragsLink": true,
+            // grid: $(go.Panel, "Grid",
+            //   $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
+            //   $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
+            //   $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
+            //   $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
+            // ),
+            "draggingTool.dragsLink": false,
             "linkingTool.portGravity": 20,
             "relinkingTool.portGravity": 10,
             "relinkingTool.fromHandleArchetype":

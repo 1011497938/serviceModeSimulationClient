@@ -17,7 +17,7 @@ import { autorun } from 'mobx';
 import stateManger from './dataManager/stateManager';
 import dataStore from './dataManager/dataStore';
 import WorkFlow from './component/function_components/WorkFlow';
-// import Value from './component/function_components/Value';
+import Value from './component/function_components/Value';
 import Aim from './component/function_components/Aim';
 import Teamwork from './component/function_components/TeamWork'
 
@@ -88,7 +88,7 @@ class App extends React.Component{
       return name=== show_view_name?30:0
     }
     return (
-      <div style={{width:'100%', height:'100%',}}>
+      <div style={{width:'100%', height:'100%',background:"#e5dcd3"}}>
         <div style={{position: 'absolute',width:'100%', top: 0, left: 0, height:top_height}}>
           <TopMenu/>
         </div>
@@ -108,7 +108,9 @@ class App extends React.Component{
             <div style={{zIndex: needShow('载体及资源视图')}} className='main-view 载体及资源视图'>
               <CarrierResource/>
             </div>
-
+            <div style={{zIndex: needShow('服务价值视图')}} className='main-view 服务过程视图'>
+              <Value/>
+            </div>
             <div style={{zIndex: needShow('服务过程视图')}} className='main-view 服务过程视图'>
               <WorkFlow/>
             </div>

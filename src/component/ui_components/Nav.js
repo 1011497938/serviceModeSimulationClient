@@ -18,7 +18,7 @@ export default class MenuExampleTabularOnLeft extends Component {
         const { selected_view } = this.state
 
         return (
-            <Menu pointing secondary vertical fluid>
+            <Menu pointing secondary vertical fluid style={{background:'#e8dfd8'}}>
             {
                  dataStore.view_names.map(text=>{
                     const handleClick = ()=>{

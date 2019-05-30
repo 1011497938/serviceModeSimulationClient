@@ -22,6 +22,7 @@ export default class GlobalOverview extends React.Component{
       // diagram.scrollToRect(new go.Rect(-20,0,2,2))
       // controller.diagram.scroll('pixel', 'up', 100)
       // controller.diagram.zoomToRect(new go.Rect(0,0,100,100))
+      
       // Overview
       // this.overview =
       //   $(go.Overview, this.refs.myOverviewDiv,  // the HTML DIV element for the Overview
@@ -53,9 +54,9 @@ export default class GlobalOverview extends React.Component{
             {/* <div className='palatte' ref='myPaletteDiv'  style={{}}/> */}
             <div className='diagram'ref="myDiagramDiv"  style={{}}/>  
           </div>
-          <div className='overview' ref='myOverviewDiv'  
+          {/* <div className='overview' ref='myOverviewDiv'  
             style={{}}
-          />  
+          />   */}
         </div>
       )
     }

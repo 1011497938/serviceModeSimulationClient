@@ -2,21 +2,42 @@ import * as go from 'gojs';
 // import '../../other_codes/figure'
 import '../../../../node_modules/gojs/extensions/Figures'
 import { nodeTemplateMap, linkTemplateMap, groupTemplateMap, } from './Template.ts'
+import jq from 'jquery'
+import stateManger from '../../../dataManager/stateManager';
+
 export {
-  $,
   GraphController,
   view2controller,
+  getDocPosition,
 }
 
 const view2controller = {}
 
 const $ = go.GraphObject.make;
 
+// 将视图上的坐标转换为实际坐标，只有全屏时有用
+const getDocPosition = graphObject => {
+  const init_position = graphObject.getDocumentPoint(go.Spot.Center)
+  const window_width = jq(window).width(), window_height = jq(window).height()
+  return [init_position.x + window_width/2, init_position.y + window_height/2]
+}
+
+// 用来自动整理泳道图，神奇的代码之一
+const relayoutDiagram = ()=>{
+  const diagram = stateManger.show_view_controller.diagram
+  diagram.layout.invalidateLayout();
+  // 在group里面以后这里似乎会出问题
+  diagram.findTopLevelGroups().each(function (g) { if (g.category === 'Pool' && g.layout !== null) g.layout.invalidateLayout(); });
+  diagram.layoutDiagram();
+  // console.log('relayoutDiagram ')
+}
+
 
 // 所有控制器的父类
 export default class GraphController {
   diagram = undefined
   palette = undefined
+  view_name = ''
 
   static default_link_type = ''  //初始化设置的连线
 
@@ -24,6 +45,7 @@ export default class GraphController {
   constructor(diagram, view_name = undefined) {
     if (view_name) {
       view2controller[view_name] = this
+      this.view_name = view_name
     }
 
     this.diagram = diagram
@@ -52,6 +74,10 @@ export default class GraphController {
         }
       )
     );
+
+    //给泳道图布局 
+    // this is called after nodes have been moved or lanes resized, to layout all of the Pool Groups again
+
     this.diagram = $(go.Diagram, this.diagram,  // must name or refer to the DIV HTML element
       Object.assign({
         // 右键弹框
@@ -80,7 +106,9 @@ export default class GraphController {
         "rotatingTool.handleDistance": 30,
         "rotatingTool.snapAngleMultiple": 15,
         "rotatingTool.snapAngleEpsilon": 15,
-        "undoManager.isEnabled": true
+        "undoManager.isEnabled": true,
+        'SelectionMoved': relayoutDiagram,  // defined below
+        'SelectionCopied': relayoutDiagram
       }, diagram_props)
     );
 
@@ -90,9 +118,7 @@ export default class GraphController {
   // 因为泳道图太过于变态了我直接用函数了
   // 移动和添加都用问题来着
   addPoolTemplate() {
-
-
-    const { diagram } = this
+    const { diagram, view_name } = this
 
     // console.log(myDiagram)
     // swimlanes
@@ -100,7 +126,7 @@ export default class GraphController {
     const MINBREADTH = 20;  // this controls the minimum breadth of any non-collapsed swimlane
 
     // compute the minimum size of a Pool Group needed to hold all of the Lane Groups
-    function computeMinPoolSize(pool: go.Group) {
+    const computeMinPoolSize = (pool: go.Group) => {
       // assert(pool instanceof go.Group && pool.category === "Pool");
       let len = MINLENGTH;
       pool.memberParts.each(function (lane) {
@@ -116,12 +142,12 @@ export default class GraphController {
     }
 
     // determine the minimum size of a Lane Group, even if collapsed
-    function computeMinLaneSize(lane: go.Group) {
+    const computeMinLaneSize = (lane: go.Group) => {
       if (!lane.isSubGraphExpanded) return new go.Size(MINLENGTH, 1);
       return new go.Size(MINLENGTH, MINBREADTH);
     }
     // compute the minimum size for a particular Lane Group
-    function computeLaneSize(lane: go.Group) {
+    const computeLaneSize = (lane: go.Group) => {
       // assert(lane instanceof go.Group && lane.category !== "Pool");
       const sz = computeMinLaneSize(lane);
       if (lane.isSubGraphExpanded) {
@@ -208,20 +234,19 @@ export default class GraphController {
         $('ContextMenuButton',
           $(go.TextBlock, 'Add Lane'),
           // in the click event handler, the obj.part is the Adornment; its adornedObject is the port
-          { click: function (e: go.InputEvent, obj: go.GraphObject) { addLaneEvent((obj.part as go.Adornment).adornedObject as go.Node); } })
+          { 
+            click: (e: go.InputEvent, obj: go.GraphObject)=> 
+              { 
+                addLaneEvent((obj.part as go.Adornment).adornedObject as go.Node); 
+              } 
+          })
       );
 
-
-    // this is called after nodes have been moved or lanes resized, to layout all of the Pool Groups again
-    function relayoutDiagram() {
-      diagram.layout.invalidateLayout();
-      // 在group里面以后这里似乎会出问题
-      diagram.findTopLevelGroups().each(function (g) { if (g.category === 'Pool' && g.layout !== null) g.layout.invalidateLayout(); });
-      diagram.layoutDiagram();
-    }
-
+    // console.log(diagram, view_name)
     // Add a lane to pool (lane parameter is lane above new lane)
-    function addLaneEvent(lane: go.Node) {
+    const addLaneEvent = (lane: go.Node) => {
+      // 玄学，为啥全跑跑到服务目标视图上去了
+      const diagram = stateManger.show_view_controller.diagram
       diagram.startTransaction('addLane');
       if (lane != null && lane.data.category === 'Lane') {
         // create a new lane data object
@@ -240,7 +265,7 @@ export default class GraphController {
         diagram.model.addNodeData(newlanedata);
       }
       diagram.commitTransaction('addLane');
-      console.log(diagram.model.nodeDataArray)
+      // console.log(diagram,view_name,diagram.model.nodeDataArray)
     }
 
     const swimLanesGroupTemplate =
@@ -381,8 +406,5 @@ export default class GraphController {
 
     groupTemplateMap.add('Pool', poolGroupTemplate)
     groupTemplateMap.add('Lane', swimLanesGroupTemplate)
-    diagram.SelectionMoved = relayoutDiagram  // defined below
-    diagram.SelectionCopied = relayoutDiagram
-
   }
 }

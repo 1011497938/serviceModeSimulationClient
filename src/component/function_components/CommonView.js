@@ -14,7 +14,7 @@ export default class CommonView extends React.Component{
     constructor(props){
       super(props)
       this.state = {
-        selected_components : []
+        selected_component : undefined
       }
     }
 
@@ -31,8 +31,16 @@ export default class CommonView extends React.Component{
       // 双击弹出列表的功能
       diagram.addDiagramListener("ObjectDoubleClicked", e=> {
         var part = e.subject.part;
-        console.log(part, part.data, this)
-
+        if(part instanceof go.Group || part instanceof go.Link)
+          return
+        // console.log(part, part.data, this)
+        const {selected_component} = this.state
+        if(true||selected_component!==part){
+          this.setState({selected_component: part})
+        }
+      });
+      diagram.addDiagramListener("ObjectSingleClicked", e=> {
+        // console.log(diagram.model.nodeDataArray, diagram)
       });
 
       // // Overview
@@ -50,15 +58,18 @@ export default class CommonView extends React.Component{
     }
 
     render(){
+      const {selected_component} = this.state
+      // console.log(this.diagram)
       return (
         <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
           <div style={{position: 'absolute', top: 0, width:'100%', height:'100%',zIndex: 29}}>
             <div className='diagram' ref="myDiagramDiv"  style={{}}/>  
           </div>
           {/* 这里存放所有的表单 */}
-          <div>
-              <ComponentEditor/>
-          </div>
+          { 
+            selected_component && 
+            <ComponentEditor component={selected_component} diagram={this.diagram}/> 
+          }
           <div className='overview' ref='myOverviewDiv'  /> 
         </div>
       )

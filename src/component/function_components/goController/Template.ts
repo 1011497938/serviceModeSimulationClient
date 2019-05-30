@@ -862,6 +862,7 @@ $(go.Node, 'Spot',
   common_node_propety()
 ); 
 
+
 const parallelTemplateForPalette = genForPalette(
   $(go.Panel, "Auto", //子元素在面板的位置
     $(go.Shape, "Diamond",  

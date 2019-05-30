@@ -94,8 +94,8 @@ export default class GraphController {
           $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5, interval: 10 })
         ),
         "draggingTool.dragsLink": true,
-        "linkingTool.portGravity": 20,
-        "relinkingTool.portGravity": 10,
+        "linkingTool.portGravity": 50,
+        "relinkingTool.portGravity": 50,
         "relinkingTool.fromHandleArchetype":
           $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
         "relinkingTool.toHandleArchetype":

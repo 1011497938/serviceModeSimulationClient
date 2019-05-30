@@ -1,6 +1,7 @@
 // 这里存了所有的模板
 import * as go from 'gojs';
 import 'gojs/extensions/Figures'
+import stateManger from '../../../dataManager/stateManager';
 
 const $ = go.GraphObject.make;
 const custom_r= 60
@@ -303,17 +304,25 @@ $(go.Group, 'Vertical',); // empty in the palette, 直接在图中右键添加
 // 全局视图
 const viewGroupTemplate = 
   $(go.Group, "Auto",
-    $(go.Shape, "RoundedRectangle",  // surrounds everything
-      { parameter1: 10, fill: "gray" }
-    ),
+    // $(go.Shape, "RoundedRectangle",  // surrounds everything
+    //   { parameter1: 10, fill: "gray" }
+    // ),
     $(go.Panel, "Vertical",  // position header above the subgraph
       $(go.TextBlock,     // group title near top, next to button
-        { font: "Bold 12pt Sans-Serif" },
+        { 
+          font: "Bold 30pt Sans-Serif",
+          width: 300,
+          textAlign: 'center',
+          click: (e, obj)=>{
+            // console.log(obj,  obj.Pb ,Object.keys(obj))
+            stateManger.changeView(obj.Pb)
+          }
+        },
         new go.Binding('text', 'key')
       ),
-      $(go.Shape, "RoundedRectangle",  // surrounds everything
-        { parameter1: 10, fill: "white" }
-      ),
+      // $(go.Shape, "RoundedRectangle",  // surrounds everything
+      //   { parameter1: 10, fill: "white" }
+      // ),
     ),
     common_node_propety(),
   );
@@ -737,7 +746,7 @@ const startNodeTemplate =
 $(go.Node, 'Spot',
   $(go.Shape, "Circle", custom_props, {fill:cheng}),
   common_node_propety(),
-  reText()
+  // reText()
 ); 
 const startTemplateForPallete = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
@@ -754,7 +763,7 @@ $(go.Node, 'Spot',
     // 画中间图案
   $(go.Shape, "Circle",second_props),
   common_node_propety(),
-  reText()
+  // reText()
 ); 
 const endTemplateForPallete  = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置

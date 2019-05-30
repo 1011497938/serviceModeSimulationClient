@@ -898,7 +898,7 @@ $(go.Node, 'Spot',
 
 const feelTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:qianhuang}),
-  'feel'
+  'emotion'
 )
 const physicalNodeTemplate =
 $(go.Node, 'Spot',

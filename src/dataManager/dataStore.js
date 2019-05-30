@@ -40,6 +40,7 @@ const view2data = {
     }, 
     '载体及资源视图':{
         node: [
+
         ],
         link: [
         ],
@@ -73,12 +74,34 @@ const view2palatte = {
     },
     '协同生态视图':{
         node: [
+         { category: 'produce',key:"producer"},
+         { category: 'consumer',key:"consumer"},
         ],
         link: [
         ],
     }, 
     '载体及资源视图':{
         node: [
+                    {
+                    columnDefinitions: [
+                            { attr: "name", text: "Name", column: 0 },
+                            { attr: "value", text: "Value", column: 1 },
+                          ],
+                          people: [
+                            { columns: [{ attr: "name", text: "attr1" }, { attr: "value", text: "value1" }] },
+                          ],
+                          category: 'carry',
+                        },
+                    {
+                      columnDefinitions: [
+                        { attr: "name", text: "Name", column: 0 },
+                        { attr: "value", text: " Value ", column: 1 },
+                      ],
+                      people: [
+                        { columns: [{ attr: "name", text: "attr1" }, { attr: "value", text: "value1" }] },
+                      ],
+                      category: 'source',
+                    },
         ],
         link: [
         ],
@@ -91,13 +114,15 @@ const view2palatte = {
     }, 
     '服务过程视图':{
         node: [
-            { category: 'task'},
-            { category: 'event', eventType: 'end', },
-            { category: 'event', eventType: 'start', },
-            { category: 'event', eventType: 'time', },
-            { category: 'event', eventType: 'message', },
-            { category: 'gateWay', gateType: 'parallel', },
-            { category: 'gateWay', gateType: 'exclusive', },
+
+            { category:'task',key:"task"},
+            { category:'start',key:"start"},
+           { category:'end'},
+            { category:'time'},
+            { category:'message'},
+            { category: 'exclusive' },
+             { category: 'parallel' },
+
             { key: 1, text: "Pool", isGroup: true, category: "Pool" },
             { key: 2, text: "Lane", isGroup: true, category: "Lane", group: 1},
             { key: 3, text: "Lane", isGroup: true, category: "Lane", group: 1},
@@ -107,6 +132,11 @@ const view2palatte = {
     }, 
     '服务目标视图':{
         node: [
+            { category: 'aim' },           
+            { category: 'feel' },
+            { category: 'physical' },
+            { category: 'num' },
+            { category: 'son' },
         ],
         link: [
         ],

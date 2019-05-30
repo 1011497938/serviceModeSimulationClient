@@ -79,4 +79,3 @@ export default class CommonView extends React.Component{
     }
   }
 
-  // left: panel_width, 

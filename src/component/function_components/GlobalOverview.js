@@ -5,6 +5,41 @@ import {view2controller} from './goController/GraphController.ts'
 import dataStore,{view2data} from '../../dataManager/dataStore';
 import { autorun } from 'mobx';
 import stateManger from '../../dataManager/stateManager';
+import deepcopy from 'deepcopy'
+
+const getNowView2Data = ()=>{
+  const view2data = {}
+  for(let view in view2controller){
+      const controller = view2controller[view]
+      const model = controller.diagram.model
+      const node = deepcopy(model.nodeDataArray), link = deepcopy(model.linkDataArray)
+      node.forEach(elm => {
+          if(!elm.group){
+              elm.group = view
+              // console.log(elm, )
+          }
+          
+      });
+      view2data[view] = {
+          node: node,
+          link: link,
+      }
+  }
+  return view2data
+}
+const getNowData = ()=>{
+  const view2data = getNowView2Data()
+  let node = [], link = []
+  for(let view in view2data){
+      node = [...node, ...view2data[view].node]
+      link = [...link, ...view2data[view].link]
+  }
+  return {
+      node: node,
+      link: link
+  }
+}
+
 const $ = go.GraphObject.make;
 // 5月20日，添加了全局视图, 谭思危
 export default class GlobalOverview extends React.Component{
@@ -34,17 +69,19 @@ export default class GlobalOverview extends React.Component{
     componentDidMount(){
       this.init_graph()
 
-      // this.refresh = autorun(()=>{
-      //   console.log('总体示图刷新')
-      //   const {controller} = this
-      //   const need_refresh = stateManger.overview_need_refesh.get()
-      //   if(!controller)
-      //     return
-      // // console.log(controller.nodeTemplateMap)
-      //   const {node_array,link_array} = getAllDataArray()
-      //   // console.log(node_array)
-      //   controller.diagram.model = new go.GraphLinksModel(node_array,link_array);
-      // })
+      this.refresh = autorun(()=>{
+        console.log('总体示图刷新')
+        const {controller} = this
+        const need_refresh = stateManger.overview_need_refesh.get()
+        if(!controller)
+          return
+
+        // console.log(controller.nodeTemplateMap)
+        const {node,link} = getNowData()
+        console.log(link)
+        // console.log(node_array)
+        controller.diagram.model = new go.GraphLinksModel(node,link);
+      })
     }
 
     render(){

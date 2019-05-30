@@ -460,12 +460,12 @@ const viewGroupTemplate =
         { font: "Bold 12pt Sans-Serif" },
         new go.Binding('text', 'key')
       ),
-      $(go.Shape, "RoundedRectangle",  // surrounds everything
-        { parameter1: 10, fill: "white" }
-      ),
-      // $(go.Placeholder,     // represents area for all member parts
-      //   { padding: 5, background: "white", opacity: 0.8 }
-      // )
+    //   $(go.Shape, "RoundedRectangle",  // surrounds everything
+    //     { parameter1: 10, fill: "white" }
+    //   ),
+      $(go.Placeholder,     // represents area for all member parts
+        { padding: 5, background: "white"}
+      )
     ),
     common_node_propety(),
   );

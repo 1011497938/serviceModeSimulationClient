@@ -112,6 +112,15 @@ export default class GraphController {
       }, diagram_props)
     );
 
+    // 给新加的线一个类型
+    this.diagram.addDiagramListener("LinkDrawn", function(diagramEvent) {
+      // console.log(diagramEvent.subject, diagramEvent)
+      const {subject} = diagramEvent
+      subject.data.category = GraphController.default_link_type
+      // console.log(subject.data.category, subject.data) 
+    });
+
+
     this.addPoolTemplate()
   }
 

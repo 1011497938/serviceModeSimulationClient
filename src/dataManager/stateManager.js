@@ -4,9 +4,10 @@ import { view2controller } from "../component/function_components/goController/G
 
 class StateManager{
     show_view_name = observable.box(dataStore.default_view_name)
+    // 这里不知道为啥会跑好多次
     get show_view_controller(){
         const show_view_name = this.show_view_name.get()
-        console.log(show_view_name)
+        // console.log(show_view_name)
         return view2controller[show_view_name]
     }
 

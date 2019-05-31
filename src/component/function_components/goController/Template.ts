@@ -968,9 +968,9 @@ const paletteTemplate = {
     },
     node:{
         consumer:consumerTemplateForPalette,
-        produce:produceTemplateForPalette,
-        source:sourceTemplateForPallete,
-        carry:carryTemplateForPallete,
+        producer:produceTemplateForPalette,
+        resource:sourceTemplateForPallete,
+        carrier:carryTemplateForPallete,
         task:taskTemplateForPallete,
         start:startTemplateForPallete,
         end:endTemplateForPallete,
@@ -993,9 +993,9 @@ const paletteTemplate = {
 const panelTemplate = {
   node:{
         consumer:consumerNodeTemplate,
-        produce:produceNodeTemplate,
-        source:sourceNodeTemplate,
-        carry:carryNodeTemplate,
+        producer:produceNodeTemplate,
+        resource:sourceNodeTemplate,
+        carrier:carryNodeTemplate,
         task:taskNodeTemplate,
         start:startNodeTemplate,
         end:endNodeTemplate,

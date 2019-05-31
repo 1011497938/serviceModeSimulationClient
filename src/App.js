@@ -86,10 +86,10 @@ class App extends React.Component{
           <Input
               action={<Dropdown button basic floating 
               options={[
-                {key:'本视图', value:'本视图', text:'本视图'},
-                {key:'全部视图', value:'全部视图', text:'全部'},
+                {key:'本图', value:'本图', text:'本图'},
+                {key:'全部', value:'全部', text:'全部'},
               ]} 
-              defaultValue='本视图' />}
+              defaultValue='本图' />}
               icon='search'
               iconPosition='left'
               placeholder='Search...'

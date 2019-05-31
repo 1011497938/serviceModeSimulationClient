@@ -3,7 +3,7 @@ import { view2controller } from "../component/function_components/goController/G
 class DataStore{
     view_names = ['全局视图', '协同生态视图', '载体及资源视图', '服务价值视图', '服务过程视图', '服务目标视图']
 
-    default_view_name = '全局视图'
+    default_view_name = '协同生态视图'
 }
 
 const view2postion = {
@@ -96,7 +96,7 @@ const view2palatte = {
     },
     '协同生态视图':{
         node: [
-         { category: 'produce',key:"producer"},
+         { category: 'producer',key:"producer"},
          { category: 'consumer',key:"consumer"},
         ],
         link: [
@@ -112,7 +112,7 @@ const view2palatte = {
                           people: [
                             { columns: [{ attr: "name", text: "attr1" }, { attr: "value", text: "value1" }] },
                           ],
-                          category: 'carry',
+                          category: 'carrier',
                         },
                     {
                       columnDefinitions: [
@@ -122,7 +122,7 @@ const view2palatte = {
                       people: [
                         { columns: [{ attr: "name", text: "attr1" }, { attr: "value", text: "value1" }] },
                       ],
-                      category: 'source',
+                      category: 'resource',
                     },
         ],
         link: [

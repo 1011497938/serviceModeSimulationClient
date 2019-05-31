@@ -104,27 +104,9 @@ const view2palatte = {
     }, 
     '载体及资源视图':{
         node: [
-                    {
-                    columnDefinitions: [
-                            { attr: "name", text: "Name", column: 0 },
-                            { attr: "value", text: "Value", column: 1 },
-                          ],
-                          people: [
-                            { columns: [{ attr: "name", text: "attr1" }, { attr: "value", text: "value1" }] },
-                          ],
-                          category: 'carrier',id:3
-                        },
-                    {
-                      columnDefinitions: [
-                        { attr: "name", text: "Name", column: 0 },
-                        { attr: "value", text: " Value ", column: 1 },
-                      ],
-                      people: [
-                        { columns: [{ attr: "name", text: "attr1" }, { attr: "value", text: "value1" }] },
-                      ],
-                      category: 'source',id:4
-                    },
-        ],
+                {category:'carrier',id:3},
+                {category:'source',id:4},
+                ],
         link: [
         ],
     }, 

@@ -784,8 +784,8 @@ const paletteTemplate = {
     },
     node:{
         consumer:consumerTemplateForPalette,
-        produce:produceTemplateForPalette,
-        source:sourceTemplateForPallete,
+        producer:produceTemplateForPalette,
+        resource:sourceTemplateForPallete,
         carrier:carryTemplateForPallete,
         task:taskTemplateForPallete,
         start:startTemplateForPallete,
@@ -795,9 +795,9 @@ const paletteTemplate = {
         exclusive:exclusiveTemplateForPalette,
         parallel:parallelTemplateForPalette,
         strategic:aimNodeTemplateForPalette,
-         subgoal:sonNodeTemplateForPalette,
+        business:sonNodeTemplateForPalette,
          emotion:feelTemplateForPalette,
-         physical:physicalTemplateForPalette,
+         physics:physicalTemplateForPalette,
          amount:numTemplateForPalette 
     },
     group:{

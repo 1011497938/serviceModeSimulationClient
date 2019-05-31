@@ -97,7 +97,7 @@ const view2palatte = {
     '协同生态视图': {
         node: [
 
-         { category: 'produce',id:1},
+         { category: 'producer',id:1},
          { category: 'consumer',id:2},
 
         ],
@@ -108,7 +108,7 @@ const view2palatte = {
         node: [
 
                 {category:'carrier',id:3},
-                {category:'source',id:4},
+                {category:'resource',id:4},
                 ],
 
         link: [
@@ -145,9 +145,9 @@ const view2palatte = {
 
             { category: 'strategic',id:13 },           
             { category: 'emotion',id:14 },
-            { category: 'physical',id:15},
+            { category: 'physics',id:15},
             { category: 'amount' ,id:16},
-            { category: 'subgoal',id:17},
+            { category: 'business',id:17},
 
         ],
         link: [

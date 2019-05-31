@@ -6,15 +6,12 @@ import { autorun } from 'mobx';
 export default class StrategicGoalFormEdit extends Component{
     constructor(props){
         super(props)
-         this.state={
-                    select_component: stateManger.selet_component_ingo.get()
-                }
+
     }
     render(){
         return(
             <div>
                  <div>
-                    {this.state.select_component}
                  </div>
                  <form class='ui form'>
                      <div>

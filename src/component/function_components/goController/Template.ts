@@ -24,22 +24,22 @@ const genForPalette = (shape, name) => {
 
 
 // 为组件加锚点的函数
-function makePort(name, spot, output, input) {
-    // the port is basically just a small transparent square
-    return $(go.Shape, "Circle",
-        {
+         function makePort(name, spot, output, input) {
+        // the port is basically just a small transparent square
+        return $(go.Shape, "Circle",
+          {
             fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
             stroke: null,
-            desiredSize: new go.Size(10, 10),
+            desiredSize: new go.Size(7, 7),
             alignment: spot,  // align the port on the main Shape
             alignmentFocus: spot,  // just inside the Shape
             portId: name,  // declare this object to be a "port"
             fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
             fromLinkable: output, toLinkable: input,  // declare whether the user may draw links to/from here
             cursor: "pointer"  // show a different cursor to indicate potential link point
-        }
-    )
-}
+          });
+      }
+
 
 // 显示或者不显示锚点
 const showSmallPorts = (node, show) => {
@@ -346,6 +346,36 @@ $(go.Node, 'Auto',
 // 流图中的控件
 
 
+var nodeSelectionAdornmentTemplate =
+        $(go.Adornment, "Auto",
+          $(go.Shape, { fill: null, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] }),
+          $(go.Placeholder)
+        );
+
+      var nodeResizeAdornmentTemplate =
+        $(go.Adornment, "Spot",
+          { locationSpot: go.Spot.Right },
+          $(go.Placeholder),
+          $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.TopRight, cursor: "ne-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+
+          $(go.Shape, { alignment: go.Spot.Left, cursor: "w-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.Right, cursor: "e-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+
+          $(go.Shape, { alignment: go.Spot.BottomLeft, cursor: "se-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.Bottom, cursor: "s-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { alignment: go.Spot.BottomRight, cursor: "sw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" })
+        );
+
+      var nodeRotateAdornmentTemplate =
+        $(go.Adornment,
+          { locationSpot: go.Spot.Center, locationObjectName: "CIRCLE" },
+          $(go.Shape, "Circle", { name: "CIRCLE", cursor: "pointer", desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
+          $(go.Shape, { geometryString: "M3.5 7 L3.5 30", isGeometryPositioned: true, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] })
+        );
+
+ 
 
 
 
@@ -428,6 +458,7 @@ const inSix_props={
 //协同生态视图控件
 const consumerNodeTemplate =
 $(go.Node, 'Spot',
+
     $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
       common_node_propety() ,
       reText()
@@ -735,9 +766,22 @@ const taskTemplateForPallete = genForPalette(
 
 const startNodeTemplate =
 $(go.Node, 'Spot',
+         { locationSpot: go.Spot.Center },
+          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+          { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
+          { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
+          { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },  
   $(go.Shape, "Circle", custom_props, {fill:cheng}),
   common_node_propety(),
-  reText()
+  reText(),
+            makePort("T", go.Spot.Top, false, true),
+          makePort("L", go.Spot.Left, true, true),
+          makePort("R", go.Spot.Right, true, true),
+          makePort("B", go.Spot.Bottom, true, false),
+          { // handle mouse enter/leave events to show/hide the ports
+            mouseEnter: function(e, node) { showSmallPorts(node, true); },
+            mouseLeave: function(e, node) { showSmallPorts(node, false); }
+          }
 ); 
 const startTemplateForPallete = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
@@ -750,11 +794,24 @@ const startTemplateForPallete = genForPalette(
 
 const endNodeTemplate =
 $(go.Node, 'Spot',
+ { locationSpot: go.Spot.Center },
+          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+          { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
+          { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
+          { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },    
   $(go.Shape, "Circle", custom_props, {fill:cheng}),
     // 画中间图案
   $(go.Shape, "Circle",second_props),
   common_node_propety(),
-  reText()
+  reText(),
+              makePort("T", go.Spot.Top, false, true),
+          makePort("L", go.Spot.Left, true, true),
+          makePort("R", go.Spot.Right, true, true),
+          makePort("B", go.Spot.Bottom, true, false),
+          { // handle mouse enter/leave events to show/hide the ports
+            mouseEnter: function(e, node) { showSmallPorts(node, true); },
+            mouseLeave: function(e, node) { showSmallPorts(node, false); }
+          }
 ); 
 const endTemplateForPallete  = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
@@ -969,11 +1026,11 @@ const paletteTemplate = {
         message:messageTemplateForPallete,
         exclusive:exclusiveTemplateForPalette,
         parallel:parallelTemplateForPalette,
-        aim:aimNodeTemplateForPalette,
-         son:sonNodeTemplateForPalette,
-         feel:feelTemplateForPalette,
+        strategic:aimNodeTemplateForPalette,
+         subgoal:sonNodeTemplateForPalette,
+         emotion:feelTemplateForPalette,
          physical:physicalTemplateForPalette,
-         num:numTemplateForPalette 
+         amount:numTemplateForPalette 
     },
     group:{
         Pool: poolTemplateForPalette,
@@ -994,11 +1051,11 @@ const panelTemplate = {
         message:messageNodeTemplate,
         exclusive:exclusiveNodeTemplate,
         parallel:parallelNodeTemplate,
-        aim:aimNodeTemplate,
-        son:sonNodeTemplate,
-        feel:feelNodeTemplate,
+        strategic:aimNodeTemplate,
+        subgoal:sonNodeTemplate,
+        emotion:feelNodeTemplate,
         physical:physicalNodeTemplate,
-        num:numNodeTemplate
+        amount:numNodeTemplate
     },
     link: {
         '': commonLinkTemplate,

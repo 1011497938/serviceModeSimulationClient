@@ -6,16 +6,13 @@ import { autorun } from 'mobx';
 export default class StartFormEdit extends Component{
      constructor(props){
          super(props);
-         this.state={
-                     select_component: stateManger.selet_component_ingo.get()
-                 }
+
      }
 
     render(){
            return(
            <div>
                   <div>
-                       {this.state.select_component}
                    </div>
 
                    {/*表单主体 */}

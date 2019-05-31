@@ -14,7 +14,8 @@ export default class CommonView extends React.Component{
     constructor(props){
       super(props)
       this.state = {
-        selected_component : undefined
+        selected_component: undefined,
+
       }
     }
 
@@ -39,8 +40,14 @@ export default class CommonView extends React.Component{
           this.setState({selected_component: part})
         }
       });
-      diagram.addDiagramListener("ObjectSingleClicked", e=> {
-        // console.log(diagram.model.nodeDataArray, diagram)
+
+      diagram.addDiagramListener("ObjectContextClicked",(e) => {
+         var part = e.subject.part;
+         this.setState({
+          selected_component:part.data.category
+         })
+     
+         console.log("点击了"+ part.data.key, part.data.category)
       });
 
       // // Overview
@@ -70,7 +77,7 @@ export default class CommonView extends React.Component{
             selected_component && 
             <ComponentEditor component={selected_component} diagram={this.diagram}/> 
           }
-          <div className='overview' ref='myOverviewDiv'  /> 
+          <div className='overview' ref='myOverviewDiv'/> 
         </div>
       )
     }

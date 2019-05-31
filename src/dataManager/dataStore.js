@@ -72,8 +72,8 @@ const view2palatte = {
     },
     '协同生态视图':{
         node: [
-         { category: 'produce',key:"producer"},
-         { category: 'consumer',key:"consumer"},
+         { category: 'produce',},
+         { category: 'consumer',},
         ],
         link: [
         ],
@@ -113,8 +113,8 @@ const view2palatte = {
     '服务过程视图':{
         node: [
 
-            { category:'task',key:"task"},
-            { category:'start',key:"start"},
+            { category:'task',},
+            { category:'start',},
            { category:'end'},
             { category:'time'},
             { category:'message'},
@@ -130,11 +130,11 @@ const view2palatte = {
     }, 
     '服务目标视图':{
         node: [
-            { category: 'aim' },           
-            { category: 'feel' },
+            { category: 'strategic' },           
+            { category: 'emotion' },
             { category: 'physical' },
-            { category: 'num' },
-            { category: 'son' },
+            { category: 'amount' },
+            { category: 'subgoal' },
         ],
         link: [
         ],

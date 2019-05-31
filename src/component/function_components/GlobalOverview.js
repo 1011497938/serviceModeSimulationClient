@@ -71,11 +71,11 @@ export default class GlobalOverview extends React.Component{
       diagram.model = new go.GraphLinksModel(node, link);
 
       diagram.addModelChangedListener(function(evt) {
-        if (evt.isTransactionFinished) 
+        // if (evt.isTransactionFinished) 
           // diagram.model.linkDataArray.forEach(elm=>{
           //   console.log(elm)
           // })
-          console.log(diagram.model.toJson())
+          // console.log(diagram.model.toJson())
       });
 
       // Overview
@@ -83,11 +83,7 @@ export default class GlobalOverview extends React.Component{
       //   $(go.Overview, this.refs.myOverviewDiv,  // the HTML DIV element for the Overview
       //     { observed: diagram, contentAlignment: go.Spot.Center });   // tell it which Diagram to show and pan
 
-      setTimeout(()=>{
-        // console.log(view_name, position)
-        diagram.zoomToFit()
-      }, 100)
-
+      diagram.zoomToFit()
       this.diagram = diagram
     }
 
@@ -97,6 +93,7 @@ export default class GlobalOverview extends React.Component{
       this.refresh = autorun(()=>{
         // console.log('总体示图刷新')
         const {controller} = this
+        const {diagram} = controller
         const show_view_name = stateManger.show_view_name.get()
         if(show_view_name==='全局视图'){
           if(!controller)
@@ -105,8 +102,10 @@ export default class GlobalOverview extends React.Component{
           const {node,link} = getNowData()
           // console.log(node, link)
           // console.log(node_array)
-          controller.diagram.model = new go.GraphLinksModel(node,link);  
-          controller.diagram.zoomToFit()        
+          // diagram.startTransaction('refresh')
+          diagram.model = new go.GraphLinksModel(node,link);  
+          diagram.zoomToFit()        
+          // diagram.commitTransaction('refresh')
         }
       })
     }

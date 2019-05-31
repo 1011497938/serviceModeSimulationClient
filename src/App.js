@@ -16,7 +16,7 @@ import Nav from './component/ui_components/Nav'
 import MyPalatte from './component/function_components/MyPalatte'
 import { autorun } from 'mobx';
 import stateManger from './dataManager/stateManager';
-import dataStore from './dataManager/dataStore';
+import dataStore, { download } from './dataManager/dataStore';
 
 import GlobalOverview from './component/function_components/GlobalOverview';
 import CommonView from './component/function_components/CommonView'
@@ -86,10 +86,10 @@ class App extends React.Component{
           <Input
               action={<Dropdown button basic floating 
               options={[
-                {key:'本视图', value:'本视图', text:'本视图'},
-                {key:'全部视图', value:'全部视图', text:'全部'},
+                {key:'本图', value:'本图', text:'本图'},
+                {key:'全部', value:'全部', text:'全部'},
               ]} 
-              defaultValue='本视图' />}
+              defaultValue='本图' />}
               icon='search'
               iconPosition='left'
               placeholder='Search...'
@@ -161,9 +161,20 @@ class App extends React.Component{
 
         {/* 提交保存新建按钮 */}
         <div style={{position: 'absolute', right:200, width: 400,height: 50, bottom: 0, zIndex: 31}}>
-          {greenButton('保存', ()=>{}, {})}
-          {/* {greenButton('新建', ()=>{}, {})}
-          {greenButton('仿真', ()=>{}, {})} */}
+          {greenButton('保存', ()=>{
+            const view2json = {}
+            for(let view in view2controller){
+              const model = view2controller[view].diagram.model
+              view2json[view] = {
+                link: model.nodeDataArray,
+                node: model.linkDataArray,
+              }
+            }
+            // console.log(view2json)
+            download('数据保存.json', JSON.stringify(view2json))
+          }, {})}
+          {/* {greenButton('新建', ()=>{}, {})} */}
+          {greenButton('仿真', ()=>{}, {})}
         </div>
       </div>
     )
@@ -177,10 +188,11 @@ const greenButton = (text, handleClick, style)=>{
         width: 100, height: 50, bottom: 0, position: 'relative',
         textAlign: 'center', fontSize: 15, lineHeight: '50px',
         background: '#00b5ad',
-        float: 'right', marginRight: 10,
-        color: 'white'
+        float: 'right', marginRight: 20,
+        color: 'white',
       }, 
       style)}
+      onClick={handleClick}
     >
       {text}
     </div>

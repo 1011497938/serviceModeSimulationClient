@@ -14,7 +14,9 @@ export default class CommonView extends React.Component{
     constructor(props){
       super(props)
       this.state = {
+
         selected_component: undefined,
+
 
       }
     }
@@ -39,7 +41,8 @@ export default class CommonView extends React.Component{
           return
         // console.log(part, part.data, this)
         const {selected_component} = this.state
-        if(true||selected_component!==part){
+        // console.log(part.data.key, selected_component)
+        if(selected_component!==part){
           this.setState({selected_component: part})
         }
       });
@@ -75,6 +78,7 @@ export default class CommonView extends React.Component{
 
     render(){
       const {selected_component} = this.state
+      // console.log(selected_component)
       // console.log(this.diagram)
       return (
         <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
@@ -84,7 +88,7 @@ export default class CommonView extends React.Component{
           {/* 这里存放所有的表单 */}
           { 
             selected_component && 
-            <ComponentEditor component={selected_component} diagram={this.diagram}/> 
+            <ComponentEditor parent={this} key={selected_component.data.key} component={selected_component} diagram={this.diagram}/> 
           }
           <div className='overview' ref='myOverviewDiv'/> 
         </div>

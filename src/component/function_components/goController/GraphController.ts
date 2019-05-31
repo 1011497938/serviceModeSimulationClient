@@ -15,9 +15,10 @@ const view2controller = {}
 
 const $ = go.GraphObject.make;
 
-// 将视图上的坐标转换为实际坐标，只有全屏时有用
+// 将视图上的坐标转换为实际坐标，只有全屏时有用,有问题
 const getDocPosition = graphObject => {
   const init_position = graphObject.getDocumentPoint(go.Spot.Center)
+  // console.log(init_position.x, init_position.y, graphObject.location, )
   const window_width = jq(window).width(), window_height = jq(window).height()
   return [init_position.x + window_width/2, init_position.y + window_height/2]
 }

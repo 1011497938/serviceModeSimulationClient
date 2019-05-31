@@ -3,42 +3,183 @@ import * as go from 'gojs';
 import dataStore,{view2data} from '../../dataManager/dataStore';
 import Draggable from 'react-draggable'; // The default
 import $ from 'jquery'
-import TaskFormEdit from './form_edit/TaskFormEdit'
-import CarrierFormEdit from './form_edit/CarrierFormEdit'
-import ResourceFormEdit from './form_edit/ResourceFormEdit'
-import ConsumerFormEdit from './form_edit/ConsumerFormEdit'
-import ProviderFormEdit from './form_edit/ProviderFormEdit'
-import GoalFormEdit from './form_edit/GoalFormEdit'
-import StartFormEdit from './form_edit/StartFormEdit'
-import StrategicGoalFormEdit from './form_edit/StrategicGoalFormEdit'
-
-
-export default class ComponentEditor extends React.Component{   
-    componentDidMount = () => {   
+import { widget2attr, getKeys,wa } from '../../dataManager/attribute';
+import { Menu, Segment, Dropdown, Input, Icon } from 'semantic-ui-react';
+export default class ComponentEditor extends React.Component{
+    state = {
 
     }
-    
-    render(){
-        const {component, diagram} = this.props
-        console.log("传值"+this.props.component);
-        return (
-            // <Draggable
-            // // defaultPosition={{x: document., y: init_position.y}}
-            // onDrag={(e,p)=>{console.log(e,p)}}
-            // >
-            <div style={{zIndex:30, position:'absolute', width:300, height: 500, background: 'gray', 
-                right: '20%', top:'20%'}}>
-                 {this.props.component=='pruduce'?<ProviderFormEdit/>:""}
-                {this.props.component=='consumer'?<ConsumerFormEdit/>:""}
+    // constructor(props){
+    //     super(props)
 
-               { this.props.component=='carry'?<CarrierFormEdit/>:""}
-               {this.props.component=='source'?<ResourceFormEdit/>:""}
-                {this.props.component=='subgoal'?<GoalFormEdit/>:""}
-                {this.props.component=='start'?<StartFormEdit/>:""}
-                {this.props.component=='task'?<TaskFormEdit/>:""}
-                {this.props.component=='stragegic'?<StrategicGoalFormEdit/>:""}
+    // }
+    getAttrList(){
+        const {component} = this.props
+        const {data} = component
+        const {category} = data 
+        const attr_list = widget2attr[category]
+        return attr_list
+    }
+    refresh(){
+        const {component} = this.props
+        const {data} = component
+
+        this.setState({data: data})
+
+        const attr_list = this.getAttrList()
+        this.setState({activeItem: getKeys(attr_list)[0]})
+    }
+    componentWillMount(){
+        this.refresh()
+    }
+    componentWillReceiveProps(){
+        this.refresh()
+    }
+
+    renderComponent(elm){
+        const {type} = elm
+        let Component = undefined
+        switch (type) {
+            case wa.enum:
+                Component = this.renderEnum(elm)
+                break;
+            case wa.text:
+                Component = this.renderText(elm)
+                break;
+            case wa.value:
+                Component = this.renderValue(elm)
+                break
+            case wa.gateway:
+                Component = this.renderGateWay(elm)
+                break
+            default:
+                break;
+        }
+        return Component
+    }
+    renderGateWay(column){
+        const {content, based_on} = column
+        const {data} = this.state
+        const {category, key} = data 
+        const gateValue = data[based_on]
+
+        // console.log(content, gateValue)
+        return content[gateValue] && content[gateValue].map(elm => this.renderComponent(elm))
+    }
+    renderEnum(column){
+        const {data} = this.state
+        const {category, key} = data 
+
+        let {name,content, multiple, onChange} = column
+
+        // 现在的问题就是刷新要不要写个监视器
+        multiple = multiple?true:false
+        content =  typeof(content)==='function'? content(): content
+        return (
+        <span key={name + key + category}>
+            {name}:
+            <Dropdown 
+            value={data[name]}  //这里会报错，因为undefined的问题
+            options={content.map(elm=>{
+            return { key: elm, text: elm, value: elm}
+            })}
+            fluid multiple={multiple} selection inline search
+            onChange = {(e,{value})=>{
+                data[name] = value
+                this.setState({data: data})
+            }}
+            />
+            <br />
+        </span>
+        )
+    }
+
+    renderValue(column){
+        const {data} = this.state
+        const {category, key} = data 
+
+        let {name,multiple} = column
+
+        // 现在的问题就是刷新要不要写个监视器
+        multiple = multiple?true:false
+        return (
+        <span key={name + key + category}>
+            {name}:
+            <Input 
+            fluid
+            value={data[name] || ''}
+            // label={name}
+            onChange = {(e,{value})=>{
+                data[name] = value
+                this.setState({data: data})
+            }}
+            />
+            <br />
+        </span>
+        )
+    }
+
+    renderText(column){
+        const {data} = this.state
+        const {category, key} = data 
+
+        let {name, multiple} = column
+
+        // 现在的问题就是刷新要不要写个监视器
+        multiple = multiple?true:false
+        return (
+        <span key={name + key + category}>
+            {name}:
+            <Input 
+            fluid
+            value={data[name] || ''}
+            // label={name}
+            onChange = {(e,{value})=>{
+                data[name] = value
+                this.setState({data: data})
+            }}
+            />
+            <br />
+        </span>
+        )
+    }
+    render(){
+        const {activeItem} = this.state 
+        const {component} = this.props
+        const {data} = component
+        const {category} = data 
+        const attr_list = widget2attr[category]
+
+        return (
+            <div style={{zIndex:30, position:'absolute',  minWidth: 300,height: 500, //background: 'white', 
+                right: '20%', top: '20%',
+            }}>
+                <Menu  pointing secondary fluid>
+                    {getKeys(attr_list).map(elm=>
+                        <Menu.Item
+                        key={elm}
+                        name={elm}
+                        active={activeItem === elm}
+                        onClick={()=> this.setState({activeItem: elm})}
+                        />        
+                    )}
+                    <Menu.Menu position='right'>
+                        <Menu.Item
+                        onClick={()=> {}}
+                        >  
+                            <Icon name='delete' onClick={()=>{ this.props.parent.setState({selected_component: undefined})}}/>
+                        </Menu.Item>  
+                    </Menu.Menu>
+                </Menu>
+                <Segment>
+                    {
+                        attr_list[activeItem] &&
+                        attr_list[activeItem].map(elm=>{
+                            return this.renderComponent(elm)
+                        })
+                    }
+                </Segment>
             </div>
-            // </Draggable>
         )
     }
 }

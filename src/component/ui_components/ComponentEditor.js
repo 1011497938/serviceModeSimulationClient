@@ -4,7 +4,7 @@ import dataStore,{view2data} from '../../dataManager/dataStore';
 import Draggable from 'react-draggable'; // The default
 import $ from 'jquery'
 import { widget2attr, getKeys,wa } from '../../dataManager/attribute';
-import { Menu, Segment, Dropdown, Input } from 'semantic-ui-react';
+import { Menu, Segment, Dropdown, Input, Icon } from 'semantic-ui-react';
 export default class ComponentEditor extends React.Component{
     state = {
 
@@ -163,6 +163,13 @@ export default class ComponentEditor extends React.Component{
                         onClick={()=> this.setState({activeItem: elm})}
                         />        
                     )}
+                    <Menu.Menu position='right'>
+                        <Menu.Item
+                        onClick={()=> {}}
+                        >  
+                            <Icon name='delete' onClick={()=>{ this.props.parent.setState({selected_component: undefined})}}/>
+                        </Menu.Item>  
+                    </Menu.Menu>
                 </Menu>
                 <Segment>
                     {

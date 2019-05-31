@@ -25,6 +25,7 @@ const genForPalette = (shape, name) => {
 
 
 // 为组件加锚点的函数
+
 function makePort(name, spot, output, input) {
   // the port is basically just a small transparent square
   return $(go.Shape, "Circle",
@@ -42,6 +43,7 @@ function makePort(name, spot, output, input) {
   )
 }
 
+
 // 显示或者不显示锚点
 const showSmallPorts = (node, show) => {
   if (node.ports) {
@@ -58,18 +60,21 @@ const showSmallPorts = (node, show) => {
 
 // 所有控件都包含的属性
 const common_node_propety = () => [
-  // new go.Binding("location", "location").makeTwoWay(),
-  new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-  new go.Binding("portId").makeTwoWay(),
-  new go.Binding("key").makeTwoWay(),
-  makePort("T", go.Spot.Top, true, true),
-  makePort("L", go.Spot.Left, true, true),
-  makePort("R", go.Spot.Right, true, true),
-  makePort("B", go.Spot.Bottom, true, true),
-  { // handle mouse enter/leave events to show/hide the ports
-    mouseEnter: function (e, node) { showSmallPorts(node, true); },
-    mouseLeave: function (e, node) { showSmallPorts(node, false); }
-  },
+
+    // new go.Binding("location", "location").makeTwoWay(),
+    new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+    new go.Binding("portId").makeTwoWay(),
+    // new go.Binding("id").makeTwoWay(),
+
+    makePort("T", go.Spot.Top, true, true),
+    makePort("L", go.Spot.Left, true, true),
+    makePort("R", go.Spot.Right, true, true),
+    makePort("B", go.Spot.Bottom, true, true),
+    { // handle mouse enter/leave events to show/hide the ports
+        mouseEnter: function (e, node) { showSmallPorts(node, true); },
+        mouseLeave: function (e, node) { showSmallPorts(node, false); }
+    },
+
 ]
 
 
@@ -256,6 +261,7 @@ const genArrowLinkWithText = text => {
 
 // 普通的group模板（就是一个框框）
 const commonGroupTemplate =
+
   $(go.Group, "Auto",
     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
     $(go.Panel, "Auto",
@@ -276,6 +282,7 @@ const commonGroupTemplate =
       new go.Binding("text", "key")
     ),
   );
+
 
 const swimLanesGroupTemplateForPalette =
   $(go.Group, 'Vertical');
@@ -354,9 +361,46 @@ $(go.Node, 'Auto',
 ); */
 // 流图中的控件
 
+//图形的缩放
+// var nodeSelectionAdornmentTemplate =
+//         $(go.Adornment, "Auto",
+//           $(go.Shape, { fill: null, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] }),
+//           $(go.Placeholder)
+//         );
 
+//       var nodeResizeAdornmentTemplate =
+//         $(go.Adornment, "Spot",
+//           { locationSpot: go.Spot.Right },
+//           $(go.Placeholder),
+//           $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+//           $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+//           $(go.Shape, { alignment: go.Spot.TopRight, cursor: "ne-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
 
+//           $(go.Shape, { alignment: go.Spot.Left, cursor: "w-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+//           $(go.Shape, { alignment: go.Spot.Right, cursor: "e-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
 
+//           $(go.Shape, { alignment: go.Spot.BottomLeft, cursor: "se-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+//           $(go.Shape, { alignment: go.Spot.Bottom, cursor: "s-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+//           $(go.Shape, { alignment: go.Spot.BottomRight, cursor: "sw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" })
+//         );
+
+//       var nodeRotateAdornmentTemplate =
+//         $(go.Adornment,
+//           { locationSpot: go.Spot.Center, locationObjectName: "CIRCLE" },
+//           $(go.Shape, "Circle", { name: "CIRCLE", cursor: "pointer", desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
+//           $(go.Shape, { geometryString: "M3.5 7 L3.5 30", isGeometryPositioned: true, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] })
+//         );
+
+ 
+
+// const common_shape=()=>[
+//           { locationSpot: go.Spot.Center },
+//           new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+//           { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
+//           { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
+//           { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
+//           new go.Binding("angle").makeTwoWay(),
+// ]
 
 
 
@@ -421,6 +465,8 @@ const inSix_props = {
   height: custom_r - 24
 }
 
+
+
 const reText = () => [
   $(go.TextBlock, new go.Binding("text", "key"),
     {
@@ -443,6 +489,7 @@ const consumerNodeTemplate =
   );
 
 
+
 const consumerTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill: forgive }),
   'consumer'
@@ -450,11 +497,13 @@ const consumerTemplateForPalette = genForPalette(
 
 
 const produceNodeTemplate =
-  $(go.Node, 'Auto',
-    $(go.Shape, "RoundedRectangle", first_props, { fill: cheng }),
-    common_node_propety(),
-    reText()
-  );
+
+$(go.Node, 'Auto',
+    $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
+      common_node_propety(),
+      reText()
+); 
+
 
 const produceTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill: cheng }),
@@ -467,262 +516,28 @@ const produceTemplateForPalette = genForPalette(
 
 //载体及资源视图开始
 
-const carryNodeTemplate =
-  $(go.Node, "Auto",
-    $(go.Shape, { fill: "#eee", stroke: null, }),
-    $(go.Panel, "Table",
-      new go.Binding("itemArray", "people"),
-      $(go.RowColumnDefinition,
-        { separatorStrokeWidth: 0, separatorStroke: "none" }),
-      $(go.RowColumnDefinition,
-        { row: 0, background: forgive }),
-      // the table headers -- remains even if itemArray is empty
-      $(go.Panel, "TableRow",
-        { isPanelMain: true },
-        new go.Binding("itemArray", "columnDefinitions"),
-        {
-          itemTemplate:
-            $(go.Panel,
-              new go.Binding("column"),
-              $(go.TextBlock,
-                { margin: new go.Margin(2), stroke: "white", font: "10pt sans-serif" },
-                new go.Binding("text"))
-            )
-        }
-      ),
-      { // the rows for the people
-        defaultAlignment: go.Spot.Center,
-        defaultColumnSeparatorStroke: forgive,
-        itemTemplate:  // bound to a person/row data object
-          $(go.Panel, "TableRow",
-            // which in turn consists of a collection of cell objects,
-            // held by the "columns" property in an Array
-            new go.Binding("itemArray", "columns"),
-            // you could also have other Bindings here for the whole row
-            {
-              itemTemplate:  // bound to a cell object
-                $(go.Panel,  // each of which as "attr" and "text" properties
-                  { stretch: go.GraphObject.Fill, alignment: go.Spot.TopLeft },
-                  new go.Binding("column", "attr",
-                    function (a, elt) {  // ELT is this bound item/cell Panel
-                      function findColumnDefinitionForName(nodedata, attrname) {
-                        var columns = nodedata.columnDefinitions;
-                        for (var i = 0; i < columns.length; i++) {
-                          if (columns[i].attr === attrname) return columns[i];
-                        }
-                        return null;
-                      }
-                      var cd = findColumnDefinitionForName(elt.part.data, a);
-                      if (cd !== null) return cd.column;
-                      // throw new Error("unknown column name: " + a);
-                    }),
-                  // you could also have other Bindings here for this cell
-                  $(go.TextBlock, { editable: true },
-                    { margin: new go.Margin(4), stroke: "#000", wrap: go.TextBlock.None },
-                    new go.Binding("text").makeTwoWay())
-                )
-            }
-          )
-      }
-    ),
-    common_node_propety(),
-  );
 
-const carryTemplateForPallete = genForPalette(
-  $(go.Panel, "Auto",
-    $(go.Shape, { fill: "#eee", stroke: null, }),
-    $(go.Panel, "Table",
-      $(go.RowColumnDefinition,
-        { separatorStrokeWidth: 0, separatorStroke: "none" }),
-      $(go.RowColumnDefinition,
-        { row: 0, background: forgive }),
-      // the table headers -- remains even if itemArray is empty
-      $(go.Panel, "TableRow",
-        { isPanelMain: true },
-        {
-          itemArray: [
-            { attr: "name", text: "Name", column: 0 },
-            { attr: "value", text: "Value", column: 1 },
-          ],
-          itemTemplate:  // bound to a column definition object
-            $(go.Panel,
-              new go.Binding("column"),
-              $(go.TextBlock,
-                { margin: new go.Margin(2), stroke: "#fff", font: "10pt sans-serif", },
-                new go.Binding("text"))
-            )
-        }
-      ),
-      { // the rows for the people
-        itemArray: [{ columns: [{ attr: "name", text: 'attr1' }, { attr: "value", text: 'value1' }] },],
-        defaultAlignment: go.Spot.Center,
-        defaultColumnSeparatorStroke: forgive,
-        itemTemplate:  // bound to a person/row data object
-          $(go.Panel, "TableRow",
-            new go.Binding("itemArray", "columns"),
-            {
-              itemTemplate:  // bound to a cell object
-                $(go.Panel,  // each of which as "attr" and "text" properties
-                  { stretch: go.GraphObject.Fill, alignment: go.Spot.Center },
-                  new go.Binding("column", "attr",
-                    function (a, elt) {  // ELT is this bound item/cell Panel
-                      // elt.data will be the cell object
-                      // elt.panel.data will be the person/row data object
-                      // elt.part.data will be the node data object
-                      // "columnDefinitions" is on the node data object, so:
-                      function findColumnDefinitionForName(nodedata, attrname) {
-                        var columns = nodedata.columnDefinitions;
-                        for (var i = 0; i < columns.length; i++) {
-                          if (columns[i].attr === attrname) return columns[i];
-                        }
-                        return null;
-                      }
-                      var cd = findColumnDefinitionForName(elt.part.data, a);
-                      if (cd !== null) return cd.column;
-                      // throw new Error("unknown column name: " + a);
-                    }),
-                  // you could also have other Bindings here for this cell
-                  $(go.TextBlock, { editable: true },
-                    { margin: new go.Margin(2), stroke: "#000", wrap: go.TextBlock.None },
-                    new go.Binding("text").makeTwoWay())
-                )
-            }
-          )
-      }
-    ),
-  ),
+const carryNodeTemplate =$(go.Node, 'Spot',
+    $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
+      common_node_propety(),
+); 
+
+
+const carryTemplateForPallete= genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
   'carrier'
 )
 
-
-
-const sourceNodeTemplate =
-  $(go.Node, "Auto",
-    $(go.Shape, { fill: "#eee", stroke: null, }),
-    $(go.Panel, "Table",
-      new go.Binding("itemArray", "people"),
-      $(go.RowColumnDefinition,
-        { separatorStrokeWidth: 0, separatorStroke: "none" }),
-      $(go.RowColumnDefinition,
-        { row: 0, background: huang }),
-      // the table headers -- remains even if itemArray is empty
-      $(go.Panel, "TableRow",
-        { isPanelMain: true },
-        new go.Binding("itemArray", "columnDefinitions"),
-        {
-          itemTemplate:
-            $(go.Panel,
-              new go.Binding("column"),
-              $(go.TextBlock,
-                { margin: new go.Margin(2), stroke: "white", font: "10pt sans-serif" },
-                new go.Binding("text"))
-            )
-        }
-      ),
-      { // the rows for the people
-        defaultAlignment: go.Spot.Center,
-        defaultColumnSeparatorStroke: huang,
-        itemTemplate:  // bound to a person/row data object
-          $(go.Panel, "TableRow",
-            // which in turn consists of a collection of cell objects,
-            // held by the "columns" property in an Array
-            new go.Binding("itemArray", "columns"),
-            // you could also have other Bindings here for the whole row
-            {
-              itemTemplate:  // bound to a cell object
-                $(go.Panel,  // each of which as "attr" and "text" properties
-                  { stretch: go.GraphObject.Fill, alignment: go.Spot.TopLeft },
-                  new go.Binding("column", "attr",
-                    function (a, elt) {  // ELT is this bound item/cell Panel
-                      function findColumnDefinitionForName(nodedata, attrname) {
-                        var columns = nodedata.columnDefinitions;
-                        for (var i = 0; i < columns.length; i++) {
-                          if (columns[i].attr === attrname) return columns[i];
-                        }
-                        return null;
-                      }
-                      var cd = findColumnDefinitionForName(elt.part.data, a);
-                      if (cd !== null) return cd.column;
-                      // throw new Error("unknown column name: " + a);
-                    }),
-                  // you could also have other Bindings here for this cell
-                  $(go.TextBlock, { editable: true },
-                    { margin: new go.Margin(4), stroke: "#000", wrap: go.TextBlock.None },
-                    new go.Binding("text").makeTwoWay())
-                )
-            }
-          )
-      }
-    ),
-    common_node_propety(),
-  );
+const sourceNodeTemplate =$(go.Node, 'Spot',
+    $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
+      common_node_propety(),
+); 
+  
 
 const sourceTemplateForPallete = genForPalette(
-  $(go.Panel, "Auto",
-    $(go.Shape, { fill: "#eee", stroke: null, }),
-    $(go.Panel, "Table",
-      $(go.RowColumnDefinition,
-        { separatorStrokeWidth: 0, separatorStroke: "none" }),
-      $(go.RowColumnDefinition,
-        { row: 0, background: huang }),
-      // the table headers -- remains even if itemArray is empty
-      $(go.Panel, "TableRow",
-        { isPanelMain: true },
-        {
-          itemArray: [
-            { attr: "name", text: "Name", column: 0 },
-            { attr: "value", text: "Value", column: 1 },
-          ],
-          itemTemplate:  // bound to a column definition object
-            $(go.Panel,
-              new go.Binding("column"),
-              $(go.TextBlock,
-                { margin: new go.Margin(2), stroke: "#fff", font: "10pt sans-serif", },
-                new go.Binding("text"))
-            )
-        }
-      ),
-      { // the rows for the people
-        itemArray: [{ columns: [{ attr: "name", text: 'attr1' }, { attr: "value", text: 'value1' }] },],
-        defaultAlignment: go.Spot.Center,
-        defaultColumnSeparatorStroke: "#F8ab59",
-        itemTemplate:  // bound to a person/row data object
-          $(go.Panel, "TableRow",
-            new go.Binding("itemArray", "columns"),
-            {
-              itemTemplate:  // bound to a cell object
-                $(go.Panel,  // each of which as "attr" and "text" properties
-                  { stretch: go.GraphObject.Fill, alignment: go.Spot.Center },
-                  new go.Binding("column", "attr",
-                    function (a, elt) {  // ELT is this bound item/cell Panel
-                      // elt.data will be the cell object
-                      // elt.panel.data will be the person/row data object
-                      // elt.part.data will be the node data object
-                      // "columnDefinitions" is on the node data object, so:
-                      function findColumnDefinitionForName(nodedata, attrname) {
-                        var columns = nodedata.columnDefinitions;
-                        for (var i = 0; i < columns.length; i++) {
-                          if (columns[i].attr === attrname) return columns[i];
-                        }
-                        return null;
-                      }
-                      var cd = findColumnDefinitionForName(elt.part.data, a);
-                      if (cd !== null) return cd.column;
-                      // throw new Error("unknown column name: " + a);
-                    }),
-                  // you could also have other Bindings here for this cell
-                  $(go.TextBlock, { editable: true },
-                    { margin: new go.Margin(2), stroke: "#000", wrap: go.TextBlock.None },
-                    new go.Binding("text").makeTwoWay())
-                )
-            }
-          )
-      }
-    ),
-  ),
-  'resource'
-)
+  $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
 
+)
 
 //载体及资源视图完毕
 //
@@ -732,7 +547,6 @@ const taskNodeTemplate =
     $(go.Panel, "Auto", //子元素在面板的位置
       $(go.Shape, "RoundedRectangle", first_props, { fill: qianhuang }),
       common_node_propety(),
-      reText()
     ),
   );
 
@@ -742,11 +556,13 @@ const taskTemplateForPallete = genForPalette(
 )
 
 const startNodeTemplate =
-  $(go.Node, 'Spot',
-    $(go.Shape, "Circle", custom_props, { fill: cheng }),
-    common_node_propety(),
-    // reText()
-  );
+$(go.Node, 'Spot',
+  $(go.Shape, "Circle", custom_props, {fill:cheng}),
+  common_node_propety(),
+  reText(),
+
+); 
+
 const startTemplateForPallete = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
     $(go.Shape, "Circle", custom_props, { fill: cheng }),
@@ -760,11 +576,12 @@ const endNodeTemplate =
   $(go.Node, 'Spot',
     $(go.Shape, "Circle", custom_props, { fill: cheng }),
     // 画中间图案
-    $(go.Shape, "Circle", second_props),
-    common_node_propety(),
-    // reText()
-  );
+  $(go.Shape, "Circle",second_props),
+
+); 
+
 const endTemplateForPallete = genForPalette(
+
   $(go.Panel, "Auto", //子元素在控件的位置
     $(go.Shape, "Circle", custom_props, { fill: cheng }),
     // 画中间图案
@@ -891,7 +708,7 @@ const aimNodeTemplate =
     $(go.Shape, "Ellipse", { fill: cheng, width: 80, height: 50, stroke: null }),
     common_node_propety()
   );
-const strategicNodeTemplateForPalette = genForPalette(
+const aimNodeTemplateForPalette = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
     $(go.Shape, "Ellipse", { fill: cheng, width: 80, height: 50, stroke: null }),
   ),
@@ -905,7 +722,7 @@ const feelNodeTemplate =
     reText()
   );
 
-const emotionTemplateForPalette = genForPalette(
+const feelTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill: qianhuang }),
   'emotion'
 )
@@ -916,7 +733,7 @@ const physicalNodeTemplate =
     reText()
   );
 
-const physicsTemplateForPalette = genForPalette(
+const physicalTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill: "lightblue" }),
   'physics'
 )
@@ -928,7 +745,7 @@ const numNodeTemplate =
 
   );
 
-const amountTemplateForPalette = genForPalette(
+const numTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill: forgive }),
   'amount'
 )
@@ -938,7 +755,7 @@ const sonNodeTemplate =
     $(go.Shape, "Ellipse", { fill: huang, width: 80, height: 50, stroke: null }),
     common_node_propety()
   );
-const businessNodeTemplateForPalette = genForPalette(
+const sonNodeTemplateForPalette = genForPalette(
   $(go.Shape, "Ellipse", { fill: huang, width: 80, height: 50, stroke: null }),
   'business'
 )
@@ -964,31 +781,31 @@ const businessNodeTemplateForPalette = genForPalette(
 const paletteTemplate = {
   link: {
 
-  },
-  node: {
-    consumer: consumerTemplateForPalette,
-    producer: produceTemplateForPalette,
-    resource: sourceTemplateForPallete,
-    carrier: carryTemplateForPallete,
-    task: taskTemplateForPallete,
-    start: startTemplateForPallete,
-    end: endTemplateForPallete,
-    time: timeTemplateForPallete,
-    message: messageTemplateForPallete,
-    exclusive: exclusiveTemplateForPalette,
-    parallel: parallelTemplateForPalette,
-
-    strategic: strategicNodeTemplateForPalette,
-    business: businessNodeTemplateForPalette,
-    emotion: emotionTemplateForPalette,
-    physics: physicsTemplateForPalette,
-    amount: amountTemplateForPalette
-  },
-  group: {
-    Pool: poolTemplateForPalette,
-    Lane: LaneTemplateForPalette,
-  }
+    },
+    node:{
+        consumer:consumerTemplateForPalette,
+        produce:produceTemplateForPalette,
+        source:sourceTemplateForPallete,
+        carrier:carryTemplateForPallete,
+        task:taskTemplateForPallete,
+        start:startTemplateForPallete,
+        end:endTemplateForPallete,
+        time:timeTemplateForPallete,
+        message:messageTemplateForPallete,
+        exclusive:exclusiveTemplateForPalette,
+        parallel:parallelTemplateForPalette,
+        strategic:aimNodeTemplateForPalette,
+         subgoal:sonNodeTemplateForPalette,
+         emotion:feelTemplateForPalette,
+         physical:physicalTemplateForPalette,
+         amount:numTemplateForPalette 
+    },
+    group:{
+        Pool: poolTemplateForPalette,
+        Lane: LaneTemplateForPalette,
+    }
 }
+
 //这里存画布上的模板
 const panelTemplate = {
   node: {
@@ -1037,6 +854,7 @@ const panelTemplate = {
 
     '下一步': ArrowLinkTemplate,
   },
+
 
   group: {
     '': commonGroupTemplate,

@@ -14,7 +14,10 @@ export default class CommonView extends React.Component{
     constructor(props){
       super(props)
       this.state = {
-        selected_component : undefined,
+
+        selected_component: undefined,
+
+
       }
     }
 
@@ -43,14 +46,16 @@ export default class CommonView extends React.Component{
           this.setState({selected_component: part})
         }
       });
+
       diagram.addDiagramListener("ObjectSingleClicked", e=> {
         var part = e.subject.part;
-        // console.log(part)
+        console.log(part.data.id)
         stateManger.select_component_ingo = part
       });
       diagram.addModelChangedListener(function(evt) {
         if (evt.isTransactionFinished) 
           stateManger.overviewRefesh();
+
       });
 
       // 把视图放到不同的位置
@@ -85,7 +90,7 @@ export default class CommonView extends React.Component{
             selected_component && 
             <ComponentEditor parent={this} key={selected_component.data.key} component={selected_component} diagram={this.diagram}/> 
           }
-          <div className='overview' ref='myOverviewDiv'  /> 
+          <div className='overview' ref='myOverviewDiv'/> 
         </div>
       )
     }

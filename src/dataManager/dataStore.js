@@ -96,35 +96,21 @@ const view2palatte = {
     },
     '协同生态视图': {
         node: [
-            { category: 'producer', key: "producer" },
-            { category: 'consumer', key: "consumer" },
+
+         { category: 'produce',id:1},
+         { category: 'consumer',id:2},
+
         ],
         link: [
         ],
     },
     '载体及资源视图': {
         node: [
-            {
-                columnDefinitions: [
-                    { attr: "name", text: "Name", column: 0 },
-                    { attr: "value", text: "Value", column: 1 },
+
+                {category:'carrier',id:3},
+                {category:'source',id:4},
                 ],
-                people: [
-                    { columns: [{ attr: "name", text: "attr1" }, { attr: "value", text: "value1" }] },
-                ],
-                category: 'carrier',
-            },
-            {
-                columnDefinitions: [
-                    { attr: "name", text: "Name", column: 0 },
-                    { attr: "value", text: " Value ", column: 1 },
-                ],
-                people: [
-                    { columns: [{ attr: "name", text: "attr1" }, { attr: "value", text: "value1" }] },
-                ],
-                category: 'resource',
-            },
-        ],
+
         link: [
         ],
     },
@@ -136,28 +122,33 @@ const view2palatte = {
     },
     '服务过程视图': {
         node: [
-            { category: 'task', key: "task" },
-            { category: 'start', key: "start" },
-            { category: 'end' },
-            { category: 'time' },
-            { category: 'message' },
-            { category: 'exclusive' },
-            { category: 'parallel' },
 
-            { key: 1, text: "Pool", isGroup: true, category: "Pool" },
-            { key: 2, text: "Lane", isGroup: true, category: "Lane", group: 1 },
-            { key: 3, text: "Lane", isGroup: true, category: "Lane", group: 1 },
+
+            { category:'task',id:5},
+            { category:'start',id:6},
+           { category:'end',id:7},
+            { category:'time',id:8},
+            { category:'message',id:9},
+            { category: 'exclusive',id:10},
+             { category: 'parallel',id:11},
+
+            { key: 1, text: "Pool", isGroup: true, category: "Pool",id:12 },
+            { key: 2, text: "Lane", isGroup: true, category: "Lane", group: 1},
+            { key: 3, text: "Lane", isGroup: true, category: "Lane", group: 1},
+
         ],
         link: [
         ],
     },
     '服务目标视图': {
         node: [
-            { category: 'strategic' },
-            { category: 'emotion' },
-            { category: 'physics' },
-            { category: 'amount' },
-            { category: 'business' },
+
+            { category: 'strategic',id:13 },           
+            { category: 'emotion',id:14 },
+            { category: 'physical',id:15},
+            { category: 'amount' ,id:16},
+            { category: 'subgoal',id:17},
+
         ],
         link: [
         ],

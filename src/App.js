@@ -104,7 +104,7 @@ class App extends React.Component{
         <div style={{
           borderRight:'2px solid black',
           position:'absolute', 
-          top: '15%', right: '10%', 
+          top: '15%', right: '5%', 
           height: 110, width: 50, 
           zIndex:31}}
         >
@@ -128,7 +128,7 @@ class App extends React.Component{
         </div>
         
         {/* 下半部分工具栏， 有放大缩小之类的*/}
-        <div style={{position:'absolute', top: '40%', right: '10%'}}>
+        <div style={{position:'absolute', top: '40%', right: '5%'}}>
           <div className='tool-icon' style={{top: 0, right: 0}}>
             <Icon className='isButtom' name='expand' size='large' 
               onClick={()=>{
@@ -155,12 +155,12 @@ class App extends React.Component{
         </div>
         
         {/* 选择连线 */}
-        <div style={{position:'absolute', top: '15%', right: '20%', zIndex:30}}>
+        <div style={{position:'absolute', top: '15%', right: '12%', zIndex:30}}>
           <SelectLine/>
         </div>
 
         {/* 提交保存新建按钮 */}
-        <div style={{position: 'absolute', right:200, width: 400,height: 50, bottom: 0, zIndex: 31}}>
+        <div style={{position: 'absolute', right:'5%', width: 400,height: 50, bottom: 0, zIndex: 31}}>
           {greenButton('保存', ()=>{
             const view2json = {}
             for(let view in view2controller){

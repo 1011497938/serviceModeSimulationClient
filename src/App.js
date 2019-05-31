@@ -29,9 +29,6 @@ class App extends React.Component{
     super(props)
     this.state={
       show_view_name: dataStore.default_view_name,
-
-      selected_graph_object_type : undefined,
-      selected_graph_object : undefined,
     }
   }
 
@@ -43,44 +40,9 @@ class App extends React.Component{
         show_view_name: show_view_name
       })
     })
-    this.onObjectChange = autorun(()=>{
-      const signal = stateManger.selected_graph_object_needrefesh.get()
-      const {selected_graph_object} = stateManger
-      this.setState({
-        selected_graph_object: selected_graph_object,
-      })
-    })
-  }
-
-  // 在这里写控件和表格的对应关系
-  renderForm(){
-    const type2form = {
-      'provider': ProviderFormEdit,
-      'start':　StartFormEdit,
-      'resource': ResourceFormEdit,
-      'task': TaskFormEdit,
-      'carrier': CarrierFormEdit,
-    }
-    const {selected_graph_object} = this.state
-    
-    if(!selected_graph_object)
-      return undefined  //或者返回一个空表单
-
-    let {key, category, eventType} = selected_graph_object.data
-    if(category==='event'){
-      category = eventType
-    }
-    const Component = type2form[category]
-    // console.log(key, category, Component)
-    if(!Component){
-      return undefined
-    }
-    // console.log(Component)
-    return <Component graph_object={selected_graph_object}/>
   }
 
   render(){
-    const top_height = 50
     const {show_view_name} = this.state
     const needShow = name=>{
       // 设一个第一次限制渲染
@@ -110,7 +72,9 @@ class App extends React.Component{
             )
           })}
         </div>
-        <div className='控件栏' style={{position: 'absolute', top:'17%', left:60, zIndex: 31}}>
+        <div className='控件栏' style={{position: 'absolute', top:'17%', left:60, 
+          zIndex: show_view_name==='全局视图'?0:31}}
+        >
           <MyPalatte/>
         </div>
 
@@ -166,7 +130,11 @@ class App extends React.Component{
         {/* 下半部分工具栏， 有放大缩小之类的*/}
         <div style={{position:'absolute', top: '40%', right: '10%'}}>
           <div className='tool-icon' style={{top: 0, right: 0}}>
-            <Icon className='isButtom' name='expand' size='large'/>
+            <Icon className='isButtom' name='expand' size='large' 
+              onClick={()=>{
+                stateManger.show_view_controller.diagram.zoomToFit()
+              }}
+            />
           </div>
           <div className='tool-icon' style={{top: 50, right: 0}}>
             <Icon className='isButtom' name='copy' size='large'/>
@@ -175,7 +143,14 @@ class App extends React.Component{
             <Icon className='isButtom' name='paste' size='large'/>
           </div>
           <div className='tool-icon' style={{top: 100, right: 0}}>
-            <Icon className='isButtom' name='delete' color='teal' size='large'/>
+            <Icon className='isButtom' name='delete' color='teal' size='large'
+            onClick={()=>{
+              const select_component_ingo = stateManger.select_component_ingo
+              // console.log(select_component_ingo)
+              if(select_component_ingo)
+                stateManger.show_view_controller.diagram.remove(select_component_ingo)
+            }}
+            />
           </div>
         </div>
         
@@ -185,7 +160,7 @@ class App extends React.Component{
         </div>
 
         {/* 提交保存新建按钮 */}
-        <div style={{position: 'absolute', right:200, width: 400,height: 60, bottom: 0, zIndex: 31}}>
+        <div style={{position: 'absolute', right:200, width: 400,height: 50, bottom: 0, zIndex: 31}}>
           {greenButton('保存', ()=>{}, {})}
           {/* {greenButton('新建', ()=>{}, {})}
           {greenButton('仿真', ()=>{}, {})} */}
@@ -199,10 +174,10 @@ const greenButton = (text, handleClick, style)=>{
     <div 
       className='isButtom' 
       style={Object.assign({
-        width: 100, height: 60, bottom: 0, position: 'relative',
+        width: 100, height: 50, bottom: 0, position: 'relative',
         textAlign: 'center', fontSize: 15, lineHeight: '50px',
         background: '#00b5ad',
-        float: 'right', margin: 10,
+        float: 'right', marginRight: 10,
         color: 'white'
       }, 
       style)}

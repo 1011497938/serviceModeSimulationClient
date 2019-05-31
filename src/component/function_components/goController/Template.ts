@@ -1,6 +1,7 @@
 // 这里存了所有的模板
 import * as go from 'gojs';
 import 'gojs/extensions/Figures'
+import stateManger from '../../../dataManager/stateManager';
 
 const $ = go.GraphObject.make;
 const custom_r= 60
@@ -60,7 +61,8 @@ const common_node_propety = () => [
     // new go.Binding("location", "location").makeTwoWay(),
     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
     new go.Binding("portId").makeTwoWay(),
-    new go.Binding("key").makeTwoWay(),
+    // new go.Binding("id").makeTwoWay(),
+
     makePort("T", go.Spot.Top, true, true),
     makePort("L", go.Spot.Left, true, true),
     makePort("R", go.Spot.Right, true, true),
@@ -272,7 +274,7 @@ const commonGroupTemplate =
         common_node_propety(),
         $(go.TextBlock,         // group title
             { alignment: go.Spot.Right, font: "Bold 12pt Sans-Serif" },
-            new go.Binding("text", "key")
+            new go.Binding("text", "id")
         ),
     );
 
@@ -303,17 +305,25 @@ $(go.Group, 'Vertical',); // empty in the palette, 直接在图中右键添加
 // 全局视图
 const viewGroupTemplate = 
   $(go.Group, "Auto",
-    $(go.Shape, "RoundedRectangle",  // surrounds everything
-      { parameter1: 10, fill: "gray" }
-    ),
+    // $(go.Shape, "RoundedRectangle",  // surrounds everything
+    //   { parameter1: 10, fill: "gray" }
+    // ),
     $(go.Panel, "Vertical",  // position header above the subgraph
       $(go.TextBlock,     // group title near top, next to button
-        { font: "Bold 12pt Sans-Serif" },
+        { 
+          font: "Bold 30pt Sans-Serif",
+          width: 300,
+          textAlign: 'center',
+          click: (e, obj)=>{
+            // console.log(obj,  obj.Pb ,Object.keys(obj))
+            stateManger.changeView(obj.Pb)
+          }
+        },
         new go.Binding('text', 'key')
       ),
-      $(go.Shape, "RoundedRectangle",  // surrounds everything
-        { parameter1: 10, fill: "white" }
-      ),
+      // $(go.Shape, "RoundedRectangle",  // surrounds everything
+      //   { parameter1: 10, fill: "white" }
+      // ),
     ),
     common_node_propety(),
   );
@@ -377,7 +387,14 @@ var nodeSelectionAdornmentTemplate =
 
  
 
-
+const common_shape=()=>[
+          { locationSpot: go.Spot.Center },
+          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+          { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
+          { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
+          { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
+          new go.Binding("angle").makeTwoWay(),
+]
 
 
 
@@ -443,24 +460,23 @@ const inSix_props={
 }
 
   const reText=()=>[
-      $(go.TextBlock, new go.Binding("text", "key"),
+      $(go.TextBlock, new go.Binding("text", "id"),
                 {
                   font: "10pt Helvetica, Arial, sans-serif",
                   margin: 8,
                   maxSize: new go.Size(160, NaN),
                   wrap: go.TextBlock.WrapFit,
                   editable: true,
-                  stroke:"#fff"
+                  stroke:null
                 },
                 new go.Binding("text").makeTwoWay())
            ]
 
 //协同生态视图控件
 const consumerNodeTemplate =
-$(go.Node, 'Spot',
-
+$(go.Node, 'Auto',common_shape(),
     $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
-      common_node_propety() ,
+      common_node_propety(),
       reText()
  
 ); 
@@ -473,9 +489,9 @@ const consumerTemplateForPalette = genForPalette(
 
 
 const produceNodeTemplate =
-$(go.Node, 'Auto',
+$(go.Node, 'Auto',common_shape(),
     $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
-      common_node_propety() ,
+      common_node_propety(),
       reText()
 ); 
 
@@ -751,7 +767,7 @@ const sourceTemplateForPallete = genForPalette(
 //
 //服务过程视图
 const taskNodeTemplate =
-$(go.Node, 'Auto',
+$(go.Node, 'Auto',common_shape(),
   $(go.Panel, "Auto", //子元素在面板的位置
     $(go.Shape, "RoundedRectangle", first_props,{fill:qianhuang}),
       common_node_propety() ,
@@ -765,27 +781,15 @@ const taskTemplateForPallete = genForPalette(
 )
 
 const startNodeTemplate =
-$(go.Node, 'Spot',
-         { locationSpot: go.Spot.Center },
-          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-          { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
-          { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
-          { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },  
+$(go.Node, 'Spot',common_shape(),
   $(go.Shape, "Circle", custom_props, {fill:cheng}),
   common_node_propety(),
   reText(),
-            makePort("T", go.Spot.Top, false, true),
-          makePort("L", go.Spot.Left, true, true),
-          makePort("R", go.Spot.Right, true, true),
-          makePort("B", go.Spot.Bottom, true, false),
-          { // handle mouse enter/leave events to show/hide the ports
-            mouseEnter: function(e, node) { showSmallPorts(node, true); },
-            mouseLeave: function(e, node) { showSmallPorts(node, false); }
-          }
+
 ); 
 const startTemplateForPallete = genForPalette(
-  $(go.Panel, "Auto", //子元素在控件的位置
-    $(go.Shape, "Circle", custom_props, {fill:cheng}),
+  $(go.Panel, "Auto", common_shape(),//子元素在控件的位置
+      $(go.Shape, "Circle", custom_props, {fill:cheng}),
 
   ),
   'start'
@@ -793,7 +797,7 @@ const startTemplateForPallete = genForPalette(
 
 
 const endNodeTemplate =
-$(go.Node, 'Spot',
+$(go.Node, 'Spot',common_shape(),
  { locationSpot: go.Spot.Center },
           new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
           { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
@@ -803,6 +807,7 @@ $(go.Node, 'Spot',
     // 画中间图案
   $(go.Shape, "Circle",second_props),
   common_node_propety(),
+
   reText(),
               makePort("T", go.Spot.Top, false, true),
           makePort("L", go.Spot.Left, true, true),
@@ -812,6 +817,7 @@ $(go.Node, 'Spot',
             mouseEnter: function(e, node) { showSmallPorts(node, true); },
             mouseLeave: function(e, node) { showSmallPorts(node, false); }
           }
+
 ); 
 const endTemplateForPallete  = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
@@ -1018,7 +1024,7 @@ const paletteTemplate = {
         consumer:consumerTemplateForPalette,
         produce:produceTemplateForPalette,
         source:sourceTemplateForPallete,
-        carry:carryTemplateForPallete,
+        carrier:carryTemplateForPallete,
         task:taskTemplateForPallete,
         start:startTemplateForPallete,
         end:endTemplateForPallete,
@@ -1043,7 +1049,7 @@ const panelTemplate = {
         consumer:consumerNodeTemplate,
         produce:produceNodeTemplate,
         source:sourceNodeTemplate,
-        carry:carryNodeTemplate,
+        carrier:carryNodeTemplate,
         task:taskNodeTemplate,
         start:startNodeTemplate,
         end:endNodeTemplate,

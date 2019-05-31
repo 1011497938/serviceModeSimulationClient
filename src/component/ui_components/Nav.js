@@ -38,8 +38,7 @@ export default class MenuExampleTabularOnLeft extends Component {
                     return (
                         <Dropdown.Item key={text} text={text}
                             onClick={()=>{
-                                stateManger.show_view_name.set(text)
-                                
+                                stateManger.changeView(text)
                             }}
                         />
                     )

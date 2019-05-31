@@ -93,24 +93,34 @@ export default class GraphController {
           $(go.Shape, "LineV", { stroke: "#d3d3d3ab", strokeWidth: 0.5 }),
           $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5, interval: 10 })
         ),
-        "draggingTool.dragsLink": true,
-        "linkingTool.portGravity": 20,
-        "relinkingTool.portGravity": 10,
-        "relinkingTool.fromHandleArchetype":
-          $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
-        "relinkingTool.toHandleArchetype":
-          $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "darkred", stroke: "tomato" }),
-        "linkReshapingTool.handleArchetype":
-          $(go.Shape, "Diamond", { desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
-        "rotatingTool.handleAngle": 270,
-        "rotatingTool.handleDistance": 30,
-        "rotatingTool.snapAngleMultiple": 15,
-        "rotatingTool.snapAngleEpsilon": 15,
-        "undoManager.isEnabled": true,
-        'SelectionMoved': relayoutDiagram,  // defined below
-        'SelectionCopied': relayoutDiagram
+          "draggingTool.dragsLink": true,
+          "draggingTool.isGridSnapEnabled": true,
+          "linkingTool.isUnconnectedLinkValid": true,
+          "linkingTool.portGravity": 20,
+          "relinkingTool.isUnconnectedLinkValid": true,
+          "relinkingTool.portGravity": 20,
+          "relinkingTool.fromHandleArchetype":
+            $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
+          "relinkingTool.toHandleArchetype":
+            $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "darkred", stroke: "tomato" }),
+          "linkReshapingTool.handleArchetype":
+            $(go.Shape, "Diamond", { desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
+          "rotatingTool.handleAngle": 270,
+          "rotatingTool.handleDistance": 30,
+          "rotatingTool.snapAngleMultiple": 15,
+          "rotatingTool.snapAngleEpsilon": 15,
+          "undoManager.isEnabled": true
       }, diagram_props)
     );
+
+    // 给新加的线一个类型
+    this.diagram.addDiagramListener("LinkDrawn", function(diagramEvent) {
+      // console.log(diagramEvent.subject, diagramEvent)
+      const {subject} = diagramEvent
+      subject.data.category = GraphController.default_link_type
+      // console.log(subject.data.category, subject.data) 
+    });
+
 
     this.addPoolTemplate()
   }

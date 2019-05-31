@@ -2,7 +2,7 @@ import React from 'react';
 import * as go from 'gojs';
 import Controller from './goController/GraphController.ts'
 import {view2controller} from './goController/GraphController.ts'
-import dataStore,{view2data} from '../../dataManager/dataStore';
+import dataStore,{view2data, view2postion} from '../../dataManager/dataStore';
 import { autorun } from 'mobx';
 import stateManger from '../../dataManager/stateManager';
 
@@ -32,6 +32,9 @@ export default class CommonView extends React.Component{
       // 双击弹出列表的功能
       diagram.addDiagramListener("ObjectDoubleClicked", e=> {
         var part = e.subject.part;
+        // console.log(part)
+        stateManger.select_component_ingo = part
+        // console.log(stateManger.select_component_ingo)
         if(part instanceof go.Group || part instanceof go.Link)
           return
         // console.log(part, part.data, this)
@@ -41,23 +44,29 @@ export default class CommonView extends React.Component{
         }
       });
 
-      diagram.addDiagramListener("ObjectContextClicked",(e) => {
-         var part = e.subject.part;
-         this.setState({
-          selected_component:part.data.category
-         })
-     
-         console.log("点击了"+ part.data.key, part.data.category)
+      diagram.addDiagramListener("ObjectSingleClicked", e=> {
+        var part = e.subject.part;
+        console.log(part.data.id)
+        stateManger.select_component_ingo = part
+      });
+      diagram.addModelChangedListener(function(evt) {
+        if (evt.isTransactionFinished) 
+          stateManger.overviewRefesh();
+
       });
 
+      // 把视图放到不同的位置
+      // const position = view2postion[view_name]
+      // setTimeout(()=>{
+      //   diagram.centerRect(new go.Rect(position[0],position[1],10,10))
+      // }, 100)
+      
       // // Overview
       // this.overview =
       //   $(go.Overview, this.refs.myOverviewDiv,  // the HTML DIV element for the Overview
       //     { observed: diagram, contentAlignment: go.Spot.Center });   // tell it which Diagram to show and pan
       
       this.diagram = diagram
-
-      // $(this.refs.comp_form).draggable();
     }
 
     componentDidMount(){

@@ -83,7 +83,7 @@ export default class ComponentEditor extends React.Component{
             options={content.map(elm=>{
             return { key: elm, text: elm, value: elm}
             })}
-            fluid multiple={multiple} selection inline
+            fluid multiple={multiple} selection inline search
             onChange = {(e,{value})=>{
                 data[name] = value
                 this.setState({data: data})

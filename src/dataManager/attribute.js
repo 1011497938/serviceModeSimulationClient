@@ -1,5 +1,33 @@
-// 在这里存了每个控件的属性之类的东西
+import stateManger from "./stateManager";
 
+
+const getAllResourceId = ()=>{
+    return stateManger.all_resources.map(elm=> elm.id)
+}
+const getAllCarrierId = ()=>{
+    return stateManger.all_carriers.map(elm=> elm.id)
+}
+const getAllConsumerId = ()=>{
+    return stateManger.all_consumers.map(elm=> elm.id)
+}
+const getAllProducerId = ()=>{
+    return stateManger.all_producers.map(elm=> elm.id)
+}
+
+const getAllGoalId = () => stateManger.all_goals.map(elm=> elm.id)
+
+const getAllTaskId = () => stateManger.all_tasks.map(elm=> elm.id)
+
+const getAllMainstayId = ()=>{
+    return [...getAllConsumerId(), ...getAllConsumerId()]
+}
+
+const getAllResourceAndCarrierId = () => [...getAllCarrierId(), ...getAllResourceId()]
+
+
+
+
+// 在这里存了每个控件的属性之类的东西
 const wa = {
     enum: 'enum',
     value: 'value',
@@ -122,13 +150,13 @@ const carrier = {
         {
             name: '持有主体',
             type: wa.enum,
-            content: defaultEnumFunction,
+            content: getAllMainstayId,
             multiple: true
         },
         {
             name: '运维主体',
             type: wa.enum,
-            content: defaultEnumFunction,
+            content: getAllMainstayId,
             multiple: true
         }
     ],
@@ -155,13 +183,13 @@ const resource = {
                     {
                         name: '持有主体',
                         type: wa.enum,
-                        content: defaultEnumFunction,
+                        content: getAllMainstayId,
                         multiple: true
                     },
                     {
                         name: '运维主体',
                         type: wa.enum,
-                        content: defaultEnumFunction,
+                        content: getAllMainstayId,
                         multiple: true
                     }
                 ], 
@@ -169,7 +197,7 @@ const resource = {
                     {
                         name: '雇佣主体',
                         type: wa.enum,
-                        content: defaultEnumFunction,
+                        content: getAllMainstayId,
                         multiple: true
                     },
                 ], 
@@ -177,13 +205,13 @@ const resource = {
                     {
                         name: '持有主体',
                         type: wa.enum,
-                        content: defaultEnumFunction,
+                        content: getAllMainstayId,
                         multiple: true
                     },
                     {
                         name: '运维主体',
                         type: wa.enum,
-                        content: defaultEnumFunction,
+                        content: getAllMainstayId,
                         multiple: true
                     }
                 ], 
@@ -191,7 +219,7 @@ const resource = {
                     {
                         name: '持有主体',
                         type: wa.enum,
-                        content: defaultEnumFunction,
+                        content: getAllMainstayId,
                         multiple: true
                     },
                 ],
@@ -235,7 +263,7 @@ const resource = {
 
 const same_in_goal = [
     {name:'预期所需时间', type: wa.value, unit: '小时'},
-    {name: '参与主体', type: wa.enum, content: defaultEnumFunction, multiple:true},
+    {name: '参与主体', type: wa.enum, content: getAllMainstayId, multiple:true},
 ]
 const perioty_in_goal = {name: '目标优先级', type: wa.enum, content: [1,2,3,4,5]}
 
@@ -320,10 +348,10 @@ const start = {
         {name: '流程优先级', type: wa.enum, content: [1,2,3,4,5]},
 
         // 资源和权限这里还要改
-        {name: '所需资源/载体', type: wa.enum, content: defaultEnumFunction, multiple: true},
+        {name: '所需资源/载体', type: wa.enum, content: getAllResourceAndCarrierId, multiple: true},
 
-        {name: '参与主体', type: wa.enum, content: defaultEnumFunction, multiple: true},
-        {name: '拟完成目标', type: wa.enum, content: defaultEnumFunction, multiple: true},
+        {name: '参与主体', type: wa.enum, content: getAllMainstayId, multiple: true},
+        {name: '拟完成目标', type: wa.enum, content: getAllGoalId, multiple: true},
     ],
     compute: [
         
@@ -335,16 +363,16 @@ const task = {
         ...common_attr,
     ],
     constrain: [
-        {name: '所需载体', type: wa.enum, content: defaultEnumFunction, multiple: true},
+        {name: '所需载体', type: wa.enum, content: getAllCarrierId, multiple: true},
         {name: '所需载体状态', type: wa.enum, content: ['正常', '异常']},   
 
         {name: '流程优先级', type: wa.enum, content: [1,2,3,4,5]},
-        {name: '任务依赖', type: wa.enum, content: defaultEnumFunction, multiple: true},
-        {name: '任务参与主体', type: wa.enum, content: defaultEnumFunction, multiple: true},
+        {name: '任务依赖', type: wa.enum, content: getAllTaskId, multiple: true},
+        {name: '任务参与主体', type: wa.enum, content: getAllMainstayId, multiple: true},
     ],
     compute: [
         {name: '预期所需时间', type: wa.value, unit: '小时'},
-        {name: '所需资源', type: wa.enum, content: defaultEnumFunction, multiple: true},
+        {name: '所需资源', type: wa.enum, content: getAllResourceId, multiple: true},
         {name: '所需资源数量', type: wa.value, },
         {name: '状态', type: wa.text, ouput: true}
     ]

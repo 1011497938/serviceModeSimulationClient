@@ -21,6 +21,11 @@ export default class ComponentEditor extends React.Component{
         return attr_list
     }
     refresh(){
+        const {component} = this.props
+        const {data} = component
+
+        this.setState({data: data})
+
         const attr_list = this.getAttrList()
         this.setState({activeItem: getKeys(attr_list)[0]})
     }
@@ -31,12 +36,41 @@ export default class ComponentEditor extends React.Component{
         this.refresh()
     }
 
+    renderComponent(elm){
+        const {type} = elm
+        let Component = undefined
+        switch (type) {
+            case wa.enum:
+                Component = this.renderEnum(elm)
+                break;
+            case wa.text:
+                Component = this.renderText(elm)
+                break;
+            case wa.value:
+                Component = this.renderValue(elm)
+                break
+            case wa.gateway:
+                Component = this.renderGateWay(elm)
+                break
+            default:
+                break;
+        }
+        return Component
+    }
+    renderGateWay(column){
+        const {content, based_on} = column
+        const {data} = this.state
+        const {category, key} = data 
+        const gateValue = data[based_on]
+
+        // console.log(content, gateValue)
+        return content[gateValue] && content[gateValue].map(elm => this.renderComponent(elm))
+    }
     renderEnum(column){
-        const {component} = this.props
-        const {data} = component
+        const {data} = this.state
         const {category, key} = data 
 
-        let {name,content, multiple} = column
+        let {name,content, multiple, onChange} = column
 
         // 现在的问题就是刷新要不要写个监视器
         multiple = multiple?true:false
@@ -45,18 +79,23 @@ export default class ComponentEditor extends React.Component{
         <span key={name + key + category}>
             {name}:
             <Dropdown 
+            value={data[name]}  //这里会报错，因为undefined的问题
             options={content.map(elm=>{
             return { key: elm, text: elm, value: elm}
             })}
             fluid multiple={multiple} selection inline
+            onChange = {(e,{value})=>{
+                data[name] = value
+                this.setState({data: data})
+            }}
             />
+            <br />
         </span>
         )
     }
 
     renderValue(column){
-        const {component} = this.props
-        const {data} = component
+        const {data} = this.state
         const {category, key} = data 
 
         let {name,multiple} = column
@@ -66,14 +105,22 @@ export default class ComponentEditor extends React.Component{
         return (
         <span key={name + key + category}>
             {name}:
-            <Input fluid/>
+            <Input 
+            fluid
+            value={data[name] || ''}
+            // label={name}
+            onChange = {(e,{value})=>{
+                data[name] = value
+                this.setState({data: data})
+            }}
+            />
+            <br />
         </span>
         )
     }
 
     renderText(column){
-        const {component} = this.props
-        const {data} = component
+        const {data} = this.state
         const {category, key} = data 
 
         let {name, multiple} = column
@@ -83,7 +130,16 @@ export default class ComponentEditor extends React.Component{
         return (
         <span key={name + key + category}>
             {name}:
-            <Input fluid/>
+            <Input 
+            fluid
+            value={data[name] || ''}
+            // label={name}
+            onChange = {(e,{value})=>{
+                data[name] = value
+                this.setState({data: data})
+            }}
+            />
+            <br />
         </span>
         )
     }
@@ -110,23 +166,9 @@ export default class ComponentEditor extends React.Component{
                 </Menu>
                 <Segment>
                     {
+                        attr_list[activeItem] &&
                         attr_list[activeItem].map(elm=>{
-                            const {type} = elm
-                            let Component = undefined
-                            switch (type) {
-                                case wa.enum:
-                                    Component = this.renderEnum(elm)
-                                    break;
-                                case wa.text:
-                                    Component = this.renderText(elm)
-                                    break;
-                                case wa.value:
-                                    Component = this.renderValue(elm)
-                                    break
-                                default:
-                                    break;
-                            }
-                            return Component
+                            return this.renderComponent(elm)
                         })
                     }
                 </Segment>

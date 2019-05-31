@@ -83,7 +83,7 @@ export default class CommonView extends React.Component{
           {/* 这里存放所有的表单 */}
           { 
             selected_component && 
-            <ComponentEditor component={selected_component} diagram={this.diagram}/> 
+            <ComponentEditor key={selected_component.data.key} component={selected_component} diagram={this.diagram}/> 
           }
           <div className='overview' ref='myOverviewDiv'  /> 
         </div>

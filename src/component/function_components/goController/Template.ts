@@ -892,7 +892,7 @@ $(go.Node, 'Spot',
   $(go.Shape, "Ellipse",  {fill:cheng,width:80,height:50,stroke:null}),
    common_node_propety()
 ); 
-const aimNodeTemplateForPalette = genForPalette(
+const strategicNodeTemplateForPalette = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
     $(go.Shape, "Ellipse", {fill:cheng,width:80,height:50,stroke:null}),
   ),
@@ -906,7 +906,7 @@ $(go.Node, 'Spot',
       reText()
 ); 
 
-const feelTemplateForPalette = genForPalette(
+const emotionTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:qianhuang}),
   'emotion'
 )
@@ -917,7 +917,7 @@ $(go.Node, 'Spot',
       reText()
 ); 
 
-const physicalTemplateForPalette = genForPalette(
+const physicsTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:"lightblue"}),
   'physics'
 )
@@ -929,7 +929,7 @@ $(go.Node, 'Spot',
 
 ); 
 
-const numTemplateForPalette = genForPalette(
+const amountTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
   'amount'
 )
@@ -939,9 +939,9 @@ $(go.Node, 'Spot',
   $(go.Shape, "Ellipse",  {fill:huang,width:80,height:50,stroke:null}),
    common_node_propety()
 ); 
-const sonNodeTemplateForPalette = genForPalette(
+const businessNodeTemplateForPalette = genForPalette(
     $(go.Shape, "Ellipse", {fill:huang,width:80,height:50,stroke:null}),
-  'subgoal'
+  'business'
 )
 
 
@@ -978,11 +978,12 @@ const paletteTemplate = {
         message:messageTemplateForPallete,
         exclusive:exclusiveTemplateForPalette,
         parallel:parallelTemplateForPalette,
-        aim:aimNodeTemplateForPalette,
-         son:sonNodeTemplateForPalette,
-         feel:feelTemplateForPalette,
-         physical:physicalTemplateForPalette,
-         num:numTemplateForPalette 
+
+        strategic:strategicNodeTemplateForPalette,
+        business:businessNodeTemplateForPalette,
+        emotion:emotionTemplateForPalette,
+        physics:physicsTemplateForPalette,
+        amount:amountTemplateForPalette 
     },
     group:{
         Pool: poolTemplateForPalette,
@@ -1003,11 +1004,12 @@ const panelTemplate = {
         message:messageNodeTemplate,
         exclusive:exclusiveNodeTemplate,
         parallel:parallelNodeTemplate,
-        aim:aimNodeTemplate,
-        son:sonNodeTemplate,
-        feel:feelNodeTemplate,
-        physical:physicalNodeTemplate,
-        num:numNodeTemplate
+
+        strategic:aimNodeTemplate,
+        business:sonNodeTemplate,
+        emotion:feelNodeTemplate,
+        physics:physicalNodeTemplate,
+        amount:numNodeTemplate
     },
     link: {
         '': commonLinkTemplate,
@@ -1016,8 +1018,8 @@ const panelTemplate = {
         bieArrow: BieArrowLinkTemplate,
 
         '联盟关系': genBiArrowLinkWithText('联盟关系'),
-        '合作关系': genBiArrowLinkWithText('联盟关系'),
-        '合资关系': genBiArrowLinkWithText('联盟关系'),
+        '合作关系': genBiArrowLinkWithText('合作关系'),
+        '合资关系': genBiArrowLinkWithText('合资关系'),
         '从属关系': genArrowLinkWithText('从属关系'),
         '购买方': genArrowLinkWithText('购买方'),
         '自定义': genCommonLinkWithText('自定义'),

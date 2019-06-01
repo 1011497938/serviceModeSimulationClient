@@ -165,9 +165,11 @@ class App extends React.Component{
             const view2json = {}
             for(let view in view2controller){
               const model = view2controller[view].diagram.model
+              const obj = JSON.parse(model.toJson())
+
               view2json[view] = {
-                link: model.nodeDataArray,
-                node: model.linkDataArray,
+                node: obj.nodeDataArray,
+                link: obj.linkDataArray,
               }
             }
             const now_time = new Date();

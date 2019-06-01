@@ -407,10 +407,15 @@ const min_r = 40;
 
 const cheng = "#F6511D";
 const huang = "#FFB400";
-const lan = "#00A6ED";
 const forgive = "#7FB800";
 const qianhuang = "#FFEB3B";
-const deepred = "#c92728";
+
+
+const newhuang="#ff9b21";
+const deeplan="rgb(46,54,117)";
+const lan="#2b44ff";
+const lightblue="#89c5cd";
+const grey="#c6cfd6"
 
 const custom_props = { //公共样式
   stroke: null,
@@ -496,12 +501,11 @@ const consumerTemplateForPalette = genForPalette(
 )
 
 
-
-const produceNodeTemplate =
-
+const producerNodeTemplate =
 $(go.Node, 'Auto',
     $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
       common_node_propety(),
+      reText()
 ); 
 
 
@@ -538,11 +542,7 @@ const sourceNodeTemplate =$(go.Node, 'Spot',
 
 const sourceTemplateForPallete = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
-<<<<<<< HEAD
-'resource'
-=======
   'resource'
->>>>>>> 2e760f6a512df2a4b3659586ab8091b94cb9852f
 )
 
 //载体及资源视图完毕
@@ -747,25 +747,25 @@ const physicalTemplateForPalette = genForPalette(
 )
 const numNodeTemplate =
   $(go.Node, 'Spot',
-    $(go.Shape, "RoundedRectangle", first_props, { fill: forgive }),
+    $(go.Shape, "RoundedRectangle", first_props, { fill: grey }),
     common_node_propety(),
     reText()
 
   );
 
 const numTemplateForPalette = genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props, { fill: forgive }),
+  $(go.Shape, "RoundedRectangle", first_props, { fill: grey }),
   'amount'
 )
 
 const businessNodeTemplate =
   $(go.Node, 'Spot',
-    $(go.Shape, "Ellipse", { fill: huang, width: 80, height: 50, stroke: null }),
+    $(go.Shape, "Ellipse", { fill: cheng, width: 80, height: 50, stroke: null }),
     reText(),
     common_node_propety()
   );
 const businessNodeTemplateForPalette = genForPalette(
-  $(go.Shape, "Ellipse", { fill: huang, width: 80, height: 50, stroke: null }),
+  $(go.Shape, "Ellipse", { fill: cheng, width: 80, height: 50, stroke: null }),
   'business'
 )
 
@@ -820,18 +820,11 @@ const paletteTemplate = {
 const panelTemplate = {
   node: {
     consumer: consumerNodeTemplate,
-<<<<<<< HEAD
-    produce: produceNodeTemplate,
-    resource: sourceNodeTemplate,
-    carrier: carryNodeTemplate,
-    source: sourceNodeTemplate,
-=======
     producer: producerNodeTemplate,
 
     resource: sourceNodeTemplate,
     carrier: carryNodeTemplate,
 
->>>>>>> 2e760f6a512df2a4b3659586ab8091b94cb9852f
     task: taskNodeTemplate,
     start: startNodeTemplate,
     end: endNodeTemplate,
@@ -914,4 +907,3 @@ export {
   linkTemplateMap,
   groupTemplateMap,
 }
-

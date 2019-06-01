@@ -68,7 +68,7 @@ export default class ComponentEditor extends React.Component{
         return content[gateValue] && content[gateValue].map(elm => this.renderComponent(elm))
     }
     renderEnum(column){
-        const {component} = this.props
+        const {component, diagram} = this.props
         const {data} = component
         const {category, key} = data 
 
@@ -87,7 +87,9 @@ export default class ComponentEditor extends React.Component{
             })}
             fluid multiple={multiple} selection inline search
             onChange = {(e,{value})=>{
-                data[name] = value
+                diagram.model.startTransaction("change" + name);
+                diagram.model.setDataProperty(data, name, value);
+                diagram.model.commitTransaction("change" + name);
                 this.setState({data: data})
             }}
             />
@@ -97,7 +99,7 @@ export default class ComponentEditor extends React.Component{
     }
 
     renderValue(column){
-        const {component} = this.props
+        const {component, diagram} = this.props
         const {data} = component
         const {category, key} = data 
 
@@ -113,7 +115,10 @@ export default class ComponentEditor extends React.Component{
             value={data[name] || ''}
             // label={name}
             onChange = {(e,{value})=>{
-                data[name] = value
+                diagram.model.startTransaction("change" + name);
+                diagram.model.setDataProperty(data, name, value);
+                diagram.model.commitTransaction("change" + name);
+
                 this.setState({data: data})
             }}
             />
@@ -143,9 +148,7 @@ export default class ComponentEditor extends React.Component{
                 diagram.model.startTransaction("change" + name);
                 diagram.model.setDataProperty(data, name, value);
                 diagram.model.commitTransaction("change" + name);
-                // data[name] = value
-                // component.setProperties({name: value})
-                // console.log(data.name)
+
                 this.setState({data: data})
             }}
             />

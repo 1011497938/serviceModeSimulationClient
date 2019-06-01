@@ -85,7 +85,8 @@ export default class ComponentEditor extends React.Component{
             options={content.map(elm=>{
             return { key: elm, text: elm, value: elm}
             })}
-            fluid multiple={multiple} selection inline search
+            fluid multiple={multiple} selection inline 
+            // search
             onChange = {(e,{value})=>{
                 diagram.model.startTransaction("change" + name);
                 diagram.model.setDataProperty(data, name, value);
@@ -164,10 +165,11 @@ export default class ComponentEditor extends React.Component{
         const attr_list = widget2attr[category]
 
         return (
+            <Draggable>
             <div style={{zIndex:30, position:'absolute',  minWidth: 300,height: 500, //background: 'white', 
                 right: '20%', top: '20%',
             }}>
-                <Menu  pointing secondary fluid>
+                <Menu  pointing secondary fluid style={{background: 'white', borderTop: '1px solid gray'}}>
                     {getKeys(attr_list).map(elm=>
                         <Menu.Item
                         key={elm}
@@ -193,6 +195,7 @@ export default class ComponentEditor extends React.Component{
                     }
                 </Segment>
             </div>
+            </Draggable>
         )
     }
 }

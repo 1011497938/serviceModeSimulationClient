@@ -22,7 +22,7 @@ const getNowView2Data = ()=>{
           elm.group = view
         }
         const xy = go.Point.parse(elm.loc)
-
+        elm.key = view + elm.key
         xy.x += view_position[0]
         xy.y += view_position[1]
         if (view === '协同生态视图') {
@@ -36,6 +36,8 @@ const getNowView2Data = ()=>{
         if (view === '全局视图') {
           return
         }
+        elm.from = view + elm.from
+        elm.to = view + elm.to
         delete elm.points
       })
       view2data[view] = {

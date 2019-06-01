@@ -497,11 +497,9 @@ const consumerTemplateForPalette = genForPalette(
 
 
 const produceNodeTemplate =
-
 $(go.Node, 'Auto',
     $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
       common_node_propety(),
-      reText()
 ); 
 
 
@@ -536,7 +534,7 @@ const sourceNodeTemplate =$(go.Node, 'Spot',
 
 const sourceTemplateForPallete = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
-
+'resource'
 )
 
 //载体及资源视图完毕
@@ -810,9 +808,10 @@ const paletteTemplate = {
 const panelTemplate = {
   node: {
     consumer: consumerNodeTemplate,
-    producer: produceNodeTemplate,
+    produce: produceNodeTemplate,
     resource: sourceNodeTemplate,
     carrier: carryNodeTemplate,
+    source: sourceNodeTemplate,
     task: taskNodeTemplate,
     start: startNodeTemplate,
     end: endNodeTemplate,

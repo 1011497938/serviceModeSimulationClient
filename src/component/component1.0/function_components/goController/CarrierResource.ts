@@ -27,12 +27,6 @@ export default class Controller extends GraphController {
   }
 }
 
-const custom_r = 80
-const custom_props = {
-  stroke: null,
-  width: custom_r,
-  height: custom_r
-}
 
 // 每一行
 const fieldTemplate =

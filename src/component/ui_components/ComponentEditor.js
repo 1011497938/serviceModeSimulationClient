@@ -59,7 +59,8 @@ export default class ComponentEditor extends React.Component{
     }
     renderGateWay(column){
         const {content, based_on} = column
-        const {data} = this.state
+        const {component} = this.props
+        const {data} = component
         const {category, key} = data 
         const gateValue = data[based_on]
 
@@ -67,7 +68,8 @@ export default class ComponentEditor extends React.Component{
         return content[gateValue] && content[gateValue].map(elm => this.renderComponent(elm))
     }
     renderEnum(column){
-        const {data} = this.state
+        const {component, diagram} = this.props
+        const {data} = component
         const {category, key} = data 
 
         let {name,content, multiple, onChange} = column
@@ -85,7 +87,9 @@ export default class ComponentEditor extends React.Component{
             })}
             fluid multiple={multiple} selection inline search
             onChange = {(e,{value})=>{
-                data[name] = value
+                diagram.model.startTransaction("change" + name);
+                diagram.model.setDataProperty(data, name, value);
+                diagram.model.commitTransaction("change" + name);
                 this.setState({data: data})
             }}
             />
@@ -95,7 +99,8 @@ export default class ComponentEditor extends React.Component{
     }
 
     renderValue(column){
-        const {data} = this.state
+        const {component, diagram} = this.props
+        const {data} = component
         const {category, key} = data 
 
         let {name,multiple} = column
@@ -110,7 +115,10 @@ export default class ComponentEditor extends React.Component{
             value={data[name] || ''}
             // label={name}
             onChange = {(e,{value})=>{
-                data[name] = value
+                diagram.model.startTransaction("change" + name);
+                diagram.model.setDataProperty(data, name, value);
+                diagram.model.commitTransaction("change" + name);
+
                 this.setState({data: data})
             }}
             />
@@ -120,6 +128,7 @@ export default class ComponentEditor extends React.Component{
     }
 
     renderText(column){
+        const {component, diagram} = this.props
         const {data} = this.state
         const {category, key} = data 
 
@@ -135,7 +144,11 @@ export default class ComponentEditor extends React.Component{
             value={data[name] || ''}
             // label={name}
             onChange = {(e,{value})=>{
-                data[name] = value
+
+                diagram.model.startTransaction("change" + name);
+                diagram.model.setDataProperty(data, name, value);
+                diagram.model.commitTransaction("change" + name);
+
                 this.setState({data: data})
             }}
             />

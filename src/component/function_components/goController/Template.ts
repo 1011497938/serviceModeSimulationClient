@@ -64,7 +64,7 @@ const common_node_propety = () => [
     // new go.Binding("location", "location").makeTwoWay(),
     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
     new go.Binding("portId").makeTwoWay(),
-    // new go.Binding("id").makeTwoWay(),
+    new go.Binding('key',"id").makeTwoWay(),
 
     makePort("T", go.Spot.Top, true, true),
     makePort("L", go.Spot.Left, true, true),
@@ -261,7 +261,6 @@ const genArrowLinkWithText = text => {
 
 // 普通的group模板（就是一个框框）
 const commonGroupTemplate =
-
   $(go.Group, "Auto",
     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
     $(go.Panel, "Auto",
@@ -410,7 +409,7 @@ const cheng = "#F6511D";
 const huang = "#FFB400";
 const lan = "#00A6ED";
 const forgive = "#7FB800";
-const qianhuang = "lightyellow";
+const qianhuang = "#FFEB3B";
 const deepred = "#c92728";
 
 const custom_props = { //公共样式
@@ -468,16 +467,17 @@ const inSix_props = {
 
 
 const reText = () => [
-  $(go.TextBlock, new go.Binding("text", "key"),
+  $(go.TextBlock, 
+    // new go.Binding("text", "key"),
     {
       font: "10pt Helvetica, Arial, sans-serif",
       margin: 8,
       maxSize: new go.Size(160, NaN),
       wrap: go.TextBlock.WrapFit,
-      editable: true,
+      // editable: true,
       stroke: "#fff"
     },
-    new go.Binding("text").makeTwoWay())
+    new go.Binding("text", 'name').makeTwoWay())
 ]
 
 //协同生态视图控件
@@ -496,7 +496,9 @@ const consumerTemplateForPalette = genForPalette(
 )
 
 
+
 const produceNodeTemplate =
+
 $(go.Node, 'Auto',
     $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
       common_node_propety(),
@@ -534,7 +536,11 @@ const sourceNodeTemplate =$(go.Node, 'Spot',
 
 const sourceTemplateForPallete = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
+<<<<<<< HEAD
 'resource'
+=======
+  'resource'
+>>>>>>> 2e760f6a512df2a4b3659586ab8091b94cb9852f
 )
 
 //载体及资源视图完毕
@@ -544,8 +550,9 @@ const taskNodeTemplate =
   $(go.Node, 'Auto',
     $(go.Panel, "Auto", //子元素在面板的位置
       $(go.Shape, "RoundedRectangle", first_props, { fill: qianhuang }),
-      common_node_propety(),
     ),
+    reText(),
+    common_node_propety(),
   );
 
 const taskTemplateForPallete = genForPalette(
@@ -575,7 +582,7 @@ const endNodeTemplate =
     $(go.Shape, "Circle", custom_props, { fill: cheng }),
     // 画中间图案
   $(go.Shape, "Circle",second_props),
-
+  common_node_propety(),
 ); 
 
 const endTemplateForPallete = genForPalette(
@@ -701,26 +708,27 @@ const parallelTemplateForPalette = genForPalette(
 
 
 
-const aimNodeTemplate =
+const strategicNodeTemplate =
   $(go.Node, 'Spot',
     $(go.Shape, "Ellipse", { fill: cheng, width: 80, height: 50, stroke: null }),
+    reText(),
     common_node_propety()
   );
-const aimNodeTemplateForPalette = genForPalette(
+const strategicNodeTemplateForPalette = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
     $(go.Shape, "Ellipse", { fill: cheng, width: 80, height: 50, stroke: null }),
   ),
   'strategic'
 )
 
-const feelNodeTemplate =
+const emotionNodeTemplate =
   $(go.Node, 'Spot',
     $(go.Shape, "RoundedRectangle", first_props, { fill: qianhuang }),
     common_node_propety(),
     reText()
   );
 
-const feelTemplateForPalette = genForPalette(
+const emotionTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill: qianhuang }),
   'emotion'
 )
@@ -748,12 +756,13 @@ const numTemplateForPalette = genForPalette(
   'amount'
 )
 
-const sonNodeTemplate =
+const businessNodeTemplate =
   $(go.Node, 'Spot',
     $(go.Shape, "Ellipse", { fill: huang, width: 80, height: 50, stroke: null }),
+    reText(),
     common_node_propety()
   );
-const sonNodeTemplateForPalette = genForPalette(
+const businessNodeTemplateForPalette = genForPalette(
   $(go.Shape, "Ellipse", { fill: huang, width: 80, height: 50, stroke: null }),
   'business'
 )
@@ -782,8 +791,9 @@ const paletteTemplate = {
     },
     node:{
         consumer:consumerTemplateForPalette,
-        produce:produceTemplateForPalette,
-        source:sourceTemplateForPallete,
+        producer:produceTemplateForPalette,
+        
+        resource:sourceTemplateForPallete,
         carrier:carryTemplateForPallete,
         task:taskTemplateForPallete,
         start:startTemplateForPallete,
@@ -792,11 +802,11 @@ const paletteTemplate = {
         message:messageTemplateForPallete,
         exclusive:exclusiveTemplateForPalette,
         parallel:parallelTemplateForPalette,
-        strategic:aimNodeTemplateForPalette,
-         subgoal:sonNodeTemplateForPalette,
-         emotion:feelTemplateForPalette,
-         physical:physicalTemplateForPalette,
-         amount:numTemplateForPalette 
+        strategic:strategicNodeTemplateForPalette,
+        business:businessNodeTemplateForPalette,
+        emotion:emotionTemplateForPalette,
+        physics:physicalTemplateForPalette,
+        amount:numTemplateForPalette 
     },
     group:{
         Pool: poolTemplateForPalette,
@@ -808,10 +818,18 @@ const paletteTemplate = {
 const panelTemplate = {
   node: {
     consumer: consumerNodeTemplate,
+<<<<<<< HEAD
     produce: produceNodeTemplate,
     resource: sourceNodeTemplate,
     carrier: carryNodeTemplate,
     source: sourceNodeTemplate,
+=======
+    producer: producerNodeTemplate,
+
+    resource: sourceNodeTemplate,
+    carrier: carryNodeTemplate,
+
+>>>>>>> 2e760f6a512df2a4b3659586ab8091b94cb9852f
     task: taskNodeTemplate,
     start: startNodeTemplate,
     end: endNodeTemplate,
@@ -820,9 +838,9 @@ const panelTemplate = {
     exclusive: exclusiveNodeTemplate,
     parallel: parallelNodeTemplate,
 
-    strategic: aimNodeTemplate,
-    business: sonNodeTemplate,
-    emotion: feelNodeTemplate,
+    strategic: strategicNodeTemplate,
+    business: businessNodeTemplate,
+    emotion: emotionNodeTemplate,
     physics: physicalNodeTemplate,
     amount: numNodeTemplate
   },

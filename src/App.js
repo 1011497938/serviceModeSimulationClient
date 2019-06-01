@@ -155,12 +155,12 @@ class App extends React.Component{
         </div>
         
         {/* 选择连线 */}
-        <div style={{position:'absolute', top: '15%', right: '20%', zIndex:30}}>
+        <div style={{position:'absolute', top: '15%', right: '25%', zIndex:30}}>
           <SelectLine/>
         </div>
 
         {/* 提交保存新建按钮 */}
-        <div style={{position: 'absolute', right:200, width: 400,height: 50, bottom: 0, zIndex: 31}}>
+        <div style={{position: 'absolute', right:'10%', width: 400,height: 50, bottom: 0, zIndex: 31}}>
           {greenButton('保存', ()=>{
             const view2json = {}
             for(let view in view2controller){
@@ -170,11 +170,12 @@ class App extends React.Component{
                 node: model.linkDataArray,
               }
             }
+            const now_time = new Date();
             // console.log(view2json)
-            download('数据保存.json', JSON.stringify(view2json))
+            download('数据保存'+now_time.toString()+'.json', JSON.stringify(view2json))
           }, {})}
-          {/* {greenButton('新建', ()=>{}, {})} */}
           {greenButton('仿真', ()=>{}, {})}
+          {show_view_name==='全局视图'&&greenButton('新建', ()=>{}, {})}
         </div>
       </div>
     )

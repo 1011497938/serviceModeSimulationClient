@@ -69,7 +69,7 @@ export default class SelectLine extends React.Component{
     render(){
         return (
         <div style={{borderTop:'2px solid black', width: 140, height: 30, background: 'white'}}>
-            <div style={{position: 'absolute', top: -25, right: 0}}>
+           <div style={{position: 'absolute', top: -25, right: 0}}>
                 <Checkbox label='显示标签' />
             </div>
             <div style={{position: 'absolute', top: 2, left: 5}}>

@@ -277,7 +277,7 @@ const commonGroupTemplate =
     ),
     common_node_propety(),
     $(go.TextBlock,         // group title
-      { alignment: go.Spot.Right, font: "Bold 12pt Sans-Serif" },
+      { alignment: go.Spot.Right, font: " 12pt Sans-Serif", wrap: go.TextBlock.WrapFit,},
       new go.Binding("text", "key")
     ),
   );
@@ -334,8 +334,8 @@ const viewGroupTemplate =
   );
 
 
-/*图形画布编辑模式
-const taskNodeTemplate =
+//图形画布编辑模式
+/*const taskNodeTemplate =
 $(go.Node, 'Auto',
   $(go.Panel, "Auto", //子元素在面板的位置
     $(go.Shape, "RoundedRectangle", 
@@ -357,9 +357,9 @@ $(go.Node, 'Auto',
     new go.Binding("text").makeTwoWay())  
  ),
  common_node_propety()
-); */
+); 
 // 流图中的控件
-
+*/
 //图形的缩放
 // var nodeSelectionAdornmentTemplate =
 //         $(go.Adornment, "Auto",
@@ -405,17 +405,24 @@ $(go.Node, 'Auto',
 
 const min_r = 40;
 
-const cheng = "#F6511D";
-const huang = "#FFB400";
-const forgive = "#7FB800";
+const cheng = "#d92621";
+const huang = "#fac914";
+const forgive = "#96cbf5";
 const qianhuang = "#FFEB3B";
 
 
 const newhuang="#ff9b21";
-const deeplan="rgb(46,54,117)";
-const lan="#2b44ff";
-const lightblue="#89c5cd";
-const grey="#c6cfd6"
+const deeplan="#2e3675";
+
+const lightblue="#128fec";
+
+
+const fen="#faa591";
+const grey="#666";
+const lan="#32a6fd";
+const taobao="#e45903";
+const deepblue="#1b82d2";
+const lightgreen="#71d3d2";
 
 const custom_props = { //公共样式
   stroke: null,
@@ -449,7 +456,7 @@ const second_props = { //内圈样式
 const five_props = {
   stroke: null,
   // strokeWidth:1.5,
-  fill: forgive,
+  fill: "#71d3d2",
   width: custom_r,
   height: custom_r,
   // strokeDashArray:[5,10]
@@ -462,8 +469,8 @@ const inFive_props = {
 }
 
 const inSix_props = {
-  stroke: "black",
-  strokeWidth: 1.5,
+  stroke: "#000",
+  strokeWidth: 1,
   fill: "#fff",
   width: custom_r - 24,
   height: custom_r - 24
@@ -487,8 +494,8 @@ const reText = () => [
 
 //协同生态视图控件
 const consumerNodeTemplate =
-  $(go.Node, 'Spot',
-    $(go.Shape, "RoundedRectangle", first_props, { fill: forgive }),
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill: deepblue })),
     common_node_propety(),
     reText()
   );
@@ -496,21 +503,21 @@ const consumerNodeTemplate =
 
 
 const consumerTemplateForPalette = genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props, { fill: forgive }),
+  $(go.Shape, "RoundedRectangle", first_props, { fill: deepblue }),
   'consumer'
 )
 
 
 const producerNodeTemplate =
 $(go.Node, 'Auto',
-    $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props,{fill:"#ea7b37"})),
       common_node_propety(),
       reText()
 ); 
 
 
 const produceTemplateForPalette = genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props, { fill: cheng }),
+  $(go.Shape, "RoundedRectangle", first_props, { fill:"#ea7b37"}),
   'producer'
 )
 
@@ -521,27 +528,27 @@ const produceTemplateForPalette = genForPalette(
 //载体及资源视图开始
 
 
-const carryNodeTemplate =$(go.Node, 'Spot',
-    $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
+const carryNodeTemplate =$(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props,{fill:huang})),
     common_node_propety(),
     reText(),
 ); 
 
 
 const carryTemplateForPallete= genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
+  $(go.Shape, "RoundedRectangle", first_props,{fill:huang}),
   'carrier'
 )
 
-const sourceNodeTemplate =$(go.Node, 'Spot',
-    $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
+const sourceNodeTemplate =$(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props,{fill:lightblue})),
       common_node_propety(),
       reText(),
 ); 
   
 
 const sourceTemplateForPallete = genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
+  $(go.Shape, "RoundedRectangle", first_props,{fill:lightblue}),
   'resource'
 )
 
@@ -551,20 +558,20 @@ const sourceTemplateForPallete = genForPalette(
 const taskNodeTemplate =
   $(go.Node, 'Auto',
     $(go.Panel, "Auto", //子元素在面板的位置
-      $(go.Shape, "RoundedRectangle", first_props, { fill: qianhuang }),
+      $(go.Shape, "RoundedRectangle", first_props, { fill:lightblue }),
     ),
     reText(),
     common_node_propety(),
   );
 
 const taskTemplateForPallete = genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props, { fill: qianhuang }),
+  $(go.Shape, "RoundedRectangle", first_props, { fill:lightblue}),
   'task'
 )
 
 const startNodeTemplate =
 $(go.Node, 'Spot',
-  $(go.Shape, "Circle", custom_props, {fill:cheng}),
+  $(go.Shape, "Circle", custom_props, {fill:fen}),
   common_node_propety(),
   reText(),
 
@@ -572,7 +579,7 @@ $(go.Node, 'Spot',
 
 const startTemplateForPallete = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
-    $(go.Shape, "Circle", custom_props, { fill: cheng }),
+    $(go.Shape, "Circle", custom_props, { fill:fen }),
 
   ),
   'start'
@@ -581,7 +588,7 @@ const startTemplateForPallete = genForPalette(
 
 const endNodeTemplate =
   $(go.Node, 'Spot',
-    $(go.Shape, "Circle", custom_props, { fill: cheng }),
+    $(go.Shape, "Circle", custom_props, { fill: grey }),
     // 画中间图案
   $(go.Shape, "Circle",second_props),
   common_node_propety(),
@@ -590,7 +597,7 @@ const endNodeTemplate =
 const endTemplateForPallete = genForPalette(
 
   $(go.Panel, "Auto", //子元素在控件的位置
-    $(go.Shape, "Circle", custom_props, { fill: cheng }),
+    $(go.Shape, "Circle", custom_props, { fill: grey }),
     // 画中间图案
     $(go.Shape, "Circle", second_props),
 
@@ -685,7 +692,7 @@ const exclusiveTemplateForPalette = genForPalette(
 const parallelNodeTemplate =
   $(go.Node, 'Spot',
     $(go.Shape, "Diamond",
-      custom_props, { fill: huang },
+      custom_props, { fill:huang},
     ),
     // 画中间图案
     $(go.Shape, "ThinCross",
@@ -698,7 +705,7 @@ const parallelNodeTemplate =
 const parallelTemplateForPalette = genForPalette(
   $(go.Panel, "Auto", //子元素在面板的位置
     $(go.Shape, "Diamond",
-      custom_props, { fill: huang },
+      custom_props, { fill:huang},
     ),
     // 画中间图案
     $(go.Shape, "ThinCross",
@@ -711,61 +718,67 @@ const parallelTemplateForPalette = genForPalette(
 
 
 const strategicNodeTemplate =
-  $(go.Node, 'Spot',
-    $(go.Shape, "Ellipse", { fill: cheng, width: 80, height: 50, stroke: null }),
-    reText(),
-    common_node_propety()
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "Ellipse", { fill:taobao, width: 80, height: 50, stroke: null })),
+    common_node_propety(),
+     reText(),
   );
 const strategicNodeTemplateForPalette = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
-    $(go.Shape, "Ellipse", { fill: cheng, width: 80, height: 50, stroke: null }),
+    $(go.Shape, "Ellipse", { fill:taobao, width: 80, height: 50, stroke: null }),
   ),
   'strategic'
 )
 
 const emotionNodeTemplate =
-  $(go.Node, 'Spot',
-    $(go.Shape, "RoundedRectangle", first_props, { fill: qianhuang }),
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill:fen})),
     common_node_propety(),
     reText()
   );
 
 const emotionTemplateForPalette = genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props, { fill: qianhuang }),
+  $(go.Shape, "RoundedRectangle", first_props, { fill: fen }),
   'emotion'
 )
 const physicalNodeTemplate =
-  $(go.Node, 'Spot',
-    $(go.Shape, "RoundedRectangle", first_props, { fill: "lightblue" }),
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill:lightgreen })),
     common_node_propety(),
     reText()
   );
 
 const physicalTemplateForPalette = genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props, { fill: "lightblue" }),
+  $(go.Shape, "RoundedRectangle", first_props, { fill:lightgreen }),
   'physics'
 )
 const numNodeTemplate =
-  $(go.Node, 'Spot',
-    $(go.Shape, "RoundedRectangle", first_props, { fill: grey }),
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",
+      $(go.Shape, "RoundedRectangle", first_props, { fill:lan })
+      ),
     common_node_propety(),
     reText()
-
   );
 
+
+
+
+
+
 const numTemplateForPalette = genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props, { fill: grey }),
+  $(go.Shape, "RoundedRectangle", first_props, { fill:lan }),
   'amount'
 )
 
 const businessNodeTemplate =
-  $(go.Node, 'Spot',
-    $(go.Shape, "Ellipse", { fill: cheng, width: 80, height: 50, stroke: null }),
+  $(go.Node, 'Auto',
+     $(go.Panel,"Auto",$(go.Shape, "Ellipse", { fill:"#ea7b37", width: 80, height: 50, stroke: null })),
     reText(),
     common_node_propety()
   );
 const businessNodeTemplateForPalette = genForPalette(
-  $(go.Shape, "Ellipse", { fill: cheng, width: 80, height: 50, stroke: null }),
+  $(go.Shape, "Ellipse", { fill:"#ea7b37", width: 80, height: 50, stroke: null }),
   'business'
 )
 

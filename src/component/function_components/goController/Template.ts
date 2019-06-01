@@ -519,7 +519,8 @@ const produceTemplateForPalette = genForPalette(
 
 const carryNodeTemplate =$(go.Node, 'Spot',
     $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
-      common_node_propety(),
+    common_node_propety(),
+    reText(),
 ); 
 
 
@@ -531,6 +532,7 @@ const carryTemplateForPallete= genForPalette(
 const sourceNodeTemplate =$(go.Node, 'Spot',
     $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
       common_node_propety(),
+      reText(),
 ); 
   
 

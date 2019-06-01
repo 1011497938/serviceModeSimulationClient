@@ -49,7 +49,7 @@ export default class CommonView extends React.Component{
 
       diagram.addDiagramListener("ObjectSingleClicked", e=> {
         var part = e.subject.part;
-        console.log(part.data.key, part.data.id)
+        // console.log(part.data.key, part.data.id)
         stateManger.select_component_ingo = part
       });
       diagram.addModelChangedListener(function(evt) {

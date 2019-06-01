@@ -516,24 +516,24 @@ const produceTemplateForPalette = genForPalette(
 //载体及资源视图开始
 
 
-const carrierNodeTemplate =$(go.Node, 'Spot',
+const carryNodeTemplate =$(go.Node, 'Spot',
     $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
       common_node_propety(),
 ); 
 
 
-const carrierTemplateForPallete= genForPalette(
+const carryTemplateForPallete= genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:cheng}),
   'carrier'
 )
 
-const resourceNodeTemplate =$(go.Node, 'Spot',
+const sourceNodeTemplate =$(go.Node, 'Spot',
     $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
       common_node_propety(),
 ); 
   
 
-const resourceTemplateForPallete = genForPalette(
+const sourceTemplateForPallete = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:forgive}),
   'resource'
 )
@@ -546,6 +546,7 @@ const taskNodeTemplate =
     $(go.Panel, "Auto", //子元素在面板的位置
       $(go.Shape, "RoundedRectangle", first_props, { fill: qianhuang }),
     ),
+    reText(),
     common_node_propety(),
   );
 
@@ -786,10 +787,9 @@ const paletteTemplate = {
     node:{
         consumer:consumerTemplateForPalette,
         producer:produceTemplateForPalette,
-
-        resource:resourceTemplateForPallete,
-        carrier:carrierTemplateForPallete,
-
+        
+        resource:sourceTemplateForPallete,
+        carrier:carryTemplateForPallete,
         task:taskTemplateForPallete,
         start:startTemplateForPallete,
         end:endTemplateForPallete,
@@ -815,8 +815,8 @@ const panelTemplate = {
     consumer: consumerNodeTemplate,
     producer: producerNodeTemplate,
 
-    resource: resourceNodeTemplate,
-    carrier: carrierNodeTemplate,
+    resource: sourceNodeTemplate,
+    carrier: carryNodeTemplate,
 
     task: taskNodeTemplate,
     start: startNodeTemplate,

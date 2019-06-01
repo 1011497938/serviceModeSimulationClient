@@ -155,7 +155,7 @@ class App extends React.Component{
         </div>
         
         {/* 选择连线 */}
-        <div style={{position:'absolute', top: '15%', right: '15%', zIndex:30}}>
+        <div style={{position:'absolute', top: '15%', right: '25%', zIndex:30}}>
           <SelectLine/>
         </div>
 

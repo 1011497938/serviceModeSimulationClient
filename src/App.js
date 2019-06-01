@@ -170,11 +170,12 @@ class App extends React.Component{
                 node: model.linkDataArray,
               }
             }
+            const now_time = new Date();
             // console.log(view2json)
-            download('数据保存.json', JSON.stringify(view2json))
+            download('数据保存'+now_time.toString()+'.json', JSON.stringify(view2json))
           }, {})}
-          {/* {greenButton('新建', ()=>{}, {})} */}
           {greenButton('仿真', ()=>{}, {})}
+          {show_view_name==='全局视图'&&greenButton('新建', ()=>{}, {})}
         </div>
       </div>
     )

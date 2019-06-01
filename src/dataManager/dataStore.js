@@ -97,8 +97,8 @@ const view2palatte = {
     '协同生态视图': {
         node: [
 
-         { category: 'producer',id:1},
-         { category: 'consumer',id:2},
+            { category: 'producer', },
+            { category: 'consumer', },
 
         ],
         link: [
@@ -107,9 +107,9 @@ const view2palatte = {
     '载体及资源视图': {
         node: [
 
-                {category:'carrier',id:3},
-                {category:'resource',id:4},
-                ],
+            { category: 'carrier', },
+            { category: 'resource', },
+        ],
 
         link: [
         ],
@@ -124,17 +124,17 @@ const view2palatte = {
         node: [
 
 
-            { category:'task',id:5},
-            { category:'start',id:6},
-           { category:'end',id:7},
-            { category:'time',id:8},
-            { category:'message',id:9},
-            { category: 'exclusive',id:10},
-             { category: 'parallel',id:11},
+            { category: 'task', },
+            { category: 'start', },
+            { category: 'end', },
+            { category: 'time', },
+            { category: 'message', },
+            { category: 'exclusive', },
+            { category: 'parallel', },
 
-            { key: 1, text: "Pool", isGroup: true, category: "Pool",id:12 },
-            { key: 2, text: "Lane", isGroup: true, category: "Lane", group: 1},
-            { key: 3, text: "Lane", isGroup: true, category: "Lane", group: 1},
+            { key: 1, text: "Pool", isGroup: true, category: "Pool", },
+            { key: 2, text: "Lane", isGroup: true, category: "Lane", group: 1 },
+            { key: 3, text: "Lane", isGroup: true, category: "Lane", group: 1 },
 
         ],
         link: [
@@ -143,11 +143,11 @@ const view2palatte = {
     '服务目标视图': {
         node: [
 
-            { category: 'strategic',id:13 },           
-            { category: 'emotion',id:14 },
-            { category: 'physics',id:15},
-            { category: 'amount' ,id:16},
-            { category: 'business',id:17},
+            { category: 'strategic' },
+            { category: 'emotion', },
+            { category: 'physics', },
+            { category: 'amount', },
+            { category: 'business', },
 
         ],
         link: [
@@ -168,7 +168,7 @@ function download(filename, text) {
     document.body.removeChild(element);
 }
 
-  
+
 var dataStore = new DataStore()
 export default dataStore
 export {

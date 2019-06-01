@@ -52,8 +52,8 @@ const common_attr = [
         type: wa.text,
     },
     {
-        name: 'id',
-        type: wa.value,
+        name: 'key',
+        type: wa.text,
         unique: true,
         unique_scope: wa.total_scope,
     },

@@ -2,21 +2,21 @@ import stateManger from "./stateManager";
 
 
 const getAllResourceId = ()=>{
-    return stateManger.all_resources.map(elm=> elm.key)
+    return stateManger.all_resources.map(elm=> elm.name)
 }
 const getAllCarrierId = ()=>{
-    return stateManger.all_carriers.map(elm=> elm.key)
+    return stateManger.all_carriers.map(elm=> elm.name)
 }
 const getAllConsumerId = ()=>{
-    return stateManger.all_consumers.map(elm=> elm.key)
+    return stateManger.all_consumers.map(elm=> elm.name)
 }
 const getAllProducerId = ()=>{
-    return stateManger.all_producers.map(elm=> elm.key)
+    return stateManger.all_producers.map(elm=> elm.name)
 }
 
-const getAllGoalId = () => stateManger.all_goals.map(elm=> elm.key)
+const getAllGoalId = () => stateManger.all_goals.map(elm=> elm.name)
 
-const getAllTaskId = () => stateManger.all_tasks.map(elm=> elm.key)
+const getAllTaskId = () => stateManger.all_tasks.map(elm=> elm.name)
 
 const getAllMainstayId = ()=>{
     return [...getAllConsumerId(), ...getAllConsumerId()]

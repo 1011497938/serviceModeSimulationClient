@@ -40,3 +40,19 @@
     transform: rotate(360deg);
   }
 }
+.menuRight{
+  position:absolute;
+   display:flex; 
+   flex-direction: column;
+  justify-content: spaceBetween;
+  right:10;
+  top:20%;
+  display:fixed;
+  border:1px solid #999;
+  border-top:15px solid #5a5a5a;
+  width:50;
+  height:320;
+  z-index:39;
+  padding-top:15;
+  box-sizing:border-box
+}

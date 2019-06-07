@@ -100,11 +100,16 @@ class App extends React.Component{
           <LoginModal/>
         </div>
 
+        
+        {/* 选择连线 */}
+        <div style={{position:'absolute', top: '20%', right: '10%', zIndex:30}}>
+          <SelectLine/>
+        </div>
 
         <div style={{
           borderRight:'2px solid black',
           position:'absolute', 
-          top: '15%', right: '10%', 
+          top: '30%', right: '7%', 
           height: 110, width: 50, 
           zIndex:31}}
         >
@@ -128,7 +133,7 @@ class App extends React.Component{
         </div>
         
         {/* 下半部分工具栏， 有放大缩小之类的*/}
-        <div style={{position:'absolute', top: '40%', right: '10%'}}>
+        <div style={{position:'absolute', top: '50%', right: '7%', }}>
           <div className='tool-icon' style={{top: 0, right: 0}}>
             <Icon className='isButtom' name='expand' size='large' 
               onClick={()=>{
@@ -139,10 +144,10 @@ class App extends React.Component{
           <div className='tool-icon' style={{top: 50, right: 0}}>
             <Icon className='isButtom' name='copy' size='large'/>
           </div>
-          <div className='tool-icon' style={{top: 50, right: 40}}>
+          <div className='tool-icon' style={{top: 100, right: 0}}>
             <Icon className='isButtom' name='paste' size='large'/>
           </div>
-          <div className='tool-icon' style={{top: 100, right: 0}}>
+          <div className='tool-icon' style={{top: 150, right: 0}}>
             <Icon className='isButtom' name='delete' color='teal' size='large'
             onClick={()=>{
               const select_component_ingo = stateManger.select_component_ingo
@@ -153,14 +158,9 @@ class App extends React.Component{
             />
           </div>
         </div>
-        
-        {/* 选择连线 */}
-        <div style={{position:'absolute', top: '15%', right: '25%', zIndex:30}}>
-          <SelectLine/>
-        </div>
 
         {/* 提交保存新建按钮 */}
-        <div style={{position: 'absolute', right:'10%', width: 400,height: 50, bottom: 0, zIndex: 31}}>
+        <div style={{position: 'absolute', right:'7%', width: 400,height: 50, bottom: 0, zIndex: 31}}>
           {greenButton('保存', ()=>{
             const view2json = {}
             for(let view in view2controller){

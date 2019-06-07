@@ -504,7 +504,7 @@ const consumerNodeTemplate =
 
 const consumerTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill: deepblue }),
-  'consumer'
+  '消费者'
 )
 
 
@@ -518,7 +518,7 @@ $(go.Node, 'Auto',
 
 const produceTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill:"#ea7b37"}),
-  'producer'
+  '生产者'
 )
 
 //协同生态视图控件结束
@@ -537,7 +537,7 @@ const carryNodeTemplate =$(go.Node, 'Auto',
 
 const carryTemplateForPallete= genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:huang}),
-  'carrier'
+  '载体'
 )
 
 const sourceNodeTemplate =$(go.Node, 'Auto',
@@ -549,7 +549,7 @@ const sourceNodeTemplate =$(go.Node, 'Auto',
 
 const sourceTemplateForPallete = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:lightblue}),
-  'resource'
+  '资源'
 )
 
 //载体及资源视图完毕
@@ -566,7 +566,7 @@ const taskNodeTemplate =
 
 const taskTemplateForPallete = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill:lightblue}),
-  'task'
+  '任务'
 )
 
 const startNodeTemplate =
@@ -582,7 +582,7 @@ const startTemplateForPallete = genForPalette(
     $(go.Shape, "Circle", custom_props, { fill:fen }),
 
   ),
-  'start'
+  '开始事件'
 )
 
 
@@ -602,7 +602,7 @@ const endTemplateForPallete = genForPalette(
     $(go.Shape, "Circle", second_props),
 
   ),
-  'end'
+  '结束事件'
 )
 
 
@@ -619,7 +619,7 @@ const timeTemplateForPallete = genForPalette(
     // 画中间图案
     $(go.Shape, "BpmnEventTimer", inSix_props),
   ),
-  'time'
+  '时间事件'
 )
 
 const messageNodeTemplate =
@@ -635,7 +635,7 @@ const messageTemplateForPallete = genForPalette(
     // 画中间图案
     $(go.Shape, "Email", inFive_props),
   ),
-  'message'
+  '消息事件'
 )
 
 
@@ -685,7 +685,7 @@ const exclusiveTemplateForPalette = genForPalette(
       custom_icon_props
     ),
   ),
-  'exclusive'
+  '互斥网关'
 )
 
 
@@ -712,7 +712,7 @@ const parallelTemplateForPalette = genForPalette(
       custom_icon_props
     ),
   ),
-  'parallel'
+  '并行网关'
 )
 
 
@@ -727,7 +727,7 @@ const strategicNodeTemplateForPalette = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
     $(go.Shape, "Ellipse", { fill:taobao, width: 80, height: 50, stroke: null }),
   ),
-  'strategic'
+  '战略目标'
 )
 
 const emotionNodeTemplate =
@@ -739,7 +739,7 @@ const emotionNodeTemplate =
 
 const emotionTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill: fen }),
-  'emotion'
+  '情感目标'
 )
 const physicalNodeTemplate =
   $(go.Node, 'Auto',
@@ -750,7 +750,7 @@ const physicalNodeTemplate =
 
 const physicalTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill:lightgreen }),
-  'physics'
+  '物理目标'
 )
 const numNodeTemplate =
   $(go.Node, 'Auto',
@@ -768,7 +768,7 @@ const numNodeTemplate =
 
 const numTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill:lan }),
-  'amount'
+  '数值目标'
 )
 
 const businessNodeTemplate =
@@ -779,7 +779,7 @@ const businessNodeTemplate =
   );
 const businessNodeTemplateForPalette = genForPalette(
   $(go.Shape, "Ellipse", { fill:"#ea7b37", width: 80, height: 50, stroke: null }),
-  'business'
+  '业务目标'
 )
 
 

@@ -31,6 +31,7 @@ export default class MenuExampleTabularOnLeft extends Component {
             closeOnChange
             defaultValue={dataStore.default_view_name}
             className='select_view_drowdown'
+            
         >
             <Dropdown.Menu style={{marginTop:20}}>
                 {

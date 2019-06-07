@@ -23,15 +23,15 @@ class LoginModal extends React.Component {
     return (
 
       <Modal
-          trigger={<Button onClick={this.handleOpen} className='mini ui button'><i className="user icon"></i>登录/注册</Button>}
+          trigger={<span onClick={this.handleOpen} style={{paddingTop:17,marginRight:20,pointer:'cursor'}}><i className="user icon"></i>登录/注册</span>}
           open={this.state.modalOpen}
           onClose={this.handleClose}
           basic
-          size='small'
+          size='small' 
         >
-        <div style={{textAlign:'center'}}>
-          <h1 style={{width:'60%',margin:'2rem auto'}}>登录</h1>
-          <Form style={{width:'60%',margin:'1rem auto'}}>
+        <div style={{textAlign:'center',marginLeft:"25%"}}>
+          <h1 style={{width:'60%',}}>登录</h1>
+          <Form style={{width:'60%'}}>
               <Form.Field>
                 <input placeholder='账号' />
               </Form.Field>
@@ -41,8 +41,7 @@ class LoginModal extends React.Component {
      
                 <Modal.Actions>
                   <Button className='fluid ui button' style={{marginLeft:0}} onClick={this.handleClose} >提交</Button>
-                </Modal.Actions>
-              
+                </Modal.Actions>              
             </Form>
           </div>      
     </Modal>
@@ -50,4 +49,4 @@ class LoginModal extends React.Component {
   }
 }
 
-export default LoginModal
+export default LoginModal;

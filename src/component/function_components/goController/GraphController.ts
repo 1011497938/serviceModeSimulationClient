@@ -87,6 +87,9 @@ export default class GraphController {
         nodeTemplateMap: nodeTemplateMap,
         linkTemplateMap: linkTemplateMap,
         groupTemplateMap: groupTemplateMap,
+
+        // linkingTool: new BPMNLinkingTool(), // defined in BPMNClasses.js
+        // relinkingTool: new BPMNRelinkingTool(), // defined in BPMNClasses.js
         // 加格子
         grid: $(go.Panel, "Grid",
           $(go.Shape, "LineH", { stroke: "#d3d3d3ab", strokeWidth: 0.5 }),
@@ -94,12 +97,12 @@ export default class GraphController {
           $(go.Shape, "LineV", { stroke: "#d3d3d3ab", strokeWidth: 0.5 }),
           $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5, interval: 10 })
         ),
-          "draggingTool.dragsLink": true,
+          // "draggingTool.dragsLink": true,
           "draggingTool.isGridSnapEnabled": true,
-          "linkingTool.isUnconnectedLinkValid": true,
-          "linkingTool.portGravity": 20,
-          "relinkingTool.isUnconnectedLinkValid": true,
-          "relinkingTool.portGravity": 20,
+          "linkingTool.isUnconnectedLinkValid": false,
+          "linkingTool.portGravity": 40,
+          "relinkingTool.isUnconnectedLinkValid": false,
+          "relinkingTool.portGravity": 40,
           "relinkingTool.fromHandleArchetype":
             $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
           "relinkingTool.toHandleArchetype":

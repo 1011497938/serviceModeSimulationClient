@@ -83,7 +83,7 @@ export default class CommonView extends React.Component{
         <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
           <h1 style={{height:"12%",width:"100%",background:"#28a0cc"}}></h1>
           <div style={{position: 'absolute', top: 0, width:'100%', height:'100%',zIndex: 29,marginTop:50}}>
-            <div className='diagram' ref="myDiagramDiv" style={{background:"lightyellow"}}/>  
+            <div className='diagram' ref="myDiagramDiv" style={{background:"white"}}/>  
           </div>
           {/* 这里存放所有的表单 */}
           { 

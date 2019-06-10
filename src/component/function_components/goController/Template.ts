@@ -86,16 +86,20 @@ const linkSelectionAdornmentTemplate =
   );
 
 
+
 const common_link_propety = () => [
   new go.Binding("points").makeTwoWay(),
   { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
   { relinkableFrom: true, relinkableTo: true, reshapable: true },
   // 防止交叉
   {
-    routing: go.Link.AvoidsNodes,
-    curve: go.Link.JumpOver,
-    corner: 5,
-    toShortLength: 4
+            routing: go.Link.AvoidsNodes,
+            corner: 4,
+            curve: go.Link.JumpGap,
+            reshapable: true,
+            resegmentable: true,
+            relinkableFrom: true,
+            relinkableTo: true
   },
 ]
 

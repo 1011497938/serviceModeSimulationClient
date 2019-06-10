@@ -68,19 +68,14 @@ export default class SelectLine extends React.Component{
     }
     render(){
         return (
-        <div style={{borderTop:'2px solid black', width: 140, height: 30, background: 'white'}}>
-           <div style={{position: 'absolute', top: -25, right: 0}}>
-                {/* <Checkbox label='显示标签' /> */}
-            </div>
-            <div style={{position: 'absolute', top: 2, left: 5}}>
-                <Icon name='long arrow alternate right' size='large'/>
-            </div>
-            <div style={{position: 'absolute', top: 3, right: 5, width: 90}}>
+        <div style={{position:'relative',marginTop:'10px',borderBottom:'1px solid #5a5a5a', width:"100%",margin:"0 auto", height: 30, background: 'white'}}>
+
+            <div style={{position: 'absolute',top: 3, right:"20%", width: 100}}>
                 <Dropdown 
                 text={this.state.default_line}
                 fluid
                 closeOnChange
-                className='select_line'
+                className='select_line' 
                 >
                     <Dropdown.Menu>
                         {this.state.line_options.map(text=>{

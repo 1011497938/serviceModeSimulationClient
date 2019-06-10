@@ -32,7 +32,7 @@ export default class MenuExampleTabularOnLeft extends Component {
             defaultValue={dataStore.default_view_name}
             className='select_view_drowdown'
         >
-            <Dropdown.Menu>
+            <Dropdown.Menu style={{marginTop:20}}>
                 {
                 dataStore.view_names.map(text=>{
                     return (

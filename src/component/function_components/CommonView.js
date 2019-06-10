@@ -81,15 +81,16 @@ export default class CommonView extends React.Component{
       // console.log(this.diagram)
       return (
         <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
-          <div style={{position: 'absolute', top: 0, width:'100%', height:'100%',zIndex: 29}}>
-            <div className='diagram' ref="myDiagramDiv"  style={{}}/>  
+          <h1 style={{height:"12%",width:"100%",background:"#28a0cc"}}></h1>
+          <div style={{position: 'absolute', top: 0, width:'100%', height:'100%',zIndex: 29,marginTop:50}}>
+            <div className='diagram' ref="myDiagramDiv" style={{background:"lightyellow"}}/>  
           </div>
           {/* 这里存放所有的表单 */}
           { 
             selected_component && 
             <ComponentEditor parent={this} key={selected_component.data.key} component={selected_component} diagram={this.diagram}/> 
           }
-          <div className='overview' ref='myOverviewDiv'/> 
+          <div className='overview' ref='myOverviewDiv' style={{background:"red"}}/> 
         </div>
       )
     }

@@ -234,13 +234,13 @@ export default class GraphController {
     }
 
     // hide links between lanes when either lane is collapsed
-    const updateCrossLaneLinks = (group: go.Group) => {
+    var updateCrossLaneLinks = (group: go.Group) => {
       group.findExternalLinksConnected().each((l) => {
         l.visible = (l.fromNode !== null && l.fromNode.isVisible() && l.toNode !== null && l.toNode.isVisible());
       });
     }
 
-    const laneEventMenu =  // context menu for each lane
+    var laneEventMenu =  // context menu for each lane
       $<go.Adornment>('ContextMenu',
         $('ContextMenuButton',
           $(go.TextBlock, 'Add Lane'),
@@ -419,3 +419,40 @@ export default class GraphController {
     groupTemplateMap.add('Lane', swimLanesGroupTemplate)
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -30,7 +30,7 @@ function makePort(name, spot, output, input) {
   // the port is basically just a small transparent square
   return $(go.Shape, "Circle",
     {
-      fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
+      fill:null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
       stroke: null,
       desiredSize: new go.Size(10, 10),
       alignment: spot,  // align the port on the main Shape
@@ -53,8 +53,6 @@ const showSmallPorts = (node, show) => {
       }
     });
   } else {
-    // 一堆错，所以先注释了
-    // console.error(node, node.ports, '为undefiend')
   }
 }
 
@@ -66,10 +64,16 @@ const common_node_propety = () => [
     new go.Binding("portId").makeTwoWay(),
     new go.Binding('key',"id").makeTwoWay(),
 
+
     makePort("T", go.Spot.Top, true, true),
-    makePort("L", go.Spot.Left, true, true),
     makePort("R", go.Spot.Right, true, true),
+    makePort("L", go.Spot.Left, true, true),
     makePort("B", go.Spot.Bottom, true, true),
+
+    makePort("TL", go.Spot.TopLeft, true, true),
+    makePort("TR", go.Spot.TopRight, true, true),
+    makePort("BL", go.Spot.BottomLeft, true, true),
+    makePort("BR", go.Spot.BottomRight, true, true),
     { // handle mouse enter/leave events to show/hide the ports
         mouseEnter: function (e, node) { showSmallPorts(node, true); },
         mouseLeave: function (e, node) { showSmallPorts(node, false); }
@@ -93,13 +97,13 @@ const common_link_propety = () => [
   { relinkableFrom: true, relinkableTo: true, reshapable: true },
   // 防止交叉
   {
-            routing: go.Link.AvoidsNodes,
-            corner: 4,
-            curve: go.Link.JumpGap,
-            reshapable: true,
-            resegmentable: true,
-            relinkableFrom: true,
-            relinkableTo: true
+      routing: go.Link.AvoidsNodes,
+      corner: 4,
+      curve: go.Link.JumpGap,
+      reshapable: true,
+      resegmentable: true,
+      relinkableFrom: true,
+      relinkableTo: true
   },
 ]
 
@@ -508,7 +512,7 @@ const consumerNodeTemplate =
 
 const consumerTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill: deepblue }),
-  'consumer'
+  '消费主体'
 )
 
 
@@ -522,7 +526,7 @@ $(go.Node, 'Auto',
 
 const produceTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill:"#ea7b37"}),
-  'producer'
+  '生产主体'
 )
 
 //协同生态视图控件结束
@@ -533,15 +537,15 @@ const produceTemplateForPalette = genForPalette(
 
 
 const carryNodeTemplate =$(go.Node, 'Auto',
-    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props,{fill:huang})),
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props,{fill:fen})),
     common_node_propety(),
     reText(),
 ); 
 
 
 const carryTemplateForPallete= genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props,{fill:huang}),
-  'carrier'
+  $(go.Shape, "RoundedRectangle", first_props,{fill:fen}),
+  '载体'
 )
 
 const sourceNodeTemplate =$(go.Node, 'Auto',
@@ -553,7 +557,7 @@ const sourceNodeTemplate =$(go.Node, 'Auto',
 
 const sourceTemplateForPallete = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props,{fill:lightblue}),
-  'resource'
+  '资源'
 )
 
 //载体及资源视图完毕
@@ -570,7 +574,7 @@ const taskNodeTemplate =
 
 const taskTemplateForPallete = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill:lightblue}),
-  'task'
+  '任务'
 )
 
 const startNodeTemplate =
@@ -586,7 +590,7 @@ const startTemplateForPallete = genForPalette(
     $(go.Shape, "Circle", custom_props, { fill:fen }),
 
   ),
-  'start'
+  '开始'
 )
 
 
@@ -606,7 +610,7 @@ const endTemplateForPallete = genForPalette(
     $(go.Shape, "Circle", second_props),
 
   ),
-  'end'
+  '结束'
 )
 
 
@@ -623,7 +627,7 @@ const timeTemplateForPallete = genForPalette(
     // 画中间图案
     $(go.Shape, "BpmnEventTimer", inSix_props),
   ),
-  'time'
+  '时间'
 )
 
 const messageNodeTemplate =
@@ -639,7 +643,7 @@ const messageTemplateForPallete = genForPalette(
     // 画中间图案
     $(go.Shape, "Email", inFive_props),
   ),
-  'message'
+  '消息'
 )
 
 
@@ -689,7 +693,7 @@ const exclusiveTemplateForPalette = genForPalette(
       custom_icon_props
     ),
   ),
-  'exclusive'
+  '互斥'
 )
 
 
@@ -716,7 +720,7 @@ const parallelTemplateForPalette = genForPalette(
       custom_icon_props
     ),
   ),
-  'parallel'
+  '同步'
 )
 
 
@@ -731,7 +735,7 @@ const strategicNodeTemplateForPalette = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
     $(go.Shape, "Ellipse", { fill:taobao, width: 80, height: 50, stroke: null }),
   ),
-  'strategic'
+  '战略目标'
 )
 
 const emotionNodeTemplate =
@@ -743,7 +747,7 @@ const emotionNodeTemplate =
 
 const emotionTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill: fen }),
-  'emotion'
+  '情感目标'
 )
 const physicalNodeTemplate =
   $(go.Node, 'Auto',
@@ -754,7 +758,7 @@ const physicalNodeTemplate =
 
 const physicalTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill:lightgreen }),
-  'physics'
+  '物理目标'
 )
 const numNodeTemplate =
   $(go.Node, 'Auto',
@@ -772,7 +776,7 @@ const numNodeTemplate =
 
 const numTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill:lan }),
-  'amount'
+  '数字目标'
 )
 
 const businessNodeTemplate =
@@ -783,7 +787,7 @@ const businessNodeTemplate =
   );
 const businessNodeTemplateForPalette = genForPalette(
   $(go.Shape, "Ellipse", { fill:"#ea7b37", width: 80, height: 50, stroke: null }),
-  'business'
+  '子目标'
 )
 
 

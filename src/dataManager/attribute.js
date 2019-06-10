@@ -48,17 +48,17 @@ const wa = {
 // 控件都有的属性
 const common_attr = [
     {
-        name: 'name',
+        name: '控件名称',
         type: wa.text,
     },
     {
-        name: 'key',
+        name: 'key值',
         type: wa.text,
         unique: true,
         unique_scope: wa.total_scope,
     },
     {
-        name: 'abstract',
+        name: '简介',
         type: wa.text,
     }
 ]
@@ -90,13 +90,13 @@ const customization =  {
 const same_in_carrier = [
     ...common_attr,
     {
-        name: 'type',
+        name: '类型',
         type: wa.enum,
         content: ['农业','工业','第三产业','其他'],
         multiple: true,
     },
     {
-        name: 'contact',
+        name: '关系',
         type: wa.text,
     },
 ]

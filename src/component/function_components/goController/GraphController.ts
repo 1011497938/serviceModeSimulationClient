@@ -97,9 +97,9 @@ export default class GraphController {
           "draggingTool.dragsLink": true,
           "draggingTool.isGridSnapEnabled": true,
           "linkingTool.isUnconnectedLinkValid": true,
-          "linkingTool.portGravity": 20,
+        
           "relinkingTool.isUnconnectedLinkValid": true,
-          "relinkingTool.portGravity": 20,
+
           "relinkingTool.fromHandleArchetype":
             $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
           "relinkingTool.toHandleArchetype":

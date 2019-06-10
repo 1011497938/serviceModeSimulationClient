@@ -164,7 +164,7 @@ class App extends React.Component{
         </div>
         
         {/* 选择连线 */}
-        <div style={{position:'absolute', top: '23%', right:60,height:60,width:200,zIndex:40,border:"1px solid #a6a6a6",borderRight:'none',display:this.state.show?"block":'none'}}>
+        <div style={{position:'absolute', top: '23%', right:50,height:60,width:200,zIndex:40,border:"1px solid #a6a6a6",borderRight:'none',display:this.state.show?"block":'none'}}>
           <div style={{width:'100%',height:30,background:"#a6a6a6",display:'flex',justifyContent:'spaceBetween'}}>
               <p style={{fontSize:16,fontWeight:400,marginLeft:10,marginTop:5,marginRight:"48%"}}>选择关系</p>
               <div style={{float:'right',marginTop:5,cursor:'pointer'}} onClick={this.handleShow.bind(this)}>

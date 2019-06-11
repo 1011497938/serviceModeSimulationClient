@@ -400,7 +400,7 @@ const reText = () => [
       // editable: true,
       stroke: "#fff"
     },
-    new go.Binding("text", 'name').makeTwoWay())
+    new go.Binding("text", '控件名称').makeTwoWay())
 ]
 
 //协同生态视图控件

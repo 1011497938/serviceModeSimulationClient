@@ -102,10 +102,10 @@ const same_in_carrier = [
 ]
 
 const consumer = {
-    describe: [
+    "描述": [
         ...same_in_carrier,
     ],
-    constrain: [
+    "约束": [
         {
             name: '主体等级',
             type: wa.enum,
@@ -120,10 +120,10 @@ const consumer = {
 }
 
 const producer = {
-    describe: [
+    "描述": [
         ...same_in_carrier,
     ],
-    constrain: [
+    "约束": [
         {
             name: '主体等级',
             type: wa.enum,
@@ -145,7 +145,7 @@ const same_in_carrier_resource = [
     {name: '访问/使用优先级', type: wa.enum, content: [1,2,3,4,5]},
 ]
 const carrier = {
-    describe: [
+    "描述": [
         ...common_attr, 
         {
             name: '持有主体',
@@ -160,7 +160,7 @@ const carrier = {
             multiple: true
         }
     ],
-    constrain:[
+    "约束":[
         {name: '可调配数量', type: wa.value},
         {name: '状态', type: wa.enum, content: ['正常', '异常']},
         ...same_in_carrier_resource
@@ -168,7 +168,7 @@ const carrier = {
 }
 
 const resource = {
-    describe: [
+    "描述": [
         ...common_attr, 
         {   //这里修改后基于的数据应该要清空
             name: '类型',
@@ -226,7 +226,7 @@ const resource = {
             }
         }
     ],
-    constrain: [
+    "约束": [
         {
             type: wa.gateway,
             based_on:  '类型',
@@ -254,7 +254,7 @@ const resource = {
             }
         }
     ],
-    compute: [
+    "计算属性": [
         {name: '数量', type: wa.value},
         {name: '单位价值', type: wa.value},
         {name: '总价值', type: wa.value},
@@ -268,39 +268,39 @@ const same_in_goal = [
 const perioty_in_goal = {name: '目标优先级', type: wa.enum, content: [1,2,3,4,5]}
 
 const strategic = {
-    describe: [
+    "描述": [
         ...common_attr,
     ],
-    constrain:[
+    "约束":[
         ...same_in_goal,
     ],
-    compute: [
+    "计算属性": [
         {name:'子目标完成度', type: wa.value, unit: '%'}
     ]
 }
 
 const business = {
-    describe: [
+    "描述": [
         ...common_attr,
     ],
-    constrain:[
+    "约束":[
         ...same_in_goal,
         perioty_in_goal,
     ],
-    compute: [
+    "计算属性": [
         {name:'子目标完成度', type: wa.value, unit: '%'}
     ]
 }
 
 const amount = {
-    describe: [
+    "描述": [
         ...common_attr,
     ],
-    constrain:[
+    "约束":[
         ...same_in_goal,
         perioty_in_goal
     ],
-    compute: [
+    "计算属性": [
         {name:'子目标完成度', type: wa.value, unit: '%'},
         {name:'目标变量名', type: wa.text},
         {name:'目标变量初始值', type: wa.value, },
@@ -309,14 +309,14 @@ const amount = {
 }
 
 const physics = {
-    describe: [
+    "描述": [
         ...common_attr,
     ],
-    constrain:[
+    "约束":[
         ...same_in_goal,
         perioty_in_goal
     ],
-    compute: [
+    "计算属性": [
         {name:'子目标完成度', type: wa.value, unit: '%'},
         {name:'目标变量名', type: wa.text},
         {name:'目标变量初始值', type: wa.value, },
@@ -325,25 +325,25 @@ const physics = {
 }
 
 const emotion = {
-    describe: [
+    "描述": [
         ...common_attr,
     ],
-    constrain:[
+    "约束":[
         ...same_in_goal,
         perioty_in_goal
     ],
-    compute: [
+    "计算属性": [
         {name:'子目标完成度', type: wa.value, unit: '%'}
     ]
 }
 
 // 流程
 const start = {
-    describe: [
+    "描述": [
         ...common_attr,
         {name: '开始事件类型', type: wa.enum, content: ['条件触发','消息触发','定时触发']},
     ],
-    constrain: [
+    "约束": [
         {name: '流程依赖', type: wa.enum, content: ['条件触发','消息触发','定时触发'], multiple: true},
         {name: '流程优先级', type: wa.enum, content: [1,2,3,4,5]},
 
@@ -353,16 +353,16 @@ const start = {
         {name: '参与主体', type: wa.enum, content: getAllMainstayId, multiple: true},
         {name: '拟完成目标', type: wa.enum, content: getAllGoalId, multiple: true},
     ],
-    compute: [
+    "计算属性": [
         
     ]
 }
 
 const task = {
-    describe: [
+    "描述": [
         ...common_attr,
     ],
-    constrain: [
+    "约束": [
         {name: '所需载体', type: wa.enum, content: getAllCarrierId, multiple: true},
         {name: '所需载体状态', type: wa.enum, content: ['正常', '异常']},   
 
@@ -370,7 +370,7 @@ const task = {
         {name: '任务依赖', type: wa.enum, content: getAllTaskId, multiple: true},
         {name: '任务参与主体', type: wa.enum, content: getAllMainstayId, multiple: true},
     ],
-    compute: [
+    "计算属性": [
         {name: '预期所需时间', type: wa.value, unit: '小时'},
         {name: '所需资源', type: wa.enum, content: getAllResourceId, multiple: true},
         {name: '所需资源数量', type: wa.value, },
@@ -379,58 +379,58 @@ const task = {
 }
 
 const end = {
-    describe: [
+    "描述": [
         {name: '流程完成状态', type: wa.enum, content: ['正常完成', '异常结束']}, 
         {name: '流程结果', type: wa.text, output: true},
     ],
-    // constrain: [
+    // "约束": [
 
     // ],
-    // compute: [
+    // "计算属性": [
         
     // ]
 }
 const time = {
-    describe: [
+    "描述": [
         ...common_attr,
     ],
-    // constrain: [
+    // "约束": [
 
     // ],
-    // compute: [
+    // "计算属性": [
         
     // ]
 }
 const message = {
-    describe: [
+    "描述": [
         ...common_attr,
     ],
-    // constrain: [
+    // "约束": [
 
     // ],
-    // compute: [
+    // "计算属性": [
         
     // ]
 }
 const exclusive = {
-    describe: [
+    "描述": [
         ...common_attr,
     ],
-    // constrain: [
+    // "约束": [
 
     // ],
-    // compute: [
+    // "计算属性": [
         
     // ]
 }
 const parallel = {
-    describe: [
+    "描述": [
         ...common_attr,
     ],
-    // constrain: [
+    // "约束": [
 
     // ],
-    // compute: [
+    // "计算属性": [
         
     // ]
 }

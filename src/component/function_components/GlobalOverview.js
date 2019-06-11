@@ -7,35 +7,41 @@ import { autorun } from 'mobx';
 import stateManger from '../../dataManager/stateManager';
 import deepcopy from 'deepcopy'
 
+
+console.log(view2data.协同生态视图.node)
 const getNowView2Data = ()=>{
   const view2data = {}
   for(let view in view2controller){
       const controller = view2controller[view]
-      const model = controller.diagram.model
+      const model = controller.diagram.model;
       const node = deepcopy(model.nodeDataArray), link = deepcopy(model.linkDataArray)
       const view_position = view2postion[view]
+     
+    
       node.forEach(elm => {
-        if (view === '全局视图') {
-          return
+        if (view === '全局视图'){
+               return
         }
         if (!elm.group) {
           elm.group = view
         }
+
         const xy = go.Point.parse(elm.loc)
         elm.key = view + elm.key
         xy.x += view_position[0]
         xy.y += view_position[1]
-        if (view === '协同生态视图') {
-          if (elm.category === 'consumer') {
+        if (view ==='协同生态视图'){
+          if (elm.category==='consumer'){
             xy.x = -xy.x
           }
         }
         elm.loc = go.Point.stringify(xy)
       });
       link.forEach(elm=>{
-        if (view === '全局视图') {
-          return
+        if (view ==='全局视图') {
+             return
         }
+
         elm.from = view + elm.from
         elm.to = view + elm.to
         delete elm.points
@@ -44,12 +50,15 @@ const getNowView2Data = ()=>{
           node: node,
           link: link,
       }
+   
   }
+
   return view2data
 }
 const getNowData = ()=>{
   const view2data = getNowView2Data()
-  let node = [], link = []
+
+  let node = [],link = [];
   for(let view in view2data){
       node = [...node, ...view2data[view].node]
       link = [...link, ...view2data[view].link]
@@ -59,72 +68,154 @@ const getNowData = ()=>{
       link: link
   }
 }
-
+const itemheight=130;
+const itemwidth=260;
 const $ = go.GraphObject.make;
-// 5月20日，添加了全局视图, 谭思危
 export default class GlobalOverview extends React.Component{
-    init_graph(){
-      const controller = new Controller(this.refs.myDiagramDiv, '全局视图')
+
+    init_graph1(){
+      const controller= new Controller(this.refs.myDiagramD1iv1, '协同生态视图')
       controller.init()
       this.controller = controller
       const {diagram} = controller
 
-      const {node, link} = view2data['全局视图']
+      const {node, link} = view2data['协同生态视图'];
       diagram.model = new go.GraphLinksModel(node, link);
 
       diagram.addModelChangedListener(function(evt) {
-        // if (evt.isTransactionFinished) 
-          // diagram.model.linkDataArray.forEach(elm=>{
-          //   console.log(elm)
-          // })
-          // console.log(diagram.model.toJson())
       });
-
-      // Overview
-      // this.overview =
-      //   $(go.Overview, this.refs.myOverviewDiv,  // the HTML DIV element for the Overview
-      //     { observed: diagram, contentAlignment: go.Spot.Center });   // tell it which Diagram to show and pan
-
       diagram.zoomToFit()
       this.diagram = diagram
     }
+   init_graph2(){
+      const controller= new Controller(this.refs.myDiagramD1iv5, '载体及资源视图')
+      controller.init()
+      this.controller = controller
+      const {diagram} = controller
 
+      const {node, link} = view2data['载体及资源视图'];
+      diagram.model = new go.GraphLinksModel(node, link);
+
+      diagram.addModelChangedListener(function(evt) {
+      });
+      diagram.zoomToFit()
+      this.diagram = diagram
+    }
+    init_graph3(){
+      const controller= new Controller(this.refs.myDiagramD1iv2, '服务价值视图')
+      controller.init()
+      this.controller = controller
+      const {diagram} = controller
+
+      const {node, link} = view2data['服务价值视图'];
+      diagram.model = new go.GraphLinksModel(node, link);
+
+      diagram.addModelChangedListener(function(evt) {
+      });
+      diagram.zoomToFit()
+      this.diagram = diagram
+    }
+    init_graph4(){
+      const controller= new Controller(this.refs.myDiagramD1iv4, '服务过程视图')
+      controller.init()
+      this.controller = controller
+      const {diagram} = controller
+
+      const {node, link} = view2data['服务过程视图'];
+      diagram.model = new go.GraphLinksModel(node, link);
+
+      diagram.addModelChangedListener(function(evt) {
+      });
+      diagram.zoomToFit()
+      this.diagram = diagram
+    }
+    init_graph5(){
+      const controller= new Controller(this.refs.myDiagramD1iv3, '服务目标视图')
+      controller.init()
+      this.controller = controller
+      const {diagram} = controller
+
+      const {node, link} = view2data['服务目标视图'];
+      diagram.model = new go.GraphLinksModel(node, link);
+
+      diagram.addModelChangedListener(function(evt) {
+      });
+      diagram.zoomToFit()
+      this.diagram = diagram
+    }
+  init_graph6(){
+      const controller= new Controller(this.refs.myDiagramD1iv6, '协同生态视图')
+      controller.init()
+      this.controller = controller
+      const {diagram} = controller
+
+      const {node, link} = view2data['协同生态视图'];
+      diagram.model = new go.GraphLinksModel(node, link);
+
+      diagram.addModelChangedListener(function(evt) {
+      });
+      diagram.zoomToFit()
+      this.diagram = diagram
+    }
     componentDidMount(){
-      this.init_graph()
-
+      this.init_graph1()
+      this.init_graph2()
+      this.init_graph3()
+      this.init_graph4()
+      this.init_graph5()
+      this.init_graph6()
       this.refresh = autorun(()=>{
-        // console.log('总体示图刷新')
+
         const {controller} = this
+
         const {diagram} = controller
         const show_view_name = stateManger.show_view_name.get()
-        if(show_view_name==='全局视图'){
-          if(!controller)
-            return
-          // console.log(controller.nodeTemplateMap)
-          const {node,link} = getNowData()
-          // console.log(node, link)
-          // console.log(node_array)
-          // diagram.startTransaction('refresh')
-          diagram.model = new go.GraphLinksModel(node,link);  
-          diagram.zoomToFit()        
-          // diagram.commitTransaction('refresh')
-        }
+        // if(show_view_name==='协同生态视图'){
+        //   if(!controller)
+        //     return;
+        //   const {node,link} = getNowData()
+       
+       
+        //   diagram.model = new go.GraphLinksModel(node,link);  
+        //   diagram.zoomToFit()        
+       
+        // }
       })
     }
 
     render(){
       return (
-        <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
-          <div style={{position: 'absolute', top: 0, width:'100%', height:'100%',}}>
-            {/* <div className='palatte' ref='myPaletteDiv'  style={{}}/> */}
-            <div className='diagram'ref="myDiagramDiv"  style={{}}/>  
-          </div>
-          {/* <div className='overview' ref='myOverviewDiv'  
-            style={{}}
-          />   */}
+        <div style={{background:"lightyellow",width:"100%",height:"900px"}}>
+          <div ref='box' className='box'>
+            <div className='itembox' >
+                 <div className='diagram' ref="myDiagramD1iv1" style={{height:itemheight,width:itemwidth}} />
+                 <h5 >提供主体及网络</h5>
+            </div>
+            <div style={{height:900,display:'flex',flexDirection:'column',justifyContent: 'space-between'}}>
+                  <div className='itembox'>
+                       <div className='diagram' ref="myDiagramD1iv2" style={{height:itemheight,width:itemwidth}}/>
+                       <h5 >价值主张</h5>
+                  </div>
+                  <div className='itembox' >
+                       <div className='diagram' ref="myDiagramD1iv3" style={{height:itemheight,width:itemwidth}}/>
+                       <h5 >服务目标</h5>
+                  </div>                                      
+                  <div className='itembox'  >
+                       <div className='diagram' ref="myDiagramD1iv4" style={{height:itemheight,width:itemwidth}}/>
+                       <h5 >服务过程</h5>
+                  </div>                                      
+                  <div className='itembox' >
+                       <div className='diagram' ref="myDiagramD1iv5" style={{height:itemheight,width:itemwidth}}/>
+                       <h5 >载体及资源</h5>
+                  </div>                                      
+            </div>
+            <div className='itembox'  >
+                 <div className='diagram' ref="myDiagramD1iv6" style={{height:itemheight,width:itemwidth}}/>
+                 <h5 >消费主体</h5>
+            </div>          
+             </div>
         </div>
       )
     }
   }
 
-  // left: panel_width, 

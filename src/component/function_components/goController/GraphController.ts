@@ -46,10 +46,12 @@ export default class GraphController {
   constructor(diagram, view_name = undefined) {
     if (view_name) {
       view2controller[view_name] = this
+      //this={"view_name":""}
       this.view_name = view_name
     }
-
+console.log(this.diagram)
     this.diagram = diagram
+    
 
     // 这个地方可以加个改颜色的
   }
@@ -97,9 +99,9 @@ export default class GraphController {
           "draggingTool.dragsLink": true,
           "draggingTool.isGridSnapEnabled": true,
           "linkingTool.isUnconnectedLinkValid": true,
-        
+          "linkingTool.portGravity": 20,
           "relinkingTool.isUnconnectedLinkValid": true,
-
+          "relinkingTool.portGravity": 20,
           "relinkingTool.fromHandleArchetype":
             $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
           "relinkingTool.toHandleArchetype":

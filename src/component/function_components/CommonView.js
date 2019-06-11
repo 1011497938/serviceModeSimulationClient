@@ -14,10 +14,7 @@ export default class CommonView extends React.Component{
     constructor(props){
       super(props)
       this.state = {
-
         selected_component: undefined,
-
-
       }
     }
 
@@ -32,7 +29,7 @@ export default class CommonView extends React.Component{
       const {node, link} = view2data[view_name]
       diagram.model = new go.GraphLinksModel(node, link);
       // 双击弹出列表的功能
-      diagram.addDiagramListener("ObjectDoubleClicked", e=> {
+      diagram.addDiagramListener("ObjectContextClicked", e=> {
         var part = e.subject.part;
         // console.log(part)
         stateManger.select_component_ingo = part
@@ -56,32 +53,19 @@ export default class CommonView extends React.Component{
         if (evt.isTransactionFinished) 
           stateManger.overviewRefesh();
       });
-
-      // 把视图放到不同的位置
-      // const position = view2postion[view_name]
-      // setTimeout(()=>{
-      //   diagram.centerRect(new go.Rect(position[0],position[1],10,10))
-      // }, 100)
-      
-      // // Overview
-      // this.overview =
-      //   $(go.Overview, this.refs.myOverviewDiv,  // the HTML DIV element for the Overview
-      //     { observed: diagram, contentAlignment: go.Spot.Center });   // tell it which Diagram to show and pan
-      
+  
       this.diagram = diagram
     }
-
     componentDidMount(){
       this.init_graph()
     }
 
     render(){
       const {selected_component} = this.state
-      // console.log(selected_component)
-      // console.log(this.diagram)
+
       return (
         <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
-          <h1 style={{height:"12%",width:"100%",background:"#28a0cc"}}></h1>
+          <h1 style={{height:"12%",width:"100%",background:"rgb(90,90,90)"}}></h1>
           <div style={{position: 'absolute', top: 0, width:'100%', height:'100%',zIndex: 29,marginTop:50}}>
             <div className='diagram' ref="myDiagramDiv" style={{background:"lightyellow"}}/>  
           </div>

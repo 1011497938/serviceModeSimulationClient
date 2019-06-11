@@ -77,3 +77,22 @@ code {
     width: 1px;
     background:none;
 }
+
+
+.itembox{
+  border:2px solid rgb(0,181,173);
+  padding-right: 1px;
+}
+h5{
+  text-align: center;
+  background:#fff;
+}
+.box{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ flex-direction:row;
+ width: 1200px;
+ height: 900px;
+ margin:0 auto;
+}

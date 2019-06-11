@@ -186,7 +186,7 @@ export default class ComponentEditor extends React.Component{
                         </Menu.Item>  
                     </Menu.Menu>
                 </Menu>
-                <Segment>
+                <Segment style={{marginTop:"-20px"}}>
                     {
                         attr_list[activeItem] &&
                         attr_list[activeItem].map(elm=>{

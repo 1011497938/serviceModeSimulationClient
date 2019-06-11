@@ -82,7 +82,7 @@ const common_node_propety = () => [
 ]
 
 
-const linkSelectionAdornmentTemplate =
+const linkSelectionAdornmentTemplate = //线选中之后的颜色
   $(go.Adornment, "Link",
     $(go.Shape,
       // isPanelMain declares that this Shape shares the Link.geometry
@@ -135,21 +135,21 @@ const ArrowLinkTemplate =
       { isPanelMain: true, strokeWidth: 2 }),
     $(go.Shape,  // the arrowhead
       { toArrow: "OpenTriangle", stroke: 'black' }),
-    $(go.Panel, "Auto",
-      $(go.Shape, "RoundedRectangle",  // the link shape
-        { fill: "#F8F8F8", stroke: null }),
-      $(go.TextBlock,
-        {
-          textAlign: "center",
-          font: "10pt helvetica, arial, sans-serif",
-          stroke: "#919191",
-          margin: 2,
-          minSize: new go.Size(10, NaN),
-          editable: true
-        },
-        new go.Binding("text").makeTwoWay()
-      )
-    )
+    // $(go.Panel, "Auto",
+    //   $(go.Shape, "RoundedRectangle",  // the link shape
+    //     { fill: "#F8F8F8", stroke: null }),
+    //   $(go.TextBlock,
+    //     {
+    //       textAlign: "center",
+    //       font: "10pt helvetica, arial, sans-serif",
+    //       stroke: "#919191",
+    //       margin: 2,
+    //       minSize: new go.Size(10, NaN),
+    //       editable: false
+    //     },
+    //     new go.Binding("text").makeTwoWay()
+    //   )
+    // )
   );
 
 
@@ -267,7 +267,7 @@ const genArrowLinkWithText = text => {
 
 
 
-// 普通的group模板（就是一个框框）
+//普通的group模板
 const commonGroupTemplate =
   $(go.Group, "Auto",
     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
@@ -414,7 +414,7 @@ $(go.Node, 'Auto',
 const min_r = 40;
 
 const cheng = "#d92621";
-const huang = "#fac914";
+const huang = "#fadb14";
 const forgive = "#96cbf5";
 const qianhuang = "#FFEB3B";
 
@@ -426,9 +426,9 @@ const lightblue="#128fec";
 
 
 const fen="#faa591";
-const grey="#666";
+const grey="#ec2336";
 const lan="#32a6fd";
-const taobao="#e45903";
+const taobao="#ff5500";
 const deepblue="#1b82d2";
 const lightgreen="#71d3d2";
 
@@ -518,14 +518,14 @@ const consumerTemplateForPalette = genForPalette(
 
 const producerNodeTemplate =
 $(go.Node, 'Auto',
-    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props,{fill:"#ea7b37"})),
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props,{fill:taobao})),
       common_node_propety(),
       reText()
 ); 
 
 
 const produceTemplateForPalette = genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props, { fill:"#ea7b37"}),
+  $(go.Shape, "RoundedRectangle", first_props, { fill:taobao}),
   '生产主体'
 )
 
@@ -579,7 +579,7 @@ const taskTemplateForPallete = genForPalette(
 
 const startNodeTemplate =
 $(go.Node, 'Spot',
-  $(go.Shape, "Circle", custom_props, {fill:fen}),
+  $(go.Shape, "Circle", custom_props, {fill:grey}),
   common_node_propety(),
   reText(),
 
@@ -587,7 +587,7 @@ $(go.Node, 'Spot',
 
 const startTemplateForPallete = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
-    $(go.Shape, "Circle", custom_props, { fill:fen }),
+    $(go.Shape, "Circle", custom_props, { fill:grey }),
 
   ),
   '开始'
@@ -675,7 +675,7 @@ const messageTemplateForPallete = genForPalette(
 const exclusiveNodeTemplate =
   $(go.Node, 'Spot',
     $(go.Shape, "Diamond",
-      custom_props, { fill: cheng },
+      custom_props, { fill: fen },
     ),
     // 画中间图案
     $(go.Shape, "ThinX",
@@ -686,7 +686,7 @@ const exclusiveNodeTemplate =
 const exclusiveTemplateForPalette = genForPalette(
   $(go.Panel, "Auto", //子元素在面板的位置
     $(go.Shape, "Diamond",
-      custom_props, { fill: cheng },
+      custom_props, { fill: fen },
     ),
     // 画中间图案
     $(go.Shape, "ThinX",
@@ -809,13 +809,10 @@ const businessNodeTemplateForPalette = genForPalette(
 
 //这里存工具栏中的模板
 const paletteTemplate = {
-  link: {
-
-    },
+    link: {},
     node:{
         consumer:consumerTemplateForPalette,
-        producer:produceTemplateForPalette,
-        
+        producer:produceTemplateForPalette,        
         resource:sourceTemplateForPallete,
         carrier:carryTemplateForPallete,
         task:taskTemplateForPallete,

@@ -44,9 +44,12 @@ class StateManager{
         let node_array = []
         for(let view in view2controller){
             const nodes = view2controller[view].diagram.model.nodeDataArray
-            node_array = [...node_array, nodes]
+            node_array = [...node_array, ...nodes]
         }
         return node_array
+    }
+    getSameCategoryNode(node){
+        return this.all_nodes.filter(elm=> elm.category===node.category)
     }
     get all_resources(){
         const node_array = view2controller['载体及资源视图'].diagram.model.nodeDataArray
@@ -58,25 +61,21 @@ class StateManager{
         // console.log(node_array)
         return node_array.filter(elm=> elm.category==='carrier')
     }
-
     get all_consumers(){
         const node_array = view2controller['协同生态视图'].diagram.model.nodeDataArray
         // console.log(node_array)
         return node_array.filter(elm=> elm.category==='consumer')
     }
-
     get all_producers(){
         const node_array = view2controller['协同生态视图'].diagram.model.nodeDataArray
         // console.log(node_array)
         return node_array.filter(elm=> elm.category==='producer')
     }
-
     get all_tasks(){
         const node_array = view2controller['服务过程视图'].diagram.model.nodeDataArray
         // console.log(node_array)
         return node_array.filter(elm=> elm.category==='task')
     }
-
     get all_goals(){
         const node_array = view2controller['服务目标视图'].diagram.model.nodeDataArray
         // console.log(node_array)

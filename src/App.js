@@ -6,11 +6,11 @@ import 'semantic-ui-css/semantic.min.css'
 import {view2controller} from './component/function_components/goController/GraphController.ts'
 
 // 各种表单
-import  TaskFormEdit from './component/ui_components/form_edit/TaskFormEdit'
-import  ProviderFormEdit from './component/ui_components/form_edit/ProviderFormEdit'
-import  StartFormEdit from './component/ui_components/form_edit/StartFormEdit'
-import  ResourceFormEdit from './component/ui_components/form_edit/ResourceFormEdit'
-import  CarrierFormEdit from './component/ui_components/form_edit/CarrierFormEdit'
+// import  TaskFormEdit from './component/ui_components/form_edit/TaskFormEdit'
+// import  ProviderFormEdit from './component/ui_components/form_edit/ProviderFormEdit'
+// import  StartFormEdit from './component/ui_components/form_edit/StartFormEdit'
+// import  ResourceFormEdit from './component/ui_components/form_edit/ResourceFormEdit'
+// import  CarrierFormEdit from './component/ui_components/form_edit/CarrierFormEdit'
 
 import Nav from './component/ui_components/Nav'
 import MyPalatte from './component/function_components/MyPalatte'

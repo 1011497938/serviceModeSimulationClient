@@ -5,6 +5,7 @@ import Draggable from 'react-draggable'; // The default
 import $ from 'jquery'
 import { widget2attr, getKeys,wa } from '../../dataManager/attribute';
 import { Menu, Segment, Dropdown, Input, Icon } from 'semantic-ui-react';
+import { isArray } from 'util';
 export default class ComponentEditor extends React.Component{
     state = {
 
@@ -81,7 +82,7 @@ export default class ComponentEditor extends React.Component{
         <span key={name + key + category}>
             {name}:
             <Dropdown 
-            value={data[name]}  //这里会报错，因为undefined的问题
+            value={data[name] || (multiple?[]:'')}  //这里会报错，因为undefined的问题
             options={content.map(elm=>{
             return { key: elm, text: elm, value: elm}
             })}
@@ -106,6 +107,7 @@ export default class ComponentEditor extends React.Component{
 
         let {name,multiple} = column
 
+        console.log(column)
         // 现在的问题就是刷新要不要写个监视器
         multiple = multiple?true:false
         return (
@@ -129,6 +131,7 @@ export default class ComponentEditor extends React.Component{
     }
 
     renderText(column){
+        console.log(column)
         const {component, diagram} = this.props
         const {data} = this.state
         const {category, key} = data 
@@ -141,16 +144,21 @@ export default class ComponentEditor extends React.Component{
         <span key={name + key + category}>
             {name}:
             <Input 
+            key={name + key + category + 'i'}
             fluid
             value={data[name] || ''}
             // label={name}
+            onClick = {()=>{
+                console.log('hi')
+            }}
             onChange = {(e,{value})=>{
-
+                console.log(value, data, name)
                 diagram.model.startTransaction("change" + name);
                 diagram.model.setDataProperty(data, name, value);
                 diagram.model.commitTransaction("change" + name);
-
+                // data[name] = value
                 this.setState({data: data})
+                e.preventDefault()
             }}
             />
             <br />
@@ -165,9 +173,8 @@ export default class ComponentEditor extends React.Component{
         const attr_list = widget2attr[category]
 
         return (
-            <Draggable>
             <div style={{zIndex:30, position:'absolute',  minWidth: 300,height: 500, //background: 'white', 
-                right: '20%', top: '20%',
+                right: '1%', top: '15%',
             }}>
                 <Menu  pointing secondary fluid style={{background: 'white', borderTop: '1px solid gray'}}>
                     {getKeys(attr_list).map(elm=>
@@ -195,7 +202,7 @@ export default class ComponentEditor extends React.Component{
                     }
                 </Segment>
             </div>
-            </Draggable>
+
         )
     }
 }

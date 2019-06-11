@@ -1,5 +1,6 @@
 import { view2controller } from "../component/function_components/goController/GraphController.ts";
 import initData from './init_data.json'
+import deepcopy from 'deepcopy'
 
 class DataStore {
     view_names = ['全局视图', '协同生态视图', '载体及资源视图', '服务价值视图', '服务过程视图', '服务目标视图']
@@ -168,13 +169,14 @@ function download(filename, text) {
     document.body.removeChild(element);
 }
 
+const copy_initData = deepcopy(initData)
 
 var dataStore = new DataStore()
 export default dataStore
 export {
     // view2data,
     view2palatte,
-    initData as view2data,
+    copy_initData as view2data,
     view2postion,
     download
 }

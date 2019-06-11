@@ -19,7 +19,7 @@ const getAllGoalId = () => stateManger.all_goals.map(elm=> elm.name)
 const getAllTaskId = () => stateManger.all_tasks.map(elm=> elm.name)
 
 const getAllMainstayId = ()=>{
-    return [...getAllConsumerId(), ...getAllConsumerId()]
+    return [...getAllConsumerId(), ...getAllProducerId()]
 }
 
 const getAllResourceAndCarrierId = () => [...getAllCarrierId(), ...getAllResourceId()]

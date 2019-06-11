@@ -6,11 +6,11 @@ import 'semantic-ui-css/semantic.min.css'
 import {view2controller} from './component/function_components/goController/GraphController.ts'
 
 // 各种表单
-import  TaskFormEdit from './component/ui_components/form_edit/TaskFormEdit'
-import  ProviderFormEdit from './component/ui_components/form_edit/ProviderFormEdit'
-import  StartFormEdit from './component/ui_components/form_edit/StartFormEdit'
-import  ResourceFormEdit from './component/ui_components/form_edit/ResourceFormEdit'
-import  CarrierFormEdit from './component/ui_components/form_edit/CarrierFormEdit'
+// import  TaskFormEdit from './component/ui_components/form_edit/TaskFormEdit'
+// import  ProviderFormEdit from './component/ui_components/form_edit/ProviderFormEdit'
+// import  StartFormEdit from './component/ui_components/form_edit/StartFormEdit'
+// import  ResourceFormEdit from './component/ui_components/form_edit/ResourceFormEdit'
+// import  CarrierFormEdit from './component/ui_components/form_edit/CarrierFormEdit'
 
 import Nav from './component/ui_components/Nav'
 import MyPalatte from './component/function_components/MyPalatte'
@@ -175,7 +175,7 @@ class App extends React.Component{
         </div>
 
         {/* 提交保存新建按钮 */}
-        <div style={{position: 'absolute', right:'10%', width: 400,height: 50, bottom: 0, zIndex: 31}}>
+        <div style={{position: 'absolute', right:'7%', width: 400,height: 50, bottom: 0, zIndex: 31}}>
           {greenButton('保存', ()=>{
             const view2json = {}
             for(let view in view2controller){

@@ -26,59 +26,27 @@ const genForPalette = (shape, name) => {
 
 // 为组件加锚点的函数
 
-function makePort(name, spot, output, input) {
-  // the port is basically just a small transparent square
-  return $(go.Shape, "Circle",
-    {
-      fill:null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
-      stroke: null,
-      desiredSize: new go.Size(10, 10),
-      alignment: spot,  // align the port on the main Shape
-      alignmentFocus: spot,  // just inside the Shape
-      portId: name,  // declare this object to be a "port"
-      fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
-      fromLinkable: output, toLinkable: input,  // declare whether the user may draw links to/from here
-      cursor: "pointer"  // show a different cursor to indicate potential link point
-    }
-  )
-}
-
-
-// 显示或者不显示锚点
-const showSmallPorts = (node, show) => {
-  if (node.ports) {
-    node.ports.each(function (port) {
-      if (port.portId !== "") {  // don't change the default port, which is the big shape
-        port.fill = show ? "rgba(0,0,0,.3)" : null;
-      }
-    });
-  } else {
-  }
-}
 
 // 所有控件都包含的属性
 const common_node_propety = () => [
-
     // new go.Binding("location", "location").makeTwoWay(),
     new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
     new go.Binding("portId").makeTwoWay(),
     new go.Binding('key',"id").makeTwoWay(),
+    { 
+      fromLinkable: true, 
+      cursor: 'pointer',
+      toLinkable: true, 
+      locationObjectName: 'SHAPE', locationSpot: go.Spot.Center,
 
 
-    makePort("T", go.Spot.Top, true, true),
-    makePort("R", go.Spot.Right, true, true),
-    makePort("L", go.Spot.Left, true, true),
-    makePort("B", go.Spot.Bottom, true, true),
+      fromLinkableDuplicates: true,
+      toLinkableDuplicates: true,
 
-    makePort("TL", go.Spot.TopLeft, true, true),
-    makePort("TR", go.Spot.TopRight, true, true),
-    makePort("BL", go.Spot.BottomLeft, true, true),
-    makePort("BR", go.Spot.BottomRight, true, true),
-    { // handle mouse enter/leave events to show/hide the ports
-        mouseEnter: function (e, node) { showSmallPorts(node, true); },
-        mouseLeave: function (e, node) { showSmallPorts(node, false); }
+
+      fromSpot: go.Spot.AllSides,    // coming out from top side -- BAD!
+      toSpot: go.Spot.AllSides,
     },
-
 ]
 
 
@@ -97,13 +65,15 @@ const common_link_propety = () => [
   { relinkableFrom: true, relinkableTo: true, reshapable: true },
   // 防止交叉
   {
-      routing: go.Link.AvoidsNodes,
-      corner: 4,
-      curve: go.Link.JumpGap,
-      reshapable: true,
-      resegmentable: true,
-      relinkableFrom: true,
-      relinkableTo: true
+
+    routing: go.Link.AvoidsNodes,
+    corner: 4,
+    curve: go.Link.JumpGap,
+    reshapable: true,
+    resegmentable: true,
+    relinkableFrom: true,
+    relinkableTo: true
+
   },
 ]
 
@@ -342,75 +312,6 @@ const viewGroupTemplate =
   );
 
 
-//图形画布编辑模式
-/*const taskNodeTemplate =
-$(go.Node, 'Auto',
-  $(go.Panel, "Auto", //子元素在面板的位置
-    $(go.Shape, "RoundedRectangle", 
-      custom_props, 
-      {
-        width: custom_r*2,
-        height: custom_r,
-        fill: 'lightyellow'
-      },  
-    ),
-  $(go.TextBlock, new go.Binding("text", "key"),
-    {
-      font: "bold 11pt Helvetica, Arial, sans-serif",
-      margin: 8,
-      maxSize: new go.Size(160, NaN),
-      wrap: go.TextBlock.WrapFit,
-      editable: true  //文字是否可编辑
-    },
-    new go.Binding("text").makeTwoWay())  
- ),
- common_node_propety()
-); 
-// 流图中的控件
-*/
-//图形的缩放
-// var nodeSelectionAdornmentTemplate =
-//         $(go.Adornment, "Auto",
-//           $(go.Shape, { fill: null, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] }),
-//           $(go.Placeholder)
-//         );
-
-//       var nodeResizeAdornmentTemplate =
-//         $(go.Adornment, "Spot",
-//           { locationSpot: go.Spot.Right },
-//           $(go.Placeholder),
-//           $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-//           $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-//           $(go.Shape, { alignment: go.Spot.TopRight, cursor: "ne-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-
-//           $(go.Shape, { alignment: go.Spot.Left, cursor: "w-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-//           $(go.Shape, { alignment: go.Spot.Right, cursor: "e-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-
-//           $(go.Shape, { alignment: go.Spot.BottomLeft, cursor: "se-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-//           $(go.Shape, { alignment: go.Spot.Bottom, cursor: "s-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-//           $(go.Shape, { alignment: go.Spot.BottomRight, cursor: "sw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" })
-//         );
-
-//       var nodeRotateAdornmentTemplate =
-//         $(go.Adornment,
-//           { locationSpot: go.Spot.Center, locationObjectName: "CIRCLE" },
-//           $(go.Shape, "Circle", { name: "CIRCLE", cursor: "pointer", desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
-//           $(go.Shape, { geometryString: "M3.5 7 L3.5 30", isGeometryPositioned: true, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] })
-//         );
-
- 
-
-// const common_shape=()=>[
-//           { locationSpot: go.Spot.Center },
-//           new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-//           { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
-//           { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
-//           { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
-//           new go.Binding("angle").makeTwoWay(),
-// ]
-
-
-
 const min_r = 40;
 
 const cheng = "#d92621";
@@ -494,6 +395,8 @@ const reText = () => [
       margin: 8,
       maxSize: new go.Size(160, NaN),
       wrap: go.TextBlock.WrapFit,
+      fromLinkable: false, 
+      toLinkable: false,  
       // editable: true,
       stroke: "#fff"
     },
@@ -512,7 +415,9 @@ const consumerNodeTemplate =
 
 const consumerTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill: deepblue }),
+
   '消费主体'
+
 )
 
 
@@ -525,8 +430,10 @@ $(go.Node, 'Auto',
 
 
 const produceTemplateForPalette = genForPalette(
+
   $(go.Shape, "RoundedRectangle", first_props, { fill:taobao}),
   '生产主体'
+
 )
 
 //协同生态视图控件结束
@@ -537,14 +444,19 @@ const produceTemplateForPalette = genForPalette(
 
 
 const carryNodeTemplate =$(go.Node, 'Auto',
-    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props,{fill:fen})),
+
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props,{fill:"#5FC407",
+    })),
+
     common_node_propety(),
     reText(),
 ); 
 
 
 const carryTemplateForPallete= genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props,{fill:fen}),
+
+  $(go.Shape, "RoundedRectangle", first_props,{fill:"#5FC407"}),
+
   '载体'
 )
 
@@ -590,7 +502,9 @@ const startTemplateForPallete = genForPalette(
     $(go.Shape, "Circle", custom_props, { fill:grey }),
 
   ),
-  '开始'
+
+  '开始事件'
+
 )
 
 
@@ -610,7 +524,9 @@ const endTemplateForPallete = genForPalette(
     $(go.Shape, "Circle", second_props),
 
   ),
-  '结束'
+
+  '结束事件'
+
 )
 
 
@@ -627,7 +543,9 @@ const timeTemplateForPallete = genForPalette(
     // 画中间图案
     $(go.Shape, "BpmnEventTimer", inSix_props),
   ),
+
   '时间'
+
 )
 
 const messageNodeTemplate =
@@ -643,7 +561,8 @@ const messageTemplateForPallete = genForPalette(
     // 画中间图案
     $(go.Shape, "Email", inFive_props),
   ),
-  '消息'
+
+  '消息事件'
 )
 
 
@@ -693,7 +612,9 @@ const exclusiveTemplateForPalette = genForPalette(
       custom_icon_props
     ),
   ),
-  '互斥'
+
+  '互斥网关'
+
 )
 
 
@@ -720,7 +641,10 @@ const parallelTemplateForPalette = genForPalette(
       custom_icon_props
     ),
   ),
-  '同步'
+
+
+  '并行网关'
+
 )
 
 
@@ -776,7 +700,7 @@ const numNodeTemplate =
 
 const numTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill:lan }),
-  '数字目标'
+  '数值目标'
 )
 
 const businessNodeTemplate =
@@ -787,7 +711,7 @@ const businessNodeTemplate =
   );
 const businessNodeTemplateForPalette = genForPalette(
   $(go.Shape, "Ellipse", { fill:"#ea7b37", width: 80, height: 50, stroke: null }),
-  '子目标'
+  '业务目标'
 )
 
 

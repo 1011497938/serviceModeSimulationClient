@@ -101,13 +101,13 @@ export default class GlobalOverview extends React.Component{
       diagram.zoomToFit()
       this.diagram = diagram
     }
-    init_graph3(){
-      const controller= new Controller(this.refs.myDiagramD1iv2, '服务价值视图')
+    init_graph3(){ //服务价值视图还没有视图
+      const controller= new Controller(this.refs.myDiagramD1iv2, '协同生态视图')
       controller.init()
       this.controller = controller
       const {diagram} = controller
 
-      const {node, link} = view2data['服务价值视图'];
+      const {node, link} = view2data['协同生态视图'];
       diagram.model = new go.GraphLinksModel(node, link);
 
       diagram.addModelChangedListener(function(evt) {
@@ -170,16 +170,14 @@ export default class GlobalOverview extends React.Component{
 
         const {diagram} = controller
         const show_view_name = stateManger.show_view_name.get()
-        // if(show_view_name==='协同生态视图'){
-        //   if(!controller)
-        //     return;
-        //   const {node,link} = getNowData()
+        if(show_view_name==='协同生态视图'){
+          if(!controller)
+            return;
+          const {node,link} = getNowData()
        
        
-        //   diagram.model = new go.GraphLinksModel(node,link);  
-        //   diagram.zoomToFit()        
        
-        // }
+        }
       })
     }
 
@@ -189,29 +187,29 @@ export default class GlobalOverview extends React.Component{
           <div ref='box' className='box'>
             <div className='itembox' >
                  <div className='diagram' ref="myDiagramD1iv1" style={{height:itemheight,width:itemwidth}} />
-                 <h5 >提供主体及网络</h5>
+                 <h5 >消费者</h5>
             </div>
             <div style={{height:900,display:'flex',flexDirection:'column',justifyContent: 'space-between'}}>
                   <div className='itembox'>
                        <div className='diagram' ref="myDiagramD1iv2" style={{height:itemheight,width:itemwidth}}/>
-                       <h5 >价值主张</h5>
+                       <h5 >服务价值视图</h5>
                   </div>
                   <div className='itembox' >
                        <div className='diagram' ref="myDiagramD1iv3" style={{height:itemheight,width:itemwidth}}/>
-                       <h5 >服务目标</h5>
+                       <h5 >服务目标视图</h5>
                   </div>                                      
                   <div className='itembox'  >
                        <div className='diagram' ref="myDiagramD1iv4" style={{height:itemheight,width:itemwidth}}/>
-                       <h5 >服务过程</h5>
+                       <h5 >服务过程视图</h5>
                   </div>                                      
                   <div className='itembox' >
                        <div className='diagram' ref="myDiagramD1iv5" style={{height:itemheight,width:itemwidth}}/>
-                       <h5 >载体及资源</h5>
+                       <h5 >载体及资源视图</h5>
                   </div>                                      
             </div>
             <div className='itembox'  >
                  <div className='diagram' ref="myDiagramD1iv6" style={{height:itemheight,width:itemwidth}}/>
-                 <h5 >消费主体</h5>
+                 <h5 >生产者</h5>
             </div>          
              </div>
         </div>

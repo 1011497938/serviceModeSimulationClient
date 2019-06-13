@@ -2,21 +2,21 @@ import stateManger from "./stateManager";
 
 
 const getAllResourceId = ()=>{
-    return stateManger.all_resources.map(elm=> elm.name)
+    return stateManger.all_resources.map(elm=> elm['控件名称'])
 }
 const getAllCarrierId = ()=>{
-    return stateManger.all_carriers.map(elm=> elm.name)
+    return stateManger.all_carriers.map(elm=> elm['控件名称'])
 }
 const getAllConsumerId = ()=>{
-    return stateManger.all_consumers.map(elm=> elm.name)
+    return stateManger.all_consumers.map(elm=> elm['控件名称'])
 }
 const getAllProducerId = ()=>{
-    return stateManger.all_producers.map(elm=> elm.name)
+    return stateManger.all_producers.map(elm=> elm['控件名称'])
 }
 
-const getAllGoalId = () => stateManger.all_goals.map(elm=> elm.name)
+const getAllGoalId = () => stateManger.all_goals.map(elm=> elm['控件名称'])
 
-const getAllTaskId = () => stateManger.all_tasks.map(elm=> elm.name)
+const getAllTaskId = () => stateManger.all_tasks.map(elm=> elm['控件名称'])
 
 const getAllMainstayId = ()=>{
     return [...getAllConsumerId(), ...getAllProducerId()]

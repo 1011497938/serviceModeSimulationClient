@@ -101,7 +101,9 @@ const view2palatte = {
 
             { category: 'producer', },
             { category: 'consumer', },
-
+            { category: 'consumer2', },
+            { category: 'consumer3', },
+            { category: 'consumer4', },
         ],
         link: [
         ],

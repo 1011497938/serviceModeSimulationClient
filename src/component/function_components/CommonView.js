@@ -6,6 +6,9 @@ import dataStore,{view2data, view2postion} from '../../dataManager/dataStore';
 import { autorun } from 'mobx';
 import stateManger from '../../dataManager/stateManager';
 
+
+
+
 import ComponentEditor from '../ui_components/ComponentEditor';
 // import $ from "jquery";
 
@@ -68,13 +71,13 @@ export default class CommonView extends React.Component{
           <div style={{position: 'absolute', top: 0, width:'100%', height:'900px',zIndex: 29,marginTop:50}}>
             <div className='diagram' ref="myDiagramDiv" style={{background:"lightyellow",paddingLeft:'20px'}}/>  
           </div>
-          {/* 这里存放所有的表单 */}
+          {/*这里存放所有的表单*/}
           { 
             selected_component && 
             <ComponentEditor parent={this} key={selected_component.data.key} component={selected_component} diagram={this.diagram}/> 
           }
-          <div className='overview' ref='myOverviewDiv' style={{background:"red"}}/> 
-        </div>
+
+     </div>
       )
     }
   }

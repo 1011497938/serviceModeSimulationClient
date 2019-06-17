@@ -105,21 +105,6 @@ const ArrowLinkTemplate =
       { isPanelMain: true, strokeWidth: 2 }),
     $(go.Shape,  // the arrowhead
       { toArrow: "OpenTriangle", stroke: 'black' }),
-    // $(go.Panel, "Auto",
-    //   $(go.Shape, "RoundedRectangle",  // the link shape
-    //     { fill: "#F8F8F8", stroke: null }),
-    //   $(go.TextBlock,
-    //     {
-    //       textAlign: "center",
-    //       font: "10pt helvetica, arial, sans-serif",
-    //       stroke: "#919191",
-    //       margin: 2,
-    //       minSize: new go.Size(10, NaN),
-    //       editable: false
-    //     },
-    //     new go.Binding("text").makeTwoWay()
-    //   )
-    // )
   );
 
 
@@ -316,7 +301,7 @@ const min_r = 40;
 
 const cheng = "#d92621";
 const huang = "#fadb14";
-const forgive = "#96cbf5";
+const forgive = "#5FC407";
 const qianhuang = "#FFEB3B";
 
 
@@ -406,7 +391,7 @@ const reText = () => [
 //协同生态视图控件
 const consumerNodeTemplate =
   $(go.Node, 'Auto',
-    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill: deepblue })),
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill: huang })),
     common_node_propety(),
     reText()
   );
@@ -414,12 +399,59 @@ const consumerNodeTemplate =
 
 
 const consumerTemplateForPalette = genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props, { fill: deepblue }),
+  $(go.Shape, "RoundedRectangle", first_props, { fill: huang }),
 
-  '消费主体'
+  '农业消费者'
 
 )
 
+const consumerNodeTemplate2 =
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill: deepblue })),
+    common_node_propety(),
+    reText()
+  );
+
+
+
+const consumerTemplateForPalette2 = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props, { fill: deepblue }),
+
+  '工业消费者'
+
+)
+
+const consumerNodeTemplate3 =
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill: forgive })),
+    common_node_propety(),
+    reText()
+  );
+
+
+
+const consumerTemplateForPalette3 = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props, { fill: forgive }),
+
+  '第三产业消费者'
+
+)
+
+const consumerNodeTemplate4 =
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill:"#666" })),
+    common_node_propety(),
+    reText()
+  );
+
+
+
+const consumerTemplateForPalette4 = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props, { fill:"#666" }),
+
+  '其他'
+
+)
 
 const producerNodeTemplate =
 $(go.Node, 'Auto',
@@ -736,6 +768,9 @@ const paletteTemplate = {
     link: {},
     node:{
         consumer:consumerTemplateForPalette,
+        consumer2:consumerTemplateForPalette2,
+        consumer3:consumerTemplateForPalette3,
+        consumer4:consumerTemplateForPalette4,
         producer:produceTemplateForPalette,        
         resource:sourceTemplateForPallete,
         carrier:carryTemplateForPallete,
@@ -762,6 +797,9 @@ const paletteTemplate = {
 const panelTemplate = {
   node: {
     consumer: consumerNodeTemplate,
+    consumer2: consumerNodeTemplate2,
+    consumer3: consumerNodeTemplate3,
+    consumer4: consumerNodeTemplate4,
     producer: producerNodeTemplate,
 
     resource: sourceNodeTemplate,
@@ -774,7 +812,6 @@ const panelTemplate = {
     message: messageNodeTemplate,
     exclusive: exclusiveNodeTemplate,
     parallel: parallelNodeTemplate,
-
     strategic: strategicNodeTemplate,
     business: businessNodeTemplate,
     emotion: emotionNodeTemplate,

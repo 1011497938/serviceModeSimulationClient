@@ -23,14 +23,14 @@ class LoginModal extends React.Component {
     return (
 
       <Modal
-          trigger={<span onClick={this.handleOpen} style={{paddingTop:17,marginRight:20,pointer:'cursor'}}><i className="user icon"></i>登录/注册</span>}
+          trigger={<span onClick={this.handleOpen} style={{paddingTop:17,marginRight:20,pointer:'cursor', color:'white'}}><i className="user icon"></i>登录/注册</span>}
           open={this.state.modalOpen}
           onClose={this.handleClose}
           basic
           size='small' 
         >
         <div style={{textAlign:'center',marginLeft:"25%"}}>
-          <h1 style={{width:'60%',}}>登录</h1>
+          <h1 style={{width:'60%'}}>登录</h1>
           <Form style={{width:'60%'}}>
               <Form.Field>
                 <input placeholder='账号' />

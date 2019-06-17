@@ -65,7 +65,6 @@ export default class CommonView extends React.Component{
 
       return (
         <div style={{float:'left', position: 'relative', width: '100%', height: '100%'}}>
-          <h1 style={{height:"12%",width:"100%",background:"rgb(27,130,210)"}}></h1>
           <div style={{position: 'absolute', top: 0, width:'100%', height:'900px',zIndex: 29,marginTop:50}}>
             <div className='diagram' ref="myDiagramDiv" style={{background:"lightyellow",paddingLeft:'20px'}}/>  
           </div>

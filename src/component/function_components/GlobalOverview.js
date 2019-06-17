@@ -8,7 +8,7 @@ import stateManger from '../../dataManager/stateManager';
 import deepcopy from 'deepcopy'
 
 
-console.log(view2data.协同生态视图.node)
+
 const getNowView2Data = ()=>{
   const view2data = {}
   for(let view in view2controller){
@@ -72,7 +72,12 @@ const itemheight=130;
 const itemwidth=260;
 const $ = go.GraphObject.make;
 export default class GlobalOverview extends React.Component{
-
+     constructor(props){
+       super(props);
+        this.state={
+          names:[0,1,2,3,4,5,6]
+        }
+     }
     init_graph1(){
       const controller= new Controller(this.refs.myDiagramD1iv1, '协同生态视图')
       controller.init()
@@ -148,35 +153,52 @@ export default class GlobalOverview extends React.Component{
       controller.init()
       this.controller = controller
       const {diagram} = controller
-
       const {node, link} = view2data['协同生态视图'];
       diagram.model = new go.GraphLinksModel(node, link);
-
       diagram.addModelChangedListener(function(evt) {
       });
       diagram.zoomToFit()
       this.diagram = diagram
     }
     componentDidMount(){
-      this.init_graph1()
-      this.init_graph2()
-      this.init_graph3()
-      this.init_graph4()
-      this.init_graph5()
-      this.init_graph6()
+
+      //建立一个背景面板画布
+            var $ = go.GraphObject.make;  
+            var myDiagram =
+                $(go.Diagram,this.refs.box1, 
+                    { "undoManager.isEnabled": true }
+               );
+        var model = $(go.GraphLinksModel);
+        // model.nodeDataArray =
+        // [
+        //   { key:this.refs.produce.id},
+        //   { key:"B" },
+        //   { key:"C" }
+        // ]
+        // model.linkDataArray =
+        // [
+        //   { from:this.refs.produce.id,to:"B" },
+        //   { from:"B" ,to:"C" }
+        // ]
+        // myDiagram.model = model;
+
+
+
+                  this.init_graph1()
+                  this.init_graph2()
+                  this.init_graph3()
+                  this.init_graph4()
+                  this.init_graph5()
+                  this.init_graph6()
       this.refresh = autorun(()=>{
 
         const {controller} = this
-
         const {diagram} = controller
         const show_view_name = stateManger.show_view_name.get()
         if(show_view_name==='协同生态视图'){
           if(!controller)
             return;
-          const {node,link} = getNowData()
-       
-       
-       
+            const {node,link} = getNowData()
         }
       })
     }
@@ -184,10 +206,11 @@ export default class GlobalOverview extends React.Component{
     render(){
       return (
         <div style={{background:"lightyellow",width:"100%",height:"900px"}}>
+        <div ref ='box1' style={{position:'absolute',zIndex:10,width:"100%",height:"900px"}}/>
           <div ref='box' className='box'>
-            <div className='itembox' >
+            <div className='itembox' name={this.state.names[1]}>
                  <div className='diagram' ref="myDiagramD1iv1" style={{height:itemheight,width:itemwidth}} />
-                 <h5 >消费者</h5>
+                 <h5>生产者</h5>
             </div>
             <div style={{height:900,display:'flex',flexDirection:'column',justifyContent: 'space-between'}}>
                   <div className='itembox'>
@@ -209,7 +232,7 @@ export default class GlobalOverview extends React.Component{
             </div>
             <div className='itembox'  >
                  <div className='diagram' ref="myDiagramD1iv6" style={{height:itemheight,width:itemwidth}}/>
-                 <h5 >生产者</h5>
+                 <h5 >消费者</h5>
             </div>          
              </div>
         </div>

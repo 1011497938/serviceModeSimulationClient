@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Grid, Menu, Segment, Dropdown } from 'semantic-ui-react'
+import { Grid, Menu, Segment, Dropdown, Input } from 'semantic-ui-react'
 import stateManger from '../../dataManager/stateManager';
 import dataStore from '../../dataManager/dataStore';
 import { autorun } from 'mobx';
+import LoginModal from './LoginModal';
 
 export default class MenuExampleTabularOnLeft extends Component {
     constructor(props){
@@ -22,31 +23,33 @@ export default class MenuExampleTabularOnLeft extends Component {
     }
 
     render() {
-        const { show_view_name } = this.state
-
+        const { show_view_name, } = this.state
         return (
-        <Dropdown 
-            text={show_view_name}
-            fluid
-            closeOnChange
-            defaultValue={dataStore.default_view_name}
-            className='select_view_drowdown'
-            style={{marginRight:20}}
-        >
-            <Dropdown.Menu style={{marginTop:20}}>
-                {
-                dataStore.view_names.map(text=>{
+        <Menu style={{height: 50}} inverted>
+            <Menu.Item name='服务模式'/>
+            {
+                dataStore.view_names.filter(elm=> elm!=='全局视图').map(elm=>{
                     return (
-                        <Dropdown.Item key={text} text={text}
-                            onClick={()=>{
-                                stateManger.changeView(text)
-                            }}
-                        />
+                        <Menu.Item
+                        name={elm}
+                        active={show_view_name === elm}
+                        onClick={()=>  stateManger.changeView(elm)}
+                      />
                     )
                 })
-                }
-            </Dropdown.Menu>
-        </Dropdown>
+            }
+            <Menu.Menu position='right'>
+            {/* <Menu.Item>
+                
+            </Menu.Item> */}
+            <Input       
+                placeholder='搜索'
+                color='#fff'
+                style={{margin: 10, top: 2}}
+            />
+            <LoginModal/>
+            </Menu.Menu>
+        </Menu>
         )
     }
 }

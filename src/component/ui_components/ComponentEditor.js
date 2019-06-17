@@ -174,7 +174,7 @@ export default class ComponentEditor extends React.Component{
         const attr_list = widget2attr[category]
 
         return (
-            <div style={{zIndex:30, position:'absolute',  minWidth: 300,height: 500, //background: 'white', 
+            <div style={{zIndex:30, position:'absolute',  width: 300,height: 500, //background: 'white', 
                 right: '5%', top: '10%',
             }}>
                 <Menu  pointing secondary fluid style={{background: 'white', borderTop: '1px solid gray'}}>

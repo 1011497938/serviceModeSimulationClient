@@ -62,8 +62,11 @@ class App extends React.Component{
     return (
       <div>
         {/*顶部导航栏*/}
-        <div style={{height:50,position:'relative',zIndex: show_view_name==='全局视图'?0:31}}>
-          <div style={{ position:'absolute',left:50,color:"#fff",zIndex:31,marginTop:15,fontSize: 20,fontWeight: 'blod'}}>服务模式</div>
+        <div style={{height:40,position:'relative',zIndex: show_view_name==='全局视图'?0:31}}>
+          <Nav/>
+        </div>
+        {/* <div style={{ position:'absolute',left:50,color:"#fff",zIndex:31,marginTop:15,fontSize: 20,fontWeight: 'blod'}}>服务模式</div>
+          <Nav/>
           <div style={{ position:'absolute',color:"#fff",bottom:5,right:40,height: 50,zIndex:31, float:'right'}}>
             <Input        
                 placeholder='搜索'
@@ -71,9 +74,7 @@ class App extends React.Component{
                 style={{margin: 10, top: 2}}
               />
             <LoginModal/>
-          </div>
-         </div>
-
+          </div> */}
 
      {/* action={<Dropdown button basic floating 
                 options={[
@@ -83,12 +84,6 @@ class App extends React.Component{
                 defaultValue='本图' />}
                 icon='search'
                 iconPosition='left'*/}
-
-          <div style={{zIndex:31,position: 'absolute',left:40, height: 50, top: '10%', zIndex:100}}>
-            <Nav/>
-          </div>
-
-
 
           {/* 各个go的面板 */}
           <div style={{position: 'absolute',width:'100%', height:'100%', top:0, left:0}}>

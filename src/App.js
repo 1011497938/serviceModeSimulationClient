@@ -52,6 +52,7 @@ class App extends React.Component {
           {
           type: 'react-component',
           component: '服务过程视图',
+          title: '服务过程视图',
           props: { view_name: '服务过程视图' }
           },
           {
@@ -63,11 +64,13 @@ class App extends React.Component {
                   {
                     type: 'react-component',
                     component: '协同生态视图',
+                    title: '协同生态视图',
                     props: { view_name: '协同生态视图' }
                   }, 
                   {
                     type: 'react-component',
                     component: '服务目标视图',
+                    title: '服务目标视图',
                     props: { view_name: '服务目标视图'}
                   }
                 ]
@@ -78,11 +81,13 @@ class App extends React.Component {
                   {
                     type: 'react-component',
                     component: '服务价值视图',
+                    title: '服务价值视图',
                     props: { view_name: '服务价值视图'}
                   }, 
                   {
                     type: 'react-component',
                     component: '载体及资源视图',
+                    title: '载体及资源视图',
                     props: { view_name: '载体及资源视图'}
                   }
                 ]

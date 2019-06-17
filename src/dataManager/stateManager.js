@@ -41,12 +41,24 @@ class StateManager{
     }
 
     get all_nodes(){
+        if(!view2controller)
+            return []
         let node_array = []
         for(let view in view2controller){
             const nodes = view2controller[view].diagram.model.nodeDataArray
             node_array = [...node_array, ...nodes]
         }
         return node_array
+    }
+    get all_links(){
+        if(!view2controller)
+            return []
+        let link_array = []
+        for(let view in view2controller){
+            const links = view2controller[view].diagram.model.linkDataArray
+            link_array = [...link_array, ...links]
+        }
+        return link_array
     }
     getSameCategoryNode(node){
         return this.all_nodes.filter(elm=> elm.category===node.category)

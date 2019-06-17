@@ -8,7 +8,7 @@ import stateManger from '../../dataManager/stateManager';
 import deepcopy from 'deepcopy'
 
 
-console.log(view2data.协同生态视图.node)
+// console.log(view2data.协同生态视图.node)
 const getNowView2Data = ()=>{
   const view2data = {}
   for(let view in view2controller){

@@ -25,29 +25,27 @@ export default class MenuExampleTabularOnLeft extends Component {
     render() {
         const { show_view_name, } = this.state
         return (
-        <Menu style={{height: 50}} inverted>
-            <Menu.Item name='服务模式'/>
+        <Menu fluid inverted>
+            {/* <Menu.Item style={{width: 150}} name='服务模式'/> */}
             {
-                dataStore.view_names.filter(elm=> elm!=='全局视图').map(elm=>{
+                dataStore.view_names.map(elm=>{
                     return (
-                        <Menu.Item
-                        name={elm}
-                        active={show_view_name === elm}
-                        onClick={()=>  stateManger.changeView(elm)}
-                      />
+                    <Menu.Item
+                    key={elm}
+                    name={elm}
+                    active={show_view_name === elm}
+                    onClick={()=> stateManger.changeView(elm)}
+                    />
                     )
                 })
             }
             <Menu.Menu position='right'>
-            {/* <Menu.Item>
-                
-            </Menu.Item> */}
-            <Input       
-                placeholder='搜索'
-                color='#fff'
-                style={{margin: 10, top: 2}}
-            />
-            <LoginModal/>
+                <Input       
+                    placeholder='搜索'
+                    color='#fff'
+                    style={{margin: 10, top: 2}}
+                />
+                <LoginModal/>
             </Menu.Menu>
         </Menu>
         )

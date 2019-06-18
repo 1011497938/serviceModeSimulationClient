@@ -5,49 +5,49 @@
                 "category": "producer",
                 "key": -1,
                 "loc": "-570 -330",
-                "控件名称": "村淘部门"
+                "name": "村淘部门"
             },
             {
                 "category": "producer",
                 "key": -2,
                 "loc": "-300 -330",
-                "控件名称": "支付宝部门"
+                "name": "支付宝部门"
             },
             {
                 "category": "producer",
                 "key": -3,
                 "loc": "-700 -180",
-                "控件名称": "淘宝部门"
+                "name": "淘宝部门"
             },
             {
                 "category": "producer",
                 "key": -4,
                 "loc": "-210 20",
-                "控件名称": "菜鸟"
+                "name": "菜鸟"
             },
             {
                 "category": "producer",
                 "key": -5,
                 "loc": "-20 -330",
-                "控件名称": "村小二"
+                "name": "村小二"
             },
             {
                 "category": "producer",
                 "key": -6,
                 "loc": "-570 100",
-                "控件名称": "商家"
+                "name": "商家"
             },
             {
                 "category": "consumer",
                 "key": -7,
                 "loc": "20 -70",
-                "控件名称": "农村消费者"
+                "name": "农村消费者"
             },
             {
                 "category": "consumer",
                 "key": -8,
                 "loc": "250 -240",
-                "控件名称": "城市消费者"
+                "name": "城市消费者"
             }
         ],
         "link": [
@@ -401,75 +401,75 @@
                 "category": "carrier",
                 "key": -1,
                 "loc": "-370 -240",
-                "控件名称": "村淘交互前端"
+                "name": "村淘交互前端"
             },
             {
                 "category": "carrier",
                 "key": -2,
                 "loc": "90 -50",
-                "控件名称": "村淘后台"
+                "name": "村淘后台"
             },
             {
                 "category": "carrier",
                 "key": -3,
                 "loc": "-140 -120",
-                "控件名称": "村淘平台"
+                "name": "村淘平台"
             },
             {
                 "category": "carrier",
                 "key": -4,
                 "loc": "-380 -480",
-                "控件名称": "支付宝平台"
+                "name": "支付宝平台"
             },
             {
                 "category": "carrier",
                 "key": -5,
                 "loc": "240 -570",
-                "控件名称": "淘宝平台"
+                "name": "淘宝平台"
             },
             {
                 "category": "carrier",
                 "key": -6,
                 "loc": "140 -430",
-                "控件名称": "物流平台"
+                "name": "物流平台"
             },
             {
                 "category": "resource",
                 "key": -7,
                 "loc": "-140 -570",
-                "控件名称": "软硬件资产",
+                "name": "软硬件资产",
                 "类型": "实体资产"
             },
             {
                 "category": "resource",
                 "key": -8,
                 "loc": "-470 -260",
-                "控件名称": "资金流"
+                "name": "资金流"
             },
             {
                 "category": "resource",
                 "key": -10,
                 "loc": "460 -200",
-                "控件名称": "软件著作权"
+                "name": "软件著作权"
             },
             {
                 "category": "resource",
                 "key": -11,
                 "loc": "-470 -30",
-                "控件名称": "开发运维人员",
+                "name": "开发运维人员",
                 "类型": "人力资产"
             },
             {
                 "category": "resource",
                 "key": -12,
                 "loc": "-480 -570",
-                "控件名称": "用户数据"
+                "name": "用户数据"
             },
             {
                 "category": "resource",
                 "key": -13,
                 "loc": "360 -430",
-                "控件名称": "快递员",
+                "name": "快递员",
                 "类型": "人力资产"
             }
         ],
@@ -909,49 +909,49 @@
                 "key": -10,
                 "loc": "-280 451",
                 "group": -8,
-                "控件名称": "商品上架"
+                "name": "商品上架"
             },
             {
                 "category": "task",
                 "key": -11,
                 "loc": "-200 301",
                 "group": -7,
-                "控件名称": "显示村淘商品"
+                "name": "显示村淘商品"
             },
             {
                 "category": "task",
                 "key": -12,
                 "loc": "-190 -80",
                 "group": 2,
-                "控件名称": "浏览商品"
+                "name": "浏览商品"
             },
             {
                 "category": "task",
                 "key": -13,
                 "loc": "-130 40",
                 "group": -4,
-                "控件名称": "下单"
+                "name": "下单"
             },
             {
                 "category": "task",
                 "key": -14,
                 "loc": "-140 471",
                 "group": -8,
-                "控件名称": "预支付信息"
+                "name": "预支付信息"
             },
             {
                 "category": "task",
                 "key": -15,
                 "loc": "-40 331.83437687371315",
                 "group": -7,
-                "控件名称": "增加二级配送费"
+                "name": "增加二级配送费"
             },
             {
                 "category": "task",
                 "key": -16,
                 "loc": "-40 0",
                 "group": -4,
-                "控件名称": "支付"
+                "name": "支付"
             },
             {
                 "category": "exclusive",
@@ -970,35 +970,35 @@
                 "key": -19,
                 "loc": "90.00000000000003 582.0000000000002",
                 "group": -5,
-                "控件名称": "资金冻结"
+                "name": "资金冻结"
             },
             {
                 "category": "task",
                 "key": -20,
                 "loc": "-30 481",
                 "group": -8,
-                "控件名称": "取消订单"
+                "name": "取消订单"
             },
             {
                 "category": "task",
                 "key": -21,
                 "loc": "190 381",
                 "group": -7,
-                "控件名称": "完整订单信息"
+                "name": "完整订单信息"
             },
             {
                 "category": "task",
                 "key": -23,
                 "loc": "220 151",
                 "group": -6,
-                "控件名称": "商家确认订单"
+                "name": "商家确认订单"
             },
             {
                 "category": "task",
                 "key": -24,
                 "loc": "140 -80",
                 "group": 2,
-                "控件名称": "村小二确认订单"
+                "name": "村小二确认订单"
             },
             {
                 "category": "parallel",
@@ -1017,35 +1017,35 @@
                 "key": -27,
                 "loc": "320 150",
                 "group": -6,
-                "控件名称": "打包发货"
+                "name": "打包发货"
             },
             {
                 "category": "task",
                 "key": -28,
                 "loc": "220 681.9999999999999",
                 "group": 3,
-                "控件名称": "包裹揽收"
+                "name": "包裹揽收"
             },
             {
                 "category": "task",
                 "key": -29,
                 "loc": "360 480",
                 "group": -8,
-                "控件名称": "一级配送"
+                "name": "一级配送"
             },
             {
                 "category": "task",
                 "key": -30,
                 "loc": "370 -70",
                 "group": 2,
-                "控件名称": "二级配送"
+                "name": "二级配送"
             },
             {
                 "category": "task",
                 "key": -31,
                 "loc": "415 26",
                 "group": -4,
-                "控件名称": "收货"
+                "name": "收货"
             },
             {
                 "category": "exclusive",
@@ -1058,21 +1058,21 @@
                 "key": -33,
                 "loc": "705 29.789255780404",
                 "group": -4,
-                "控件名称": "申请售后"
+                "name": "申请售后"
             },
             {
                 "category": "task",
                 "key": -34,
                 "loc": "515 -0.21074421959600897",
                 "group": -4,
-                "控件名称": "评价反馈"
+                "name": "评价反馈"
             },
             {
                 "category": "task",
                 "key": -35,
                 "loc": "530 581",
                 "group": -5,
-                "控件名称": "资金结算"
+                "name": "资金结算"
             },
             {
                 "category": "end",
@@ -1085,21 +1085,21 @@
                 "key": -37,
                 "loc": "627.5 -80",
                 "group": 2,
-                "控件名称": "售后物流"
+                "name": "售后物流"
             },
             {
                 "category": "task",
                 "key": -38,
                 "loc": "460 671",
                 "group": 3,
-                "控件名称": "售后物流"
+                "name": "售后物流"
             },
             {
                 "category": "task",
                 "key": -39,
                 "loc": "760 181",
                 "group": -6,
-                "控件名称": "售后处理"
+                "name": "售后处理"
             }
         ],
         "link": [
@@ -1735,139 +1735,139 @@
                 "category": "strategic",
                 "key": -1,
                 "loc": "80 -290",
-                "控件名称": "改善农村网购环境"
+                "name": "改善农村网购环境"
             },
             {
                 "category": "business",
                 "key": -5,
                 "loc": "-370 -30",
-                "控件名称": "网货下乡"
+                "name": "网货下乡"
             },
             {
                 "category": "business",
                 "key": -4,
                 "loc": "350 -20",
-                "控件名称": "农产品进城"
+                "name": "农产品进城"
             },
             {
                 "category": "physics",
                 "key": -3,
                 "loc": "-720 90",
-                "控件名称": "网货顺利配送"
+                "name": "网货顺利配送"
             },
             {
                 "category": "amount",
                 "key": -6,
                 "loc": "-200 100",
-                "控件名称": "盈利目标"
+                "name": "盈利目标"
             },
             {
                 "category": "physics",
                 "key": -8,
                 "loc": "880 110",
-                "控件名称": "农产品高效配送"
+                "name": "农产品高效配送"
             },
             {
                 "category": "amount",
                 "key": -9,
                 "loc": "440 110",
-                "控件名称": "盈利目标"
+                "name": "盈利目标"
             },
             {
                 "category": "emotion",
                 "key": -2,
                 "loc": "-450 90",
-                "控件名称": "用户粘性"
+                "name": "用户粘性"
             },
             {
                 "category": "emotion",
                 "key": -10,
                 "loc": "210 100",
-                "控件名称": "用户粘性"
+                "name": "用户粘性"
             },
             {
                 "category": "amount",
                 "key": -11,
                 "loc": "40 280",
-                "控件名称": "村淘盈利目标"
+                "name": "村淘盈利目标"
             },
             {
                 "category": "amount",
                 "key": -12,
                 "loc": "-220 280",
-                "控件名称": "支付宝盈利目标"
+                "name": "支付宝盈利目标"
             },
             {
                 "category": "amount",
                 "key": -13,
                 "loc": "-80 280",
-                "控件名称": "淘宝盈利目标"
+                "name": "淘宝盈利目标"
             },
             {
                 "category": "amount",
                 "key": -14,
                 "loc": "150 280",
-                "控件名称": "村淘盈利目标"
+                "name": "村淘盈利目标"
             },
             {
                 "category": "amount",
                 "key": -15,
                 "loc": "570 280",
-                "控件名称": "支付宝盈利目标"
+                "name": "支付宝盈利目标"
             },
             {
                 "category": "amount",
                 "key": -16,
                 "loc": "440 280",
-                "控件名称": "淘宝盈利目标"
+                "name": "淘宝盈利目标"
             },
             {
                 "category": "amount",
                 "key": -17,
                 "loc": "-490 280",
-                "控件名称": "商家盈利目标"
+                "name": "商家盈利目标"
             },
             {
                 "category": "amount",
                 "key": -18,
                 "loc": "-360 280",
-                "控件名称": "菜鸟盈利目标"
+                "name": "菜鸟盈利目标"
             },
             {
                 "category": "amount",
                 "key": -19,
                 "loc": "700 280",
-                "控件名称": "菜鸟盈利目标"
+                "name": "菜鸟盈利目标"
             },
             {
                 "category": "amount",
                 "key": -20,
                 "loc": "290 280",
-                "控件名称": "商家盈利目标"
+                "name": "商家盈利目标"
             },
             {
                 "category": "physics",
                 "key": -21,
                 "loc": "-840 280",
-                "控件名称": "一级配送目标"
+                "name": "一级配送目标"
             },
             {
                 "category": "physics",
                 "key": -22,
                 "loc": "-610 280",
-                "控件名称": "二级配送目标"
+                "name": "二级配送目标"
             },
             {
                 "category": "physics",
                 "key": -23,
                 "loc": "840 290",
-                "控件名称": "一级配送目标"
+                "name": "一级配送目标"
             },
             {
                 "category": "physics",
                 "key": -24,
                 "loc": "1030 290",
-                "控件名称": "二级配送目标"
+                "name": "二级配送目标"
             }
         ],
         "link": [

@@ -166,6 +166,39 @@ export default class ComponentEditor extends React.Component{
         </span>
         )
     }
+
+    handleSave(){
+        console.log('保存！')
+        const {component, diagram} = this.props
+        const {data} = component
+        const {data:new_data} = this.state
+        const {data: old_data} = component
+        const {category, key} = data 
+        const attr_list = widget2attr[category]
+        let attrs = []
+        for(let item in attr_list)
+            attrs = [...attrs, ...attr_list[item]]
+        let is_valid = true
+        for(let name in new_data){
+            const value = new_data[name]
+            const constrain = attrs.find(elm=> elm.name===name)
+            if(constrain){
+                // 在这里添加约束
+                const {unqiue, unique_scope, range} = constrain
+                // can_refresh = false
+            }
+        }
+        
+        if(is_valid){
+            diagram.model.startTransaction("change" + key);
+            for(let name in new_data){
+                const value = new_data[name]
+                // diagram.model.
+                diagram.model.setDataProperty(old_data, name, value);
+            }
+            diagram.model.commitTransaction("change" + key);
+        }
+    }
     render(){
         const {activeItem} = this.state 
         const {component} = this.props
@@ -202,36 +235,7 @@ export default class ComponentEditor extends React.Component{
                         })
                     }
                     <Button color='blue' 
-                    onClick={()=>{
-                        console.log('保存！')
-                        const {component, diagram} = this.props
-                        const {data:new_data} = this.state
-                        const {data: old_data} = component
-                        const {category, key} = data 
-                        const attr_list = widget2attr[category]
-                        let attrs = []
-                        for(let item in attr_list)
-                            attrs = [...attrs, ...attr_list[item]]
-                        let can_refresh = true
-                        for(let name in new_data){
-                            const value = new_data[name]
-                            const constrain = attrs.find(elm=> elm.name===name)
-                            if(constrain){
-                                // 在这里添加约束
-                                const {unqiue, unique_scope, range} = constrain
-                                // can_refresh = false
-                            }
-                        }
-                        
-                        if(can_refresh){
-                            diagram.model.startTransaction("change" + key);
-                            for(let name in new_data){
-                                const value = new_data[name]
-                                diagram.model.setDataProperty(old_data, name, value);
-                            }
-                            diagram.model.commitTransaction("change" + key);
-                        }
-                    }}
+                    onClick={this.handleSave.bind(this)}
                     >保存</Button>
                 </Segment>
             </div>

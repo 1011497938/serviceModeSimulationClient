@@ -1,22 +1,21 @@
 import stateManger from "./stateManager";
 
-
 const getAllResourceId = ()=>{
-    return stateManger.all_resources.map(elm=> elm['控件名称'])
+    return stateManger.all_resources.map(elm=> elm['name'])
 }
 const getAllCarrierId = ()=>{
-    return stateManger.all_carriers.map(elm=> elm['控件名称'])
+    return stateManger.all_carriers.map(elm=> elm['name'])
 }
 const getAllConsumerId = ()=>{
-    return stateManger.all_consumers.map(elm=> elm['控件名称'])
+    return stateManger.all_consumers.map(elm=> elm['name'])
 }
 const getAllProducerId = ()=>{
-    return stateManger.all_producers.map(elm=> elm['控件名称'])
+    return stateManger.all_producers.map(elm=> elm['name'])
 }
 
-const getAllGoalId = () => stateManger.all_goals.map(elm=> elm['控件名称'])
+const getAllGoalId = () => stateManger.all_goals.map(elm=> elm['name'])
 
-const getAllTaskId = () => stateManger.all_tasks.map(elm=> elm['控件名称'])
+const getAllTaskId = () => stateManger.all_tasks.map(elm=> elm['name'])
 
 const getAllMainstayId = ()=>{
     return [...getAllConsumerId(), ...getAllProducerId()]
@@ -32,9 +31,10 @@ const wa = {
     enum: 'enum',
     value: 'value',
     text: 'text',
+    relation: 'relation',
+    enum_relation: 'enum_relation',
     composite: 'composite',   //由多个属性组成的属性
     gateway: 'gatway', //根据之前的选项会变化
-
 
     total_scope: 'total_scope',  //唯一属性的作用域
     widget_scope: 'widget_scope',
@@ -43,12 +43,18 @@ const wa = {
     id: 'id',
     multiple: 'multiple',
     
+    '描述': '描述',
+    '约束': '约束',
+    '计算': '计算',
+    
+    // 约束： '约束',
+
 }
 
 // 控件都有的属性
 const common_attr = [
     {
-        name: '控件名称',
+        name: 'name',
         type: wa.text,
     },
     {

@@ -4,11 +4,12 @@ import '../../../../node_modules/gojs/extensions/Figures'
 import { nodeTemplateMap, linkTemplateMap, groupTemplateMap, } from './Template.ts'
 import jq from 'jquery'
 import stateManger from '../../../dataManager/stateManager';
+import { compCompany } from '../../../dataManager/attribute2';
 
 export {
   GraphController,
   view2controller,
-  getDocPosition,
+  // getDocPosition,
 }
 
 const view2controller = {}
@@ -16,12 +17,12 @@ const view2controller = {}
 const $ = go.GraphObject.make;
 
 // 将视图上的坐标转换为实际坐标，只有全屏时有用,有问题
-const getDocPosition = graphObject => {
-  const init_position = graphObject.getDocumentPoint(go.Spot.Center)
-  // console.log(init_position.x, init_position.y, graphObject.location, )
-  const window_width = jq(window).width(), window_height = jq(window).height()
-  return [init_position.x + window_width/2, init_position.y + window_height/2]
-}
+// const getDocPosition = graphObject => {
+//   const init_position = graphObject.getDocumentPoint(go.Spot.Center)
+//   // console.log(init_position.x, init_position.y, graphObject.location, )
+//   const window_width = jq(window).width(), window_height = jq(window).height()
+//   return [init_position.x + window_width/2, init_position.y + window_height/2]
+// }
 
 // 用来自动整理泳道图，神奇的代码之一
 const relayoutDiagram = ()=>{
@@ -49,7 +50,7 @@ export default class GraphController {
       //this={"view_name":""}
       this.view_name = view_name
     }
-console.log(this.diagram)
+// console.log(this.diagram)
     this.diagram = diagram
     
 
@@ -118,6 +119,7 @@ console.log(this.diagram)
           "undoManager.isEnabled": true
       }, diagram_props)
     );
+    const diagram = this.diagram
 
     // 给新加的线一个类型
     this.diagram.addDiagramListener("LinkDrawn", function(diagramEvent) {
@@ -127,6 +129,25 @@ console.log(this.diagram)
       // console.log(subject.data.category, subject.data) 
     });
 
+    this.diagram.addDiagramListener("ExternalObjectsDropped", function(diagramEvent) {
+      // console.log(diagramEvent.subject, diagramEvent)
+      const {subject} = diagramEvent
+      var it = subject.iterator;
+      while (it.next()) {
+        const item = it.value
+        const {key, category} = item
+        diagram.model.startTransaction("change" + key);
+        diagram.model.setDataProperty(item.data, 'key', category + key);
+        diagram.model.setDataProperty(item.data, 'name', category + key);
+        diagram.model.commitTransaction("change" + key);
+        compCompany.create(item)
+        console.log(it, it.value, item.key, item.data.key)
+      }
+      // subject.forEach(elm => {
+      //   console.log(elm, elm.key, elm.data)
+      // });
+      
+    });
 
     this.addPoolTemplate()
   }

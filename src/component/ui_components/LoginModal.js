@@ -39,9 +39,9 @@ class LoginModal extends React.Component {
                 <input placeholder='密码' />
               </Form.Field>
      
-                <Modal.Actions>
-                  <Button className='fluid ui button' style={{marginLeft:0}} onClick={this.handleClose} >提交</Button>
-                </Modal.Actions>              
+              <Modal.Actions>
+                <Button className='fluid ui button' style={{marginLeft:0}} onClick={this.handleClose} >提交</Button>
+              </Modal.Actions>              
             </Form>
           </div>      
     </Modal>

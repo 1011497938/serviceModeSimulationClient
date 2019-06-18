@@ -4,8 +4,12 @@ import { view2controller } from "../component/function_components/goController/G
 
 class StateManager{
     show_view_name = observable.box(dataStore.default_view_name)
+    show_view_names = observable(dataStore.default_view_names)
     changeView = view =>{
         this.show_view_name.set(view)
+    }
+    setShowViewNames(show_view_names){
+        this.show_view_names.replace(show_view_names)
     }
 
     // 这里不知道为啥会跑好多次
@@ -25,16 +29,6 @@ class StateManager{
         this.overview_need_refesh.set(!value)
     }
 
-    selected_graph_object = undefined
-    selected_graph_object_needrefesh = observable.box(false)
-    selectGraphObject(object){
-        if(this.selected_graph_object!==object){
-            const signal = !this.selected_graph_object_needrefesh.get()
-            this.selected_graph_object = object
-            this.selected_graph_object_needrefesh.set(signal)
-            // console.log(object, signal)
-        }
-    }
 
     getCenterController(){
         return view2controller[this.show_view_name.get()]
@@ -82,6 +76,10 @@ class StateManager{
         const node_array = view2controller['协同生态视图'].diagram.model.nodeDataArray
         // console.log(node_array)
         return node_array.filter(elm=> elm.category==='producer')
+    }
+    get all_roles(){
+        const node_array = view2controller['协同生态视图'].diagram.model.nodeDataArray
+        return node_array
     }
     get all_tasks(){
         const node_array = view2controller['服务过程视图'].diagram.model.nodeDataArray

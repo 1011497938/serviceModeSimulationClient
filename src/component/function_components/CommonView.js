@@ -65,8 +65,12 @@ export default class CommonView extends React.Component{
       const {selected_component} = this.state
 
       return (
-        <div style={{top: 0 ,position: 'absolute', width: '100%', height: '100%'}}>
-          <div style={{position: 'absolute', top: 0, width:'100%', height:'100%',zIndex: 29}}>
+        <div style={{top: 0 ,position: 'relative', width: '100%', height: '100%'}}>
+          {/* 上面的工具栏 */}
+          <div className={'工具栏'} style={{position: 'relative', width:'100%', height: '5%',zIndex: 29}}>
+
+          </div>
+          <div style={{position: 'relative', width:'100%', height:'95%',zIndex: 29, }}>
             <div className='diagram' ref="myDiagramDiv" style={{paddingLeft:'20px'}}/>  
           </div> 
           {/* 这里存放所有的表单 background:"lightyellow",*/}

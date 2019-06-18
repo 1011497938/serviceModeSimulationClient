@@ -33,6 +33,7 @@ const relayoutDiagram = ()=>{
   diagram.layoutDiagram();
   // console.log('relayoutDiagram ')
 }
+// requestUpdate
 
 
 // 所有控制器的父类

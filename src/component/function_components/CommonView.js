@@ -7,6 +7,7 @@ import { autorun } from 'mobx';
 import stateManger from '../../dataManager/stateManager';
 
 import ComponentEditor from '../ui_components/ComponentEditor';
+import ToolBar from '../ui_components/ToolBar';
 // import $ from "jquery";
 
 // 对于大部分差不多的视图，可以直接使用继承
@@ -15,6 +16,7 @@ export default class CommonView extends React.Component{
       super(props)
       this.state = {
         selected_component: undefined,
+        controller: undefined
       }
     }
 
@@ -23,7 +25,6 @@ export default class CommonView extends React.Component{
 
       const controller = new Controller(this.refs.myDiagramDiv, view_name)
       controller.init()
-      this.controller = controller
       const {diagram} = controller
 
       const {node, link} = view2data[view_name]
@@ -55,22 +56,24 @@ export default class CommonView extends React.Component{
       });
   
       this.diagram = diagram
+      this.setState({controller: controller})
     }
     componentDidMount(){
       this.init_graph()
     }
 
     render(){
-      console.log('render common view')
+      // console.log('render common view')
       const {selected_component} = this.state
-
+      const {controller} = this.state
+      // console.log(controller)
       return (
         <div style={{top: 0 ,position: 'relative', width: '100%', height: '100%'}}>
           {/* 上面的工具栏 */}
-          <div className={'工具栏'} style={{position: 'relative', width:'100%', height: '5%',zIndex: 29}}>
-
+          <div className={'工具栏'} style={{position: 'absolute', width:'100%', top: 0, left: 0, zIndex: 29}}>
+            <ToolBar controller={controller}/>
           </div>
-          <div style={{position: 'relative', width:'100%', height:'95%',zIndex: 29, }}>
+          <div style={{position: 'relative', width:'100%', height:'100%',zIndex: 28, }}>
             <div className='diagram' ref="myDiagramDiv" style={{paddingLeft:'20px'}}/>  
           </div> 
           {/* 这里存放所有的表单 background:"lightyellow",*/}

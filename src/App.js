@@ -19,6 +19,7 @@ import SelectLine from './component/ui_components/SelectLine';
 import 'golden-layout/src/css/goldenlayout-base.css';
 import 'golden-layout/src/css/goldenlayout-dark-theme.css';
 import GoldenLayout from 'golden-layout';
+import { updateAllGraph } from './component/function_components/goController/GraphController.ts';
 
 function wrapComponent(Component, store) {
   class Wrapped extends React.Component {
@@ -98,20 +99,21 @@ class App extends React.Component {
       }]
     }
         
-    var myLayout = new GoldenLayout( config, this.layout);
+    var layout = new GoldenLayout( config, this.layout);
     
-    for (let index = 0; index <= 5; index++) {
-      
-    }
     dataStore.view_names.forEach((view_name,index)=>{
       index++
-      myLayout.registerComponent( view_name, CommonView);
+      layout.registerComponent( view_name, CommonView);
     })
-    myLayout.init();
+    layout.init();
 
     window.addEventListener('resize', () => {
-        myLayout.updateSize();
+        layout.updateSize();
     });
+    layout.on('stateChanged', (event, value)=>{
+      updateAllGraph()
+    })
+    this.layout = layout
   }
   componentDidMount() {
     this.onViewChange = autorun(() => {

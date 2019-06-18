@@ -1,54 +1,113 @@
 import React from 'react';
 import * as go from 'gojs';
 
-import { Icon, Menu, Dropdown} from 'semantic-ui-react'
-// import {ArrowLinkTemplate, BidirctArrowLinkTemplate, commonLinkTemplate,} from '../function_components/goController/GraphController.ts'
-/*<style>
-.ui.menu .item:before{
-    position: absolute;
-    content: '';
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 1px;
-    background:none;
-}
-</style>*/
-const common_link_map = {}
-export default class ToolBar extends React.Component{
-    constructor(props){
-        super(props)
-        this.state =  {
-        }
-    }
-    render(){
-      let {controller, link_map} = this.props
-      // console.log(controller, link_map )
-      link_map = link_map || common_link_map
-      // console.log(Object.keys(link_map)[0])rgb(133,158,158)
-      return (
-          <Menu fluid style={{background:'#fff', height:35,border:"1px solid #fff"}}>
-            <Menu.Item onClick={this.handleDelete} style={{background:'none !important'}}>
-              新建&nbsp;<span className="iconfont">&#xe600;</span>
-            </Menu.Item>
-            <Menu.Item>
-              保存&nbsp;<span className="iconfont">&#xe794;</span>
-          </Menu.Item> 
+import { Icon, Menu, Dropdown } from 'semantic-ui-react'
+import stateManger from '../../dataManager/stateManager';
 
-          <Dropdown
-            placeholder='选择连线'
-            // fluid
-            selection
-            options={Object.keys(link_map).map(elm=>{
-              return {key: elm, text: elm, value: elm, }
-            })}
-            defaultValue={Object.keys(link_map)[0]}
-            onChange={(event, {value})=>{
-              controller.setDeafultLineType(value)
-              // this.setDefaultLink(value)
-            }}
-          />
-        </Menu>
-      )
+
+const view2lineType = {
+  '全局视图': [
+      '协作',
+      '传递',
+      '交互',
+      '支持',
+      '实现',
+  ],
+
+  '协同生态视图': [
+      '联盟关系',
+      '合作关系',
+      '合资关系',
+      '从属关系',
+      '购买方',
+      '自定义',
+  ],
+
+  '载体及资源视图': [
+      '从属关系',
+      '直接转换',
+      '相互依赖',
+      '合作关系',
+  ],
+
+  '服务目标视图': [
+      '从属关系',
+      '协同关系',
+      '排他关系',
+      '自定义',
+  ],
+
+  '服务过程视图': [
+      '下一步',
+  ]
+}
+
+export default class ToolBar extends React.Component {
+  constructor(props) {
+    super(props)
+    
+    this.state = {
+      line_options: [],
+      default_line: undefined
     }
+  }
+  componentWillReceiveProps(nextProps){
+    const {controller} = nextProps
+    if(controller){
+      let line_options = view2lineType[controller.view_name] || []
+      this.setState({
+        line_options : line_options,
+        default_line: line_options[0]
+      })
+    }
+  }
+  
+  setDeafultLineType(line_type){
+    // console.log(stateManger.show_view_controller.setDeafultLineType)
+    const {controller} = this.props
+    controller.setDeafultLineType(line_type)
+    this.setState({default_line: line_type})
+  }
+
+  render() {
+    let { controller} = this.props
+    let {line_options, default_line} = this.state
+
+    return (
+      <Menu fluid style={{ background: '#fff', border: "1px solid #fff" }}>
+        <Menu.Item style={{ background: 'none !important' }}>
+          新建&nbsp;<span className="iconfont">&#xe600;</span>
+        </Menu.Item>
+        <Menu.Item>
+          保存&nbsp;<span className="iconfont">&#xe794;</span>
+        </Menu.Item>
+
+        <Dropdown
+          text={'连线: ' + (default_line||'无')}
+          // fluid
+          item
+          closeOnChange
+          // className='select_line'
+        >
+          <Dropdown.Menu>
+            {line_options.map(text => {
+              return (
+                <Dropdown.Item icon='long arrow alternate right' key={text} text={text}
+                  onClick={() => {
+                    this.setDeafultLineType(text)
+                  }}
+                />
+              )
+            })}
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <Menu.Item
+          onClick={()=>{ controller.diagram.zoomToFit() }}
+        >
+          <Icon name='expand' size='large'/>
+        </Menu.Item>
+      </Menu>
+    )
+  }
 }

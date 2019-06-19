@@ -46,7 +46,7 @@ export default class MenuExampleTabularOnLeft extends Component {
                 <Menu.Item style={{ color:'white'}}>
                 新建&nbsp;<span className="iconfont">&#xe600;</span>
                 </Menu.Item>
-                <Menu.Item style={{ color:'white'}}>
+                <Menu.Item style={{ color:'white'}} onClick={()=>{}}>
                 保存&nbsp;<span className="iconfont">&#xe794;</span>
                 </Menu.Item>
                 <Input       

@@ -9,12 +9,10 @@ import Nav from './component/ui_components/Nav'
 import MyPalatte from './component/function_components/MyPalatte'
 import { autorun } from 'mobx';
 import stateManger from './manager/stateManager';
-import dataStore, { download } from './manager/dataStore';
+import dataStore from './manager/dataStore';
 
 import GlobalOverview from './component/function_components/GlobalOverview';
 import CommonView from './component/function_components/CommonView'
-import LoginModal from './component/ui_components/LoginModal';
-import SelectLine from './component/ui_components/SelectLine';
 
 import 'golden-layout/src/css/goldenlayout-base.css';
 import 'golden-layout/src/css/goldenlayout-dark-theme.css';

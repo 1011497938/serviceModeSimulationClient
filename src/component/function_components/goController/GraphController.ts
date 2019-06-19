@@ -3,8 +3,8 @@ import * as go from 'gojs';
 import '../../../../node_modules/gojs/extensions/Figures'
 import { nodeTemplateMap, linkTemplateMap, groupTemplateMap, } from './Template.ts'
 import jq from 'jquery'
-import stateManger from '../../../dataManager/stateManager';
-import { compCompany } from '../../../dataManager/attribute2';
+import stateManger from '../../../manager/stateManager';
+import { compCompany } from '../../../manager/attribute2';
 
 export {
   GraphController,
@@ -150,8 +150,8 @@ export default class GraphController {
         diagram.model.setDataProperty(item.data, 'key', category + key);
         diagram.model.setDataProperty(item.data, 'name', category + key);
         diagram.model.commitTransaction("change" + key);
-        compCompany.create(item)
-        console.log(it, it.value, item.key, item.data.key)
+        compCompany.create(item, this)
+        // console.log(it, it.value, item.key, item.data.key)
       }
       // subject.forEach(elm => {
       //   console.log(elm, elm.key, elm.data)

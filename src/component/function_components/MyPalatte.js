@@ -3,9 +3,9 @@ import * as go from 'gojs';
 
 import {view2controller} from './goController/GraphController.ts'
 import { Icon, Menu} from 'semantic-ui-react'
-import dataStore,{view2palatte} from '../../dataManager/dataStore';
+import dataStore,{view2palatte} from '../../manager/dataStore';
 import { autorun } from 'mobx';
-import stateManger from '../../dataManager/stateManager';
+import stateManger from '../../manager/stateManager';
 import {paletteTemplate, panelTemplate, palNodeTemplateMap, palGroupTemplateMap, palLinkTemplateMap} from './goController/Template.ts'
 
 const $ = go.GraphObject.make;
@@ -16,7 +16,7 @@ export default class MyPalatte extends React.Component{
       this.palNodeTemplateMap = palNodeTemplateMap
       this.palLinkTemplateMap = palLinkTemplateMap
       this.palGroupTemplateMap = palGroupTemplateMap
-      this.palette = $(go.Palette, this.refs.myPaletteDiv,  // must name or refer to the DIV HTML element{ // share the templates with the main Diagram
+      this.palette = $(go.Palette, this.refs.palette_div,  // must name or refer to the DIV HTML element{ // share the templates with the main Diagram
         {
           nodeTemplateMap: this.palNodeTemplateMap,
           linkTemplateMap: this.palLinkTemplateMap,
@@ -24,7 +24,12 @@ export default class MyPalatte extends React.Component{
           layout: $(go.GridLayout,{})
         }
       )
-      
+      let nodes = []
+      for(let view in view2palatte){
+        nodes = [...nodes, ...view2palatte[view].node]
+      }
+
+      this.palette.model = new go.GraphLinksModel(nodes);
     }
 
     componentDidMount(){
@@ -38,8 +43,8 @@ export default class MyPalatte extends React.Component{
     render(){
       // , background: 'black'
       return (
-        <div style={{float:'left', position: 'relative'}}>
-            <div ref='myPaletteDiv'  style={{position: 'absolute', width: 130, height: 500, borderTop: '1px solid black'}}/>
+        <div style={{height: '100%', width: '5%', position: 'relative', float: "left", borderRadius: 4 , }}>
+            <div ref='palette_div'  style={{background: '#000',position: 'absolute', width: '100%', height: '100%', borderTop: '1px solid black'}}/>
         </div>
       )
     }

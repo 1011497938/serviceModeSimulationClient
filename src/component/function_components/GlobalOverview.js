@@ -2,9 +2,9 @@ import React from 'react';
 import * as go from 'gojs';
 import Controller from './goController/GraphController.ts'
 import {view2controller} from './goController/GraphController.ts'
-import dataStore,{view2data, view2postion} from '../../dataManager/dataStore';
+import dataStore,{view2data, view2postion} from '../../manager/dataStore';
 import { autorun } from 'mobx';
-import stateManger from '../../dataManager/stateManager';
+import stateManger from '../../manager/stateManager';
 import deepcopy from 'deepcopy'
 
 

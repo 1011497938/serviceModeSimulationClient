@@ -19,6 +19,7 @@ import SelectLine from './component/ui_components/SelectLine';
 import 'golden-layout/src/css/goldenlayout-base.css';
 import 'golden-layout/src/css/goldenlayout-dark-theme.css';
 import GoldenLayout from 'golden-layout';
+import { updateAllGraph } from './component/function_components/goController/GraphController.ts';
 
 function wrapComponent(Component, store) {
   class Wrapped extends React.Component {
@@ -53,7 +54,7 @@ class App extends React.Component {
           type: 'react-component',
           component: '服务过程视图',
           title: '服务过程视图',
-          props: { view_name: '服务过程视图' }
+          props: {view_name:'服务过程视图'}
           },
           {
             type: 'column',
@@ -98,20 +99,21 @@ class App extends React.Component {
       }]
     }
         
-    var myLayout = new GoldenLayout( config, this.layout);
+    var layout = new GoldenLayout( config, this.layout);
     
-    for (let index = 0; index <= 5; index++) {
-      
-    }
     dataStore.view_names.forEach((view_name,index)=>{
       index++
-      myLayout.registerComponent( view_name, CommonView);
+      layout.registerComponent( view_name, CommonView);
     })
-    myLayout.init();
+    layout.init();
 
     window.addEventListener('resize', () => {
-        myLayout.updateSize();
+        layout.updateSize();
     });
+    layout.on('stateChanged', (event, value)=>{
+      updateAllGraph()
+    })
+    this.layout = layout
   }
   componentDidMount() {
     this.onViewChange = autorun(() => {
@@ -136,7 +138,7 @@ class App extends React.Component {
           <Nav />
         </div>
         {/* <Segment attached='bottom' fluid> */}
-        <div style={{height: '95%', width: '100%', position: "relative" }}>
+        <div style={{height: '95%', width: '100%', position: "relative",marginTop:20 }}>
           <div ref={input => this.layout = input} style={{height: '100%', width: '100%', position: 'relative' }}/>
         </div>
 

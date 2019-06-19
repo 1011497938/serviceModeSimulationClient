@@ -3,7 +3,7 @@ import * as go from 'gojs';
 import dataStore,{view2data} from '../../dataManager/dataStore';
 import Draggable from 'react-draggable'; // The default
 import $ from 'jquery'
-import { widget2attr, getKeys,wa } from '../../dataManager/attribute';
+import { widget2attr, getKeys,wa, } from '../../dataManager/attribute';
 import { Menu, Segment, Dropdown, Input, Icon, Button} from 'semantic-ui-react';
 import { isArray } from 'util';
 import deepcopy from 'deepcopy'
@@ -65,10 +65,10 @@ export default class ComponentEditor extends React.Component{
         const {data} = this.state
         const {category, key} = data 
         const gateValue = data[based_on]
-
-        // console.log(content, gateValue)
         return content[gateValue] && content[gateValue].map(elm => this.renderComponent(elm))
     }
+
+
     renderEnum(column){
         const {component, diagram} = this.props
         const {data} = this.state

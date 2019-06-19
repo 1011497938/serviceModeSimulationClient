@@ -24,6 +24,7 @@
     "dotenv": "6.2.0",
     "dotenv-expand": "4.2.0",
     "dragify": "^0.3.3",
+    "element-resize-detector": "^1.1.15",
     "eslint": "^5.16.0",
     "eslint-config-react-app": "^4.0.0",
     "eslint-loader": "2.1.2",

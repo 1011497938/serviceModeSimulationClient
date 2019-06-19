@@ -44,5 +44,3 @@ export default class MyPalatte extends React.Component{
       )
     }
   }
-
-  // left: panel_width, 

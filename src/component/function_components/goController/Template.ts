@@ -16,8 +16,8 @@ const genForPalette = (shape, name) => {
       },
       shape,
       $(go.TextBlock,
-        { margin: 5, text: name },
-        new go.Binding('text', 'text')
+        { margin: 5, text: name},
+        new go.Binding('text', 'text'),
       )
     )
   )
@@ -65,7 +65,6 @@ const common_link_propety = () => [
   { relinkableFrom: true, relinkableTo: true, reshapable: true },
   // 防止交叉
   {
-
     routing: go.Link.AvoidsNodes,
     corner: 4,
     curve: go.Link.JumpGap,
@@ -73,7 +72,6 @@ const common_link_propety = () => [
     resegmentable: true,
     relinkableFrom: true,
     relinkableTo: true
-
   },
 ]
 
@@ -180,7 +178,7 @@ const genBiArrowLinkWithText = text => {
         {
           textAlign: "center",
           font: "10pt helvetica, arial, sans-serif",
-          stroke: "#919191",
+          stroke:"#919191",
           margin: 2,
           minSize: new go.Size(10, NaN),
           editable: true,
@@ -528,15 +526,12 @@ $(go.Node, 'Spot',
   reText(),
 
 ); 
-
 const startTemplateForPallete = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
     $(go.Shape, "Circle", custom_props, { fill:grey }),
 
   ),
-
   '开始事件'
-
 )
 
 
@@ -558,7 +553,6 @@ const endTemplateForPallete = genForPalette(
   ),
 
   '结束事件'
-
 )
 
 
@@ -726,10 +720,6 @@ const numNodeTemplate =
   );
 
 
-
-
-
-
 const numTemplateForPalette = genForPalette(
   $(go.Shape, "RoundedRectangle", first_props, { fill:lan }),
   '数值目标'
@@ -746,6 +736,14 @@ const businessNodeTemplateForPalette = genForPalette(
   '业务目标'
 )
 
+const highlightNodeTemplate =
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",
+      $(go.Shape, "RoundedRectangle", first_props, { fill:"#6B0E79" })
+      ),
+    common_node_propety(),
+    reText()
+  );
 
 
 
@@ -816,7 +814,8 @@ const panelTemplate = {
     business: businessNodeTemplate,
     emotion: emotionNodeTemplate,
     physics: physicalNodeTemplate,
-    amount: numNodeTemplate
+    amount: numNodeTemplate,
+    highlight:highlightNodeTemplate
   },
   link: {
     '': commonLinkTemplate,

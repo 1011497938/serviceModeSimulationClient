@@ -9,10 +9,19 @@ import { compCompany } from '../../../dataManager/attribute2';
 export {
   GraphController,
   view2controller,
+  updateAllGraph,
   // getDocPosition,
 }
 
 const view2controller = {}
+
+// 强制更新所有视图
+const updateAllGraph = ()=>{
+  for(let view_name in view2controller){
+    const {diagram} = view2controller[view_name]
+    diagram.requestUpdate() 
+  }
+}
 
 const $ = go.GraphObject.make;
 
@@ -33,6 +42,7 @@ const relayoutDiagram = ()=>{
   diagram.layoutDiagram();
   // console.log('relayoutDiagram ')
 }
+// requestUpdate
 
 
 // 所有控制器的父类

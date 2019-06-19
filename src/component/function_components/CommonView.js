@@ -5,11 +5,10 @@ import {view2controller} from './goController/GraphController.ts'
 import dataStore,{view2data, view2postion} from '../../dataManager/dataStore';
 import { autorun } from 'mobx';
 import stateManger from '../../dataManager/stateManager';
-
-
-
+import { widget2attr, getKeys,wan} from '../../dataManager/attribute';
 
 import ComponentEditor from '../ui_components/ComponentEditor';
+import ToolBar from '../ui_components/ToolBar';
 // import $ from "jquery";
 
 // 对于大部分差不多的视图，可以直接使用继承
@@ -18,6 +17,7 @@ export default class CommonView extends React.Component{
       super(props)
       this.state = {
         selected_component: undefined,
+        controller: undefined
       }
     }
 
@@ -26,11 +26,13 @@ export default class CommonView extends React.Component{
 
       const controller = new Controller(this.refs.myDiagramDiv, view_name)
       controller.init()
-      this.controller = controller
       const {diagram} = controller
 
       const {node, link} = view2data[view_name]
       diagram.model = new go.GraphLinksModel(node, link);
+
+
+
       // 双击弹出列表的功能
       diagram.addDiagramListener("ObjectContextClicked", e=> {
         var part = e.subject.part;
@@ -46,6 +48,20 @@ export default class CommonView extends React.Component{
           this.setState({selected_component: part})
         }
       });
+   // 双击高亮功能
+      diagram.addDiagramListener("ObjectDoubleClicked", e=> {        
+        console.log(e.subject.part.jb.key);
+        console.log(diagram.findNodeForKey(e.subject.part.jb.key).data)
+        var nodeData=diagram.findNodeForKey(e.subject.part.jb.key).data;
+        diagram.model.setDataProperty(nodeData, 'fill', "red");
+        diagram.model.setDataProperty(nodeData, 'category', "highlight");
+        diagram.model.updateTargetBindings(e.subject.part.jb.key);
+      });
+
+      // function hightlight(key){
+      //   var nodeData=diagram.model.findNodeDataForKey(key);
+      //   diagram.model.setDataProperty(nodeData, 'color', "#ededed");
+      // }
 
       diagram.addDiagramListener("ObjectSingleClicked", e=> {
         var part = e.subject.part;
@@ -58,31 +74,32 @@ export default class CommonView extends React.Component{
       });
   
       this.diagram = diagram
+      this.setState({controller: controller})
     }
     componentDidMount(){
       this.init_graph()
     }
 
     render(){
-      console.log('render common view')
+      // console.log('render common view')
       const {selected_component} = this.state
-
+      const {controller} = this.state
+      // console.log(controller)
       return (
-
-        <div style={{top: 0 ,position: 'absolute', width: '100%', height: '100%'}}>
-          <div style={{position: 'absolute', top: 0, width:'100%', height:'100%',zIndex: 100}}>
+        <div style={{top: 0 ,position: 'relative', width: '100%', height: '100%'}}>
+          {/* 上面的工具栏 */}
+          <div className={'工具栏'} style={{position: 'absolute', width:'100%', top: 0, left: 0, zIndex: 29}}>
+            <ToolBar controller={controller}/>
+          </div>
+          <div style={{position: 'relative', width:'100%', height:'100%',zIndex: 28, }}>
             <div className='diagram' ref="myDiagramDiv" style={{paddingLeft:'20px'}}/>  
           </div> 
-          {/* 这里存放所有的表单 background:"lightyellow",*/}
-
           { 
             selected_component && 
             <ComponentEditor parent={this} key={selected_component.data.key} component={selected_component} diagram={this.diagram}/> 
           }
-
           {/* <div className='overview' ref='myOverviewDiv' />  */}
         </div>
-
       )
     }
   }

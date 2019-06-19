@@ -58,7 +58,7 @@ class Item{
         this.简介 = 简介
 
         this.constrain = {
-            name : {type: wa.text, tag: wa.tag_miaoshu},
+            name: {type: wa.text, tag: wa.tag_miaoshu},
             key : {type: wa.text, unique: true, tag: wa.tag_miaoshu},
             描述 : {type: wa.text, tag: wa.tag_miaoshu}
         }
@@ -81,8 +81,8 @@ class Relation{
         this.from = props.from
         this.to = props.to
     }
-
 }
+
 
 class Role extends Item{
     constructor(props){
@@ -112,5 +112,6 @@ const compCompany = new Company()
 
 const getKeys = obj => Object.keys(obj)
 export {
-    compCompany
+    compCompany,
+    Item
 }

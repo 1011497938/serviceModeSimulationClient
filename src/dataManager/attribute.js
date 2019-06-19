@@ -445,7 +445,6 @@ const parallel = {
 const widget2attr = {
     consumer: consumer,
     producer: producer,
-
     carrier: carrier,
     resource: resource,
 

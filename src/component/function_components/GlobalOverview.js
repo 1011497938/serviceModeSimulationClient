@@ -50,7 +50,6 @@ const getNowView2Data = ()=>{
           node: node,
           link: link,
       }
-   
   }
 
   return view2data
@@ -207,9 +206,9 @@ export default class GlobalOverview extends React.Component{
                        <h5 >载体及资源视图</h5>
                   </div>                                      
             </div>
-            <div className='itembox'  >
+            <div className='itembox'>
                  <div className='diagram' ref="myDiagramD1iv6" style={{height:itemheight,width:itemwidth}}/>
-                 <h5 >生产者</h5>
+                 <h5>生产者</h5>
             </div>          
              </div>
         </div>

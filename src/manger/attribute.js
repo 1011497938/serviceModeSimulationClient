@@ -32,9 +32,9 @@ const wa = {
     value: 'value',
     text: 'text',
     relation: 'relation',
-    enum_relation: 'enum_relation',
     composite: 'composite',   //由多个属性组成的属性
-    gateway: 'gatway', //根据之前的选项会变化
+    // gateway: 'gatway', //根据之前的选项会变化
+    item: 'time',
 
     total_scope: 'total_scope',  //唯一属性的作用域
     widget_scope: 'widget_scope',
@@ -47,6 +47,10 @@ const wa = {
     '约束': '约束',
     '计算': '计算',
     
+    task: 'Task',
+    gateway: 'GateWay',
+
+
     // 约束： '约束',
 
 }
@@ -445,6 +449,7 @@ const parallel = {
 const widget2attr = {
     consumer: consumer,
     producer: producer,
+
     carrier: carrier,
     resource: resource,
 

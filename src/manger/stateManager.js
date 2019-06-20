@@ -83,10 +83,12 @@ class StateManager{
     }
     get all_tasks(){
         const node_array = view2controller['服务过程视图'].diagram.model.nodeDataArray
+        // console.log(node_array)
         return node_array.filter(elm=> elm.category==='task')
     }
     get all_goals(){
         const node_array = view2controller['服务目标视图'].diagram.model.nodeDataArray
+        // console.log(node_array)
         return node_array
     }
 }

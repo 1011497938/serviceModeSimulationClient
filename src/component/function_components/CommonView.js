@@ -68,7 +68,6 @@ export default class CommonView extends React.Component{
       const ro = new ResizeObserver((event, value)=>{
         const {diagram} = this
         const {height, width} = event[0].contentRect
-        // console.log('resize', event, value, height, width)
         diagram.requestUpdate() 
         diagram.zoomToFit()
         this.setState({width: width, height: height})

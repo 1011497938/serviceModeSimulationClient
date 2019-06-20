@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Grid, Menu, Segment, Dropdown, Input } from 'semantic-ui-react'
-import stateManger from '../../dataManager/stateManager';
-import dataStore from '../../dataManager/dataStore';
+import stateManger from '../../manager/stateManager';
+import dataStore from '../../manager/dataStore';
 import { autorun } from 'mobx';
 import LoginModal from './LoginModal';
 
@@ -28,9 +28,9 @@ export default class MenuExampleTabularOnLeft extends Component {
     render() {
         const { show_view_name, show_view_names} = this.state
         return (
-        <Menu fluid inverted>
-            {/* <Menu.Item style={{width: 150}} name='服务模式'/> */}
-            {
+        <Menu fluid style={{background: '#000'}}>
+            <Menu.Item style={{fontSize: 20, color: 'white'}} name='服务模式'/>
+            {/* {
                 dataStore.view_names.map(elm=>{
                     return (
                     <Menu.Item
@@ -41,8 +41,14 @@ export default class MenuExampleTabularOnLeft extends Component {
                     />
                     )
                 })
-            }
-            <Menu.Menu position='right'>
+            } */}
+            <Menu.Menu position='right' style={{}}>
+                <Menu.Item style={{ color:'white'}}>
+                新建&nbsp;<span className="iconfont">&#xe600;</span>
+                </Menu.Item>
+                <Menu.Item style={{ color:'white'}} onClick={()=>{}}>
+                保存&nbsp;<span className="iconfont">&#xe794;</span>
+                </Menu.Item>
                 <Input       
                     placeholder='搜索'
                     color='#fff'

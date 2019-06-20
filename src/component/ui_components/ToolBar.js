@@ -2,7 +2,7 @@ import React from 'react';
 import * as go from 'gojs';
 
 import { Icon, Menu, Dropdown } from 'semantic-ui-react'
-import stateManger from '../../dataManager/stateManager';
+import stateManger from '../../manager/stateManager';
 
 
 const view2lineType = {
@@ -74,14 +74,7 @@ export default class ToolBar extends React.Component {
     let {line_options, default_line} = this.state
 
     return (
-      <Menu fluid style={{ background: '#fff', border: "1px solid #fff" }}>
-        <Menu.Item style={{ background: 'none !important' }}>
-          新建&nbsp;<span className="iconfont">&#xe600;</span>
-        </Menu.Item>
-        <Menu.Item>
-          保存&nbsp;<span className="iconfont">&#xe794;</span>
-        </Menu.Item>
-
+      <Menu fluid style={{height:50, background: '#fff', border: "1px solid #fff" }}>
         <Dropdown
           text={'连线: ' + (default_line||'无')}
           // fluid

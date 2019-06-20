@@ -1,9 +1,9 @@
 import React from 'react';
 import { Icon, Dropdown, Checkbox} from 'semantic-ui-react'
 
-import dataStore from '../../dataManager/dataStore';
+import dataStore from '../../manager/dataStore';
 import { autorun } from 'mobx';
-import stateManger from '../../dataManager/stateManager';
+import stateManger from '../../manager/stateManager';
 
 const view2lineType = {
     '全局视图': [

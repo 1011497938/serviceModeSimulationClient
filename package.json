@@ -65,6 +65,7 @@
     "react-draggable": "^3.3.0",
     "react-gojs": "^4.2.0",
     "react-golden-layout": "^1.0.6",
+    "resize-observer": "^1.0.0",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
     "semantic-ui-css": "^2.4.1",

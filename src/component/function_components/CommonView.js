@@ -2,13 +2,16 @@ import React from 'react';
 import * as go from 'gojs';
 import Controller from './goController/GraphController.ts'
 import {view2controller} from './goController/GraphController.ts'
-import dataStore,{view2data, view2postion} from '../../dataManager/dataStore';
+import dataStore,{view2data, view2postion} from '../../manager/dataStore';
 import { autorun } from 'mobx';
-import stateManger from '../../dataManager/stateManager';
-import { widget2attr, getKeys,wan} from '../../dataManager/attribute';
+
+import stateManger from '../../manager/stateManager';
+
 
 import ComponentEditor from '../ui_components/ComponentEditor';
 import ToolBar from '../ui_components/ToolBar';
+import { ResizeObserver } from 'resize-observer';
+import { thisExpression } from '@babel/types';
 // import $ from "jquery";
 
 // 对于大部分差不多的视图，可以直接使用继承
@@ -17,7 +20,9 @@ export default class CommonView extends React.Component{
       super(props)
       this.state = {
         selected_component: undefined,
-        controller: undefined
+        controller: undefined,
+        width: '100%',
+        height: '100%'
       }
     }
 
@@ -78,21 +83,36 @@ export default class CommonView extends React.Component{
     }
     componentDidMount(){
       this.init_graph()
+
+      const ro = new ResizeObserver((event, value)=>{
+        const {diagram} = this
+        const {height, width} = event[0].contentRect
+        // console.log('resize', event, value, height, width)
+        diagram.requestUpdate() 
+        diagram.zoomToFit()
+        this.setState({width: width, height: height})
+      })
+      ro.observe(this.refs.container)
     }
 
     render(){
       // console.log('render common view')
-      const {selected_component} = this.state
-      const {controller} = this.state
+      const {selected_component, width, height, controller} = this.state
+      const {view_name} = this.props
+      // console.log(width, height, view_name, height==='100%'?'100%':height-50,)
       // console.log(controller)
+
       return (
-        <div style={{top: 0 ,position: 'relative', width: '100%', height: '100%'}}>
+        <div ref='container' style={{top: 5 ,position: 'relative', width: '100%', height: '100%'}}>
           {/* 上面的工具栏 */}
-          <div className={'工具栏'} style={{position: 'absolute', width:'100%', top: 0, left: 0, zIndex: 29}}>
+          <div style={{position: 'absolute', width:'100%', zIndex: 29}}>
             <ToolBar controller={controller}/>
           </div>
-          <div style={{position: 'relative', width:'100%', height:'100%',zIndex: 28, }}>
-            <div className='diagram' ref="myDiagramDiv" style={{paddingLeft:'20px'}}/>  
+          <div style={{position: 'absolute', top: 50, width:width, 
+            height:height==='100%'?'100%':height-50,
+            zIndex: 28, }}
+          >
+            <div onClick={()=> stateManger.changeView(view_name)} className='diagram' ref="myDiagramDiv" />  
           </div> 
           { 
             selected_component && 

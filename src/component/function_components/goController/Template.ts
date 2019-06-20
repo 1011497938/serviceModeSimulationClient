@@ -1,7 +1,7 @@
 // 这里存了所有的模板
 import * as go from 'gojs';
 import 'gojs/extensions/Figures'
-import stateManger from '../../../dataManager/stateManager';
+import stateManger from '../../../manager/stateManager';
 
 const $ = go.GraphObject.make;
 const custom_r = 60
@@ -16,8 +16,10 @@ const genForPalette = (shape, name) => {
       },
       shape,
       $(go.TextBlock,
-        { margin: 5, text: name},
-        new go.Binding('text', 'text'),
+
+        { margin: 5, text: name, stroke: 'white' },
+        new go.Binding('text', 'text')
+
       )
     )
   )

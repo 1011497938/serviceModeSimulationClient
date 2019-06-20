@@ -8,13 +8,11 @@ import { view2controller } from './component/function_components/goController/Gr
 import Nav from './component/ui_components/Nav'
 import MyPalatte from './component/function_components/MyPalatte'
 import { autorun } from 'mobx';
-import stateManger from './dataManager/stateManager';
-import dataStore, { download } from './dataManager/dataStore';
+import stateManger from './manager/stateManager';
+import dataStore from './manager/dataStore';
 
 import GlobalOverview from './component/function_components/GlobalOverview';
 import CommonView from './component/function_components/CommonView'
-import LoginModal from './component/ui_components/LoginModal';
-import SelectLine from './component/ui_components/SelectLine';
 
 import 'golden-layout/src/css/goldenlayout-base.css';
 import 'golden-layout/src/css/goldenlayout-dark-theme.css';
@@ -44,53 +42,39 @@ class App extends React.Component {
   initGoldenLayout(){
         // Build basic golden-layout config
 
+    const wrapConfig = view_name =>{
+      return           {
+        type: 'react-component',
+        component: view_name,
+        title: view_name,
+        isClosable: false,
+        props: { view_name: view_name }
+      }
+    }
     // ['协同生态视图', '载体及资源视图', '服务价值视图', '服务过程视图', '服务目标视图']
-    var config = {
+    var config1 = {
       content: [
         {
         type: 'row',
         content: [
-          {
-          type: 'react-component',
-          component: '服务过程视图',
-          title: '服务过程视图',
-          props: {view_name:'服务过程视图'}
-          },
+
+          wrapConfig('服务过程视图'),
+
           {
             type: 'column',
             content: [
               {
                 type: 'row',
                 content: [
-                  {
-                    type: 'react-component',
-                    component: '协同生态视图',
-                    title: '协同生态视图',
-                    props: { view_name: '协同生态视图' }
-                  }, 
-                  {
-                    type: 'react-component',
-                    component: '服务目标视图',
-                    title: '服务目标视图',
-                    props: { view_name: '服务目标视图'}
-                  }
+                  wrapConfig('协同生态视图'),
+                  wrapConfig('服务目标视图')
                 ]
               },
               {
                 type: 'row',
                 content: [
-                  {
-                    type: 'react-component',
-                    component: '服务价值视图',
-                    title: '服务价值视图',
-                    props: { view_name: '服务价值视图'}
-                  }, 
-                  {
-                    type: 'react-component',
-                    component: '载体及资源视图',
-                    title: '载体及资源视图',
-                    props: { view_name: '载体及资源视图'}
-                  }
+                  wrapConfig('服务价值视图'), 
+                  wrapConfig('载体及资源视图'),
                 ]
               },
             ]
@@ -98,21 +82,60 @@ class App extends React.Component {
         ]
       }]
     }
-        
-    var layout = new GoldenLayout( config, this.layout);
+    var config2 = {
+      content: [
+        {
+        type: 'stack',
+        content: [
+          wrapConfig('服务过程视图'),
+          wrapConfig('协同生态视图'),
+          wrapConfig('服务目标视图'),
+          wrapConfig('服务价值视图'), 
+          wrapConfig('载体及资源视图'),
+        ]
+      }]
+    }
+    var layout = new GoldenLayout( config1, this.layout);
     
     dataStore.view_names.forEach((view_name,index)=>{
-      index++
       layout.registerComponent( view_name, CommonView);
     })
     layout.init();
+    dataStore.view_names.forEach((view_name,index)=>{
+      const component = layout.getComponent(view_name)
+      // console.log(component)
+      // component.on('itemDestroyed', ()=>{
+      //   console.log(view_name)
+      // })
+    })
 
     window.addEventListener('resize', () => {
         layout.updateSize();
     });
-    layout.on('stateChanged', (event, value)=>{
+    layout.on('stateChanged', (event)=>{
+      // console.log(event)
       updateAllGraph()
     })
+    // layout.on('itemDestroyed', (event)=>{
+    //   let config = layout.toConfig()
+    //   let show_view_names = []
+    //   let walks = [config]
+    //   while(walks.length!==0){
+    //     const elm = walks.pop()
+    //     const {content} = elm
+    //     if(content){
+    //       content.forEach(sub_elm=>{
+    //         const {type, title} = sub_elm
+    //         if(type==='component' || type==='react-component'){
+    //           show_view_names.push(title)
+    //         }else{
+    //           walks.push(sub_elm)
+    //         }
+    //       })          
+    //     }
+    //   }
+    //   console.log(config,show_view_names)
+    // })
     this.layout = layout
   }
   componentDidMount() {
@@ -138,10 +161,12 @@ class App extends React.Component {
           <Nav />
         </div>
         {/* <Segment attached='bottom' fluid> */}
-        <div style={{height: '95%', width: '100%', position: "relative",marginTop:20 }}>
-          <div ref={input => this.layout = input} style={{height: '100%', width: '100%', position: 'relative' }}/>
-        </div>
 
+        <div style={{height: '95%', width: '100%', position: "relative" }}>
+          <MyPalatte/>
+          <div ref={input => this.layout = input} style={{height: '100%', width: '95%', position: 'relative', float: 'left' }}/>
+
+        </div>
         {/* </Segment> */}
       </div>
     )

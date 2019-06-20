@@ -1,4 +1,3 @@
-    
 import { view2controller } from "../component/function_components/goController/GraphController.ts";
 import initData from './init_data.json'
 import deepcopy from 'deepcopy'

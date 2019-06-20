@@ -19,7 +19,8 @@ const view2controller = {}
 const updateAllGraph = ()=>{
   for(let view_name in view2controller){
     const {diagram} = view2controller[view_name]
-    diagram.requestUpdate() 
+    diagram.requestUpdate()
+    // diagram.zoomToFit()
   }
 }
 

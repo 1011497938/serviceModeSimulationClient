@@ -4,9 +4,7 @@ import Controller from './goController/GraphController.ts'
 import {view2controller} from './goController/GraphController.ts'
 import dataStore,{view2data, view2postion} from '../../manager/dataStore';
 import { autorun } from 'mobx';
-
 import stateManger from '../../manager/stateManager';
-
 
 import ComponentEditor from '../ui_components/ComponentEditor';
 import ToolBar from '../ui_components/ToolBar';
@@ -35,9 +33,6 @@ export default class CommonView extends React.Component{
 
       const {node, link} = view2data[view_name]
       diagram.model = new go.GraphLinksModel(node, link);
-
-
-
       // 双击弹出列表的功能
       diagram.addDiagramListener("ObjectContextClicked", e=> {
         var part = e.subject.part;
@@ -53,20 +48,6 @@ export default class CommonView extends React.Component{
           this.setState({selected_component: part})
         }
       });
-   // 双击高亮功能
-      diagram.addDiagramListener("ObjectDoubleClicked", e=> {        
-        console.log(e.subject.part.jb.key);
-        console.log(diagram.findNodeForKey(e.subject.part.jb.key).data)
-        var nodeData=diagram.findNodeForKey(e.subject.part.jb.key).data;
-        diagram.model.setDataProperty(nodeData, 'fill', "red");
-        diagram.model.setDataProperty(nodeData, 'category', "highlight");
-        diagram.model.updateTargetBindings(e.subject.part.jb.key);
-      });
-
-      // function hightlight(key){
-      //   var nodeData=diagram.model.findNodeDataForKey(key);
-      //   diagram.model.setDataProperty(nodeData, 'color', "#ededed");
-      // }
 
       diagram.addDiagramListener("ObjectSingleClicked", e=> {
         var part = e.subject.part;

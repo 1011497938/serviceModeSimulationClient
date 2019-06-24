@@ -164,9 +164,8 @@ class App extends React.Component {
         {/* <Segment attached='bottom' fluid> */}
 
         <div style={{height: '95%', width: '100%', position: "relative" }}>
-         <Center/>
-          {/*<MyPalatte />
-          <div ref={input => this.layout = input} style={{height: '100%', width: '94%', position: 'relative', float: 'right' }}/>*/}
+          <MyPalatte />
+          <div ref={input => this.layout = input} style={{height: '100%', width: '94%', position: 'relative', float: 'right' }}/>
         </div>
         {/* </Segment> */}
       </div>

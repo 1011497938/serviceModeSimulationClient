@@ -4,9 +4,23 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './static/iconfont/iconfont.css';
-ReactDOM.render(<App />, document.getElementById('root'));
+import Center  from './component/function_components/Center';
+import {
+    Router, Route
+} from 'react-router-dom'
+import  createHashHistory from 'history/createBrowserHistory';
+const hashHistory = createHashHistory();
+const MyRouter = ()=> (
+    <Router history={hashHistory}>
+        <div style={{width:'100%', height:'100%'}}>
+            <Route match path="/" component={App}/>
+            <Route match path="/login" render={() => <h1>Login</h1>}/>
+            <Route match path="/center" component={Center}/>
+        </div>
+    </Router>
+)
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+ReactDOM.render(<MyRouter/>, document.getElementById('root'));
+
+
 serviceWorker.unregister();

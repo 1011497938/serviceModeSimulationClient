@@ -25,10 +25,12 @@ export default class MenuExampleTabularOnLeft extends Component {
         })
     }
 
-    render() {
+    render(){
         const { show_view_name, show_view_names} = this.state
         return (
-        <Menu fluid style={{background:"#000"}}>
+
+        <Menu fluid style={{background: '#000', height:'100%'}}>
+
             <Menu.Item style={{fontSize: 20, color: 'white'}} name='服务模式'/>
             {/* {
                 dataStore.view_names.map(elm=>{

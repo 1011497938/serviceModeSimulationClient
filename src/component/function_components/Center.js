@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button} from 'semantic-ui-react'
 import { Pagination } from 'antd';
+import Nav from '../ui_components/Nav'
+
 class Center extends React.Component{
 	constructor(props){
 		super(props);
@@ -12,7 +14,12 @@ class Center extends React.Component{
 	}
 	render(){		
 	
-		return (			
+		return (	
+		      <div style={{ height: '100%', width: '100%', position: 'relative' }}>
+		        {/*顶部导航栏*/}
+		        <div style={{ position: 'relative', height: '7%',paddingBottom:'10px'}}>
+		          <Nav />
+		        </div>		
 				<div className='wrapper'>
 					<div className='leftbox'>
 						<h2>个人文件</h2>
@@ -41,27 +48,27 @@ class Center extends React.Component{
 						  <tbody >
 						    <tr>
 						      <td>John Lilki</td>
-						      <td>September 14, 2013</td>
-						      <td>jhlilk22@yahoo.com</td>
+						      <td>Sae</td>
+						      <td>2019.6.24</td>
 						    </tr>
 						  </tbody>
 						  <tbody >
 						    <tr>
 						      <td>John Lilki</td>
-						      <td>September 14, 2013</td>
-						      <td>jhlilk22@yahoo.com</td>
+						      <td>Sae</td>
+						      <td>2019.6.24</td>
 						    </tr>
 						  </tbody>
 						</table>	
 						<Pagination className="page" size="small" total={50} />				
 					</div>
 				</div>
+			 </div>
 			)
 
 	}
        handleClickareas(index){
-			this.setState({index:index})
-			
+		  this.setState({index:index})			
 		}
 }
 export default Center;

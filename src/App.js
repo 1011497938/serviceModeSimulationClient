@@ -137,21 +137,10 @@ class App extends React.Component {
     this.layout = layout
   }
   componentDidMount() {
-    this.onViewChange = autorun(() => {
-      const show_view_name = stateManger.show_view_name.get()
-      // 这里有个bug
-      this.setState({
-        show_view_name: show_view_name,
-      })
-    })
     this.initGoldenLayout()
   }
 
   render() {
-    const { show_view_name } = this.state
-    const view2Component = {
-      '全局视图': GlobalOverview,
-    }
     return (
       <div style={{ height: '100%', width: '100%', position: 'relative' }}>
         {/*顶部导航栏*/}

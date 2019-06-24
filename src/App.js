@@ -18,6 +18,7 @@ import 'golden-layout/src/css/goldenlayout-base.css';
 import 'golden-layout/src/css/goldenlayout-dark-theme.css';
 import GoldenLayout from 'golden-layout';
 import { updateAllGraph } from './component/function_components/goController/GraphController.ts';
+import Center from './component/function_components/Center.js'
 
 function wrapComponent(Component, store) {
   class Wrapped extends React.Component {
@@ -157,15 +158,15 @@ class App extends React.Component {
     return (
       <div style={{ height: '100%', width: '100%', position: 'relative' }}>
         {/*顶部导航栏*/}
-        <div style={{ position: 'relative', height: '5%'}}>
+        <div style={{ position: 'relative', height: '7%',paddingBottom:'10px'}}>
           <Nav />
         </div>
         {/* <Segment attached='bottom' fluid> */}
 
         <div style={{height: '95%', width: '100%', position: "relative" }}>
-          <MyPalatte/>
-          <div ref={input => this.layout = input} style={{height: '100%', width: '95%', position: 'relative', float: 'left' }}/>
-
+         <Center/>
+          {/*<MyPalatte />
+          <div ref={input => this.layout = input} style={{height: '100%', width: '94%', position: 'relative', float: 'right' }}/>*/}
         </div>
         {/* </Segment> */}
       </div>

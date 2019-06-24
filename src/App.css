@@ -8,6 +8,7 @@
 
 .App {
   text-align: center;
+ 
 }
 
 .App-logo {
@@ -54,4 +55,64 @@
   z-index:39;
   padding-top:15;
   box-sizing:border-box
+}
+.wrapper{
+  display:flex;
+  height:100%;
+  width:100%;
+  background:#f0f0f0;
+  color:#888;
+}
+.leftbox{
+  flex:1;
+  text-align: center;
+  padding:15px;
+}
+
+.leftbox ul{
+  list-style-type: none;
+  padding:0;
+
+}
+.leftbox ul li{
+  text-align: center;
+  height:30px;
+  line-height:30px;
+  font-size:20px;
+  cursor:pointer;
+  margin-top:20px;
+}
+.leftbox ul li i{
+  margin-right:5px;
+}
+.rightbox{
+  flex:4;
+  padding:15px;
+}
+.rightbox table{
+  width:100%;
+  text-align:center;
+  border-collapse:collapse
+}
+
+.rightbox  th{
+  color:#666 !important;
+  font-size:18px;
+  height:80px;
+}
+.rightbox tbody tr{
+  cursor:pointer;
+  
+}
+.rightbox tbody tr td{
+    height:50px;
+  line-height:50px;
+  font-size:16px;
+  border-bottom:1px solid #e0e1e9;
+  padding:none;
+}
+.page{
+  float:right;
+  margin-top:20px;
+  margin-right:10%;
 }

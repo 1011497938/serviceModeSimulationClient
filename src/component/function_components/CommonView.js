@@ -4,9 +4,7 @@ import Controller from './goController/GraphController.ts'
 import {view2controller} from './goController/GraphController.ts'
 import dataStore,{view2data, view2postion} from '../../manager/dataStore';
 import { autorun } from 'mobx';
-
 import stateManger from '../../manager/stateManager';
-
 
 import ComponentEditor from '../ui_components/ComponentEditor';
 import ToolBar from '../ui_components/ToolBar';
@@ -35,9 +33,6 @@ export default class CommonView extends React.Component{
 
       const {node, link} = view2data[view_name]
       diagram.model = new go.GraphLinksModel(node, link);
-
-
-
       // 双击弹出列表的功能
       diagram.addDiagramListener("ObjectContextClicked", e=> {
         var part = e.subject.part;
@@ -53,20 +48,6 @@ export default class CommonView extends React.Component{
           this.setState({selected_component: part})
         }
       });
-   // 双击高亮功能
-      diagram.addDiagramListener("ObjectDoubleClicked", e=> {        
-        console.log(e.subject.part.jb.key);
-        console.log(diagram.findNodeForKey(e.subject.part.jb.key).data)
-        var nodeData=diagram.findNodeForKey(e.subject.part.jb.key).data;
-        diagram.model.setDataProperty(nodeData, 'fill', "red");
-        diagram.model.setDataProperty(nodeData, 'category', "highlight");
-        diagram.model.updateTargetBindings(e.subject.part.jb.key);
-      });
-
-      // function hightlight(key){
-      //   var nodeData=diagram.model.findNodeDataForKey(key);
-      //   diagram.model.setDataProperty(nodeData, 'color', "#ededed");
-      // }
 
       diagram.addDiagramListener("ObjectSingleClicked", e=> {
         var part = e.subject.part;
@@ -95,12 +76,9 @@ export default class CommonView extends React.Component{
     }
 
     render(){
-      // console.log('render common view')
+
       const {selected_component, width, height, controller} = this.state
       const {view_name} = this.props
-      // console.log(width, height, view_name, height==='100%'?'100%':height-50,)
-      // console.log(controller)
-
       return (
         <div ref='container' style={{top: 5 ,position: 'relative', width: '100%', height: '100%'}}>
           {/* 上面的工具栏 */}
@@ -117,7 +95,7 @@ export default class CommonView extends React.Component{
             selected_component && 
             <ComponentEditor parent={this} key={selected_component.data.key} component={selected_component} diagram={this.diagram}/> 
           }
-          {/* <div className='overview' ref='myOverviewDiv' />  */}
+          {/*<div className='overview' ref='myOverviewDiv'/>*/}
         </div>
       )
     }

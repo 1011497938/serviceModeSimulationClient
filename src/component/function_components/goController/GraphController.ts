@@ -88,7 +88,7 @@ export default class GraphController {
           }
         }
       )
-    );
+    )
 
     //给泳道图布局 
     // this is called after nodes have been moved or lanes resized, to layout all of the Pool Groups again

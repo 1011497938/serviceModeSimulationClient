@@ -34,7 +34,7 @@ class LoginModal extends React.Component {
           size='small' 
         >
         <div style={{textAlign:'center',marginLeft:"25%"}}>
-          <h1 style={{width:'60%'}}>登录</h1>
+          <h1 style={{width:'60%',color:"#fff"}}>登录</h1>
           <Form style={{width:'60%'}}>
               <Form.Field>
                 <input placeholder='账号' />

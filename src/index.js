@@ -5,6 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './static/iconfont/iconfont.css';
 import Center  from './component/function_components/Center';
+import DataVisualize from './component/ui_components/DataVisualize'
 import {
     Router, Route
 } from 'react-router-dom'
@@ -17,6 +18,7 @@ const MyRouter = ()=> (
             <Route match exact path="/" component={App}/>
             <Route match path="/login" render={() => <h1>Login</h1>}/>
             <Route match exact path="/center" component={Center}/>
+            <Route match exact path="/DataVisualize" component={DataVisualize}/>
         </div>
     </Router>
 )

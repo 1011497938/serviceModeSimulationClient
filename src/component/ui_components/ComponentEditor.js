@@ -123,9 +123,6 @@ export default class ComponentEditor extends React.Component{
             value={data[name] || ''}
             // label={name}
             onChange = {(e,{value})=>{
-                // diagram.model.startTransaction("change" + name);
-                // diagram.model.setDataProperty(data, name, value);
-                // diagram.model.commitTransaction("change" + name);
                 data[name] = value
                 this.setState({data: data})
                 e.preventDefault()

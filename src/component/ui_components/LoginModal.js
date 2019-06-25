@@ -9,6 +9,11 @@ import {
 
 
 
+import {
+  Link,
+  Route
+} from 'react-router-dom';
+
 class LoginModal extends React.Component {
   state = {
     modalOpen: false
@@ -39,7 +44,9 @@ class LoginModal extends React.Component {
               </Form.Field>
      
               <Modal.Actions>
-                <Button className='fluid ui button' style={{marginLeft:0}} onClick={this.handleClose} >提交</Button>
+              <Link to='/center'>             
+                 <Button className='fluid ui button' style={{marginLeft:0}}  onClick={this.handleClose}>提交</Button>
+              </Link>
               </Modal.Actions>              
             </Form>
           </div>      

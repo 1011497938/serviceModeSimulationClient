@@ -21,7 +21,7 @@ class Center extends React.Component{
 		return (	
 		      <div style={{ height: '100%', width: '100%', position: 'relative' }}>
 		        {/*顶部导航栏*/}
-		        <div style={{ position: 'relative', height: '7%',paddingBottom:'10px'}}>
+		        <div style={{ position: 'relative', height: '8%'}}>
 		          <Nav />
 		        </div>		
 				<div className='wrapper'>
@@ -59,7 +59,7 @@ class Center extends React.Component{
 												</tr>
 										</tbody>									
 							           )
-							       })}
+							 })}
 						</table>	
 						<Pagination className="page" size="small" hideOnSinglePage={true} total={50} />				
 					</div>

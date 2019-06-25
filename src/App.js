@@ -124,12 +124,12 @@ class App extends React.Component {
     return (
       <div style={{ height: '100%', width: '100%', position: 'relative' }}>
         {/*顶部导航栏*/}
-        <div style={{ position: 'relative', height: '5%'}}>
+        <div style={{ position: 'relative', height: '8%'}}>
           <Nav />
         </div>
         {/* <Segment attached='bottom' fluid> */}
 
-        <div style={{height: '95%', width: '100%', position: "relative" }}>
+        <div style={{height: '92%', width: '100%', position: "relative" }}>
           <MyPalatte />
           <div ref={input => this.layout = input} style={{height: '100%', width: '94%', position: 'relative', float: 'right' }}/>
         </div>

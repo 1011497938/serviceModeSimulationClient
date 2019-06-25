@@ -104,10 +104,7 @@ class App extends React.Component {
     layout.init();
     dataStore.view_names.forEach((view_name,index)=>{
       const component = layout.getComponent(view_name)
-      // console.log(component)
-      // component.on('itemDestroyed', ()=>{
-      //   console.log(view_name)
-      // })
+
     })
 
     window.addEventListener('resize', () => {
@@ -117,26 +114,6 @@ class App extends React.Component {
       // console.log(event)
       updateAllGraph()
     })
-    // layout.on('itemDestroyed', (event)=>{
-    //   let config = layout.toConfig()
-    //   let show_view_names = []
-    //   let walks = [config]
-    //   while(walks.length!==0){
-    //     const elm = walks.pop()
-    //     const {content} = elm
-    //     if(content){
-    //       content.forEach(sub_elm=>{
-    //         const {type, title} = sub_elm
-    //         if(type==='component' || type==='react-component'){
-    //           show_view_names.push(title)
-    //         }else{
-    //           walks.push(sub_elm)
-    //         }
-    //       })          
-    //     }
-    //   }
-    //   console.log(config,show_view_names)
-    // })
     this.layout = layout
   }
   componentDidMount() {

@@ -80,7 +80,7 @@
   line-height:30px;
   font-size:20px;
   cursor:pointer;
-  margin-top:20px;
+  margin-top:40px;
 }
 .leftbox ul li i{
   margin-right:5px;
@@ -100,13 +100,17 @@
   font-size:18px;
   height:80px;
 }
-.rightbox tbody tr{
+.rightbox  tr{
   cursor:pointer;
   
 }
-.rightbox tbody tr td{
-    height:50px;
-  line-height:50px;
+.onfocusfile{
+  background:#f9f9f9;
+  color:#000;
+}
+.rightbox  tr td{
+    height:60px;
+  line-height:60px;
   font-size:16px;
   border-bottom:1px solid #e0e1e9;
   padding:none;

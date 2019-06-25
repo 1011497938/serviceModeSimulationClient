@@ -2,14 +2,18 @@ import React from 'react';
 import { Button} from 'semantic-ui-react'
 import { Pagination } from 'antd';
 import Nav from '../ui_components/Nav'
-
+import {
+    Router, Route,Link
+} from 'react-router-dom'
 class Center extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
 			areas:['个人文件','最近修改','我的收藏'],
 			show:false,
-			index:0
+			index:0,
+			index2:-1,
+			fileNames:['村淘1', '村淘2','村淘3','村淘4', '村淘5','村淘6'],
 		}
 	}
 	render(){		
@@ -45,22 +49,19 @@ class Center extends React.Component{
 						      <th>最后修改时间</th>
 						    </tr>
 						  </thead>
-						  <tbody >
-						    <tr>
-						      <td>John Lilki</td>
-						      <td>Sae</td>
-						      <td>2019.6.24</td>
-						    </tr>
-						  </tbody>
-						  <tbody >
-						    <tr>
-						      <td>John Lilki</td>
-						      <td>Sae</td>
-						      <td>2019.6.24</td>
-						    </tr>
-						  </tbody>
+						  	{this.state.fileNames.map((item,index)=>{
+								return(					 
+										<tbody  onClick={()=>{window.location.href="http://localhost:3000/"}} onMouseOver={this.handleClickfiles.bind(this,index)}>
+					                            <tr className={this.state.index2==index?"onfocusfile":""}>
+													<td>{this.state.fileNames[index]}</td>
+								              		<td>Sae</td>
+								      				<td>2019-6-24</td>
+												</tr>
+										</tbody>									
+							           )
+							       })}
 						</table>	
-						<Pagination className="page" size="small" total={50} />				
+						<Pagination className="page" size="small" hideOnSinglePage={true} total={50} />				
 					</div>
 				</div>
 			 </div>
@@ -68,7 +69,10 @@ class Center extends React.Component{
 
 	}
        handleClickareas(index){
-		  this.setState({index:index})			
+		   this.setState({index:index})			
 		}
-}
+		handleClickfiles(index){
+	       this.setState({index2:index})
+        }
+}      
 export default Center;

@@ -9,6 +9,11 @@ import {
 
 
 
+import {
+  Link,
+  Route
+} from 'react-router-dom';
+
 class LoginModal extends React.Component {
   state = {
     modalOpen: false

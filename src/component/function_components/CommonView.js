@@ -76,12 +76,9 @@ export default class CommonView extends React.Component{
     }
 
     render(){
-      // console.log('render common view')
+
       const {selected_component, width, height, controller} = this.state
       const {view_name} = this.props
-      // console.log(width, height, view_name, height==='100%'?'100%':height-50,)
-      // console.log(controller)
-
       return (
         <div ref='container' style={{top: 5 ,position: 'relative', width: '100%', height: '100%'}}>
           {/* 上面的工具栏 */}
@@ -98,7 +95,7 @@ export default class CommonView extends React.Component{
             selected_component && 
             <ComponentEditor parent={this} key={selected_component.data.key} component={selected_component} diagram={this.diagram}/> 
           }
-          {/* <div className='overview' ref='myOverviewDiv' />  */}
+          {/*<div className='overview' ref='myOverviewDiv'/>*/}
         </div>
       )
     }

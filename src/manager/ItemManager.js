@@ -49,8 +49,7 @@ class Item{
     translateGraphAttr2DataAttr(attr_name, value){
         let constrain = this.constrain[attr_name]
         if(!constrain)
-            return undefined
-        
+            return undefined       
     }
     // 测试value值是否符合
     checkAttrWithValue(attr_name, value){

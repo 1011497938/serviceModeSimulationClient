@@ -16,8 +16,10 @@ const genForPalette = (shape, name) => {
       },
       shape,
       $(go.TextBlock,
+
         { margin: 5, text: name, stroke: 'white' },
         new go.Binding('text', 'text')
+
       )
     )
   )
@@ -61,7 +63,6 @@ const common_link_propety = () => [
   { relinkableFrom: true, relinkableTo: true, reshapable: true },
   // 防止交叉
   {
-
     routing: go.Link.AvoidsNodes,
     corner: 4,
     curve: go.Link.JumpGap,
@@ -69,7 +70,6 @@ const common_link_propety = () => [
     resegmentable: true,
     relinkableFrom: true,
     relinkableTo: true
-
   },
 ]
 
@@ -176,7 +176,7 @@ const genBiArrowLinkWithText = text => {
         {
           textAlign: "center",
           font: "10pt helvetica, arial, sans-serif",
-          stroke: "#919191",
+          stroke:"#919191",
           margin: 2,
           minSize: new go.Size(10, NaN),
           editable: true,
@@ -296,8 +296,13 @@ const viewGroupTemplate =
 const min_r = 40;
 
 const cheng = "#d92621";
+
+const huang = "#fadb14";
+
+
 const yellow = "#fadb14";
 const forgive = "#96cbf5";
+
 const qianhuang = "#FFEB3B";
 
 
@@ -373,7 +378,7 @@ const reText = () => [
 //协同生态视图控件
 const consumerNodeTemplate =
   $(go.Node, 'Auto',
-    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill: deepblue })),
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill: huang })),
     common_node_propety(),
     reText()
   );
@@ -381,10 +386,60 @@ const consumerNodeTemplate =
 
 
 const consumerTemplateForPalette = genForPalette(
-  $(go.Shape, "RoundedRectangle", first_props, { fill: deepblue }),
-  '消费主体'
+  $(go.Shape, "RoundedRectangle", first_props, { fill: huang }),
+
+  '农业消费者'
+
 )
 
+const consumerNodeTemplate2 =
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill: deepblue })),
+    common_node_propety(),
+    reText()
+  );
+
+
+
+const consumerTemplateForPalette2 = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props, { fill: deepblue }),
+
+
+  '工业消费者'
+
+)
+
+const consumerNodeTemplate3 =
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill: forgive })),
+    common_node_propety(),
+    reText()
+  );
+
+
+
+const consumerTemplateForPalette3 = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props, { fill: forgive }),
+
+  '第三产业消费者'
+
+)
+
+const consumerNodeTemplate4 =
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",$(go.Shape, "RoundedRectangle", first_props, { fill:"#666" })),
+    common_node_propety(),
+    reText()
+  );
+
+
+
+const consumerTemplateForPalette4 = genForPalette(
+  $(go.Shape, "RoundedRectangle", first_props, { fill:"#666" }),
+
+  '其他'
+
+)
 
 const producerNodeTemplate =
 $(go.Node, 'Auto',
@@ -475,15 +530,12 @@ $(go.Node, 'Spot',
   reText(),
 
 ); 
-
 const startTemplateForPallete = genForPalette(
   $(go.Panel, "Auto", //子元素在控件的位置
     $(go.Shape, "Circle", custom_props, { fill:grey }),
 
   ),
-
   '开始事件'
-
 )
 
 
@@ -507,7 +559,6 @@ const endTemplateForPallete = genForPalette(
   ),
 
   '结束事件'
-
 )
 
 
@@ -693,6 +744,14 @@ const businessNodeTemplateForPalette = genForPalette(
   '业务目标'
 )
 
+const highlightNodeTemplate =
+  $(go.Node, 'Auto',
+    $(go.Panel,"Auto",
+      $(go.Shape, "RoundedRectangle", first_props, { fill:"#6B0E79" })
+      ),
+    common_node_propety(),
+    reText()
+  );
 
 
 //这里存工具栏中的模板
@@ -700,6 +759,9 @@ const paletteTemplate = {
     link: {},
     node:{
         consumer:consumerTemplateForPalette,
+        consumer2:consumerTemplateForPalette2,
+        consumer3:consumerTemplateForPalette3,
+        consumer4:consumerTemplateForPalette4,
         producer:produceTemplateForPalette,        
         resource:sourceTemplateForPallete,
         carrier:carryTemplateForPallete,
@@ -726,6 +788,9 @@ const paletteTemplate = {
 const panelTemplate = {
   node: {
     consumer: consumerNodeTemplate,
+    consumer2: consumerNodeTemplate2,
+    consumer3: consumerNodeTemplate3,
+    consumer4: consumerNodeTemplate4,
     producer: producerNodeTemplate,
 
     resource: sourceNodeTemplate,
@@ -738,12 +803,12 @@ const panelTemplate = {
     message: messageNodeTemplate,
     exclusive: exclusiveNodeTemplate,
     parallel: parallelNodeTemplate,
-
     strategic: strategicNodeTemplate,
     business: businessNodeTemplate,
     emotion: emotionNodeTemplate,
     physics: physicalNodeTemplate,
-    amount: numNodeTemplate
+    amount: numNodeTemplate,
+    highlight:highlightNodeTemplate
   },
   link: {
     '': commonLinkTemplate,

@@ -39,7 +39,10 @@ class LoginModal extends React.Component {
               </Form.Field>
      
               <Modal.Actions>
-                <Button className='fluid ui button' style={{marginLeft:0}} onClick={this.handleClose} >提交</Button>
+                <div>
+                  <Button primary fluid>登录</Button>
+                  <Button secondary fluid>注册</Button>
+                </div>
               </Modal.Actions>              
             </Form>
           </div>      

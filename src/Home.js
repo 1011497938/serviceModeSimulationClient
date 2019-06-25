@@ -9,6 +9,7 @@ export default class Home extends React.Component {
     super(props)
     this.state = {
     }
+    window.location.href= 'http://localhost:3001/homepage/index.html'
   }
 
   componentDidMount() {
@@ -18,7 +19,6 @@ export default class Home extends React.Component {
   render() {
     return (
       <div style={{ height: '100%', width: '100%', position: 'relative' }}>
-
       </div>
     )
   }

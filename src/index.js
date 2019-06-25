@@ -10,13 +10,14 @@ import {
 } from 'react-router-dom'
 
 import  createHashHistory from 'history/createBrowserHistory';
+import Home from './Home';
 const hashHistory = createHashHistory();
 const MyRouter = ()=> (
     <Router history={hashHistory}>
         <div style={{width:'100%', height:'100%'}}>
             <Route match exact path="/" component={App}/>
-            <Route match path="/login" render={() => <h1>Login</h1>}/>
             <Route match exact path="/center" component={Center}/>
+            <Route match exact path="/home" component={Home}/>
         </div>
     </Router>
 )

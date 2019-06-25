@@ -143,3 +143,7 @@ checkBrowsers(paths.appPath, isInteractive)
     }
     process.exit(1);
   });
+
+
+var startHome = require('./startHome.js')
+startHome()

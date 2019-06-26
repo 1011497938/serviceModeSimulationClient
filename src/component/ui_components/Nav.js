@@ -32,7 +32,7 @@ export default class MenuExampleTabularOnLeft extends Component {
 
         <Menu fluid style={{background: '#2B2C30', borderBottom:'1px solid #666',height:'100%',borderRadius:'0px'}}>
 
-            <Menu.Item  onClick={()=>{window.location.href="http://localhost:3000/home"}} style={{fontSize: 20, color: 'white',cursor:'pointer',marginTop:-5}} name='服务模式'/>
+            <Menu.Item  onClick={()=>{window.location.href="http://localhost:3000/home"}} style={{fontSize: 20, color: '#128fec',cursor:'pointer',marginTop:-5}} name='服务模式'/>
             {/* {
                 dataStore.view_names.map(elm=>{
                     return (

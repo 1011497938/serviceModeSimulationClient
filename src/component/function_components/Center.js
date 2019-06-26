@@ -10,7 +10,7 @@ class Center extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
-			areas:['个人文件','最近修改','我的收藏','图表模拟'],
+			areas:['个人文件','最近修改','我的收藏'],
 			show:false,
 			index:0,
 			index2:-1,
@@ -34,7 +34,7 @@ class Center extends React.Component{
 							{this.state.areas.map((item,index)=>{
 								return(
 		                            <li onClick={this.handleClickareas.bind(this,index)} className={this.state.index==index?"selected":""}>
-										<i className={index==0?"home icon":(index==1?"time icon":(index==2?'star icon':'area chart icon'))}></i>
+										<i className={index==0?"home icon":(index==1?"time icon":'star icon')}></i>
 										<span>{item}</span>
 									</li>
 							    )
@@ -46,18 +46,21 @@ class Center extends React.Component{
 						<table>
 						  <thead className={this.state.index==3?'disShow':''}>
 						    <tr>						    
-						      <th>模式名</th>
+						      <th onClick={()=>{window.location.href="http://localhost:3000/"}}>模式名</th>
 						      <th>拥有者</th>
 						      <th>最后修改时间</th>
+						      <th>可视化</th>
 						    </tr>
 						  </thead>
                           <tbody className={this.state.index===0?'':'disShow'}>
 						  	{this.state.fileNames.map((item,index)=>{
 								return(					 
-					                            <tr   onClick={()=>{window.location.href="http://localhost:3000/"}} onMouseOver={this.handleClickfiles.bind(this,index)} className={this.state.index2==index?"onfocusfile":""}>
-													<td>{this.state.fileNames[index]}</td>
+					                            <tr  onMouseOver={this.handleClickfiles.bind(this,index)} className={this.state.index2==index?"onfocusfile":""}>
+													<td onClick={()=>{window.location.href="http://localhost:3000/"}}>{this.state.fileNames[index]}</td>
 								              		<td>Sae</td>
 								      				<td>2019-6-24</td>
+								      				<td>模拟运行</td>
+								      				<td><i className="edit icon"></i></td>
 												</tr>
 							           )
 							 })}
@@ -65,10 +68,12 @@ class Center extends React.Component{
 						 <tbody   className={this.state.index===1?'':'disShow'}>
 						  	{this.state.lateWrite.map((item,index)=>{
 								return(					 							
-			                            <tr onMouseOver={this.handleClickfiles.bind(this,index)} onClick={()=>{window.location.href="http://localhost:3000/"}}  className={this.state.index2==index?"onfocusfile":""}>
-											<td>{this.state.lateWrite[index]}</td>
+			                            <tr  onClick={()=>{window.location.href="http://localhost:3000/"}}  className={this.state.index2==index?"onfocusfile":""}>
+											<td onClick={()=>{window.location.href="http://localhost:3000/"}}>{this.state.lateWrite[index]}</td>
 						              		<td>Sae</td>
 						      				<td>2019-6-24</td>
+						      				<td>模拟运行</td>
+						      				<td><i className="edit icon"></i></td>
 										</tr>
 																			
 							           )
@@ -81,23 +86,24 @@ class Center extends React.Component{
 											<td>{this.state.collect[index]}</td>
 						              		<td>Sae</td>
 						      				<td>2019-6-24</td>
+						      				<td>模拟运行</td>
+						      				<td><i className="edit icon"></i></td>
 										</tr>
 																			
 							           )
 							 })}
 						  	</tbody>
 
-						  	<tbody   className={this.state.index===3?'':'disShow'}>
+						  	{/*<tbody   className={this.state.index===3?'':'disShow'}>
 						  	    <h1>可视化</h1>
 
-						  	</tbody>
+						  	</tbody>*/}
 						</table>	
 						<Pagination className={this.state.index==3?'disShow':'page'}  size="small" hideOnSinglePage={true} total={50} />				
 					</div>
 				</div>
 			 </div>
 			)
-
 	}
        handleClickareas(index){
 		   this.setState({index:index})			

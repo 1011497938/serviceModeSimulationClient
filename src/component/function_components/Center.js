@@ -22,7 +22,7 @@ class Center extends React.Component{
 		      <div style={{ height: '100%', width: '100%', position: 'relative' }}>
 		        {/*顶部导航栏*/}
 		        <div style={{ position: 'relative', height: '8%'}}>
-		          <Nav />
+		          <Nav/>
 		        </div>		
 				<div className='wrapper'>
 					<div className='leftbox'>

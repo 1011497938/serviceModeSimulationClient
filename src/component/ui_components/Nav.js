@@ -21,6 +21,7 @@ export default class MenuExampleTabularOnLeft extends Component {
             this.setState({
               show_view_name: show_view_name,
               show_view_names: show_view_names,
+              
             })
         })
     }
@@ -29,7 +30,7 @@ export default class MenuExampleTabularOnLeft extends Component {
         const { show_view_name, show_view_names} = this.state
         return (
 
-        <Menu fluid style={{background: '#000', height:'100%'}}>
+        <Menu fluid style={{background: 'black', height:'100%'}}>
 
             <Menu.Item style={{fontSize: 20, color: 'white'}} name='服务模式'/>
             {/* {
@@ -44,19 +45,23 @@ export default class MenuExampleTabularOnLeft extends Component {
                     )
                 })
             } */}
-            <Menu.Menu position='right' style={{}}>
-                <Menu.Item style={{ color:'white'}}>
-                新建&nbsp;<span className="iconfont">&#xe600;</span>
-                </Menu.Item>
-                <Menu.Item style={{ color:'white'}} onClick={()=>{}}>
-                保存&nbsp;<span className="iconfont">&#xe794;</span>
-                </Menu.Item>
-                <Input       
-                    placeholder='搜索'
-                    color='#fff'
-                    style={{margin: 10, top: 2}}
-                />
-                <LoginModal/>
+            <Menu.Menu  style={{width:'90%'}}>
+         
+                    <Menu.Item style={{ color:'white'}} >
+                    新建&nbsp;<span className="iconfont">&#xe600;</span>
+                    </Menu.Item>
+                    <Menu.Item style={{ color:'white'}} onClick={()=>{}} >
+                    保存&nbsp;<span className="iconfont">&#xe794;</span>
+                    </Menu.Item>
+            
+               <div style={{marginLeft:'65%'}}>
+                    <Input       
+                        placeholder='搜索'
+                        color='#fff'
+                        style={{margin:10, top: 2,marginRight:30,height:30}}
+                    />
+                    <LoginModal/>
+                </div>
             </Menu.Menu>
         </Menu>
         )

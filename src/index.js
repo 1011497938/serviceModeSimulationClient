@@ -11,6 +11,8 @@ import {
 
 import  createHashHistory from 'history/createBrowserHistory';
 import Home from './Home';
+import Login from  './component/function_components/Login'
+
 const hashHistory = createHashHistory();
 const MyRouter = ()=> (
     <Router history={hashHistory}>
@@ -18,6 +20,7 @@ const MyRouter = ()=> (
             <Route match exact path="/" component={App}/>
             <Route match exact path="/center" component={Center}/>
             <Route match exact path="/home" component={Home}/>
+            <Route match exact path="/login" component={Login}/>
         </div>
     </Router>
 )

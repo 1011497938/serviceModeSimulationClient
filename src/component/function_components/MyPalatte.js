@@ -44,7 +44,7 @@ export default class MyPalatte extends React.Component{
       // , background: 'black'
       return (
         <div style={{height: '100%', width: '6%', position: 'relative', float: "left", borderRadius:4}}>
-            <div ref='palette_div'  style={{background: '#000',position: 'absolute', width: '100%', height: '100%', borderTop: '1px solid black'}}/>
+            <div ref='palette_div'  style={{background: '#333439',position: 'absolute', width: '100%', height: '100%', borderTop: '1px solid black'}}/>
         </div>
       )
     }

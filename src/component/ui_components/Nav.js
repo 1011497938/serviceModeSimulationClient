@@ -30,9 +30,9 @@ export default class MenuExampleTabularOnLeft extends Component {
         const { show_view_name, show_view_names} = this.state
         return (
 
-        <Menu fluid style={{background: 'black', height:'100%'}}>
+        <Menu fluid style={{background: '#2B2C30', borderBottom:'1px solid #666',height:'100%',borderRadius:'0px'}}>
 
-            <Menu.Item style={{fontSize: 20, color: 'white'}} name='服务模式'/>
+            <Menu.Item  onClick={()=>{window.location.href="http://localhost:3000/home"}} style={{fontSize: 20, color: 'white',cursor:'pointer',marginTop:-5}} name='服务模式'/>
             {/* {
                 dataStore.view_names.map(elm=>{
                     return (
@@ -60,7 +60,7 @@ export default class MenuExampleTabularOnLeft extends Component {
                         color='#fff'
                         style={{margin:10, top: 2,marginRight:30,height:30}}
                     />
-                    <LoginModal/>
+                    <span onClick={()=>{window.location.href="http://localhost:3000/center"}} style={{paddingTop:20,marginRight:20,cursor:'pointer', color:'white'}}><i className="user icon"></i>个人中心</span>
                 </div>
             </Menu.Menu>
         </Menu>

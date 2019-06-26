@@ -19,8 +19,7 @@ class Center extends React.Component{
 			collect:['收藏1','收藏2','收藏3','收藏4','收藏5','收藏6']
 		}
 	}
-	render(){		
-	
+	render(){			
 		return (	
 		      <div style={{ height: '100%', width: '100%', position: 'relative' }}>
 		        {/*顶部导航栏*/}
@@ -35,7 +34,7 @@ class Center extends React.Component{
 							{this.state.areas.map((item,index)=>{
 								return(
 		                            <li onClick={this.handleClickareas.bind(this,index)} className={this.state.index==index?"selected":""}>
-										<i className={index==0?"home icon":(index==1?"time icon":(index==2?'star icon':'graph icon'))}></i>
+										<i className={index==0?"home icon":(index==1?"time icon":(index==2?'star icon':'area chart icon'))}></i>
 										<span>{item}</span>
 									</li>
 							    )
@@ -47,7 +46,7 @@ class Center extends React.Component{
 						<table>
 						  <thead className={this.state.index==3?'disShow':''}>
 						    <tr>						    
-						      <th>文件名</th>
+						      <th>模式名</th>
 						      <th>拥有者</th>
 						      <th>最后修改时间</th>
 						    </tr>
@@ -78,11 +77,11 @@ class Center extends React.Component{
 					      <tbody   className={this.state.index===2?'':'disShow'}>
 						  	{this.state.collect.map((item,index)=>{
 								return(					 		
-					                            <tr onMouseOver={this.handleClickfiles.bind(this,index)} onClick={()=>{window.location.href="http://localhost:3000/"}} className={this.state.index2==index?"onfocusfile":""}>
-													<td>{this.state.collect[index]}</td>
-								              		<td>Sae</td>
-								      				<td>2019-6-24</td>
-												</tr>
+			                            <tr onMouseOver={this.handleClickfiles.bind(this,index)} onClick={()=>{window.location.href="http://localhost:3000/"}} className={this.state.index2==index?"onfocusfile":""}>
+											<td>{this.state.collect[index]}</td>
+						              		<td>Sae</td>
+						      				<td>2019-6-24</td>
+										</tr>
 																			
 							           )
 							 })}

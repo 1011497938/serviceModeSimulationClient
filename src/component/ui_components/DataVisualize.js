@@ -10,7 +10,7 @@ import {
 import Bar from '../chart_components/Bar';
 import Pie from '../chart_components/Pie';
 import Radar from '../chart_components/Radar';
-import Sunburst from '../chart_components/Sunburst';
+import Chord from '../chart_components/Chord';
 import Line from '../chart_components/Line';
 import Newchart from '../chart_components/Newchart';
 
@@ -18,17 +18,13 @@ class DataVisualize extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
-			areas:['目标数据图表','价值数据图表'],
+			areas:['目标数据图表','价值数据图表','项目执行日志'],
 			show:false,
 			index:0,
 			index2:-1,
 		}
-		this.handleClick = this.handleClick.bind(this);
+	
 	}
-
-	handleClick() {
-	    
-	  }
 
 	render(){		
 	
@@ -41,10 +37,6 @@ class DataVisualize extends React.Component{
 				<div className='wrapper'>
 					<div className='leftbox'>
 						<h2>图表分析</h2>
-						{/* <Button primary onClick={this.handClick}>新建图表</Button> */}
-						<div>
-							<Newchart/>
-						</div>
 						<ul>
 							{this.state.areas.map((item,index)=>{
 								return(
@@ -64,7 +56,7 @@ class DataVisualize extends React.Component{
 								<Radar/>
 							</div>
 							<div style={{height:'80%',width:'30%',float:'left'}}>
-								<Sunburst/>
+								<Chord/>
 							</div>
 						</div>
 			   			<div style={{height:'40%',width:'80%'}}>
@@ -74,7 +66,8 @@ class DataVisualize extends React.Component{
 						    <div style={{height:'80%',width:'50%',float:'left'}}>
 							  <Line/>
 							</div>
-						</div>       
+						</div> 	
+						<span style={{marginRight:0}}><Newchart/></span>	   
 					</div>
 				</div>
 			 </div>

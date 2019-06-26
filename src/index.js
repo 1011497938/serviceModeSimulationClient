@@ -5,20 +5,19 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './static/iconfont/iconfont.css';
 import Center  from './component/function_components/Center';
-import DataVisualize from './component/ui_components/DataVisualize'
 import {
     Router, Route
 } from 'react-router-dom'
 
 import  createHashHistory from 'history/createBrowserHistory';
+import Home from './Home';
 const hashHistory = createHashHistory();
 const MyRouter = ()=> (
     <Router history={hashHistory}>
         <div style={{width:'100%', height:'100%'}}>
             <Route match exact path="/" component={App}/>
-            <Route match path="/login" render={() => <h1>Login</h1>}/>
             <Route match exact path="/center" component={Center}/>
-            <Route match exact path="/DataVisualize" component={DataVisualize}/>
+            <Route match exact path="/home" component={Home}/>
         </div>
     </Router>
 )

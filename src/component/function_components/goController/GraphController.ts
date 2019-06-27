@@ -19,6 +19,7 @@ const view2controller = {}
 const updateAllGraph = ()=>{
   for(let view_name in view2controller){
     const {diagram} = view2controller[view_name]
+    // console.log(view_name, diagram, view2controller[view_name])
     diagram.requestUpdate()
     // diagram.zoomToFit()
   }
@@ -105,12 +106,12 @@ export default class GraphController {
         // linkingTool: new BPMNLinkingTool(), // defined in BPMNClasses.js
         // relinkingTool: new BPMNRelinkingTool(), // defined in BPMNClasses.js
         // 加格子
-        grid: $(go.Panel, "Grid",
-          $(go.Shape, "LineH", { stroke: "#d3d3d3ab", strokeWidth: 0.5 }),
-          $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5, interval: 10 }),
-          $(go.Shape, "LineV", { stroke: "#d3d3d3ab", strokeWidth: 0.5 }),
-          $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5, interval: 10 })
-        ),
+        // grid: $(go.Panel, "Grid",
+        //   $(go.Shape, "LineH", { stroke: "#d3d3d3ab", strokeWidth: 0.5 }),
+        //   $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5, interval: 10 }),
+        //   $(go.Shape, "LineV", { stroke: "#d3d3d3ab", strokeWidth: 0.5 }),
+        //   $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5, interval: 10 })
+        // ),
           // "draggingTool.dragsLink": true,
           "draggingTool.isGridSnapEnabled": true,
           "linkingTool.isUnconnectedLinkValid": false,

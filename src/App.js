@@ -22,11 +22,11 @@ import Center from './component/function_components/Center.js'
 
 function wrapComponent(Component, store) {
   class Wrapped extends React.Component {
-      render() {
-          return (
-            <Component {...this.props}/>
-          );
-      }
+    render() {
+      return (
+        <Component {...this.props} />
+      );
+    }
   }
   return Wrapped;
 };
@@ -40,11 +40,11 @@ class App extends React.Component {
     }
   }
 
-  initGoldenLayout(){
-        // Build basic golden-layout config
+  initGoldenLayout() {
+    // Build basic golden-layout config
 
-    const wrapConfig = view_name =>{
-      return           {
+    const wrapConfig = view_name => {
+      return {
         type: 'react-component',
         component: view_name,
         title: view_name,
@@ -56,61 +56,68 @@ class App extends React.Component {
     var config1 = {
       content: [
         {
-        type: 'row',
-        content: [
-
-          wrapConfig('服务过程视图'),
-
-          {
-            type: 'column',
-            content: [
-              {
-                type: 'row',
-                content: [
-                  wrapConfig('协同生态视图'),
-                  wrapConfig('服务目标视图')
-                ]
-              },
-              {
-                type: 'row',
-                content: [
-                  wrapConfig('服务价值视图'), 
-                  wrapConfig('载体及资源视图'),
-                ]
-              },
-            ]
-          }
-        ]
-      }]
+          type: 'row',
+          content: [
+            wrapConfig('服务过程视图'),
+            {
+              type: 'column',
+              content: [
+                {
+                  type: 'row',
+                  content: [
+                    wrapConfig('协同生态视图'),
+                    wrapConfig('服务目标视图')
+                  ]
+                },
+                {
+                  type: 'row',
+                  content: [
+                    wrapConfig('服务价值视图'),
+                    wrapConfig('载体及资源视图'),
+                  ]
+                },
+                wrapConfig('全局视图'),
+              ]
+            }
+          ]
+        }]
     }
     var config2 = {
       content: [
         {
-        type: 'stack',
-        content: [
-          wrapConfig('服务过程视图'),
-          wrapConfig('协同生态视图'),
-          wrapConfig('服务目标视图'),
-          wrapConfig('服务价值视图'), 
-          wrapConfig('载体及资源视图'),
-        ]
-      }]
+          type: 'row',
+          content: [
+            {
+              type: 'stack',
+              content: [
+                wrapConfig('服务过程视图'),
+                wrapConfig('协同生态视图'),
+                wrapConfig('服务目标视图'),
+                wrapConfig('服务价值视图'),
+                wrapConfig('载体及资源视图'),
+              ]
+            },
+            wrapConfig('全局视图')
+          ]
+        }
+      ]
     }
-    var layout = new GoldenLayout( config1, this.layout);
-    
-    dataStore.view_names.forEach((view_name,index)=>{
-      layout.registerComponent( view_name, CommonView);
-    })
-    layout.init();
-    dataStore.view_names.forEach((view_name,index)=>{
-      const component = layout.getComponent(view_name)
+    var layout = new GoldenLayout(config1, this.layout);
 
+    dataStore.view_names.forEach((view_name, index) => {
+      layout.registerComponent(view_name, CommonView);
     })
+    layout.registerComponent('全局视图', GlobalOverview);
+
+    layout.init();
+    // dataStore.view_names.forEach((view_name,index)=>{
+    //   const component = layout.getComponent(view_name)
+    // })
 
     window.addEventListener('resize', () => {
-        layout.updateSize();
+      layout.updateSize();
     });
-    layout.on('stateChanged', (event)=>{
+    layout.on('stateChanged', (event) => {
       // console.log(event)
       updateAllGraph()
     })
@@ -124,14 +131,14 @@ class App extends React.Component {
     return (
       <div style={{ height: '100%', width: '100%', position: 'relative' }}>
         {/*顶部导航栏*/}
-        <div style={{ position: 'relative', height: '8%'}}>
+        <div style={{ position: 'relative', height: '8%' }}>
           <Nav />
         </div>
         {/* <Segment attached='bottom' fluid> */}
 
-        <div style={{height: '92%', width: '100%', position: "relative" }}>
+        <div style={{ height: '92%', width: '100%', position: "relative" }}>
           <MyPalatte />
-          <div ref={input => this.layout = input} style={{height: '100%', width: '94%', position: 'relative', float: 'right' }}/>
+          <div ref={input => this.layout = input} style={{ height: '100%', width: '94%', position: 'relative', float: 'right' }} />
         </div>
         {/* </Segment> */}
       </div>

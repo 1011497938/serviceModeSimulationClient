@@ -215,7 +215,7 @@
         padding-bottom: 10px;
     }
     .navbar-inverse .navbar-toggle {
-        border-color: #6CB670;
+        border-color: #128fec;
         border-radius: 0;
     }
     .navbar-inverse .navbar-toggle:hover {
@@ -241,7 +241,7 @@
         background-color: #282b34;
     }
     .navbar-inverse .navbar-nav>li>a.current, .navbar-inverse .navbar-nav>li>a:hover {
-        background-color: #6CB670;
+        background-color: #128fec;
         border-bottom: 1px solid #fff;
         color: #fff;
     }
@@ -432,7 +432,7 @@
         padding: 10px 0 10px 10px;
     }
     .navbar-inverse .navbar-toggle {
-        border-color: #6CB670;
+        border-color: #128fec;
         border-radius: 0;
     }
     .navbar-inverse .navbar-toggle:hover {
@@ -456,7 +456,7 @@
     }
     .navbar-inverse .navbar-nav > li > a.current,
 	.navbar-inverse .navbar-nav > li > a:hover {
-        background-color: #6CB670 !important;
+        background-color: #128fec !important;
         border-bottom: 2px solid #fff;
         color: #fff;
     }

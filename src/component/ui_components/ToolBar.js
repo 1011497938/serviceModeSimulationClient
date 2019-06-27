@@ -74,7 +74,7 @@ export default class ToolBar extends React.Component {
     let {line_options, default_line} = this.state
 
     return (
-      <Menu fluid style={{height:50, background: '#fff', border: "1px solid #fff" }}>
+      <Menu fluid style={{borderRadius:'1px',height:30, background: '#fff', }}>
         <Dropdown
           text={'连线: ' + (default_line||'无')}
           // fluid

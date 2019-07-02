@@ -34,7 +34,7 @@ class Login extends React.Component{
 				                   <span style={{cursor:'pointer'}}>注册</span>
 				              </div>
 				                <div>
-				                  <Button style={{marginBottom:10,marginTop:30}}  fluid primary color='blue' onClick={()=>{window.location.href="http://localhost:3000/"}}>提&nbsp;交</Button>
+				                  <Button style={{marginBottom:10,marginTop:30}}  fluid  color='grey' onClick={()=>{window.location.href="http://localhost:3000/"}}>提&nbsp;交</Button>
 				                  {/*<Button inverted fluid >注册</Button>*/} 
 
 				                </div>

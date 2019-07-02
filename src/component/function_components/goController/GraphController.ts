@@ -103,19 +103,7 @@ export default class GraphController {
         linkTemplateMap: linkTemplateMap,
         groupTemplateMap: groupTemplateMap,
 
-        // linkingTool: new BPMNLinkingTool(), // defined in BPMNClasses.js
-        // relinkingTool: new BPMNRelinkingTool(), // defined in BPMNClasses.js
-        // 加格子
-<<<<<<< HEAD
-        // grid: $(go.Panel, "Grid",
-        //   $(go.Shape, "LineH", { stroke: "#d3d3d3ab", strokeWidth: 0.5 }),
-        //   $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5, interval: 10 }),
-        //   $(go.Shape, "LineV", { stroke: "#d3d3d3ab", strokeWidth: 0.5 }),
-        //   $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5, interval: 10 })
-        // ),
-=======
 
->>>>>>> c0fe4045a8f8c1cca762a27b7ea7c29ed147b16c
           // "draggingTool.dragsLink": true,
           "draggingTool.isGridSnapEnabled": true,
           "linkingTool.isUnconnectedLinkValid": false,

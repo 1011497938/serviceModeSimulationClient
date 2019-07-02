@@ -82,11 +82,11 @@ export default class CommonView extends React.Component{
       return (
         <div ref='container' style={{marginTop:0  ,position: 'relative', width: '100%', height: '100%'}}>
           {/* 上面的工具栏 */}
-          <div style={{position: 'absolute', width:'100%', zIndex: 29, top: 15}}>
+          <div style={{position: 'absolute', width:'100%', zIndex: 29, top: 5}}>
             <ToolBar controller={controller}/>
           </div>
-          <div style={{position: 'absolute', top: 65, width:width, 
-            height:height==='100%'?'100%':height-65,
+          <div style={{position: 'absolute', top: 45, width:width, 
+            height:height==='100%'?'100%':height-45,
             zIndex: 28 }}
           >
             <div onClick={()=> stateManger.changeView(view_name)} className='diagram' ref="myDiagramDiv" />  

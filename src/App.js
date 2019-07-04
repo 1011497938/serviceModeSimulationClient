@@ -24,7 +24,7 @@ function wrapComponent(Component, store) {
   class Wrapped extends React.Component {
     render() {
       return (
-        <Component {...this.props} />
+        <Component {...this.props}/>
       );
     }
   }
@@ -35,15 +35,13 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      show_view_name: dataStore.default_view_name,
+      show_view_name:dataStore.default_view_name,
       show: false
     }
   }
 
   initGoldenLayout() {
-    // Build basic golden-layout config
-
-    const wrapConfig = view_name => {
+    const wrapConfig = view_name =>{
       return {
         type: 'react-component',
         component: view_name,
@@ -52,9 +50,8 @@ class App extends React.Component {
         props: { view_name: view_name }
       }
     }
-    // ['协同生态视图', '载体及资源视图', '服务价值视图', '服务过程视图', '服务目标视图']
     var config1 = {
-      content: [
+      content:[
         {
           type: 'row',
           content: [
@@ -73,10 +70,10 @@ class App extends React.Component {
                   type: 'row',
                   content: [
                     wrapConfig('服务价值视图'),
-                    wrapConfig('载体及资源视图'),
+                    wrapConfig('载体及资源视图')
                   ]
                 },
-                wrapConfig('全局视图'),
+                // wrapConfig('全局视图'),
               ]
             }
           ]
@@ -97,7 +94,7 @@ class App extends React.Component {
                 wrapConfig('载体及资源视图'),
               ]
             },
-            wrapConfig('全局视图')
+            // wrapConfig('全局视图')
           ]
         }
       ]
@@ -110,9 +107,6 @@ class App extends React.Component {
     layout.registerComponent('全局视图', GlobalOverview);
 
     layout.init();
-    // dataStore.view_names.forEach((view_name,index)=>{
-    //   const component = layout.getComponent(view_name)
-    // })
 
     window.addEventListener('resize', () => {
       layout.updateSize();
@@ -127,20 +121,16 @@ class App extends React.Component {
     this.initGoldenLayout()
   }
 
-  render() {
+  render(){
     return (
       <div style={{ height: '100%', width: '100%', position: 'relative' }}>
-        {/*顶部导航栏*/}
         <div style={{ position: 'relative', height: '8%' }}>
-          <Nav />
+          <Nav/>
         </div>
-        {/* <Segment attached='bottom' fluid> */}
-
         <div style={{ height: '92%', width: '100%', position: "relative" }}>
-          <MyPalatte />
-          <div ref={input => this.layout = input} style={{ height: '100%', width: '94%', position: 'relative', float: 'right' }} />
+          <MyPalatte/>
+          <div ref={input => this.layout = input} style={{ height: '100%', width: '94%', position: 'relative', float: 'right' }}/>
         </div>
-        {/* </Segment> */}
       </div>
     )
   }

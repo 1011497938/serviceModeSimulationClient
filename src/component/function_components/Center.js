@@ -59,7 +59,7 @@ class Center extends React.Component{
 													<td onClick={()=>{window.location.href="http://localhost:3000/"}}>{this.state.fileNames[index]}</td>
 								              		<td>Sae</td>
 								      				<td>2019-6-24</td>
-								      				<td>模拟运行</td>
+								      				<td onClick={()=>{window.location.href="http://localhost:3000/center/model"}}>模拟运行</td>
 								      				<td><i className="edit icon"></i></td>
 												</tr>
 							           )

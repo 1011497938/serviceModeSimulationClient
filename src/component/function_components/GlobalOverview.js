@@ -7,7 +7,7 @@ import { autorun } from 'mobx';
 import stateManger from '../../manager/stateManager';
 import deepcopy from 'deepcopy'
 import ToolBar from '../ui_components/ToolBar';
-
+import { ResizeObserver } from 'resize-observer';
 
 const $ = go.GraphObject.make;
 // 5月20日，添加了全局视图, 谭思危

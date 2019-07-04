@@ -13,6 +13,7 @@ import  createHashHistory from 'history/createBrowserHistory';
 import Home from './Home';
 import Login from  './component/function_components/Login'
 import Model from  './component/function_components/Model'
+import Rigister from './component/function_components/Rigister'
 
 const hashHistory = createHashHistory();
 const MyRouter = ()=> (
@@ -23,6 +24,8 @@ const MyRouter = ()=> (
             <Route match exact path="/home" component={Home}/>
             <Route match exact path="/login" component={Login}/>
             <Route match exact path="/center/model" component={Model}/>
+            <Route match exact path="/rigister" component={Rigister}/>
+
         </div>
     </Router>
 )

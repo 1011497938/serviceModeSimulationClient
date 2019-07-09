@@ -2,9 +2,9 @@ import React from 'react';
 import { ResponsiveBar } from '@nivo/bar'
 
 export class Bar extends React.Component{
-  constructor(props){
-		super(props);
-	}
+  // constructor(props){
+  //   super(props);
+	// }
 render(){
 return(
 <ResponsiveBar

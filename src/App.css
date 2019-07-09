@@ -101,7 +101,7 @@
   height:80px;
 }
 .rightbox  tr{
-  cursor:pointer;
+ /* cursor:pointer;*/
   
 }
 .onfocusfile{

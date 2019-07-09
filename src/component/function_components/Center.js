@@ -2,6 +2,7 @@ import React from 'react';
 import { Button} from 'semantic-ui-react'
 import { Pagination } from 'antd';
 import Nav from '../ui_components/Nav'
+import Edit from '../ui_components/Edit'
 import {
     Router, Route,Link
 } from 'react-router-dom'
@@ -10,6 +11,7 @@ class Center extends React.Component{
 	constructor(props){
 		super(props);
 		this.state={
+			isShow:false,
 			areas:['个人文件','最近修改','我的收藏'],
 			show:false,
 			index:0,
@@ -46,7 +48,7 @@ class Center extends React.Component{
 						<table>
 						  <thead className={this.state.index==3?'disShow':''}>
 						    <tr>						    
-						      <th onClick={()=>{window.location.href="http://localhost:3000/"}}>模式名</th>
+						      <th>模式名</th>
 						      <th>拥有者</th>
 						      <th>最后修改时间</th>
 						      <th>可视化</th>
@@ -55,24 +57,24 @@ class Center extends React.Component{
                           <tbody className={this.state.index===0?'':'disShow'}>
 						  	{this.state.fileNames.map((item,index)=>{
 								return(					 
-					                            <tr  onMouseOver={this.handleClickfiles.bind(this,index)} className={this.state.index2==index?"onfocusfile":""}>
-													<td onClick={()=>{window.location.href="http://localhost:3000/"}}>{this.state.fileNames[index]}</td>
-								              		<td>Sae</td>
-								      				<td>2019-6-24</td>
-								      				<td onClick={()=>{window.location.href="http://localhost:3000/center/model"}}>模拟运行</td>
-								      				<td><i className="edit icon"></i></td>
-												</tr>
+			                            <tr  onMouseOver={this.handleClickfiles.bind(this,index)} className={this.state.index2==index?"onfocusfile":""}>
+											<td style={{cursor:'pointer'}} onClick={()=>{window.location.href="http://localhost:3000/"}}>{this.state.fileNames[index]}</td>
+						              		<td>Sae</td>
+						      				<td><Edit isShow={this.state.index2==index?this.state.isShow:null}/>2019-7-4</td>
+						      				<td style={{cursor:'pointer'}} onClick={()=>{window.location.href="http://localhost:3000/center/model"}}>模拟运行</td>
+						      				<td ></td>
+										</tr>
 							           )
 							 })}
 						  	</tbody>
 						 <tbody   className={this.state.index===1?'':'disShow'}>
 						  	{this.state.lateWrite.map((item,index)=>{
 								return(					 							
-			                            <tr  onClick={()=>{window.location.href="http://localhost:3000/"}}  className={this.state.index2==index?"onfocusfile":""}>
-											<td onClick={()=>{window.location.href="http://localhost:3000/"}}>{this.state.lateWrite[index]}</td>
+			                            <tr onMouseOver={this.handleClickfiles.bind(this,index)} className={this.state.index2==index?"onfocusfile":""}>
+											<td style={{cursor:'pointer'}} onClick={()=>{window.location.href="http://localhost:3000/"}}>{this.state.lateWrite[index]}</td>
 						              		<td>Sae</td>
 						      				<td>2019-6-24</td>
-						      				<td>模拟运行</td>
+						      				<td style={{cursor:'pointer'}}>模拟运行</td>
 						      				<td><i className="edit icon"></i></td>
 										</tr>
 																			
@@ -82,11 +84,11 @@ class Center extends React.Component{
 					      <tbody   className={this.state.index===2?'':'disShow'}>
 						  	{this.state.collect.map((item,index)=>{
 								return(					 		
-			                            <tr onMouseOver={this.handleClickfiles.bind(this,index)} onClick={()=>{window.location.href="http://localhost:3000/"}} className={this.state.index2==index?"onfocusfile":""}>
-											<td>{this.state.collect[index]}</td>
+			                            <tr  onMouseOver={this.handleClickfiles.bind(this,index)}  className={this.state.index2==index?"onfocusfile":""}>
+											<td style={{cursor:'pointer'}}>{this.state.collect[index]}</td>
 						              		<td>Sae</td>
 						      				<td>2019-6-24</td>
-						      				<td>模拟运行</td>
+						      				<td style={{cursor:'pointer'}}>模拟运行</td>
 						      				<td><i className="edit icon"></i></td>
 										</tr>
 																			
@@ -106,10 +108,13 @@ class Center extends React.Component{
 			)
 	}
        handleClickareas(index){
-		   this.setState({index:index})			
+		   this.setState({index:index})	
+		 		
 		}
 		handleClickfiles(index){
 	       this.setState({index2:index})
+	         this.setState({isShow:true})	
+
         }
 }      
 export default Center;
